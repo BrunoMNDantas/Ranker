@@ -118,7 +118,7 @@ npm test
 
 The core entities of the Ranker app are designed to capture how users create and interact with rankings.
 
-
+![Domain Entities](https://raw.githubusercontent.com/BrunoMNDantas/Ranker/main/docs/DomainEntities.png)
 
 #### **Rank**
 
