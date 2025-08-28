@@ -1,7 +1,21 @@
 # Ranker 🎯
 
-Ranker is a web application that allows users to **create rankings** and **vote on rankings made by others**.\
-The project is built with a **Java + Spring Boot backend** and a **React + TypeScript frontend**.
+Ranker is a web application that allows users to **create rankings** and **vote on rankings made by others**.The project is built with a **Java + Spring Boot backend** and a **React + TypeScript frontend**.
+
+---
+
+## 📑 Index
+
+- [🚀 Features](#-features)
+- [🛠️ Tech Stack](#-tech-stack)
+- [📂 Project Structure](#-project-structure)
+- [⚙️ Getting Started](#-getting-started)
+- [🧪 Running Tests](#-running-tests)
+- [📌 Roadmap](#-roadmap)
+- [⚙️ Technical Documentation](#-technical-documentation)
+  - [📌 Domain Model](#-domain-model)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
 
 ---
 
@@ -124,6 +138,67 @@ The goal here is to make Ranker accessible across devices.
 - **Responsive Design**: Ensure layouts and components adapt to desktop, tablet, and mobile screens.
 - **Real-Time Updates**: Implement real-time updates of votes for a dynamic experience.
 - **Animations**: Add smooth animations throughout the app to enhance user experience.
+
+---
+
+## ⚙️ Technical Documentation
+
+### 📌 Domain Model
+
+The core entities of the Ranker app are designed to capture how users create and interact with rankings.
+
+![Domain Entities](https://raw.githubusercontent.com/BrunoMNDantas/Ranker/main/docs/DomainEntities.png)
+
+#### **Rank**
+A `Rank` is the definition of a ranking.  
+- Contains the set of **Tiers** (the levels/categories available for classification).  
+- Contains the set of **Options** (the items that can be ranked).  
+- Holds no inherent ordering of Options.  
+
+---
+
+#### **Tier**
+A `Tier` represents a level within a Rank.  
+- Defines the structure of how Options can be grouped.  
+- Examples: `S-Tier`, `A-Tier`, `Bronze`, `Silver`, `Gold`.  
+- Belongs to one **Rank**.  
+
+---
+
+#### **Option**
+An `Option` is an item that users can place into a Tier.  
+- Represents the content of the Rank.  
+- Examples: Movies, games, songs, or programming languages.  
+- Belongs to one **Rank**.  
+
+---
+
+#### **Vote**
+A `Vote` is a user’s submission for a Rank.  
+- Contains a collection of **Assignments** (Option → Tier mappings).  
+- Belongs to one **Rank**.  
+- Each Vote reflects a user’s personal classification of the Options.  
+
+---
+
+#### **Assignment**
+An `Assignment` links a specific **Option** to a **Tier** within a Vote.  
+- Represents one `(Option, Tier)` pair.  
+- Belongs to one **Vote**.  
+- Connects one **Option** with one **Tier**.  
+
+---
+
+✅ **Example**  
+
+- **Rank:** "Best Programming Languages"  
+  - **Tiers:** S, A, B  
+  - **Options:** Java, Python, JavaScript  
+
+- **User Vote:**  
+  - Assignment: (Python → S)  
+  - Assignment: (Java → A)  
+  - Assignment: (JavaScript → B)  
 
 ---
 
