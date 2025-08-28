@@ -1,4 +1,4 @@
-package com.github.brunomndantas.Ranker;
+package com.github.brunomndantas.ranker;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

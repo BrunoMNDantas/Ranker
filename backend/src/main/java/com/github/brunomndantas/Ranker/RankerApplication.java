@@ -1,4 +1,4 @@
-package com.github.brunomndantas.Ranker;
+package com.github.brunomndantas.ranker;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
