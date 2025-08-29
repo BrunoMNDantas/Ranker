@@ -4,6 +4,6 @@ import { generateId } from "./Services.utils"
 
 export const DEFAULT_OPTION_TITLE = "Option"
 
-export function createNewOption({ id = generateId(), title = DEFAULT_OPTION_TITLE }: Option = {}): Option {
+export const createNewOption = ({ id = generateId(), title = DEFAULT_OPTION_TITLE }: Option = {}): Option => {
     return createOption({ id, title })
 }
