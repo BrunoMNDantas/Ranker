@@ -77,38 +77,35 @@ npm test
 
 ## 📌 Roadmap
 
-### Version 0.0.1 — Foundations (Frontend Only)
+### Version 0.0.1 — Data Foundations
+The first step is to build a **data management interface** to visualize and manipulate the core entities.
+- **UI Features**: View, create, edit, and delete entities (Rank, Tier, Option, Vote, Assignment).
+- **Data Storage**: Use local storage to persist data between sessions.
+- **Goal**: Ensure all entities can be created and managed manually through the UI.
 
-- **UI Features**: Create, edit, delete, and list ranks. Enter a rank to vote. List all votes of a ranking.
-- **Entities**: Define the basic hierarchy of Rank → Tier → Option, each with a title.
-- **Local Storage**: Use browser local storage or an in-memory store to manage data temporarily.
+### Version 0.0.2 — Data + Users
+Introduce a **basic user concept** to associate entities with users, still within the context of data management.
+- **User Ownership**: Ranks and Votes belong to a user. Only the user can edit their own Ranks and Votes.
+- **Guest Mode**: Guests can view data but cannot create or edit entities.
+- **Goal**: Simulate multi-user data management within the frontend.
 
-### Version 0.0.2 — User Management
-
-- **Vote Comparison**: Allow users to compare two votes of a rank to analyze differences.
-- **Authentication**: Add login support via Google or Facebook.
-- **User Concept**: Simulate user ownership directly in the frontend. A Rank belongs to a user, and only that user can edit the Rank. A Vote also belongs to a user, and only that user can edit their Vote.
-- **Guest Mode**: Guests can browse and vote, but cannot create or edit ranks.
-
-### Version 0.0.3 — Entity Expansion
-
-- **Extended Entities**:
-  - Rank: Title, optional description, optional image.
-  - Tier: Title, optional description, optional image.
-  - Option: Title, optional description, optional image.
+### Version 0.0.3 — Towards the Real App
+Transition from pure data management to the early structure of the final app.
+- **UI Features**: Begin implementing the real ranking interactions (assigning Options to Tiers within Votes).
+- **Entity Expansion**: Add optional descriptions and images to Ranks, Tiers, and Options.
+- **Goal**: Bridge the gap between raw entity management and the ranking experience.
 
 ### Version 0.0.4 — UI & Customization Enhancements
+Focus on making the experience more appealing and flexible.
+- **UI Enhancements**: Improve layouts, design, and usability.
+- **Customization Options**: Entities can have colors and configurable backgrounds.
+- **Goal**: Move towards a polished user interface.
 
-- **UI Enhancements**: More appealing design and better usability.
-- **Customization Options**: Entities can have custom colors and background configurations.
-
-### Version 0.0.5 — Responsive Experience
-
-- **Responsive Design**: Ensure layouts and components adapt to desktop, tablet, and mobile screens.
-
-- **Real-Time Updates (Simulated)**: Implement frontend-level simulations of vote updates.
-
-- **External Storage**: Introduce external storage integration (e.g., Firebase) for persisting data.
+### Version 0.0.5 — Responsive Experience + External Storage
+Prepare the app for broader use.
+- **Responsive Design**: Ensure layouts and components adapt to desktop, tablet, and mobile.
+- **External Storage**: Introduce integration with external storage (e.g., Firebase) for persistence.
+- **Goal**: Deliver a usable app that stores and syncs data beyond the local browser.
 
 ---
 
@@ -118,12 +115,8 @@ npm test
 
 The core entities of the Ranker app are designed to capture how users create and interact with rankings.
 
-![Domain Entities](https://raw.githubusercontent.com/BrunoMNDantas/Ranker/main/docs/DomainEntities.png)
-
 #### **Rank**
-
 A `Rank` is the definition of a ranking.
-
 - Contains the set of **Tiers** (the levels/categories available for classification).
 - Contains the set of **Options** (the items that can be ranked).
 - Holds no inherent ordering of Options.
@@ -131,9 +124,7 @@ A `Rank` is the definition of a ranking.
 ---
 
 #### **Tier**
-
 A `Tier` represents a level within a Rank.
-
 - Defines the structure of how Options can be grouped.
 - Examples: `S-Tier`, `A-Tier`, `Bronze`, `Silver`, `Gold`.
 - Belongs to one **Rank**.
@@ -141,9 +132,7 @@ A `Tier` represents a level within a Rank.
 ---
 
 #### **Option**
-
 An `Option` is an item that users can place into a Tier.
-
 - Represents the content of the Rank.
 - Examples: Movies, games, songs, or programming languages.
 - Belongs to one **Rank**.
@@ -151,9 +140,7 @@ An `Option` is an item that users can place into a Tier.
 ---
 
 #### **Vote**
-
 A `Vote` is a user’s submission for a Rank.
-
 - Contains a collection of **Assignments** (Option → Tier mappings).
 - Belongs to one **Rank**.
 - Each Vote reflects a user’s personal classification of the Options.
@@ -161,9 +148,7 @@ A `Vote` is a user’s submission for a Rank.
 ---
 
 #### **Assignment**
-
 An `Assignment` links a specific **Option** to a **Tier** within a Vote.
-
 - Represents one `(Option, Tier)` pair.
 - Belongs to one **Vote**.
 - Connects one **Option** with one **Tier**.
@@ -171,14 +156,11 @@ An `Assignment` links a specific **Option** to a **Tier** within a Vote.
 ---
 
 ✅ **Example**
-
 - **Rank:** "Best Programming Languages"
-
   - **Tiers:** S, A, B
   - **Options:** Java, Python, JavaScript
 
 - **User Vote:**
-
   - Assignment: (Python → S)
   - Assignment: (Java → A)
   - Assignment: (JavaScript → B)
@@ -194,3 +176,4 @@ Contributions are welcome! Please open an issue or submit a pull request.
 ## 📄 License
 
 This project is licensed under the MIT License.
+
