@@ -1,7 +1,7 @@
 export interface Assignment {
-    id?: string
-    creationDate?: Date
-    voteId?: string
-    optionId?: string
-    tierId?: string
+    id: string | null
+    creationDate: Date | null
+    voteId: string | null
+    optionId: string | null
+    tierId: string | null
 }

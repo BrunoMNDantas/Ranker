@@ -4,11 +4,6 @@ import { generateId } from "./Services.utils"
 
 export const DEFAULT_TIER_TITLE = "Tier"
 
-export const createNewTier = ({
-    id = generateId(),
-    creationDate = new Date(),
-    rankId,
-    title = DEFAULT_TIER_TITLE
-}: Tier = {}): Tier => {
-    return createTier({ id, creationDate, rankId, title })
+export const createNewTier = (partial: Partial<Tier>): Tier => {
+    return createTier({ id: generateId(), creationDate: new Date(), title: DEFAULT_TIER_TITLE, ...partial })
 }

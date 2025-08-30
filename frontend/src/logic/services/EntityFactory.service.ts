@@ -4,22 +4,22 @@ import type { Option } from "../entities/Option";
 import type { Vote } from "../entities/Vote";
 import type { Assignment } from "../entities/Assignment";
 
-export const createRank = ({ id, creationDate, title }: Rank = {}): Rank => {
-    return { id, creationDate, title }
+export const createRank = (partial: Partial<Rank>): Rank => {
+    return { id: null, creationDate: null, title: null, ...partial }
 }
 
-export const createTier = ({ id, creationDate, rankId, title }: Tier = {}): Tier => {
-    return { id, creationDate, rankId, title }
+export const createTier = (partial: Partial<Tier>): Tier => {
+    return { id: null, creationDate: null, rankId: null, title: null, ...partial }
 }
 
-export const createOption = ({ id, creationDate, rankId, title }: Option = {}): Option => {
-    return { id, creationDate, rankId, title }
+export const createOption = (partial: Partial<Option>): Option => {
+    return { id: null, creationDate: null, rankId: null, title: null, ...partial }
 }
 
-export const createVote = ({ id, creationDate, rankId }: Vote = {}): Vote => {
-    return { id, creationDate, rankId }
+export const createVote = (partial: Partial<Vote>): Vote => {
+    return { id: null, creationDate: null, rankId: null, ...partial }
 }
 
-export const createAssignment = ({ id, creationDate, voteId, optionId, tierId }: Assignment = {}): Assignment => {
-    return { id, creationDate, voteId, optionId, tierId }
+export const createAssignment = (partial: Partial<Assignment>): Assignment => {
+    return { id: null, creationDate: null, voteId: null, optionId: null, tierId: null, ...partial}
 }

@@ -1,6 +1,6 @@
 export interface Tier {
-    id?: string
-    creationDate?: Date
-    rankId?: string
-    title?: string
+    id: string | null
+    creationDate: Date | null
+    rankId: string | null
+    title: string | null
 }

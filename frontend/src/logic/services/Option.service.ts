@@ -4,11 +4,6 @@ import { generateId } from "./Services.utils"
 
 export const DEFAULT_OPTION_TITLE = "Option"
 
-export const createNewOption = ({
-    id = generateId(),
-    creationDate = new Date(),
-    rankId,
-    title = DEFAULT_OPTION_TITLE
-}: Option = {}): Option => {
-    return createOption({ id, creationDate, rankId, title })
+export const createNewOption = (partial: Partial<Option>): Option => {
+    return createOption({ id: generateId(), creationDate: new Date(), title: DEFAULT_OPTION_TITLE, ...partial })
 }
