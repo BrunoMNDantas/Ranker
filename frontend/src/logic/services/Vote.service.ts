@@ -1,11 +1,11 @@
-import { Assignment } from "../entities/Assignment";
 import { Vote } from "../entities/Vote";
-import { createAssignment, createVote } from "./EntityFactory.service";
+import { createVote } from "./EntityFactory.service";
+import { generateId } from "./Services.utils";
 
-export const createNewVote = ({ id, assignments }: Vote = {}): Vote => {
-    return createVote({ id, assignments })
-}
-
-export const createNewAssignment = ({ optionId, tierId }: Assignment = {}): Assignment => {
-    return createAssignment({ optionId, tierId })
+export const createNewVote = ({
+    id = generateId(),
+    creationDate = new Date(),
+    rankId
+}: Vote = {}): Vote => {
+    return createVote({ id, creationDate, rankId })
 }
