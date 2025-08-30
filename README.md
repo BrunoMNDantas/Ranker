@@ -113,57 +113,47 @@ Prepare the app for broader use.
 
 ### 📌 Domain Model
 
-The core entities of the Ranker app are designed to capture how users create and interact with rankings.
+The domain model describes the main entities of Ranker and their relationships.
+
+![Domain Entities](https://raw.githubusercontent.com/BrunoMNDantas/Ranker/main/docs/DomainEntities.png)
 
 #### **Rank**
-A `Rank` is the definition of a ranking.
-- Contains the set of **Tiers** (the levels/categories available for classification).
-- Contains the set of **Options** (the items that can be ranked).
-- Holds no inherent ordering of Options.
+Represents a ranking definition.
+- **Attributes**: `id`, `creationDate`, `title`
+- **Relationships**: has many `Tier`, `Option`, and `Vote`
+- **Example**: Rank = "Best Programming Languages"
 
 ---
 
 #### **Tier**
-A `Tier` represents a level within a Rank.
-- Defines the structure of how Options can be grouped.
-- Examples: `S-Tier`, `A-Tier`, `Bronze`, `Silver`, `Gold`.
-- Belongs to one **Rank**.
+Defines a level or category inside a Rank.
+- **Attributes**: `id`, `rankId`, `creationDate`, `title`
+- **Relationships**: belongs to `Rank`; mapped by `Assignment`
+- **Example**: Tiers = `S-Tier`, `A-Tier`, `Bronze`, `Silver`
 
 ---
 
 #### **Option**
-An `Option` is an item that users can place into a Tier.
-- Represents the content of the Rank.
-- Examples: Movies, games, songs, or programming languages.
-- Belongs to one **Rank**.
+An item that can be classified into a Tier.
+- **Attributes**: `id`, `rankId`, `creationDate`, `title`
+- **Relationships**: belongs to `Rank`; mapped by `Assignment`
+- **Example**: Options = `Java`, `Python`, `JavaScript`
 
 ---
 
 #### **Vote**
-A `Vote` is a user’s submission for a Rank.
-- Contains a collection of **Assignments** (Option → Tier mappings).
-- Belongs to one **Rank**.
-- Each Vote reflects a user’s personal classification of the Options.
+A user’s submission for a Rank.
+- **Attributes**: `id`, `rankId`, `creationDate`
+- **Relationships**: belongs to `Rank`; includes many `Assignment`
+- **Example**: A user’s Vote for "Best Programming Languages"
 
 ---
 
 #### **Assignment**
-An `Assignment` links a specific **Option** to a **Tier** within a Vote.
-- Represents one `(Option, Tier)` pair.
-- Belongs to one **Vote**.
-- Connects one **Option** with one **Tier**.
-
----
-
-✅ **Example**
-- **Rank:** "Best Programming Languages"
-  - **Tiers:** S, A, B
-  - **Options:** Java, Python, JavaScript
-
-- **User Vote:**
-  - Assignment: (Python → S)
-  - Assignment: (Java → A)
-  - Assignment: (JavaScript → B)
+Links an `Option` to a `Tier` within a `Vote`.
+- **Attributes**: `id`, `voteId`, `tierId`, `optionId`, `creationDate`
+- **Relationships**: belongs to `Vote`, `Tier`, and `Option`
+- **Example**: Assignments: (Python → S), (Java → A), (JavaScript → B)
 
 ---
 
