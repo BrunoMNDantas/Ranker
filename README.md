@@ -12,8 +12,18 @@ Ranker is a web application that allows users to **create rankings** and **vote 
 - [⚙️ Getting Started](#-getting-started)
 - [🧪 Running Tests](#-running-tests)
 - [📌 Roadmap](#-roadmap)
+  - [Version 0.0.1 — Data Foundations](#version-001--data-foundations)
+  - [Version 0.0.2 — Towards the Real App](#version-002--towards-the-real-app)
+  - [Version 0.0.3 — Data + Users](#version-003--data--users)
+  - [Version 0.0.4 — UI & Customization Enhancements](#version-004--ui--customization-enhancements)
+  - [Version 0.0.5 — Responsive Experience + External Storage](#version-005--responsive-experience--external-storage)
 - [⚙️ Technical Documentation](#-technical-documentation)
   - [📌 Domain Model](#-domain-model)
+    - [Rank](#rank)
+    - [Tier](#tier)
+    - [Option](#option)
+    - [Vote](#vote)
+    - [Assignment](#assignment)
 - [🤝 Contributing](#-contributing)
 - [📄 License](#-license)
 
@@ -80,20 +90,20 @@ npm test
 ### Version 0.0.1 — Data Foundations
 The first step is to build a **data management interface** to visualize and manipulate the core entities.
 - **UI Features**: View, create, edit, and delete entities (Rank, Tier, Option, Vote, Assignment).
-- **Data Storage**: Use local storage to persist data between sessions.
+- **Data Storage**: Use in-memory storage.
 - **Goal**: Ensure all entities can be created and managed manually through the UI.
 
-### Version 0.0.2 — Data + Users
-Introduce a **basic user concept** to associate entities with users, still within the context of data management.
-- **User Ownership**: Ranks and Votes belong to a user. Only the user can edit their own Ranks and Votes.
-- **Guest Mode**: Guests can view data but cannot create or edit entities.
-- **Goal**: Simulate multi-user data management within the frontend.
-
-### Version 0.0.3 — Towards the Real App
+### Version 0.0.2 — Towards the Real App
 Transition from pure data management to the early structure of the final app.
 - **UI Features**: Begin implementing the real ranking interactions (assigning Options to Tiers within Votes).
 - **Entity Expansion**: Add optional descriptions and images to Ranks, Tiers, and Options.
 - **Goal**: Bridge the gap between raw entity management and the ranking experience.
+
+### Version 0.0.3 — Data + Users
+Introduce a **basic user concept** to associate entities with users, still within the context of data management.
+- **User Ownership**: Ranks and Votes belong to a user. Only the user can edit their own Ranks and Votes.
+- **Guest Mode**: Guests can view data but cannot create or edit entities.
+- **Goal**: Simulate multi-user data management within the frontend.
 
 ### Version 0.0.4 — UI & Customization Enhancements
 Focus on making the experience more appealing and flexible.
@@ -166,4 +176,3 @@ Contributions are welcome! Please open an issue or submit a pull request.
 ## 📄 License
 
 This project is licensed under the MIT License.
-
