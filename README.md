@@ -103,7 +103,8 @@ Transition from pure data management to the early structure of the final app.
 Introduce a **basic user concept** to associate entities with users, still within the context of data management.
 - **User Ownership**: Ranks and Votes belong to a user. Only the user can edit their own Ranks and Votes.
 - **Guest Mode**: Guests can view data but cannot create or edit entities.
-- **Goal**: Simulate multi-user data management within the frontend.
+- **Storage**: Move from in-memory to Firebase for persistence and syncing.
+- **Goal**: Simulate multi-user data management with external storage.
 
 ### Version 0.0.4 — UI & Customization Enhancements
 Focus on making the experience more appealing and flexible.
@@ -114,8 +115,8 @@ Focus on making the experience more appealing and flexible.
 ### Version 0.0.5 — Responsive Experience + External Storage
 Prepare the app for broader use.
 - **Responsive Design**: Ensure layouts and components adapt to desktop, tablet, and mobile.
-- **External Storage**: Introduce integration with external storage (e.g., Firebase) for persistence.
-- **Goal**: Deliver a usable app that stores and syncs data beyond the local browser.
+- **Blind Voting Mode**: Enable users to vote **without seeing all options upfront**. Options are revealed **one by one**, and the user votes sequentially.
+- **Goal**: Deliver a usable app that stores and syncs data beyond the local browser while introducing novel voting interactions.
 
 ---
 
@@ -176,3 +177,4 @@ Contributions are welcome! Please open an issue or submit a pull request.
 ## 📄 License
 
 This project is licensed under the MIT License.
+
