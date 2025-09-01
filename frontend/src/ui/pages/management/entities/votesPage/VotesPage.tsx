@@ -1,0 +1,15 @@
+import React from 'react';
+import { getAllVotes } from '../../../../../logic/api/Vote.api';
+import EntitiesPage from '../entitiesPage/EntitiesPage';
+
+const VotesPage = () => {
+	return (
+		<EntitiesPage
+			title="Votes Page"
+			getEntityUrl={vote => "/management/vote/" + vote.id}
+			getEntities={getAllVotes}
+			entityRenderer={vote => <div>{ vote.id }</div>}/>
+	);
+}
+
+export default VotesPage;

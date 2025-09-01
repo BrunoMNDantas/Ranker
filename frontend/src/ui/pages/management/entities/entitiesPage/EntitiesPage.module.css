@@ -1,0 +1,15 @@
+.item {
+	padding: 15px;
+	margin: 5px;
+	border-radius: 10%;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	background-color: rgba(0, 0, 0, 0.103);
+}
+
+.item:hover {
+	background-color: rgba(0, 0, 0, 0.203);
+}
