@@ -6,7 +6,7 @@ const OptionsPage = () => {
 	return (
 		<EntitiesPage
 			title="Options Page"
-			getEntityUrl={option => "/management/option/" + option.id}
+			getEntityUrl={option => "/management/options/" + option.id}
 			getEntities={getAllOptions}
 			entityRenderer={option => <div>{ option.title }</div>}/>
 	);

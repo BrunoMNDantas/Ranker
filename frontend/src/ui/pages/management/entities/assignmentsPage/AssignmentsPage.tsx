@@ -6,7 +6,7 @@ const AssignmentsPage = () => {
 	return (
 		<EntitiesPage
 			title="Assignments Page"
-			getEntityUrl={assignment => "/management/assignment/" + assignment.id}
+			getEntityUrl={assignment => "/management/assignments/" + assignment.id}
 			getEntities={getAllAssignments}
 			entityRenderer={assignment => <div>{ assignment.id }</div>}/>
 	);

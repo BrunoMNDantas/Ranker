@@ -6,7 +6,7 @@ const RanksPage = () => {
 	return (
 		<EntitiesPage
 			title="Ranks Page"
-			getEntityUrl={rank => "/management/rank/" + rank.id}
+			getEntityUrl={rank => "/management/ranks/" + rank.id}
 			getEntities={getAllRanks}
 			entityRenderer={rank => <div>{ rank.title }</div>}/>
 	);

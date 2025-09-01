@@ -6,7 +6,7 @@ const VotesPage = () => {
 	return (
 		<EntitiesPage
 			title="Votes Page"
-			getEntityUrl={vote => "/management/vote/" + vote.id}
+			getEntityUrl={vote => "/management/votes/" + vote.id}
 			getEntities={getAllVotes}
 			entityRenderer={vote => <div>{ vote.id }</div>}/>
 	);
