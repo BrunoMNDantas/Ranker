@@ -8,9 +8,10 @@ import TextField from '@mui/material/TextField';
 import EntityForm from '../entityForm/EntityForm';
 
 export interface RankPropertiesProps {
-	rank: Rank | null,
-	onTitleChange: (title: string)=>void
+	rank: Rank | null
+	onTitleChange: (title: string) => void
 }
+
 export const RankProperties = ({rank, onTitleChange}: RankPropertiesProps) => {
 	return (
 		<div className={classes.properties}>

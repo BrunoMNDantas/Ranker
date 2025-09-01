@@ -26,7 +26,7 @@ const App = () => {
                 <Routes>
                     <Route path="/management/ranks" element={<RanksPage/>} />
                     <Route path="/management/ranks/:rankId" element={<RankPage/>} />
-                    <Route path="/management/tiesr" element={<TiersPage/>} />
+                    <Route path="/management/tiers" element={<TiersPage/>} />
                     <Route path="/management/tiers/:tierId" element={<TierPage/>} />
                     <Route path="/management/options" element={<OptionsPage/>} />
                     <Route path="/management/options/:optionId" element={<OptionPage/>} />
