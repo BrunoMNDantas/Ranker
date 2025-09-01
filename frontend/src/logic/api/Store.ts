@@ -78,8 +78,8 @@ export const MOCKED_DATA = [
             {id: "3", title: "U2"}
         ],
         votes: [
-            {id: "1", assignements: [{id: "1", tierId: "2", optionId: "1"}, {id: "2", tierId: "1", optionId: "2"}, {id: "3", tierId: "3", optionId: "3"}]},
-            {id: "2", assignements: [{id: "1", tierId: "1", optionId: "2"}, {id: "2", tierId: "2", optionId: "3"}, {id: "3", tierId: "3", optionId: "1"}]}
+            {id: "1", assignments: [{id: "1", tierId: "2", optionId: "1"}, {id: "2", tierId: "1", optionId: "2"}, {id: "3", tierId: "3", optionId: "3"}]},
+            {id: "2", assignments: [{id: "1", tierId: "1", optionId: "2"}, {id: "2", tierId: "2", optionId: "3"}, {id: "3", tierId: "3", optionId: "1"}]}
         ]
     },
     {
@@ -96,8 +96,8 @@ export const MOCKED_DATA = [
             {id: "3", title: "Rice"}
         ],
         votes: [
-            {id: "1", assignements: [{id: "1", tierId: "2", optionId: "1"}, {id: "2", tierId: "1", optionId: "2"}, {id: "3", tierId: "3", optionId: "3"}]},
-            {id: "2", assignements: [{id: "1", tierId: "1", optionId: "2"}, {id: "2", tierId: "2", optionId: "3"}, {id: "3", tierId: "3", optionId: "1"}]}
+            {id: "1", assignments: [{id: "1", tierId: "2", optionId: "1"}, {id: "2", tierId: "1", optionId: "2"}, {id: "3", tierId: "3", optionId: "3"}]},
+            {id: "2", assignments: [{id: "1", tierId: "1", optionId: "2"}, {id: "2", tierId: "2", optionId: "3"}, {id: "3", tierId: "3", optionId: "1"}]}
         ]
     },
     {
@@ -114,8 +114,8 @@ export const MOCKED_DATA = [
             {id: "3", title: "Spain"}
         ],
         votes: [
-            {id: "1", assignements: [{id: "1", tierId: "2", optionId: "1"}, {id: "2", tierId: "1", optionId: "2"}, {id: "3", tierId: "3", optionId: "3"}]},
-            {id: "2", assignements: [{id: "1", tierId: "1", optionId: "2"}, {id: "2", tierId: "2", optionId: "3"}, {id: "3", tierId: "3", optionId: "1"}]}
+            {id: "1", assignments: [{id: "1", tierId: "2", optionId: "1"}, {id: "2", tierId: "1", optionId: "2"}, {id: "3", tierId: "3", optionId: "3"}]},
+            {id: "2", assignments: [{id: "1", tierId: "1", optionId: "2"}, {id: "2", tierId: "2", optionId: "3"}, {id: "3", tierId: "3", optionId: "1"}]}
         ]
     }
 ];
@@ -125,7 +125,8 @@ MOCKED_DATA.forEach(rank => {
     rank.options.forEach(option => option.id = rank.id + "-" + option.id)
     rank.votes.forEach(vote => {
         vote.id = rank.id + "-" + vote.id
-        vote.assignements.forEach(assignment => {
+        vote.assignments.forEach(assignment => {
+            assignment.id = vote.id + "-" + assignment.id
             assignment.tierId = rank.id + "-" + assignment.tierId
             assignment.optionId = rank.id + "-" + assignment.optionId
         })
