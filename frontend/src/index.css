@@ -5,7 +5,11 @@ body {
   height: 100vh;
 
   overflow: hidden;
+  display: flex;
   background: linear-gradient(-45deg, #42d9ff, #ab81fa);
+
+  color: white;
+  font-family: Roboto, sans-serif;
 }
 
 /* Wave layers */
@@ -20,7 +24,7 @@ body::before, body::after {
 body::before {
     top: 0;
     left: 0;
-    background: url("data:image/svg+xml;utf8, <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'> <path fill='%23ab81fa' fill-opacity='0.35' d='M0,160L60,149.3C120 139,240,117,360,133.3C480,149,600,203,720,229.3C840,256,960,256,1080,245.3C1200,235,1320,213,1380,202.7L1440,192L1440,0L0,0Z'></path></svg>") no-repeat;
+    background: url("data:image/svg+xml;utf8, <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'> <path fill='%23ab81fa' fill-opacity='0.3' d='M0,160L60,149.3C120 139,240,117,360,133.3C480,149,600,203,720,229.3C840,256,960,256,1080,245.3C1200,235,1320,213,1380,202.7L1440,192L1440,0L0,0Z'></path></svg>") no-repeat;
     scale: 1 2.1;
     rotate: -35deg;
 }
