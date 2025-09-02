@@ -7,6 +7,7 @@ import { Tier } from '../../../../../logic/entities/Tier';
 import TextField from '@mui/material/TextField';
 import EntityForm from '../entityForm/EntityForm';
 import { Button } from '@mui/material';
+import { MANAGEMENT_TIERS_ROUTE, managementRankRoute } from '../../../../../Routes';
 
 export interface TierPropertiesProps {
 	tier: Tier
@@ -26,7 +27,7 @@ export const TierProperties = ({tier, onTitleChange, onDescriptionChange}: TierP
 				<Button
 					variant="outlined"
 					size="small"
-					onClick={() => navigate(`/management/ranks/${tier.rankId}`)}>
+					onClick={() => navigate(managementRankRoute(tier.rankId!))}>
 					Go to Rank
 				</Button>
 			</div>
@@ -89,7 +90,7 @@ export const TierForm = ({entity: tier}: TierFormProps) => {
 	const handleDelete = async () => {
 		if(tier.id) {
 			await deleteTier(tier.id)
-			navigate("/management/tiers")
+			navigate(MANAGEMENT_TIERS_ROUTE)
 		}
 	}
 

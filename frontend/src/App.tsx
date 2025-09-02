@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './App.module.css';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import RankPage from './ui/pages/management/entity/rankPage/RankPage';
 import TierPage from './ui/pages/management/entity/tierPage/TierPage';
 import OptionPage from './ui/pages/management/entity/optionPage/OptionPage';
@@ -9,41 +9,43 @@ import RanksPage from './ui/pages/management/entities/ranksPage/RanksPage';
 import TiersPage from './ui/pages/management/entities/tiersPage/TiersPage';
 import OptionsPage from './ui/pages/management/entities/optionsPage/OptionsPage';
 import VotesPage from './ui/pages/management/entities/votesPage/VotesPage';
-import BottomNavigation from "@mui/material/BottomNavigation";
-import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import AssignmentsPage from './ui/pages/management/entities/assignmentsPage/AssignmentsPage';
 import AssignmentPage from './ui/pages/management/entity/assignmentPage/AssignmentPage';
+import AppPage from './ui/pages/appPage/AppPage';
+import EntryPage from './ui/pages/entryPage/EntryPage';
+import ManagementPage from './ui/pages/managementPage/ManagementPage';
+import {
+    ROOT_ROUTE, APP_ROUTE, MANAGEMENT_ROUTE,
+    MANAGEMENT_ASSIGNMENT_ROUTE, MANAGEMENT_ASSIGNMENTS_ROUTE,
+    MANAGEMENT_OPTION_ROUTE, MANAGEMENT_OPTIONS_ROUTE,
+    MANAGEMENT_RANK_ROUTE, MANAGEMENT_RANKS_ROUTE,
+    MANAGEMENT_TIER_ROUTE, MANAGEMENT_TIERS_ROUTE,
+    MANAGEMENT_VOTE_ROUTE, MANAGEMENT_VOTES_ROUTE
+} from './Routes';
 
 
 const App = () => {
-    const navigate = useNavigate()
-
     return (
         <div className={classes.app}>
-            <div className={classes.title}>RANKER</div>
-
             <div className={classes.content}>
                 <Routes>
-                    <Route path="/management/ranks" element={<RanksPage/>} />
-                    <Route path="/management/ranks/:rankId" element={<RankPage/>} />
-                    <Route path="/management/tiers" element={<TiersPage/>} />
-                    <Route path="/management/tiers/:tierId" element={<TierPage/>} />
-                    <Route path="/management/options" element={<OptionsPage/>} />
-                    <Route path="/management/options/:optionId" element={<OptionPage/>} />
-                    <Route path="/management/votes" element={<VotesPage/>} />
-                    <Route path="/management/votes/:voteId" element={<VotePage/>} />
-                    <Route path="/management/assignments" element={<AssignmentsPage/>} />
-                    <Route path="/management/assignments/:assignmentId" element={<AssignmentPage/>} />
+                    <Route path={ROOT_ROUTE} element={<EntryPage/>} />
+
+                    <Route path={APP_ROUTE} element={<AppPage/>} />
+
+                    <Route path={MANAGEMENT_ROUTE} element={<ManagementPage/>} />
+                    <Route path={MANAGEMENT_RANKS_ROUTE} element={<RanksPage/>} />
+                    <Route path={MANAGEMENT_RANK_ROUTE} element={<RankPage/>} />
+                    <Route path={MANAGEMENT_TIERS_ROUTE} element={<TiersPage/>} />
+                    <Route path={MANAGEMENT_TIER_ROUTE} element={<TierPage/>} />
+                    <Route path={MANAGEMENT_OPTIONS_ROUTE} element={<OptionsPage/>} />
+                    <Route path={MANAGEMENT_OPTION_ROUTE} element={<OptionPage/>} />
+                    <Route path={MANAGEMENT_VOTES_ROUTE} element={<VotesPage/>} />
+                    <Route path={MANAGEMENT_VOTE_ROUTE} element={<VotePage/>} />
+                    <Route path={MANAGEMENT_ASSIGNMENTS_ROUTE} element={<AssignmentsPage/>} />
+                    <Route path={MANAGEMENT_ASSIGNMENT_ROUTE} element={<AssignmentPage/>} />
                 </Routes>
             </div>
-
-             <BottomNavigation showLabels>
-                <BottomNavigationAction label="Ranks" onClick={() => navigate("management/ranks")}/>
-                <BottomNavigationAction label="Tiers" onClick={() => navigate("management/tiers")}/>
-                <BottomNavigationAction label="Options" onClick={() => navigate("management/options")}/>
-                <BottomNavigationAction label="Votes" onClick={() => navigate("management/votes")}/>
-                <BottomNavigationAction label="Assignments" onClick={() => navigate("management/assignments")}/>
-            </BottomNavigation>
         </div>
     );
 }

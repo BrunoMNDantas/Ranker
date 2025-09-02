@@ -7,6 +7,7 @@ import { Assignment } from '../../../../../logic/entities/Assignment';
 import TextField from '@mui/material/TextField';
 import EntityForm from '../entityForm/EntityForm';
 import { Button } from '@mui/material';
+import { MANAGEMENT_ASSIGNMENTS_ROUTE, managementOptionRoute, managementTierRoute, managementVoteRoute } from '../../../../../Routes';
 
 export interface AssignmentPropertiesProps {
 	assignment: Assignment
@@ -24,7 +25,7 @@ export const AssignmentProperties = ({assignment}: AssignmentPropertiesProps) =>
 				<Button
 					variant="outlined"
 					size="small"
-					onClick={() => navigate(`/management/votes/${assignment.voteId}`)}>
+					onClick={() => navigate(managementVoteRoute(assignment.voteId!))}>
 					Go to Vote
 				</Button>
 			</div>
@@ -45,7 +46,7 @@ export const AssignmentProperties = ({assignment}: AssignmentPropertiesProps) =>
 				<Button
 					variant="outlined"
 					size="small"
-					onClick={() => navigate(`/management/options/${assignment.optionId}`)}>
+					onClick={() => navigate(managementOptionRoute(assignment.optionId!))}>
 					Go to Option
 				</Button>
 			</div>
@@ -56,7 +57,7 @@ export const AssignmentProperties = ({assignment}: AssignmentPropertiesProps) =>
 				<Button
 					variant="outlined"
 					size="small"
-					onClick={() => navigate(`/management/tiers/${assignment.tierId}`)}>
+					onClick={() => navigate(managementTierRoute(assignment.tierId!))}>
 					Go to Tier
 				</Button>
 			</div>
@@ -85,7 +86,7 @@ export const AssignmentForm = ({entity: assignment}: AssignmentFormProps) => {
 	const handleDelete = async () => {
 		if(assignment.id) {
 			await deleteAssignment(assignment.id)
-			navigate("/management/assignments")
+			navigate(MANAGEMENT_ASSIGNMENTS_ROUTE)
 		}
 	}
 

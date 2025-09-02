@@ -11,6 +11,7 @@ import EntityForm from '../entityForm/EntityForm';
 import { Button, List, ListItem, ListItemButton, ListItemText, Typography, Divider } from '@mui/material';
 import { useExecute } from '../../../../../logic/hooks/UseExecute';
 import { createNewAssignment } from '../../../../../logic/services/Assignment.service';
+import { MANAGEMENT_VOTES_ROUTE, managementAssignmentRoute, managementRankRoute } from '../../../../../Routes';
 import LoadElement from '../../../../components/loadElement/LoadElement';
 
 export interface VoteAssignmentsListProps {
@@ -26,7 +27,7 @@ export const VoteAssignmentsList = ({ voteId }: VoteAssignmentsListProps) => {
 		if (voteId) {
 			const newAssignment = createNewAssignment({ voteId })
 			const createdId = await createAssignment(newAssignment)
-			navigate(`/management/assignments/${createdId}`)
+			navigate(managementAssignmentRoute(createdId))
 		}
 	}
 
@@ -44,7 +45,7 @@ export const VoteAssignmentsList = ({ voteId }: VoteAssignmentsListProps) => {
 							key={assignment.id}
 							disablePadding
 							className={classes.assignmentItem}>
-							<ListItemButton onClick={() => navigate(`/management/assignments/${assignment.id}`)}>
+							<ListItemButton onClick={() => navigate(managementAssignmentRoute(assignment.id!))}>
 								<ListItemText primary={`Assignment ${assignment.id}`}/>
 							</ListItemButton>
 						</ListItem>
@@ -78,7 +79,7 @@ export const VoteProperties = ({vote}: VotePropertiesProps) => {
 				<Button
 					variant="outlined"
 					size="small"
-					onClick={() => navigate(`/management/ranks/${vote.rankId}`)}>
+					onClick={() => navigate(managementRankRoute(vote.rankId!))}>
 					Go to Rank
 				</Button>
 			</div>
@@ -118,7 +119,7 @@ export const VoteForm = ({entity: vote}: VoteFormProps) => {
 	const handleDelete = async () => {
 		if(vote.id) {
 			await deleteVote(vote.id)
-			navigate("/management/votes")
+			navigate(MANAGEMENT_VOTES_ROUTE)
 		}
 	}
 

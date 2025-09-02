@@ -1,3 +1,5 @@
+export const ROOT_ROUTE = "/"
+
 export const APP_ROUTE = "/app"
 
 export const MANAGEMENT_ROUTE = "/management"

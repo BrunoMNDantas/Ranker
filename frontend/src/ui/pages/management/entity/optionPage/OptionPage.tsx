@@ -7,6 +7,7 @@ import { Option } from '../../../../../logic/entities/Option';
 import TextField from '@mui/material/TextField';
 import EntityForm from '../entityForm/EntityForm';
 import { Button } from '@mui/material';
+import { MANAGEMENT_OPTIONS_ROUTE, managementRankRoute } from '../../../../../Routes';
 
 export interface OptionPropertiesProps {
 	option: Option
@@ -26,7 +27,7 @@ export const OptionProperties = ({option, onTitleChange, onDescriptionChange}: O
 				<Button
 					variant="outlined"
 					size="small"
-					onClick={() => navigate(`/management/ranks/${option.rankId}`)}>
+					onClick={() => navigate(managementRankRoute(option.rankId!))}>
 					Go to Rank
 				</Button>
 			</div>
@@ -89,7 +90,7 @@ export const OptionForm = ({entity: option}: OptionFormProps) => {
 	const handleDelete = async () => {
 		if(option.id) {
 			await deleteOption(option.id)
-			navigate("/management/options")
+			navigate(MANAGEMENT_OPTIONS_ROUTE)
 		}
 	}
 

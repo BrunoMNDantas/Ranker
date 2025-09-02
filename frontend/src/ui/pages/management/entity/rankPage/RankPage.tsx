@@ -17,6 +17,7 @@ import { useExecute } from '../../../../../logic/hooks/UseExecute';
 import { createNewVote } from '../../../../../logic/services/Vote.service';
 import { createNewTier } from '../../../../../logic/services/Tier.service';
 import { createNewOption } from '../../../../../logic/services/Option.service';
+import { managementVoteRoute, managementTierRoute, managementOptionRoute, MANAGEMENT_RANKS_ROUTE } from '../../../../../Routes';
 import LoadElement from '../../../../components/loadElement/LoadElement';
 
 export interface RankVotesListProps {
@@ -32,7 +33,7 @@ export const RankVotesList = ({ rankId }: RankVotesListProps) => {
 		if (rankId) {
 			const newVote = createNewVote({ rankId })
 			const createdId = await createVote(newVote)
-			navigate(`/management/votes/${createdId}`)
+			navigate(managementVoteRoute(createdId))
 		}
 	}
 
@@ -50,7 +51,7 @@ export const RankVotesList = ({ rankId }: RankVotesListProps) => {
 							key={vote.id}
 							disablePadding
 							className={classes.relatedItem}>
-							<ListItemButton onClick={() => navigate(`/management/votes/${vote.id}`)}>
+							<ListItemButton onClick={() => navigate(managementVoteRoute(vote.id!))}>
 								<ListItemText primary={`Vote ${vote.id}`}/>
 							</ListItemButton>
 						</ListItem>
@@ -81,7 +82,7 @@ export const RankTiersList = ({ rankId }: RankTiersListProps) => {
 		if (rankId) {
 			const newTier = createNewTier({ rankId })
 			const createdId = await createTier(newTier)
-			navigate(`/management/tiers/${createdId}`)
+			navigate(managementTierRoute(createdId))
 		}
 	}
 
@@ -99,7 +100,7 @@ export const RankTiersList = ({ rankId }: RankTiersListProps) => {
 							key={tier.id}
 							disablePadding
 							className={classes.relatedItem}>
-							<ListItemButton onClick={() => navigate(`/management/tiers/${tier.id}`)}>
+							<ListItemButton onClick={() => navigate(managementTierRoute(tier.id!))}>
 								<ListItemText primary={`${tier.title || 'Untitled Tier'}`}/>
 							</ListItemButton>
 						</ListItem>
@@ -130,7 +131,7 @@ export const RankOptionsList = ({ rankId }: RankOptionsListProps) => {
 		if (rankId) {
 			const newOption = createNewOption({ rankId })
 			const createdId = await createOption(newOption)
-			navigate(`/management/options/${createdId}`)
+			navigate(managementOptionRoute(createdId))
 		}
 	}
 
@@ -148,7 +149,7 @@ export const RankOptionsList = ({ rankId }: RankOptionsListProps) => {
 							key={option.id}
 							disablePadding
 							className={classes.relatedItem}>
-							<ListItemButton onClick={() => navigate(`/management/options/${option.id}`)}>
+							<ListItemButton onClick={() => navigate(managementOptionRoute(option.id!))}>
 								<ListItemText primary={`${option.title || 'Untitled Option'}`}/>
 							</ListItemButton>
 						</ListItem>
@@ -239,7 +240,7 @@ export const RankForm = ({entity: rank}: RankFormProps) => {
 	const handleDelete = async () => {
 		if(rank.id) {
 			await deleteRank(rank.id)
-			navigate("/management/ranks")
+			navigate(MANAGEMENT_RANKS_ROUTE)
 		}
 	}
 
