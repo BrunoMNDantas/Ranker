@@ -7,7 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Entity } from '../../../../../logic/api/Store';
 
 export interface EntityFormProps<T extends Entity> extends HTMLAttributes<HTMLDivElement> {
-	entity: T|null
+	entity: T
 	onClear: () => void
 	onSave: () => void
 	onDelete: () => void
@@ -18,24 +18,21 @@ export const EntityForm = <T extends Entity,>({ entity, onClear, onSave, onDelet
 
 	return (
 		<div className={className} {...props}>
-			{ entity ? children : "Entity not found!" }
+			{ children }
 			<div className={classes.buttons}>
 				<Button
-					disabled={entity === null}
 					variant="outlined"
 					endIcon={<RefreshIcon/>}
 					onClick={onClear}>
 					Clear
 				</Button>
 				<Button
-					disabled={entity === null}
 					variant="contained"
 					endIcon={<SaveIcon/>}
 					onClick={onSave}>
 					Save
 				</Button>
 				<Button
-					disabled={entity === null}
 					variant="contained"
 					startIcon={<DeleteIcon/>}
 					onClick={onDelete}

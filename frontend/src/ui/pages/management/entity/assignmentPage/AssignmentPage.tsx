@@ -9,7 +9,7 @@ import EntityForm from '../entityForm/EntityForm';
 import { Button } from '@mui/material';
 
 export interface AssignmentPropertiesProps {
-	assignment: Assignment | null
+	assignment: Assignment
 }
 
 export const AssignmentProperties = ({assignment}: AssignmentPropertiesProps) => {
@@ -19,12 +19,12 @@ export const AssignmentProperties = ({assignment}: AssignmentPropertiesProps) =>
 		<div className={classes.properties}>
 			<div className={classes.vote}>
 				<div>
-					<strong>Vote ID:</strong> <span>{assignment?.voteId}</span>
+					<strong>Vote ID:</strong> <span>{assignment.voteId}</span>
 				</div>
 				<Button
 					variant="outlined"
 					size="small"
-					onClick={() => navigate(`/management/votes/${assignment?.voteId}`)}>
+					onClick={() => navigate(`/management/votes/${assignment.voteId}`)}>
 					Go to Vote
 				</Button>
 			</div>
@@ -32,31 +32,31 @@ export const AssignmentProperties = ({assignment}: AssignmentPropertiesProps) =>
 				disabled={true}
 				label="Id"
 				type="text"
-				value={assignment?.id}/>
+				value={assignment.id}/>
 			<TextField
 				disabled={true}
 				label="Creation Date"
 				type="text"
-				value={assignment?.creationDate?.toLocaleString()}/>
+				value={assignment.creationDate?.toLocaleString()}/>
 			<div className={classes.option}>
 				<div>
-					<strong>Option ID:</strong> <span>{assignment?.optionId}</span>
+					<strong>Option ID:</strong> <span>{assignment.optionId}</span>
 				</div>
 				<Button
 					variant="outlined"
 					size="small"
-					onClick={() => navigate(`/management/options/${assignment?.optionId}`)}>
+					onClick={() => navigate(`/management/options/${assignment.optionId}`)}>
 					Go to Option
 				</Button>
 			</div>
 			<div className={classes.tier}>
 				<div>
-					<strong>Tier ID:</strong> <span>{assignment?.tierId}</span>
+					<strong>Tier ID:</strong> <span>{assignment.tierId}</span>
 				</div>
 				<Button
 					variant="outlined"
 					size="small"
-					onClick={() => navigate(`/management/tiers/${assignment?.tierId}`)}>
+					onClick={() => navigate(`/management/tiers/${assignment.tierId}`)}>
 					Go to Tier
 				</Button>
 			</div>
@@ -65,7 +65,7 @@ export const AssignmentProperties = ({assignment}: AssignmentPropertiesProps) =>
 }
 
 export interface AssignmentFormProps {
-	entity: Assignment | null
+	entity: Assignment
 }
 
 export const AssignmentForm = ({entity: assignment}: AssignmentFormProps) => {
@@ -83,7 +83,7 @@ export const AssignmentForm = ({entity: assignment}: AssignmentFormProps) => {
 	}
 
 	const handleDelete = async () => {
-		if(assignment?.id) {
+		if(assignment.id) {
 			await deleteAssignment(assignment.id)
 			navigate("/management/assignments")
 		}
@@ -107,7 +107,7 @@ const AssignmentPage = () => {
 		<EntityPage
 			title="Assignment Page"
 			getEntity={() => assignmentId ? getAssignment(assignmentId) : Promise.resolve(null)}
-			EntityComponent={AssignmentForm}/>
+			EntityForm={AssignmentForm}/>
 	);
 }
 

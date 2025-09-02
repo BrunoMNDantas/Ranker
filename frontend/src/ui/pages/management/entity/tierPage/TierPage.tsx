@@ -9,7 +9,7 @@ import EntityForm from '../entityForm/EntityForm';
 import { Button } from '@mui/material';
 
 export interface TierPropertiesProps {
-	tier: Tier | null
+	tier: Tier
 	onTitleChange: (title: string) => void
 }
 
@@ -20,12 +20,12 @@ export const TierProperties = ({tier, onTitleChange}: TierPropertiesProps) => {
 		<div className={classes.properties}>
 			<div className={classes.rank}>
 				<div>
-					<strong>Rank ID:</strong> <span>{tier?.rankId}</span>
+					<strong>Rank ID:</strong> <span>{tier.rankId}</span>
 				</div>
 				<Button
 					variant="outlined"
 					size="small"
-					onClick={() => navigate(`/management/ranks/${tier?.rankId}`)}>
+					onClick={() => navigate(`/management/ranks/${tier.rankId}`)}>
 					Go to Rank
 				</Button>
 			</div>
@@ -33,23 +33,23 @@ export const TierProperties = ({tier, onTitleChange}: TierPropertiesProps) => {
 				disabled={true}
 				label="Id"
 				type="text"
-				value={tier?.id}/>
+				value={tier.id}/>
 			<TextField
 				disabled={true}
 				label="Creation Date"
 				type="text"
-				value={tier?.creationDate?.toLocaleString()}/>
+				value={tier.creationDate?.toLocaleString()}/>
 			<TextField
 				label="Title"
 				type="text"
-				value={tier?.title}
+				value={tier.title}
 				onChange={e => onTitleChange(e.target.value)}/>
 		</div>
 	)
 }
 
 export interface TierFormProps {
-	entity: Tier | null
+	entity: Tier
 }
 
 export const TierForm = ({entity: tier}: TierFormProps) => {
@@ -73,7 +73,7 @@ export const TierForm = ({entity: tier}: TierFormProps) => {
 	}
 
 	const handleDelete = async () => {
-		if(tier?.id) {
+		if(tier.id) {
 			await deleteTier(tier.id)
 			navigate("/management/tiers")
 		}
@@ -97,7 +97,7 @@ const TierPage = () => {
 		<EntityPage
 			title="Tier Page"
 			getEntity={() => tierId ? getTier(tierId) : Promise.resolve(null)}
-			EntityComponent={TierForm}/>
+			EntityForm={TierForm}/>
 	);
 }
 

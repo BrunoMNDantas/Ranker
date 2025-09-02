@@ -9,7 +9,7 @@ import EntityForm from '../entityForm/EntityForm';
 import { Button } from '@mui/material';
 
 export interface OptionPropertiesProps {
-	option: Option | null
+	option: Option
 	onTitleChange: (title: string) => void
 }
 
@@ -20,12 +20,12 @@ export const OptionProperties = ({option, onTitleChange}: OptionPropertiesProps)
 		<div className={classes.properties}>
 			<div className={classes.rank}>
 				<div>
-					<strong>Rank ID:</strong> <span>{option?.rankId}</span>
+					<strong>Rank ID:</strong> <span>{option.rankId}</span>
 				</div>
 				<Button
 					variant="outlined"
 					size="small"
-					onClick={() => navigate(`/management/ranks/${option?.rankId}`)}>
+					onClick={() => navigate(`/management/ranks/${option.rankId}`)}>
 					Go to Rank
 				</Button>
 			</div>
@@ -33,23 +33,23 @@ export const OptionProperties = ({option, onTitleChange}: OptionPropertiesProps)
 				disabled={true}
 				label="Id"
 				type="text"
-				value={option?.id}/>
+				value={option.id}/>
 			<TextField
 				disabled={true}
 				label="Creation Date"
 				type="text"
-				value={option?.creationDate?.toLocaleString()}/>
+				value={option.creationDate?.toLocaleString()}/>
 			<TextField
 				label="Title"
 				type="text"
-				value={option?.title}
+				value={option.title}
 				onChange={e => onTitleChange(e.target.value)}/>
 		</div>
 	)
 }
 
 export interface OptionFormProps {
-	entity: Option | null
+	entity: Option
 }
 
 export const OptionForm = ({entity: option}: OptionFormProps) => {
@@ -73,7 +73,7 @@ export const OptionForm = ({entity: option}: OptionFormProps) => {
 	}
 
 	const handleDelete = async () => {
-		if(option?.id) {
+		if(option.id) {
 			await deleteOption(option.id)
 			navigate("/management/options")
 		}
@@ -97,7 +97,7 @@ const OptionPage = () => {
 		<EntityPage
 			title="Option Page"
 			getEntity={() => optionId ? getOption(optionId) : Promise.resolve(null)}
-			EntityComponent={OptionForm}/>
+			EntityForm={OptionForm}/>
 	);
 }
 

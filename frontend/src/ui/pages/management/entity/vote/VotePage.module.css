@@ -10,3 +10,17 @@
 	align-items: center;
 	justify-content: space-between;
 }
+
+.assignmentsContainer {
+	margin-top: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.assignmentItem {
+	border: 1px solid #e0e0e0;
+	margin-bottom: 8px;
+	border-radius: 4px;
+}
