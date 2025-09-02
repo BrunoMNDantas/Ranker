@@ -11,9 +11,10 @@ import { Button } from '@mui/material';
 export interface OptionPropertiesProps {
 	option: Option
 	onTitleChange: (title: string) => void
+	onDescriptionChange: (description: string) => void
 }
 
-export const OptionProperties = ({option, onTitleChange}: OptionPropertiesProps) => {
+export const OptionProperties = ({option, onTitleChange, onDescriptionChange}: OptionPropertiesProps) => {
 	const navigate = useNavigate()
 
 	return (
@@ -44,6 +45,13 @@ export const OptionProperties = ({option, onTitleChange}: OptionPropertiesProps)
 				type="text"
 				value={option.title}
 				onChange={e => onTitleChange(e.target.value)}/>
+			<TextField
+				label="Description"
+				type="text"
+				multiline
+				rows={3}
+				value={option.description}
+				onChange={e => onDescriptionChange(e.target.value)}/>
 		</div>
 	)
 }
@@ -59,6 +67,12 @@ export const OptionForm = ({entity: option}: OptionFormProps) => {
 	const handleTitleChange = (title: string) => {
 		if (editedOption) {
 			setEditedOption({...editedOption, title})
+		}
+	}
+
+	const handleDescriptionChange = (description: string) => {
+		if (editedOption) {
+			setEditedOption({...editedOption, description})
 		}
 	}
 
@@ -85,7 +99,7 @@ export const OptionForm = ({entity: option}: OptionFormProps) => {
 			onClear={handleClear}
 			onSave={handleSave}
 			onDelete={handleDelete}>
-			<OptionProperties option={editedOption} onTitleChange={handleTitleChange}/>
+			<OptionProperties option={editedOption} onTitleChange={handleTitleChange} onDescriptionChange={handleDescriptionChange}/>
 		</EntityForm>
 	)
 }

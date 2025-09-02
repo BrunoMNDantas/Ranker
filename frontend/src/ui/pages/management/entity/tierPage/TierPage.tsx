@@ -11,9 +11,10 @@ import { Button } from '@mui/material';
 export interface TierPropertiesProps {
 	tier: Tier
 	onTitleChange: (title: string) => void
+	onDescriptionChange: (description: string) => void
 }
 
-export const TierProperties = ({tier, onTitleChange}: TierPropertiesProps) => {
+export const TierProperties = ({tier, onTitleChange, onDescriptionChange}: TierPropertiesProps) => {
 	const navigate = useNavigate()
 
 	return (
@@ -44,6 +45,13 @@ export const TierProperties = ({tier, onTitleChange}: TierPropertiesProps) => {
 				type="text"
 				value={tier.title}
 				onChange={e => onTitleChange(e.target.value)}/>
+			<TextField
+				label="Description"
+				type="text"
+				multiline
+				rows={3}
+				value={tier.description}
+				onChange={e => onDescriptionChange(e.target.value)}/>
 		</div>
 	)
 }
@@ -59,6 +67,12 @@ export const TierForm = ({entity: tier}: TierFormProps) => {
 	const handleTitleChange = (title: string) => {
 		if (editedTier) {
 			setEditedTier({...editedTier, title})
+		}
+	}
+
+	const handleDescriptionChange = (description: string) => {
+		if (editedTier) {
+			setEditedTier({...editedTier, description})
 		}
 	}
 
@@ -85,7 +99,7 @@ export const TierForm = ({entity: tier}: TierFormProps) => {
 			onClear={handleClear}
 			onSave={handleSave}
 			onDelete={handleDelete}>
-			<TierProperties tier={editedTier} onTitleChange={handleTitleChange}/>
+			<TierProperties tier={editedTier} onTitleChange={handleTitleChange} onDescriptionChange={handleDescriptionChange}/>
 		</EntityForm>
 	)
 }

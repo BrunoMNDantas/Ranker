@@ -56,9 +56,9 @@ export const RankVotesList = ({ rankId }: RankVotesListProps) => {
 						</ListItem>
 					))}
 				</List>
-				<Button 
-					variant="contained" 
-					size="small" 
+				<Button
+					variant="contained"
+					size="small"
 					onClick={handleCreateVote}
 					className={classes.createButton}>
 					Create Vote
@@ -105,9 +105,9 @@ export const RankTiersList = ({ rankId }: RankTiersListProps) => {
 						</ListItem>
 					))}
 				</List>
-				<Button 
-					variant="contained" 
-					size="small" 
+				<Button
+					variant="contained"
+					size="small"
 					onClick={handleCreateTier}
 					className={classes.createButton}>
 					Create Tier
@@ -154,9 +154,9 @@ export const RankOptionsList = ({ rankId }: RankOptionsListProps) => {
 						</ListItem>
 					))}
 				</List>
-				<Button 
-					variant="contained" 
-					size="small" 
+				<Button
+					variant="contained"
+					size="small"
 					onClick={handleCreateOption}
 					className={classes.createButton}>
 					Create Option
@@ -169,9 +169,10 @@ export const RankOptionsList = ({ rankId }: RankOptionsListProps) => {
 export interface RankPropertiesProps {
 	rank: Rank
 	onTitleChange: (title: string) => void
+	onDescriptionChange: (description: string) => void
 }
 
-export const RankProperties = ({rank, onTitleChange}: RankPropertiesProps) => {
+export const RankProperties = ({rank, onTitleChange, onDescriptionChange}: RankPropertiesProps) => {
 	return (
 		<div className={classes.properties}>
 			<TextField
@@ -189,6 +190,13 @@ export const RankProperties = ({rank, onTitleChange}: RankPropertiesProps) => {
 				type="text"
 				value={rank.title}
 				onChange={e => onTitleChange(e.target.value)}/>
+			<TextField
+				label="Description"
+				type="text"
+				multiline
+				rows={3}
+				value={rank.description}
+				onChange={e => onDescriptionChange(e.target.value)}/>
 			<div className={classes.relatedEntities}>
 				<RankVotesList rankId={rank.id} />
 				<RankTiersList rankId={rank.id} />
@@ -209,6 +217,12 @@ export const RankForm = ({entity: rank}: RankFormProps) => {
 	const handleTitleChange = (title: string) => {
 		if (editedRank) {
 			setEditedRank({...editedRank, title})
+		}
+	}
+
+	const handleDescriptionChange = (description: string) => {
+		if (editedRank) {
+			setEditedRank({...editedRank, description})
 		}
 	}
 
@@ -235,7 +249,7 @@ export const RankForm = ({entity: rank}: RankFormProps) => {
 			onClear={handleClear}
 			onSave={handleSave}
 			onDelete={handleDelete}>
-			<RankProperties rank={editedRank} onTitleChange={handleTitleChange}/>
+			<RankProperties rank={editedRank} onTitleChange={handleTitleChange} onDescriptionChange={handleDescriptionChange}/>
 		</EntityForm>
 	)
 }
