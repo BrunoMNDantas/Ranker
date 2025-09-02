@@ -1,7 +1,10 @@
 import { Vote } from "../entities/Vote"
-import Store, { MOCKED_DATA } from "./Store"
+import { VOTES } from "./Data"
+import { delay, Delayed } from "./DelayedStore"
+import Store from "./Store"
 
-export const VOTE_STORE: Store<Vote> = new Store()
+export const VOTE_STORE: Delayed<Store<Vote>> = delay(new Store(VOTES))
+
 
 export const getAllVotes = (): Promise<Vote[]> => VOTE_STORE.getAll()
 
@@ -12,16 +15,8 @@ export const getVotesOfRank = async (rankId: string): Promise<Vote[]> => {
     return votes.filter(vote => vote.rankId === rankId)
 }
 
-export const createVote = (vote: Vote): Promise<void> => VOTE_STORE.create(vote)
+export const createVote = (vote: Vote): Promise<string> => VOTE_STORE.create(vote)
 
 export const updateVote = (vote: Vote): Promise<void> => VOTE_STORE.update(vote)
 
 export const deleteVote = (id: string): Promise<void> => VOTE_STORE.delete(id)
-
-MOCKED_DATA.forEach(rank => {
-    rank.votes.forEach(vote => VOTE_STORE.create({
-        id: vote.id,
-        creationDate: new Date(),
-        rankId: rank.id
-    }))
-})

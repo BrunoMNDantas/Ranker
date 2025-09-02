@@ -1,7 +1,10 @@
 import { Assignment } from "../entities/Assignment"
-import Store, { MOCKED_DATA } from "./Store"
+import { ASSIGNEMENTS } from "./Data"
+import { delay, Delayed } from "./DelayedStore"
+import Store from "./Store"
 
-export const ASSIGNMENT_STORE: Store<Assignment> = new Store()
+export const ASSIGNMENT_STORE: Delayed<Store<Assignment>> = delay(new Store(ASSIGNEMENTS))
+
 
 export const getAllAssignments = (): Promise<Assignment[]> => ASSIGNMENT_STORE.getAll()
 
@@ -12,22 +15,8 @@ export const getAssignmentsOfVote = async (voteId: string): Promise<Assignment[]
     return assignments.filter(assignment => assignment.voteId === voteId)
 }
 
-export const createAssignment = (assignment: Assignment): Promise<void> => ASSIGNMENT_STORE.create(assignment)
+export const createAssignment = (assignment: Assignment): Promise<string> => ASSIGNMENT_STORE.create(assignment)
 
 export const updateAssignment = (assignment: Assignment): Promise<void> => ASSIGNMENT_STORE.update(assignment)
 
 export const deleteAssignment = (id: string): Promise<void> => ASSIGNMENT_STORE.delete(id)
-
-MOCKED_DATA.forEach(rank => {
-    rank.votes.forEach(vote => {
-        vote.assignments.forEach(assignment => {
-            ASSIGNMENT_STORE.create({
-                id: assignment.id,
-                creationDate: new Date(),
-                voteId: vote.id,
-                optionId: assignment.optionId,
-                tierId: assignment.tierId
-            })
-        })
-    })
-})
