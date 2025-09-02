@@ -1,4 +1,5 @@
 import { Option } from "../entities/Option"
+import { deleteAssignmentsOfOption } from "./Assignment.api"
 import { OPTIONS } from "./Data"
 import { delay, Delayed } from "./DelayedStore"
 import Store from "./Store"
@@ -22,4 +23,12 @@ export const createOption = async (option: Option): Promise<string> => {
 
 export const updateOption = (option: Option): Promise<void> => OPTION_STORE.update(option)
 
-export const deleteOption = (id: string): Promise<void> => OPTION_STORE.delete(id)
+export const deleteOption = async (id: string): Promise<void> => {
+    await deleteAssignmentsOfOption(id)
+    await OPTION_STORE.delete(id)
+}
+
+export const deleteOptionsOfRank = async (rankId: string): Promise<void> => {
+    const options = await getOptionsOfRank(rankId)
+    await Promise.all(options.map(option => option.id ? deleteOption(option.id) : Promise.resolve()))
+}

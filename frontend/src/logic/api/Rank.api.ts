@@ -1,7 +1,10 @@
 import { Rank } from "../entities/Rank"
 import { RANKS } from "./Data"
 import { delay, Delayed } from "./DelayedStore"
+import { deleteOptionsOfRank } from "./Option.api"
 import Store from "./Store"
+import { deleteTiersOfRank } from "./Tier.api"
+import { deleteVotesOfRank } from "./Vote.api"
 
 export const RANK_STORE: Delayed<Store<Rank>> = delay(new Store(RANKS))
 
@@ -17,4 +20,10 @@ export const createRank = async (rank: Rank): Promise<string> => {
 
 export const updateRank = (rank: Rank): Promise<void> => RANK_STORE.update(rank)
 
-export const deleteRank = (id: string): Promise<void> => RANK_STORE.delete(id)
+export const deleteRank = async (id: string): Promise<void> => {
+    await deleteTiersOfRank(id)
+    await deleteOptionsOfRank(id)
+    await deleteVotesOfRank(id)
+
+    await RANK_STORE.delete(id)
+}

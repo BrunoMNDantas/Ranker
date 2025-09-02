@@ -1,4 +1,5 @@
 import { Tier } from "../entities/Tier"
+import { deleteAssignmentsOfTier } from "./Assignment.api"
 import { TIERS } from "./Data"
 import { delay, Delayed } from "./DelayedStore"
 import Store from "./Store"
@@ -22,4 +23,12 @@ export const createTier = async (tier: Tier): Promise<string> => {
 
 export const updateTier = (tier: Tier): Promise<void> => TIER_STORE.update(tier)
 
-export const deleteTier = (id: string): Promise<void> => TIER_STORE.delete(id)
+export const deleteTier = async (id: string): Promise<void> => {
+    await deleteAssignmentsOfTier(id)
+    await TIER_STORE.delete(id)
+}
+
+export const deleteTiersOfRank = async (rankId: string): Promise<void> => {
+    const tiers = await getTiersOfRank(rankId)
+    await Promise.all(tiers.map(tier => tier.id ? deleteTier(tier.id) : Promise.resolve()))
+}

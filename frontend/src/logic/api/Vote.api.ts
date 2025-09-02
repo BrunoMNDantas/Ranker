@@ -1,4 +1,5 @@
 import { Vote } from "../entities/Vote"
+import { deleteAssignmentsOfVote } from "./Assignment.api"
 import { VOTES } from "./Data"
 import { delay, Delayed } from "./DelayedStore"
 import Store from "./Store"
@@ -22,4 +23,12 @@ export const createVote = async (vote: Vote): Promise<string> => {
 
 export const updateVote = (vote: Vote): Promise<void> => VOTE_STORE.update(vote)
 
-export const deleteVote = (id: string): Promise<void> => VOTE_STORE.delete(id)
+export const deleteVote = async (id: string): Promise<void> => {
+    await deleteAssignmentsOfVote(id)
+    await VOTE_STORE.delete(id)
+}
+
+export const deleteVotesOfRank = async (rankId: string): Promise<void> => {
+    const votes = await getVotesOfRank(rankId)
+    await Promise.all(votes.map(vote => vote.id ? deleteVote(vote.id) : Promise.resolve()))
+}
