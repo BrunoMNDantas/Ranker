@@ -15,7 +15,10 @@ export const getAssignmentsOfVote = async (voteId: string): Promise<Assignment[]
     return assignments.filter(assignment => assignment.voteId === voteId)
 }
 
-export const createAssignment = (assignment: Assignment): Promise<string> => ASSIGNMENT_STORE.create(assignment)
+export const createAssignment = async (assignment: Assignment): Promise<string> => {
+    assignment.creationDate = new Date()
+    return await ASSIGNMENT_STORE.create(assignment)
+}
 
 export const updateAssignment = (assignment: Assignment): Promise<void> => ASSIGNMENT_STORE.update(assignment)
 

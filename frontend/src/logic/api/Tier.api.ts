@@ -15,7 +15,10 @@ export const getTiersOfRank = async (rankId: string): Promise<Tier[]> => {
     return tiers.filter(tier => tier.rankId === rankId)
 }
 
-export const createTier = (tier: Tier): Promise<string> => TIER_STORE.create(tier)
+export const createTier = async (tier: Tier): Promise<string> => {
+    tier.creationDate = new Date()
+    return await TIER_STORE.create(tier)
+}
 
 export const updateTier = (tier: Tier): Promise<void> => TIER_STORE.update(tier)
 

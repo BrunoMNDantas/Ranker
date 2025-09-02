@@ -15,7 +15,10 @@ export const getOptionsOfRank = async (rankId: string): Promise<Option[]> => {
     return options.filter(option => option.rankId === rankId)
 }
 
-export const createOption = (option: Option): Promise<string> => OPTION_STORE.create(option)
+export const createOption = async (option: Option): Promise<string> => {
+    option.creationDate = new Date()
+    return await OPTION_STORE.create(option)
+}
 
 export const updateOption = (option: Option): Promise<void> => OPTION_STORE.update(option)
 

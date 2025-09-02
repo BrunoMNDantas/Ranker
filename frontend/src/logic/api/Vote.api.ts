@@ -15,7 +15,10 @@ export const getVotesOfRank = async (rankId: string): Promise<Vote[]> => {
     return votes.filter(vote => vote.rankId === rankId)
 }
 
-export const createVote = (vote: Vote): Promise<string> => VOTE_STORE.create(vote)
+export const createVote = async (vote: Vote): Promise<string> => {
+    vote.creationDate = new Date()
+    return await VOTE_STORE.create(vote)
+}
 
 export const updateVote = (vote: Vote): Promise<void> => VOTE_STORE.update(vote)
 

@@ -10,7 +10,10 @@ export const getAllRanks = (): Promise<Rank[]> => RANK_STORE.getAll()
 
 export const getRank = (id: string): Promise<Rank|null> => RANK_STORE.get(id)
 
-export const createRank = (rank: Rank): Promise<string> => RANK_STORE.create(rank)
+export const createRank = async (rank: Rank): Promise<string> => {
+    rank.creationDate = new Date()
+    return await RANK_STORE.create(rank)
+}
 
 export const updateRank = (rank: Rank): Promise<void> => RANK_STORE.update(rank)
 
