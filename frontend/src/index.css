@@ -1,3 +1,34 @@
 body {
-    margin: 0px;
+  margin: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  overflow: hidden;
+  background: linear-gradient(-45deg, #42d9ff, #ab81fa);
+}
+
+/* Wave layers */
+body::before, body::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+body::before {
+    top: 0;
+    left: 0;
+    background: url("data:image/svg+xml;utf8, <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'> <path fill='%23ab81fa' fill-opacity='0.35' d='M0,160L60,149.3C120 139,240,117,360,133.3C480,149,600,203,720,229.3C840,256,960,256,1080,245.3C1200,235,1320,213,1380,202.7L1440,192L1440,0L0,0Z'></path></svg>") no-repeat;
+    scale: 1 2.1;
+    rotate: -35deg;
+}
+
+body::after {
+    bottom: 0;
+    right: 0;
+    background: url("data:image/svg+xml;utf8, <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'> <path fill='%2342d9ff' fill-opacity='0.35' d='M0,160L60,149.3C120 139,240,117,360,133.3C480,149,600,203,720,229.3C840,256,960,256,1080,245.3C1200,235,1320,213,1380,202.7L1440,192L1440,0L0,0Z'></path></svg>") no-repeat;
+    scale: 1 3;
+    rotate: 125deg;
 }
