@@ -24,3 +24,8 @@
 	margin-bottom: 8px;
 	border-radius: 4px;
 }
+
+.createButton {
+	margin-top: 8px;
+	align-self: stretch;
+}

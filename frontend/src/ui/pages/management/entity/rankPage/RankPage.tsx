@@ -3,17 +3,20 @@ import classes from './RankPage.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import EntityPage from '../entityPage/EntityPage';
 import { deleteRank, getRank, updateRank } from '../../../../../logic/api/Rank.api';
-import { getVotesOfRank } from '../../../../../logic/api/Vote.api';
-import { getTiersOfRank } from '../../../../../logic/api/Tier.api';
-import { getOptionsOfRank } from '../../../../../logic/api/Option.api';
+import { getVotesOfRank, createVote } from '../../../../../logic/api/Vote.api';
+import { getTiersOfRank, createTier } from '../../../../../logic/api/Tier.api';
+import { getOptionsOfRank, createOption } from '../../../../../logic/api/Option.api';
 import { Rank } from '../../../../../logic/entities/Rank';
 import { Vote } from '../../../../../logic/entities/Vote';
 import { Tier } from '../../../../../logic/entities/Tier';
 import { Option } from '../../../../../logic/entities/Option';
 import TextField from '@mui/material/TextField';
 import EntityForm from '../entityForm/EntityForm';
-import { List, ListItem, ListItemButton, ListItemText, Typography, Divider } from '@mui/material';
+import { List, ListItem, ListItemButton, ListItemText, Typography, Divider, Button } from '@mui/material';
 import { useExecute } from '../../../../../logic/hooks/UseExecute';
+import { createNewVote } from '../../../../../logic/services/Vote.service';
+import { createNewTier } from '../../../../../logic/services/Tier.service';
+import { createNewOption } from '../../../../../logic/services/Option.service';
 import LoadElement from '../../../../components/loadElement/LoadElement';
 
 export interface RankVotesListProps {
@@ -24,6 +27,14 @@ export const RankVotesList = ({ rankId }: RankVotesListProps) => {
 	const navigate = useNavigate()
 	const getVotes = useCallback(() => rankId ? getVotesOfRank(rankId) : Promise.resolve([]), [rankId])
 	const { result: votes, executing, error } = useExecute<Vote[]>(getVotes)
+
+	const handleCreateVote = async () => {
+		if (rankId) {
+			const newVote = createNewVote({ rankId })
+			const createdId = await createVote(newVote)
+			navigate(`/management/votes/${createdId}`)
+		}
+	}
 
 	return (
 		<div className={classes.relatedContainer}>
@@ -45,6 +56,13 @@ export const RankVotesList = ({ rankId }: RankVotesListProps) => {
 						</ListItem>
 					))}
 				</List>
+				<Button 
+					variant="contained" 
+					size="small" 
+					onClick={handleCreateVote}
+					className={classes.createButton}>
+					Create Vote
+				</Button>
 			</LoadElement>
 		</div>
 	)
@@ -58,6 +76,14 @@ export const RankTiersList = ({ rankId }: RankTiersListProps) => {
 	const navigate = useNavigate()
 	const getTiers = useCallback(() => rankId ? getTiersOfRank(rankId) : Promise.resolve([]), [rankId])
 	const { result: tiers, executing, error } = useExecute<Tier[]>(getTiers)
+
+	const handleCreateTier = async () => {
+		if (rankId) {
+			const newTier = createNewTier({ rankId })
+			const createdId = await createTier(newTier)
+			navigate(`/management/tiers/${createdId}`)
+		}
+	}
 
 	return (
 		<div className={classes.relatedContainer}>
@@ -79,6 +105,13 @@ export const RankTiersList = ({ rankId }: RankTiersListProps) => {
 						</ListItem>
 					))}
 				</List>
+				<Button 
+					variant="contained" 
+					size="small" 
+					onClick={handleCreateTier}
+					className={classes.createButton}>
+					Create Tier
+				</Button>
 			</LoadElement>
 		</div>
 	)
@@ -92,6 +125,14 @@ export const RankOptionsList = ({ rankId }: RankOptionsListProps) => {
 	const navigate = useNavigate()
 	const getOptions = useCallback(() => rankId ? getOptionsOfRank(rankId) : Promise.resolve([]), [rankId])
 	const { result: options, executing, error } = useExecute<Option[]>(getOptions)
+
+	const handleCreateOption = async () => {
+		if (rankId) {
+			const newOption = createNewOption({ rankId })
+			const createdId = await createOption(newOption)
+			navigate(`/management/options/${createdId}`)
+		}
+	}
 
 	return (
 		<div className={classes.relatedContainer}>
@@ -113,6 +154,13 @@ export const RankOptionsList = ({ rankId }: RankOptionsListProps) => {
 						</ListItem>
 					))}
 				</List>
+				<Button 
+					variant="contained" 
+					size="small" 
+					onClick={handleCreateOption}
+					className={classes.createButton}>
+					Create Option
+				</Button>
 			</LoadElement>
 		</div>
 	)

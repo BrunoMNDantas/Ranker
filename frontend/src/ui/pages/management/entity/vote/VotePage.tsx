@@ -3,13 +3,14 @@ import classes from './VotePage.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import EntityPage from '../entityPage/EntityPage';
 import { deleteVote, getVote, updateVote } from '../../../../../logic/api/Vote.api';
-import { getAssignmentsOfVote } from '../../../../../logic/api/Assignment.api';
+import { getAssignmentsOfVote, createAssignment } from '../../../../../logic/api/Assignment.api';
 import { Vote } from '../../../../../logic/entities/Vote';
 import { Assignment } from '../../../../../logic/entities/Assignment';
 import TextField from '@mui/material/TextField';
 import EntityForm from '../entityForm/EntityForm';
 import { Button, List, ListItem, ListItemButton, ListItemText, Typography, Divider } from '@mui/material';
 import { useExecute } from '../../../../../logic/hooks/UseExecute';
+import { createNewAssignment } from '../../../../../logic/services/Assignment.service';
 import LoadElement from '../../../../components/loadElement/LoadElement';
 
 export interface VoteAssignmentsListProps {
@@ -20,6 +21,14 @@ export const VoteAssignmentsList = ({ voteId }: VoteAssignmentsListProps) => {
 	const navigate = useNavigate()
 	const getAssignments = useCallback(() => voteId ? getAssignmentsOfVote(voteId) : Promise.resolve([]), [voteId])
 	const { result: assignments, executing, error } = useExecute<Assignment[]>(getAssignments)
+
+	const handleCreateAssignment = async () => {
+		if (voteId) {
+			const newAssignment = createNewAssignment({ voteId })
+			const createdId = await createAssignment(newAssignment)
+			navigate(`/management/assignments/${createdId}`)
+		}
+	}
 
 	return (
 		<div className={classes.assignmentsContainer}>
@@ -41,6 +50,13 @@ export const VoteAssignmentsList = ({ voteId }: VoteAssignmentsListProps) => {
 						</ListItem>
 					))}
 				</List>
+				<Button 
+					variant="contained" 
+					size="small" 
+					onClick={handleCreateAssignment}
+					className={classes.createButton}>
+					Create Assignment
+				</Button>
 			</LoadElement>
 		</div>
 	)
