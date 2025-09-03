@@ -1,16 +1,16 @@
 import React from 'react';
 import classes from './App.module.css';
 import { Route, Routes } from 'react-router-dom';
-import RankPage from './ui/pages/management/entity/rankPage/RankPage';
-import TierPage from './ui/pages/management/entity/tierPage/TierPage';
-import OptionPage from './ui/pages/management/entity/optionPage/OptionPage';
-import VotePage from './ui/pages/management/entity/vote/VotePage';
-import RanksPage from './ui/pages/management/entities/ranksPage/RanksPage';
-import TiersPage from './ui/pages/management/entities/tiersPage/TiersPage';
-import OptionsPage from './ui/pages/management/entities/optionsPage/OptionsPage';
-import VotesPage from './ui/pages/management/entities/votesPage/VotesPage';
-import AssignmentsPage from './ui/pages/management/entities/assignmentsPage/AssignmentsPage';
-import AssignmentPage from './ui/pages/management/entity/assignmentPage/AssignmentPage';
+import RankPage from './ui/pages/managementLayout/entity/rankPage/RankPage';
+import TierPage from './ui/pages/managementLayout/entity/tierPage/TierPage';
+import OptionPage from './ui/pages/managementLayout/entity/optionPage/OptionPage';
+import VotePage from './ui/pages/managementLayout/entity/vote/VotePage';
+import RanksPage from './ui/pages/managementLayout/entities/ranksPage/RanksPage';
+import TiersPage from './ui/pages/managementLayout/entities/tiersPage/TiersPage';
+import OptionsPage from './ui/pages/managementLayout/entities/optionsPage/OptionsPage';
+import VotesPage from './ui/pages/managementLayout/entities/votesPage/VotesPage';
+import AssignmentsPage from './ui/pages/managementLayout/entities/assignmentsPage/AssignmentsPage';
+import AssignmentPage from './ui/pages/managementLayout/entity/assignmentPage/AssignmentPage';
 import AppPage from './ui/pages/appLayout/appPage/AppPage';
 import EntryPage from './ui/pages/entryPage/EntryPage';
 import {
