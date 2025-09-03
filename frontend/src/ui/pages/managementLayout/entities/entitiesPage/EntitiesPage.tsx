@@ -39,6 +39,7 @@ export const EntitiesPage = <T extends Entity,>({ title, getEntityUrl, getEntiti
 				{
 					entities?.map(entity => (
 						<EntityItem
+							key={entity.id}
 							url={getEntityUrl(entity)}
 							entity={entity}
 							entityRenderer={entityRenderer}/>

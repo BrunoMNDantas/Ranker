@@ -6,22 +6,22 @@ export function useExecute<T>(operation: ()=>Promise<T>) {
     const [error, setError] = useState<Error | null>(null);
 
     useEffect(() => {
-        let distroyed = false
+        let destroyed = false
         setExecuting(true)
 
         operation()
             .then(res => {
-                if(!distroyed) setResult(res as T)
+                if(!destroyed) setResult(res as T)
                 return res
             })
             .catch(err => {
-                if(!distroyed) setError(err)
+                if(!destroyed) setError(err)
             })
             .finally(() => {
-                if(!distroyed) setExecuting(false)
+                if(!destroyed) setExecuting(false)
             });
 
-        return () => { distroyed = true }
+        return () => { destroyed = true }
     }, [ operation ])
 
     return { result, executing, error }
