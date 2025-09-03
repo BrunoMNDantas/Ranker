@@ -3,7 +3,7 @@ import classes from './AppLayout.module.css';
 import AppTitle from '../../components/appTitle/AppTitle';
 import { Outlet } from 'react-router-dom';
 
-const AppPage = () => {
+const AppLayout = () => {
 	return (
 		<div className={classes.root}>
 			<div className={classes.title}>
@@ -16,4 +16,4 @@ const AppPage = () => {
 	);
 }
 
-export default AppPage;
+export default AppLayout;

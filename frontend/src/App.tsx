@@ -1,17 +1,17 @@
 import React from 'react';
 import classes from './App.module.css';
 import { Route, Routes } from 'react-router-dom';
-import RankPage from './ui/pages/managementLayout/entity/rankPage/RankPage';
-import TierPage from './ui/pages/managementLayout/entity/tierPage/TierPage';
-import OptionPage from './ui/pages/managementLayout/entity/optionPage/OptionPage';
-import VotePage from './ui/pages/managementLayout/entity/vote/VotePage';
-import RanksPage from './ui/pages/managementLayout/entities/ranksPage/RanksPage';
-import TiersPage from './ui/pages/managementLayout/entities/tiersPage/TiersPage';
-import OptionsPage from './ui/pages/managementLayout/entities/optionsPage/OptionsPage';
-import VotesPage from './ui/pages/managementLayout/entities/votesPage/VotesPage';
-import AssignmentsPage from './ui/pages/managementLayout/entities/assignmentsPage/AssignmentsPage';
-import AssignmentPage from './ui/pages/managementLayout/entity/assignmentPage/AssignmentPage';
-import AppPage from './ui/pages/appLayout/appPage/AppPage';
+import RankPage from './ui/pages/management/entity/rankPage/RankPage';
+import TierPage from './ui/pages/management/entity/tierPage/TierPage';
+import OptionPage from './ui/pages/management/entity/optionPage/OptionPage';
+import VotePage from './ui/pages/management/entity/vote/VotePage';
+import RanksPage from './ui/pages/management/entities/ranksPage/RanksPage';
+import TiersPage from './ui/pages/management/entities/tiersPage/TiersPage';
+import OptionsPage from './ui/pages/management/entities/optionsPage/OptionsPage';
+import VotesPage from './ui/pages/management/entities/votesPage/VotesPage';
+import AssignmentsPage from './ui/pages/management/entities/assignmentsPage/AssignmentsPage';
+import AssignmentPage from './ui/pages/management/entity/assignmentPage/AssignmentPage';
+import AppPage from './ui/pages/appPage/AppPage';
 import EntryPage from './ui/pages/entryPage/EntryPage';
 import {
     ROOT_ROUTE, APP_ROUTE, MANAGEMENT_ROUTE,
@@ -20,7 +20,8 @@ import {
     MANAGEMENT_RANK_SUB_ROUTE, MANAGEMENT_TIER_SUB_ROUTE, MANAGEMENT_OPTION_SUB_ROUTE,
     MANAGEMENT_VOTE_SUB_ROUTE, MANAGEMENT_ASSIGNMENT_SUB_ROUTE
 } from './Routes';
-import ManagementLayout from './ui/pages/managementLayout/ManagementLayout';
+import ManagementLayout from './ui/layouts/managementLayout/ManagementLayout';
+import AppLayout from './ui/layouts/appLayout/AppLayout';
 
 
 const App = () => {
@@ -30,7 +31,9 @@ const App = () => {
                 <Routes>
                     <Route path={ROOT_ROUTE} element={<EntryPage/>} />
 
-                    <Route path={APP_ROUTE} element={<AppPage/>} />
+                    <Route path= {APP_ROUTE} element={<AppLayout/>}>
+                        <Route index element={<AppPage/>} />
+                    </Route>
 
                     <Route path= {MANAGEMENT_ROUTE} element={<ManagementLayout/>}>
                         <Route index element={<RanksPage/>} />
