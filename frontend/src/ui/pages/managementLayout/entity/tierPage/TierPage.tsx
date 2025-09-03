@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import classes from './TierPage.module.css';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import EntityPage from '../entityPage/EntityPage';
 import { deleteTier, getTier, updateTier } from '../../../../../logic/api/Tier.api';
 import { Tier } from '../../../../../logic/entities/Tier';
@@ -16,8 +16,6 @@ export interface TierPropertiesProps {
 }
 
 export const TierProperties = ({tier, onTitleChange, onDescriptionChange}: TierPropertiesProps) => {
-	const navigate = useNavigate()
-
 	return (
 		<div className={classes.properties}>
 			<div className={classes.rank}>
@@ -27,7 +25,8 @@ export const TierProperties = ({tier, onTitleChange, onDescriptionChange}: TierP
 				<Button
 					variant="contained"
 					size="small"
-					onClick={() => navigate(managementRankRoute(tier.rankId!))}>
+					component={Link}
+					to={managementRankRoute(tier.rankId!)}>
 					Go to Rank
 				</Button>
 			</div>

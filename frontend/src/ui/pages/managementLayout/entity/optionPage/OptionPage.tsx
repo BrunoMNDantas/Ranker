@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import classes from './OptionPage.module.css';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import EntityPage from '../entityPage/EntityPage';
 import { deleteOption, getOption, updateOption } from '../../../../../logic/api/Option.api';
 import { Option } from '../../../../../logic/entities/Option';
@@ -16,8 +16,6 @@ export interface OptionPropertiesProps {
 }
 
 export const OptionProperties = ({option, onTitleChange, onDescriptionChange}: OptionPropertiesProps) => {
-	const navigate = useNavigate()
-
 	return (
 		<div className={classes.properties}>
 			<div className={classes.rank}>
@@ -27,7 +25,8 @@ export const OptionProperties = ({option, onTitleChange, onDescriptionChange}: O
 				<Button
 					variant="contained"
 					size="small"
-					onClick={() => navigate(managementRankRoute(option.rankId!))}>
+					component={Link}
+					to={managementRankRoute(option.rankId!)}>
 					Go to Rank
 				</Button>
 			</div>

@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import classes from './VotePage.module.css';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import EntityPage from '../entityPage/EntityPage';
 import { deleteVote, getVote, updateVote } from '../../../../../logic/api/Vote.api';
 import { getAssignmentsOfVote, createAssignment } from '../../../../../logic/api/Assignment.api';
@@ -45,15 +45,15 @@ export const VoteAssignmentsList = ({ voteId }: VoteAssignmentsListProps) => {
 							key={assignment.id}
 							disablePadding
 							className={classes.assignmentItem}>
-							<ListItemButton onClick={() => navigate(managementAssignmentRoute(assignment.id!))}>
+							<ListItemButton component={Link} to={managementAssignmentRoute(assignment.id!)}>
 								<ListItemText primary={`Assignment ${assignment.id}`}/>
 							</ListItemButton>
 						</ListItem>
 					))}
 				</List>
-				<Button 
-					variant="contained" 
-					size="small" 
+				<Button
+					variant="contained"
+					size="small"
 					onClick={handleCreateAssignment}
 					className={classes.createButton}>
 					Create Assignment
@@ -68,8 +68,6 @@ export interface VotePropertiesProps {
 }
 
 export const VoteProperties = ({vote}: VotePropertiesProps) => {
-	const navigate = useNavigate()
-
 	return (
 		<div className={classes.properties}>
 			<div className={classes.rank}>
@@ -79,7 +77,8 @@ export const VoteProperties = ({vote}: VotePropertiesProps) => {
 				<Button
 					variant="contained"
 					size="small"
-					onClick={() => navigate(managementRankRoute(vote.rankId!))}>
+					component={Link}
+					to={managementRankRoute(vote.rankId!)}>
 					Go to Rank
 				</Button>
 			</div>

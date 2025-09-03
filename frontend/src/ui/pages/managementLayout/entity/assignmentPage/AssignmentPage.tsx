@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import classes from './AssignmentPage.module.css';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import EntityPage from '../entityPage/EntityPage';
 import { deleteAssignment, getAssignment, updateAssignment } from '../../../../../logic/api/Assignment.api';
 import { Assignment } from '../../../../../logic/entities/Assignment';
@@ -14,8 +14,6 @@ export interface AssignmentPropertiesProps {
 }
 
 export const AssignmentProperties = ({assignment}: AssignmentPropertiesProps) => {
-	const navigate = useNavigate()
-
 	return (
 		<div className={classes.properties}>
 			<div className={classes.vote}>
@@ -25,7 +23,8 @@ export const AssignmentProperties = ({assignment}: AssignmentPropertiesProps) =>
 				<Button
 					variant="contained"
 					size="small"
-					onClick={() => navigate(managementVoteRoute(assignment.voteId!))}>
+					component={Link}
+					to={managementVoteRoute(assignment.voteId!)}>
 					Go to Vote
 				</Button>
 			</div>
@@ -46,7 +45,8 @@ export const AssignmentProperties = ({assignment}: AssignmentPropertiesProps) =>
 				<Button
 					variant="contained"
 					size="small"
-					onClick={() => navigate(managementOptionRoute(assignment.optionId!))}>
+					component={Link}
+					to={managementOptionRoute(assignment.optionId!)}>
 					Go to Option
 				</Button>
 			</div>
@@ -57,7 +57,8 @@ export const AssignmentProperties = ({assignment}: AssignmentPropertiesProps) =>
 				<Button
 					variant="contained"
 					size="small"
-					onClick={() => navigate(managementTierRoute(assignment.tierId!))}>
+					component={Link}
+					to={managementTierRoute(assignment.tierId!)}>
 					Go to Tier
 				</Button>
 			</div>

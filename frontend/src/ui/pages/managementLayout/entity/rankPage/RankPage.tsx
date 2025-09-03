@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import classes from './RankPage.module.css';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import EntityPage from '../entityPage/EntityPage';
 import { deleteRank, getRank, updateRank } from '../../../../../logic/api/Rank.api';
 import { getVotesOfRank, createVote } from '../../../../../logic/api/Vote.api';
@@ -51,7 +51,7 @@ export const RankVotesList = ({ rankId }: RankVotesListProps) => {
 							key={vote.id}
 							disablePadding
 							className={classes.relatedItem}>
-							<ListItemButton onClick={() => navigate(managementVoteRoute(vote.id!))}>
+							<ListItemButton component={Link} to={managementVoteRoute(vote.id!)}>
 								<ListItemText primary={`Vote ${vote.id}`}/>
 							</ListItemButton>
 						</ListItem>
@@ -100,7 +100,7 @@ export const RankTiersList = ({ rankId }: RankTiersListProps) => {
 							key={tier.id}
 							disablePadding
 							className={classes.relatedItem}>
-							<ListItemButton onClick={() => navigate(managementTierRoute(tier.id!))}>
+							<ListItemButton component={Link} to={managementTierRoute(tier.id!)}>
 								<ListItemText primary={`${tier.title || 'Untitled Tier'}`}/>
 							</ListItemButton>
 						</ListItem>
@@ -149,7 +149,7 @@ export const RankOptionsList = ({ rankId }: RankOptionsListProps) => {
 							key={option.id}
 							disablePadding
 							className={classes.relatedItem}>
-							<ListItemButton onClick={() => navigate(managementOptionRoute(option.id!))}>
+							<ListItemButton component={Link} to={managementOptionRoute(option.id!)}>
 								<ListItemText primary={`${option.title || 'Untitled Option'}`}/>
 							</ListItemButton>
 						</ListItem>
