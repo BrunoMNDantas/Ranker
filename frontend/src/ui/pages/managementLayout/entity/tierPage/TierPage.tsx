@@ -13,9 +13,10 @@ export interface TierPropertiesProps {
 	tier: Tier
 	onTitleChange: (title: string) => void
 	onDescriptionChange: (description: string) => void
+	onImageUrlChange: (imageUrl: string) => void
 }
 
-export const TierProperties = ({tier, onTitleChange, onDescriptionChange}: TierPropertiesProps) => {
+export const TierProperties = ({tier, onTitleChange, onDescriptionChange, onImageUrlChange}: TierPropertiesProps) => {
 	return (
 		<div className={classes.properties}>
 			<div className={classes.rank}>
@@ -52,6 +53,11 @@ export const TierProperties = ({tier, onTitleChange, onDescriptionChange}: TierP
 				rows={3}
 				value={tier.description}
 				onChange={e => onDescriptionChange(e.target.value)}/>
+			<TextField
+				label="Image URL"
+				type="url"
+				value={tier.imageUrl}
+				onChange={e => onImageUrlChange(e.target.value)}/>
 		</div>
 	)
 }
@@ -73,6 +79,12 @@ export const TierForm = ({entity: tier}: TierFormProps) => {
 	const handleDescriptionChange = (description: string) => {
 		if (editedTier) {
 			setEditedTier({...editedTier, description})
+		}
+	}
+
+	const handleImageUrlChange = (imageUrl: string) => {
+		if (editedTier) {
+			setEditedTier({...editedTier, imageUrl})
 		}
 	}
 
@@ -99,7 +111,7 @@ export const TierForm = ({entity: tier}: TierFormProps) => {
 			onClear={handleClear}
 			onSave={handleSave}
 			onDelete={handleDelete}>
-			<TierProperties tier={editedTier} onTitleChange={handleTitleChange} onDescriptionChange={handleDescriptionChange}/>
+			<TierProperties tier={editedTier} onTitleChange={handleTitleChange} onDescriptionChange={handleDescriptionChange} onImageUrlChange={handleImageUrlChange}/>
 		</EntityForm>
 	)
 }

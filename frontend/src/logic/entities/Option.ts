@@ -4,4 +4,5 @@ export interface Option {
     rankId: string | null
     title: string | null
     description: string | null
+    imageUrl: string | null
 }

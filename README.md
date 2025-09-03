@@ -130,7 +130,7 @@ The domain model describes the main entities of Ranker and their relationships.
 
 #### **Rank**
 Represents a ranking definition.
-- **Attributes**: `id`, `creationDate`, `title`
+- **Attributes**: `id`, `creationDate`, `title`, `description`, `imageUrl`
 - **Relationships**: has many `Tier`, `Option`, and `Vote`
 - **Example**: Rank = "Best Programming Languages"
 
@@ -138,16 +138,16 @@ Represents a ranking definition.
 
 #### **Tier**
 Defines a level or category inside a Rank.
-- **Attributes**: `id`, `rankId`, `creationDate`, `title`
-- **Relationships**: belongs to `Rank`; mapped by `Assignment`
+- **Attributes**: `id`, `rankId`, `creationDate`, `title`, `description`, `imageUrl`
+- **Relationships**: belongs to `Rank`; used in mappings via `Assignment`
 - **Example**: Tiers = `S-Tier`, `A-Tier`, `Bronze`, `Silver`
 
 ---
 
 #### **Option**
 An item that can be classified into a Tier.
-- **Attributes**: `id`, `rankId`, `creationDate`, `title`
-- **Relationships**: belongs to `Rank`; mapped by `Assignment`
+- **Attributes**: `id`, `rankId`, `creationDate`, `title`, `description`, `imageUrl`
+- **Relationships**: belongs to `Rank`; used in mappings via `Assignment`
 - **Example**: Options = `Java`, `Python`, `JavaScript`
 
 ---
@@ -155,15 +155,15 @@ An item that can be classified into a Tier.
 #### **Vote**
 A user’s submission for a Rank.
 - **Attributes**: `id`, `rankId`, `creationDate`
-- **Relationships**: belongs to `Rank`; includes many `Assignment`
+- **Relationships**: belongs to `Rank`; **includes** many `Assignment`
 - **Example**: A user’s Vote for "Best Programming Languages"
 
 ---
 
 #### **Assignment**
-Links an `Option` to a `Tier` within a `Vote`.
+Links an `Option` to a `Tier` within a particular `Vote`.
 - **Attributes**: `id`, `voteId`, `tierId`, `optionId`, `creationDate`
-- **Relationships**: belongs to `Vote`, `Tier`, and `Option`
+- **Relationships**: belongs to `Vote`, `Tier`, and `Option`; **maps** `Option` → `Tier`
 - **Example**: Assignments: (Python → S), (Java → A), (JavaScript → B)
 
 ---

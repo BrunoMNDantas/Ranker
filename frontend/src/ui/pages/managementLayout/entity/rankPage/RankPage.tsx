@@ -171,9 +171,10 @@ export interface RankPropertiesProps {
 	rank: Rank
 	onTitleChange: (title: string) => void
 	onDescriptionChange: (description: string) => void
+	onImageUrlChange: (imageUrl: string) => void
 }
 
-export const RankProperties = ({rank, onTitleChange, onDescriptionChange}: RankPropertiesProps) => {
+export const RankProperties = ({rank, onTitleChange, onDescriptionChange, onImageUrlChange}: RankPropertiesProps) => {
 	return (
 		<div className={classes.properties}>
 			<TextField
@@ -198,6 +199,11 @@ export const RankProperties = ({rank, onTitleChange, onDescriptionChange}: RankP
 				rows={3}
 				value={rank.description}
 				onChange={e => onDescriptionChange(e.target.value)}/>
+			<TextField
+				label="Image URL"
+				type="url"
+				value={rank.imageUrl}
+				onChange={e => onImageUrlChange(e.target.value)}/>
 			<div className={classes.relatedEntities}>
 				<RankVotesList rankId={rank.id} />
 				<RankTiersList rankId={rank.id} />
@@ -227,6 +233,12 @@ export const RankForm = ({entity: rank}: RankFormProps) => {
 		}
 	}
 
+	const handleImageUrlChange = (imageUrl: string) => {
+		if (editedRank) {
+			setEditedRank({...editedRank, imageUrl})
+		}
+	}
+
 	const handleClear = () => {
 		setEditedRank(structuredClone(rank))
 	}
@@ -250,7 +262,7 @@ export const RankForm = ({entity: rank}: RankFormProps) => {
 			onClear={handleClear}
 			onSave={handleSave}
 			onDelete={handleDelete}>
-			<RankProperties rank={editedRank} onTitleChange={handleTitleChange} onDescriptionChange={handleDescriptionChange}/>
+			<RankProperties rank={editedRank} onTitleChange={handleTitleChange} onDescriptionChange={handleDescriptionChange} onImageUrlChange={handleImageUrlChange}/>
 		</EntityForm>
 	)
 }

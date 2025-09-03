@@ -5,15 +5,15 @@ import type { Vote } from "../entities/Vote";
 import type { Assignment } from "../entities/Assignment";
 
 export const createRank = (partial: Partial<Rank>): Rank => {
-    return { id: null, creationDate: null, title: null, description: null, ...partial }
+    return { id: null, creationDate: null, title: null, description: null, imageUrl: null, ...partial }
 }
 
 export const createTier = (partial: Partial<Tier>): Tier => {
-    return { id: null, creationDate: null, rankId: null, title: null, description: null, ...partial }
+    return { id: null, creationDate: null, rankId: null, title: null, description: null, imageUrl: null, ...partial }
 }
 
 export const createOption = (partial: Partial<Option>): Option => {
-    return { id: null, creationDate: null, rankId: null, title: null, description: null, ...partial }
+    return { id: null, creationDate: null, rankId: null, title: null, description: null, imageUrl: null, ...partial }
 }
 
 export const createVote = (partial: Partial<Vote>): Vote => {

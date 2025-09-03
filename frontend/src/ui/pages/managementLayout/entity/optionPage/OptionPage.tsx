@@ -13,9 +13,10 @@ export interface OptionPropertiesProps {
 	option: Option
 	onTitleChange: (title: string) => void
 	onDescriptionChange: (description: string) => void
+	onImageUrlChange: (imageUrl: string) => void
 }
 
-export const OptionProperties = ({option, onTitleChange, onDescriptionChange}: OptionPropertiesProps) => {
+export const OptionProperties = ({option, onTitleChange, onDescriptionChange, onImageUrlChange}: OptionPropertiesProps) => {
 	return (
 		<div className={classes.properties}>
 			<div className={classes.rank}>
@@ -52,6 +53,11 @@ export const OptionProperties = ({option, onTitleChange, onDescriptionChange}: O
 				rows={3}
 				value={option.description}
 				onChange={e => onDescriptionChange(e.target.value)}/>
+			<TextField
+				label="Image URL"
+				type="url"
+				value={option.imageUrl}
+				onChange={e => onImageUrlChange(e.target.value)}/>
 		</div>
 	)
 }
@@ -73,6 +79,12 @@ export const OptionForm = ({entity: option}: OptionFormProps) => {
 	const handleDescriptionChange = (description: string) => {
 		if (editedOption) {
 			setEditedOption({...editedOption, description})
+		}
+	}
+
+	const handleImageUrlChange = (imageUrl: string) => {
+		if (editedOption) {
+			setEditedOption({...editedOption, imageUrl})
 		}
 	}
 
@@ -99,7 +111,7 @@ export const OptionForm = ({entity: option}: OptionFormProps) => {
 			onClear={handleClear}
 			onSave={handleSave}
 			onDelete={handleDelete}>
-			<OptionProperties option={editedOption} onTitleChange={handleTitleChange} onDescriptionChange={handleDescriptionChange}/>
+			<OptionProperties option={editedOption} onTitleChange={handleTitleChange} onDescriptionChange={handleDescriptionChange} onImageUrlChange={handleImageUrlChange}/>
 		</EntityForm>
 	)
 }
