@@ -21,7 +21,7 @@ export const EntityForm = <T extends Entity,>({ entity, onClear, onSave, onDelet
 			{ children }
 			<div className={classes.buttons}>
 				<Button
-					variant="outlined"
+					variant="contained"
 					endIcon={<RefreshIcon/>}
 					onClick={onClear}>
 					Clear

@@ -77,7 +77,7 @@ export const VoteProperties = ({vote}: VotePropertiesProps) => {
 					<strong>Rank ID:</strong> <span>{vote.rankId}</span>
 				</div>
 				<Button
-					variant="outlined"
+					variant="contained"
 					size="small"
 					onClick={() => navigate(managementRankRoute(vote.rankId!))}>
 					Go to Rank

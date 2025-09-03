@@ -1,9 +1,9 @@
 import { Assignment } from "../entities/Assignment"
-import { ASSIGNEMENTS } from "./Data"
+import { ASSIGNMENTS as ASSIGNMENTS } from "./Data"
 import { delay, Delayed } from "./DelayedStore"
 import Store from "./Store"
 
-export const ASSIGNMENT_STORE: Delayed<Store<Assignment>> = delay(new Store(ASSIGNEMENTS))
+export const ASSIGNMENT_STORE: Delayed<Store<Assignment>> = delay(new Store(ASSIGNMENTS))
 
 
 export const getAllAssignments = (): Promise<Assignment[]> => ASSIGNMENT_STORE.getAll()

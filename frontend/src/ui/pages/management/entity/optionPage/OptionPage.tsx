@@ -25,7 +25,7 @@ export const OptionProperties = ({option, onTitleChange, onDescriptionChange}: O
 					<strong>Rank ID:</strong> <span>{option.rankId}</span>
 				</div>
 				<Button
-					variant="outlined"
+					variant="contained"
 					size="small"
 					onClick={() => navigate(managementRankRoute(option.rankId!))}>
 					Go to Rank

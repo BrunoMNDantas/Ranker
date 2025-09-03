@@ -25,7 +25,7 @@ export const TierProperties = ({tier, onTitleChange, onDescriptionChange}: TierP
 					<strong>Rank ID:</strong> <span>{tier.rankId}</span>
 				</div>
 				<Button
-					variant="outlined"
+					variant="contained"
 					size="small"
 					onClick={() => navigate(managementRankRoute(tier.rankId!))}>
 					Go to Rank

@@ -103,7 +103,7 @@ export const VOTES = MOCKED_DATA.map(rank => {
     })
 }).flat()
 
-export const ASSIGNEMENTS = MOCKED_DATA.map(rank => {
+export const ASSIGNMENTS = MOCKED_DATA.map(rank => {
     return rank.votes.map(vote => {
         return vote.assignments.map(assignment => {
             return {

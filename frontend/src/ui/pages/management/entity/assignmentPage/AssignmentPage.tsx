@@ -23,7 +23,7 @@ export const AssignmentProperties = ({assignment}: AssignmentPropertiesProps) =>
 					<strong>Vote ID:</strong> <span>{assignment.voteId}</span>
 				</div>
 				<Button
-					variant="outlined"
+					variant="contained"
 					size="small"
 					onClick={() => navigate(managementVoteRoute(assignment.voteId!))}>
 					Go to Vote
@@ -44,7 +44,7 @@ export const AssignmentProperties = ({assignment}: AssignmentPropertiesProps) =>
 					<strong>Option ID:</strong> <span>{assignment.optionId}</span>
 				</div>
 				<Button
-					variant="outlined"
+					variant="contained"
 					size="small"
 					onClick={() => navigate(managementOptionRoute(assignment.optionId!))}>
 					Go to Option
@@ -55,7 +55,7 @@ export const AssignmentProperties = ({assignment}: AssignmentPropertiesProps) =>
 					<strong>Tier ID:</strong> <span>{assignment.tierId}</span>
 				</div>
 				<Button
-					variant="outlined"
+					variant="contained"
 					size="small"
 					onClick={() => navigate(managementTierRoute(assignment.tierId!))}>
 					Go to Tier
