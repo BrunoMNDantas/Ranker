@@ -14,11 +14,9 @@ import TextField from '@mui/material/TextField';
 import EntityForm from '../entityForm/EntityForm';
 import { List, ListItem, ListItemButton, ListItemText, Typography, Divider, Button } from '@mui/material';
 import { useExecute } from '../../../../hooks/UseExecute';
-import { createNewVote } from '../../../../services/Vote.service';
-import { createNewTier } from '../../../../services/Tier.service';
-import { createNewOption } from '../../../../services/Option.service';
 import { managementVoteRoute, managementTierRoute, managementOptionRoute, MANAGEMENT_RANKS_ROUTE } from '../../../../app/Routes';
 import LoadElement from '../../../../components/loadElement/LoadElement';
+import { createVote as createNewVote, createTier as createNewTier, createOption as createNewOption } from '../../../../services/EntityFactory.service';
 
 export interface RankVotesListProps {
 	rankId: string | null

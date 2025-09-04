@@ -10,7 +10,7 @@ import TextField from '@mui/material/TextField';
 import EntityForm from '../entityForm/EntityForm';
 import { Button, List, ListItem, ListItemButton, ListItemText, Typography, Divider } from '@mui/material';
 import { useExecute } from '../../../../hooks/UseExecute';
-import { createNewAssignment } from '../../../../services/Assignment.service';
+import { createAssignment as createNewAssignment } from '../../../../services/EntityFactory.service';
 import { MANAGEMENT_VOTES_ROUTE, managementAssignmentRoute, managementRankRoute } from '../../../../app/Routes';
 import LoadElement from '../../../../components/loadElement/LoadElement';
 

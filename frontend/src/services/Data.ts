@@ -115,7 +115,7 @@ export const ASSIGNMENTS = MOCKED_DATA.map(rank => {
             return {
                 id: rank.id + "-" + vote.id + "-" + assignment.id,
                 creationDate: new Date(),
-                voteId: vote.id,
+                voteId: rank + "-" + vote.id,
                 optionId: rank.id + "-" + assignment.optionId,
                 tierId: rank.id + "-" + assignment.tierId
             }
