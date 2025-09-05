@@ -1,0 +1,24 @@
+import React, { HTMLAttributes, ReactNode } from 'react';
+import classes from './EntityCard.module.css';
+import { Card, Divider } from '@mui/material';
+
+export interface EntityCardProps extends HTMLAttributes<HTMLDivElement> {
+    cardHeader: ReactNode
+    cardContent: ReactNode
+    cardActions: ReactNode
+}
+
+const EntityCard = ({ cardHeader, cardContent, cardActions, ...props }: EntityCardProps) => {
+    const className = props.className ? props.className : classes.root
+    return (
+        <Card className={className} {...props}>
+            { cardHeader }
+            <Divider/>
+            { cardContent }
+            <Divider/>
+            { cardActions }
+        </Card>
+    );
+}
+
+export default EntityCard;
