@@ -118,6 +118,12 @@ Prepare the app for broader use.
 - **Blind Voting Mode**: Enable users to vote **without seeing all options upfront**. Options are revealed **one by one**, and the user votes sequentially.
 - **Goal**: Deliver a usable app that stores and syncs data beyond the local browser while introducing novel voting interactions.
 
+### Version 0.0.6 – AI-Powered Rank Creation
+Leverage artificial intelligence to assist users in building richer Ranks.
+- **AI-Generated Tiers & Options**: Automatically propose tiers and options based on the Rank’s title and description.
+- **Smart Suggestions**: Offer AI-driven recommendations while editing or refining Ranks.
+- **Goal**: Simplify the Rank creation process and inspire users with intelligent defaults.
+
 ---
 
 ## ⚙️ Technical Documentation
