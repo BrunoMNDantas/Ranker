@@ -2,14 +2,16 @@ import React from 'react';
 import { getAllVotes } from '../../../../features/vote/api/Vote.api';
 import EntitiesPage from '../entitiesPage/EntitiesPage';
 import { managementVoteRoute } from '../../../../app/Routes';
+import VoteList from '../../../../features/vote/components/voteList/VoteList';
 
 const VotesPage = () => {
 	return (
 		<EntitiesPage
 			title="Votes Page"
-			getEntityUrl={vote => managementVoteRoute(vote.id!)}
 			getEntities={getAllVotes}
-			entityRenderer={vote => <div>{ vote.id }</div>}/>
+			entitiesRenderer={entities => (
+				<VoteList votes={entities} voteUrl={vote => managementVoteRoute(vote.id!)}/>
+			)}/>
 	);
 }
 

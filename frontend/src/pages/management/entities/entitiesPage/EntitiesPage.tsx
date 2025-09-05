@@ -24,27 +24,18 @@ export const EntityItem = <T extends Entity,>({url, entity, entityRenderer}: Ent
 
 export interface EntitiesPageProps<T extends Entity> extends HTMLAttributes<HTMLDivElement> {
 	title: string
-	getEntityUrl: (entity: T) => string
 	getEntities: () => Promise<T[]>
-	entityRenderer: (entity: T) => ReactNode
+	entitiesRenderer: (entities: T[]) => ReactNode[] | ReactNode
 }
 
-export const EntitiesPage = <T extends Entity,>({ title, getEntityUrl, getEntities, entityRenderer, ...props }: EntitiesPageProps<T>) => {
+export const EntitiesPage = <T extends Entity,>({ title, getEntities, entitiesRenderer, ...props }: EntitiesPageProps<T>) => {
 	const { result: entities, executing, error } = useExecute<T[]>(getEntities);
 
 	return (
 		<Page title={title} {...props}>
 			<LoadElement loading={executing}>
 				{ error ? <p>Error: {error.message}</p> : null }
-				{
-					entities?.map(entity => (
-						<EntityItem
-							key={entity.id}
-							url={getEntityUrl(entity)}
-							entity={entity}
-							entityRenderer={entityRenderer}/>
-					))
-				}
+				{ entities ? <div className={classes.content}> { entitiesRenderer(entities) } </div> : null }
 			</LoadElement>
 		</Page>
 	);
