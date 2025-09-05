@@ -128,43 +128,99 @@ The domain model describes the main entities of Ranker and their relationships.
 
 ![Domain Entities](https://raw.githubusercontent.com/BrunoMNDantas/Ranker/main/docs/DomainEntities.png)
 
-#### **Rank**
+### **Rank**
 Represents a ranking definition.
-- **Attributes**: `id`, `creationDate`, `title`, `description`, `imageUrl`
-- **Relationships**: has many `Tier`, `Option`, and `Vote`
-- **Example**: Rank = "Best Programming Languages"
+
+**Attributes**
+- `id: string`
+- `creationDate: Date`
+- `title: string`
+- `description: string`
+- `imageUrl: string`
+
+**Relationships**
+- **has many** `Tier`
+- **has many** `Option`
+- **has many** `Vote`
+
+**Example**: Rank = "Best Programming Languages"
 
 ---
 
-#### **Tier**
+### **Tier**
 Defines a level or category inside a Rank.
-- **Attributes**: `id`, `rankId`, `creationDate`, `title`, `description`, `imageUrl`
-- **Relationships**: belongs to `Rank`; used in mappings via `Assignment`
-- **Example**: Tiers = `S-Tier`, `A-Tier`, `Bronze`, `Silver`
+
+**Attributes**
+- `id: string`
+- `rankId: string`
+- `creationDate: Date`
+- `order: number`
+- `title: string`
+- `description: string`
+- `imageUrl: string`
+
+**Relationships**
+- **belongs to** `Rank`
+- **used by** `Assignment` to map `Option` → `Tier` within a `Vote`
+
+**Example**: Tiers = `S`, `A`, `B`, `C` (with `order` controlling vertical position)
 
 ---
 
-#### **Option**
+### **Option**
 An item that can be classified into a Tier.
-- **Attributes**: `id`, `rankId`, `creationDate`, `title`, `description`, `imageUrl`
-- **Relationships**: belongs to `Rank`; used in mappings via `Assignment`
-- **Example**: Options = `Java`, `Python`, `JavaScript`
+
+**Attributes**
+- `id: string`
+- `rankId: string`
+- `creationDate: Date`
+- `order: number`
+- `title: string`
+- `description: string`
+- `imageUrl: string`
+
+**Relationships**
+- **belongs to** `Rank`
+- **used by** `Assignment` to map `Option` → `Tier` within a `Vote`
+
+**Example**: Options = `Java`, `Python`, `JavaScript` (with `order` supporting custom listing)
 
 ---
 
-#### **Vote**
-A user’s submission for a Rank.
-- **Attributes**: `id`, `rankId`, `creationDate`
-- **Relationships**: belongs to `Rank`; **includes** many `Assignment`
-- **Example**: A user’s Vote for "Best Programming Languages"
+### **Vote**
+A user’s submission for a Rank (one completed arrangement of Options into Tiers).
+
+**Attributes**
+- `id: string`
+- `rankId: string`
+- `creationDate: Date`
+
+**Relationships**
+- **belongs to** `Rank`
+- **includes many** `Assignment`
+
+**Example**: A user’s vote for "Best Programming Languages".
 
 ---
 
-#### **Assignment**
-Links an `Option` to a `Tier` within a particular `Vote`.
-- **Attributes**: `id`, `voteId`, `tierId`, `optionId`, `creationDate`
-- **Relationships**: belongs to `Vote`, `Tier`, and `Option`; **maps** `Option` → `Tier`
-- **Example**: Assignments: (Python → S), (Java → A), (JavaScript → B)
+### **Assignment**
+Links an `Option` to a `Tier` **within a particular `Vote`**.
+
+**Attributes**
+- `id: string`
+- `voteId: string`
+- `tierId: string`
+- `optionId: string`
+- `creationDate: Date`
+- `order: number`
+
+**Relationships**
+- **belongs to** `Vote`
+- **belongs to** `Tier`
+- **belongs to** `Option`
+- **maps** `Option` → `Tier` in the context of a single `Vote`
+
+**Example**: Assignments: `(Python → S)`, `(Java → A)`, `(JavaScript → B)` where the `order` can preserve the left-to-right placement within the Tier.
 
 ---
 
