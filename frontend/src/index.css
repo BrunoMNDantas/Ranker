@@ -36,3 +36,8 @@ body::after {
     scale: 1 3;
     rotate: 125deg;
 }
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #888 #ffffff00;
+}
