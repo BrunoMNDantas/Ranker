@@ -10,6 +10,11 @@ export interface OptionCardContentProps extends HTMLAttributes<HTMLDivElement> {
 
 const OptionCardContent = ({ option, onOptionChange, ...props }: OptionCardContentProps) => {
     const properties = [
+         <TextField
+            disabled
+            label="Order"
+            type="number"
+            value={option.order || "0"}/>,
         <TextField
             label="Title"
             type="text"

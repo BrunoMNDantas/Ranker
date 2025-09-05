@@ -9,11 +9,11 @@ export const createRank = (partial: Partial<Rank>): Rank => {
 }
 
 export const createTier = (partial: Partial<Tier>): Tier => {
-    return { id: null, creationDate: null, rankId: null, title: null, description: null, imageUrl: null, ...partial }
+    return { id: null, creationDate: null, rankId: null, order: 0, title: null, description: null, imageUrl: null, ...partial }
 }
 
 export const createOption = (partial: Partial<Option>): Option => {
-    return { id: null, creationDate: null, rankId: null, title: null, description: null, imageUrl: null, ...partial }
+    return { id: null, creationDate: null, rankId: null, order: 0, title: null, description: null, imageUrl: null, ...partial }
 }
 
 export const createVote = (partial: Partial<Vote>): Vote => {
@@ -21,5 +21,5 @@ export const createVote = (partial: Partial<Vote>): Vote => {
 }
 
 export const createAssignment = (partial: Partial<Assignment>): Assignment => {
-    return { id: null, creationDate: null, voteId: null, optionId: null, tierId: null, ...partial}
+    return { id: null, creationDate: null, voteId: null, order: 0, optionId: null, tierId: null, ...partial}
 }

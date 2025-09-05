@@ -11,6 +11,11 @@ export interface TierCardContentProps extends HTMLAttributes<HTMLDivElement> {
 const TierCardContent = ({ tier, onTierChange, ...props }: TierCardContentProps) => {
     const properties = [
         <TextField
+            disabled
+            label="Order"
+            type="number"
+            value={tier.order || "0"}/>,
+        <TextField
             label="Title"
             type="text"
             value={tier.title || ""}
