@@ -17,6 +17,7 @@ import { useExecute } from '../../../../hooks/UseExecute';
 import { managementVoteRoute, managementTierRoute, managementOptionRoute, MANAGEMENT_RANKS_ROUTE } from '../../../../app/Routes';
 import LoadElement from '../../../../components/loadElement/LoadElement';
 import { createVote as createNewVote, createTier as createNewTier, createOption as createNewOption } from '../../../../services/EntityFactory.service';
+import RankCard from '../../../../features/rank/components/rankCard/RankCard';
 
 export interface RankVotesListProps {
 	rankId: string | null
@@ -272,7 +273,7 @@ const RankPage = () => {
 		<EntityPage
 			title="Rank Page"
 			getEntity={() => rankId ? getRank(rankId) : Promise.resolve(null)}
-			EntityForm={RankForm}/>
+			entityRenderer={rank => <RankCard rank={rank}/>}/>
 	);
 }
 
