@@ -2,7 +2,6 @@ import React, { HTMLAttributes } from 'react';
 import { Rank } from '../../model/Rank.types';
 import RankChip from '../rankChip/RankChip';
 import EntityList from '../../../../components/entityList/EntityList';
-import { managementRankRoute } from '../../../../app/Routes';
 
 export interface RankListProps extends HTMLAttributes<HTMLDivElement> {
     ranks: Rank[]
