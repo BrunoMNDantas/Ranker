@@ -5,12 +5,14 @@ import { deleteVote, updateVote } from '../../api/Vote.api';
 import VoteCardHeader from './voteCardHeader/VoteCardHeader';
 import VoteCardActions from './voteCardActions/VoteCardActions';
 import VoteCardContent from './voteCardContent/VoteCardContent';
+import { Mode } from '../../../../components/entityCard/EntityCard';
 
 export interface VoteCardProps extends HTMLAttributes<HTMLDivElement> {
     vote: Vote
+    mode: Mode
 }
 
-const VoteCard = ({ vote, ...props }: VoteCardProps) => {
+const VoteCard = ({ vote, mode, ...props }: VoteCardProps) => {
     const [editedVote, setEditedVote] = useState(structuredClone(vote))
 
     const handleChange = (changedVote: Vote) => {
@@ -33,8 +35,8 @@ const VoteCard = ({ vote, ...props }: VoteCardProps) => {
     return (
         <EntityCard
             cardHeader={<VoteCardHeader vote={editedVote}/>}
-            cardContent={<VoteCardContent vote={editedVote} onVoteChange={handleChange}/>}
-            cardActions={<VoteCardActions vote={editedVote} onClear={handleClear} onSave={handleSave} onDelete={handleDelete}/>}
+            cardContent={<VoteCardContent vote={editedVote} onVoteChange={handleChange} mode={mode}/>}
+            cardActions={<VoteCardActions vote={editedVote} onClear={handleClear} onSave={handleSave} onDelete={handleDelete} mode={mode}/>}
             {...props}/>
     );
 }

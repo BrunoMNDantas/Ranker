@@ -5,12 +5,14 @@ import { deleteOption, updateOption } from '../../api/Option.api';
 import OptionCardHeader from './optionCardHeader/OptionCardHeader';
 import OptionCardActions from './optionCardActions/OptionCardActions';
 import OptionCardContent from './optionCardContent/OptionCardContent';
+import { Mode } from '../../../../components/entityCard/EntityCard';
 
 export interface OptionCardProps extends HTMLAttributes<HTMLDivElement> {
     option: Option
+    mode: Mode
 }
 
-const OptionCard = ({ option, ...props }: OptionCardProps) => {
+const OptionCard = ({ option, mode, ...props }: OptionCardProps) => {
     const [editedOption, setEditedOption] = useState(structuredClone(option))
 
     const handleChange = (changedOption: Option) => {
@@ -33,8 +35,8 @@ const OptionCard = ({ option, ...props }: OptionCardProps) => {
     return (
         <EntityCard
             cardHeader={<OptionCardHeader option={editedOption}/>}
-            cardContent={<OptionCardContent option={editedOption} onOptionChange={handleChange}/>}
-            cardActions={<OptionCardActions option={editedOption} onClear={handleClear} onSave={handleSave} onDelete={handleDelete}/>}
+            cardContent={<OptionCardContent option={editedOption} onOptionChange={handleChange} mode={mode}/>}
+            cardActions={<OptionCardActions option={editedOption} onClear={handleClear} onSave={handleSave} onDelete={handleDelete} mode={mode}/>}
             {...props}/>
     );
 }

@@ -5,12 +5,14 @@ import { deleteAssignment, updateAssignment } from '../../api/Assignment.api';
 import AssignmentCardHeader from './assignmentCardHeader/AssignmentCardHeader';
 import AssignmentCardActions from './assignmentCardActions/AssignmentCardActions';
 import AssignmentCardContent from './assignmentCardContent/AssignmentCardContent';
+import { Mode } from '../../../../components/entityCard/EntityCard';
 
 export interface AssignmentCardProps extends HTMLAttributes<HTMLDivElement> {
     assignment: Assignment
+    mode: Mode
 }
 
-const AssignmentCard = ({ assignment, ...props }: AssignmentCardProps) => {
+const AssignmentCard = ({ assignment, mode, ...props }: AssignmentCardProps) => {
     const [editedAssignment, setEditedAssignment] = useState(structuredClone(assignment))
 
     const handleChange = (changedAssignment: Assignment) => {
@@ -33,8 +35,8 @@ const AssignmentCard = ({ assignment, ...props }: AssignmentCardProps) => {
     return (
         <EntityCard
             cardHeader={<AssignmentCardHeader assignment={editedAssignment}/>}
-            cardContent={<AssignmentCardContent assignment={editedAssignment} onAssignmentChange={handleChange}/>}
-            cardActions={<AssignmentCardActions assignment={editedAssignment} onClear={handleClear} onSave={handleSave} onDelete={handleDelete}/>}
+            cardContent={<AssignmentCardContent assignment={editedAssignment} onAssignmentChange={handleChange} mode={mode}/>}
+            cardActions={<AssignmentCardActions assignment={editedAssignment} onClear={handleClear} onSave={handleSave} onDelete={handleDelete} mode={mode}/>}
             {...props}/>
     );
 }

@@ -9,6 +9,7 @@ import EntityForm from '../entityForm/EntityForm';
 import { Button } from '@mui/material';
 import { MANAGEMENT_ASSIGNMENTS_ROUTE, managementOptionRoute, managementTierRoute, managementVoteRoute } from '../../../../app/Routes';
 import AssignmentCard from '../../../../features/assignment/components/assignmentCard/AssignmentCard';
+import { Mode } from '../../../../components/entityCard/EntityCard';
 
 export interface AssignmentPropertiesProps {
 	assignment: Assignment
@@ -110,7 +111,7 @@ const AssignmentPage = () => {
 		<EntityPage
 			title="Assignment Page"
 			getEntity={() => assignmentId ? getAssignment(assignmentId) : Promise.resolve(null)}
-			entityRenderer={assignment => <AssignmentCard assignment={assignment}/>}/>
+			entityRenderer={assignment => <AssignmentCard assignment={assignment} mode={Mode.VIEW}/>}/>
 	);
 }
 

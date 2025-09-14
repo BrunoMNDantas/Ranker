@@ -9,6 +9,7 @@ import EntityForm from '../entityForm/EntityForm';
 import { Button } from '@mui/material';
 import { MANAGEMENT_TIERS_ROUTE, managementRankRoute } from '../../../../app/Routes';
 import TierCard from '../../../../features/tier/components/tierCard/TierCard';
+import { Mode } from '../../../../components/entityCard/EntityCard';
 
 export interface TierPropertiesProps {
 	tier: Tier
@@ -124,7 +125,7 @@ const TierPage = () => {
 		<EntityPage
 			title="Tier Page"
 			getEntity={() => tierId ? getTier(tierId) : Promise.resolve(null)}
-			entityRenderer={tier => <TierCard tier={tier}/>}/>
+			entityRenderer={tier => <TierCard tier={tier} mode={Mode.VIEW}/>}/>
 	);
 }
 

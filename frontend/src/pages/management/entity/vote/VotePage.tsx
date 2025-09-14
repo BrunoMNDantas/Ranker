@@ -14,6 +14,7 @@ import { createAssignment as createNewAssignment } from '../../../../services/En
 import { MANAGEMENT_VOTES_ROUTE, managementAssignmentRoute, managementRankRoute } from '../../../../app/Routes';
 import LoadElement from '../../../../components/loadElement/LoadElement';
 import VoteCard from '../../../../features/vote/components/voteCard/VoteCard';
+import { Mode } from '../../../../components/entityCard/EntityCard';
 
 export interface VoteAssignmentsListProps {
 	voteId: string | null
@@ -141,7 +142,7 @@ const VotePage = () => {
 		<EntityPage
 			title="Vote Page"
 			getEntity={() => voteId ? getVote(voteId) : Promise.resolve(null)}
-			entityRenderer={vote => <VoteCard vote={vote}/>}/>
+			entityRenderer={vote => <VoteCard vote={vote} mode={Mode.VIEW}/>}/>
 	);
 }
 

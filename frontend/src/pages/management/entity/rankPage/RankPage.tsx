@@ -18,6 +18,7 @@ import { managementVoteRoute, managementTierRoute, managementOptionRoute, MANAGE
 import LoadElement from '../../../../components/loadElement/LoadElement';
 import { createVote as createNewVote, createTier as createNewTier, createOption as createNewOption } from '../../../../services/EntityFactory.service';
 import RankCard from '../../../../features/rank/components/rankCard/RankCard';
+import { Mode } from '../../../../components/entityCard/EntityCard';
 
 export interface RankVotesListProps {
 	rankId: string | null
@@ -273,7 +274,7 @@ const RankPage = () => {
 		<EntityPage
 			title="Rank Page"
 			getEntity={() => rankId ? getRank(rankId) : Promise.resolve(null)}
-			entityRenderer={rank => <RankCard rank={rank}/>}/>
+			entityRenderer={rank => <RankCard rank={rank} mode={Mode.VIEW}/>}/>
 	);
 }
 

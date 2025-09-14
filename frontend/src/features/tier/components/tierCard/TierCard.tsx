@@ -5,12 +5,14 @@ import { deleteTier, updateTier } from '../../api/Tier.api';
 import TierCardHeader from './tierCardHeader/TierCardHeader';
 import TierCardActions from './tierCardActions/TierCardActions';
 import TierCardContent from './tierCardContent/TierCardContent';
+import { Mode } from '../../../../components/entityCard/EntityCard';
 
 export interface TierCardProps extends HTMLAttributes<HTMLDivElement> {
     tier: Tier
+    mode: Mode
 }
 
-const TierCard = ({ tier, ...props }: TierCardProps) => {
+const TierCard = ({ tier, mode, ...props }: TierCardProps) => {
     const [editedTier, setEditedTier] = useState(structuredClone(tier))
 
     const handleChange = (changedTier: Tier) => {
@@ -33,8 +35,8 @@ const TierCard = ({ tier, ...props }: TierCardProps) => {
     return (
         <EntityCard
             cardHeader={<TierCardHeader tier={editedTier}/>}
-            cardContent={<TierCardContent tier={editedTier} onTierChange={handleChange}/>}
-            cardActions={<TierCardActions tier={editedTier} onClear={handleClear} onSave={handleSave} onDelete={handleDelete}/>}
+            cardContent={<TierCardContent tier={editedTier} onTierChange={handleChange} mode={mode}/>}
+            cardActions={<TierCardActions tier={editedTier} onClear={handleClear} onSave={handleSave} onDelete={handleDelete} mode={mode}/>}
             {...props}/>
     );
 }

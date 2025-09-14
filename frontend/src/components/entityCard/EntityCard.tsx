@@ -2,6 +2,11 @@ import React, { HTMLAttributes, ReactNode } from 'react';
 import classes from './EntityCard.module.css';
 import { Card, Divider } from '@mui/material';
 
+export enum Mode {
+    EDIT,
+    VIEW
+}
+
 export interface EntityCardProps extends HTMLAttributes<HTMLDivElement> {
     cardHeader: ReactNode
     cardContent: ReactNode

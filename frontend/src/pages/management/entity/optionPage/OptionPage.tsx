@@ -9,6 +9,7 @@ import EntityForm from '../entityForm/EntityForm';
 import { Button } from '@mui/material';
 import { MANAGEMENT_OPTIONS_ROUTE, managementRankRoute } from '../../../../app/Routes';
 import OptionCard from '../../../../features/option/components/optionCard/OptionCard';
+import { Mode } from '../../../../components/entityCard/EntityCard';
 
 export interface OptionPropertiesProps {
 	option: Option
@@ -124,7 +125,7 @@ const OptionPage = () => {
 		<EntityPage
 			title="Option Page"
 			getEntity={() => optionId ? getOption(optionId) : Promise.resolve(null)}
-			entityRenderer={option => <OptionCard option={option}/>}/>
+			entityRenderer={option => <OptionCard option={option} mode={Mode.VIEW}/>}/>
 	);
 }
 
