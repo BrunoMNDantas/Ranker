@@ -268,13 +268,58 @@ export const RankForm = ({entity: rank}: RankFormProps) => {
 }
 
 const RankPage = () => {
+	const navigate = useNavigate()
 	const { rankId } = useParams<{ rankId: string }>();
+	const [rank, setRank] = useState<Rank | null>(null)
+	const [editedRank, setEditedRank] = useState<Rank | null>(null)
+
+	const handleRankChange = (changedRank: Rank) => {
+		setEditedRank(changedRank)
+	}
+
+	const handleClear = () => {
+		setEditedRank(structuredClone(rank))
+		return Promise.resolve()
+	}
+
+	const handleSave = () => {
+		if (editedRank) {
+			return updateRank(editedRank)
+		}
+		return Promise.resolve()
+	}
+
+	const handleDelete = async () => {
+		if (rank?.id) {
+			await deleteRank(rank.id)
+			navigate(MANAGEMENT_RANKS_ROUTE)
+		}
+	}
 
 	return (
 		<EntityPage
 			title="Rank Page"
-			getEntity={() => rankId ? getRank(rankId) : Promise.resolve(null)}
-			entityRenderer={rank => <RankCard rank={rank} mode={Mode.VIEW}/>}/>
+			getEntity={async () => {
+				if(rankId) {
+					const rank = await getRank(rankId)
+					setRank(structuredClone(rank))
+					setEditedRank(structuredClone(rank))
+					return rank
+				}
+
+				return Promise.resolve(null)
+			}}
+			entityRenderer={rank => (
+				editedRank ?
+					<RankCard
+						rank={editedRank}
+						mode={Mode.VIEW}
+						onRankChange={handleRankChange}
+						onClear={handleClear}
+						onSave={handleSave}
+						onDelete={handleDelete}/>:
+					null
+			)}/>
 	);
 }
 

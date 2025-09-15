@@ -105,13 +105,59 @@ export const AssignmentForm = ({entity: assignment}: AssignmentFormProps) => {
 }
 
 const AssignmentPage = () => {
-	const { assignmentId } = useParams<{ assignmentId: string }>();
+	const navigate = useNavigate()
+
+	const { assignmentId } = useParams<{ assignmentId: string }>()
+	const [assignment, setAssignment] = useState<Assignment | null>(null)
+	const [editedAssignment, setEditedAssignment] = useState<Assignment | null>(null)
+
+	const handleAssignmentChange = (changedAssignment: Assignment) => {
+		setEditedAssignment(changedAssignment)
+	}
+
+	const handleClear = () => {
+		setEditedAssignment(structuredClone(assignment))
+		return Promise.resolve()
+	}
+
+	const handleSave = () => {
+		if (editedAssignment) {
+			return updateAssignment(editedAssignment)
+		}
+		return Promise.resolve()
+	}
+
+	const handleDelete = async () => {
+		if (assignment?.id) {
+			await deleteAssignment(assignment.id)
+			navigate(MANAGEMENT_ASSIGNMENTS_ROUTE)
+		}
+	}
 
 	return (
 		<EntityPage
 			title="Assignment Page"
-			getEntity={() => assignmentId ? getAssignment(assignmentId) : Promise.resolve(null)}
-			entityRenderer={assignment => <AssignmentCard assignment={assignment} mode={Mode.VIEW}/>}/>
+			getEntity={async () => {
+				if(assignmentId) {
+					const assignment = await getAssignment(assignmentId)
+					setAssignment(structuredClone(assignment))
+					setEditedAssignment(structuredClone(assignment))
+					return assignment
+				}
+
+				return Promise.resolve(null)
+			}}
+			entityRenderer={assignment => (
+				editedAssignment ?
+					<AssignmentCard
+						assignment={editedAssignment}
+						mode={Mode.VIEW}
+						onAssignmentChange={handleAssignmentChange}
+						onClear={handleClear}
+						onSave={handleSave}
+						onDelete={handleDelete}/> :
+					null
+			)}/>
 	);
 }
 

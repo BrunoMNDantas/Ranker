@@ -119,13 +119,58 @@ export const TierForm = ({entity: tier}: TierFormProps) => {
 }
 
 const TierPage = () => {
+	const navigate = useNavigate()
 	const { tierId } = useParams<{ tierId: string }>();
+	const [tier, setTier] = useState<Tier | null>(null)
+	const [editedTier, setEditedTier] = useState<Tier | null>(null)
+
+	const handleTierChange = (changedTier: Tier) => {
+		setEditedTier(changedTier)
+	}
+
+	const handleClear = () => {
+		setEditedTier(structuredClone(tier))
+		return Promise.resolve()
+	}
+
+	const handleSave = () => {
+		if (editedTier) {
+			return updateTier(editedTier)
+		}
+		return Promise.resolve()
+	}
+
+	const handleDelete = async () => {
+		if (tier?.id) {
+			await deleteTier(tier.id)
+			navigate(MANAGEMENT_TIERS_ROUTE)
+		}
+	}
 
 	return (
 		<EntityPage
 			title="Tier Page"
-			getEntity={() => tierId ? getTier(tierId) : Promise.resolve(null)}
-			entityRenderer={tier => <TierCard tier={tier} mode={Mode.VIEW}/>}/>
+			getEntity={async () => {
+				if(tierId) {
+					const tier = await getTier(tierId)
+					setTier(structuredClone(tier))
+					setEditedTier(structuredClone(tier))
+					return tier
+				}
+
+				return Promise.resolve(null)
+			}}
+			entityRenderer={tier => (
+				editedTier ?
+					<TierCard
+						tier={editedTier}
+						mode={Mode.VIEW}
+						onTierChange={handleTierChange}
+						onClear={handleClear}
+						onSave={handleSave}
+						onDelete={handleDelete}/> :
+					null
+			)}/>
 	);
 }
 

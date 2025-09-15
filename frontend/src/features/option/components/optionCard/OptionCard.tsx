@@ -1,7 +1,6 @@
-import React, { HTMLAttributes, useState } from 'react';
+import React, { HTMLAttributes } from 'react';
 import { Option } from '../../model/Option.types';
 import EntityCard from '../../../../components/entityCard/EntityCard';
-import { deleteOption, updateOption } from '../../api/Option.api';
 import OptionCardHeader from './optionCardHeader/OptionCardHeader';
 import OptionCardActions from './optionCardActions/OptionCardActions';
 import OptionCardContent from './optionCardContent/OptionCardContent';
@@ -10,33 +9,18 @@ import { Mode } from '../../../../components/entityCard/EntityCard';
 export interface OptionCardProps extends HTMLAttributes<HTMLDivElement> {
     option: Option
     mode: Mode
+    onOptionChange: (changedOption: Option) => void
+    onClear: () => Promise<void>
+    onSave: () => Promise<void>
+    onDelete: () => Promise<void>
 }
 
-const OptionCard = ({ option, mode, ...props }: OptionCardProps) => {
-    const [editedOption, setEditedOption] = useState(structuredClone(option))
-
-    const handleChange = (changedOption: Option) => {
-        setEditedOption(changedOption)
-    }
-
-    const handleClear = () => {
-        setEditedOption(structuredClone(option))
-        return Promise.resolve()
-    }
-
-    const handleSave = () => {
-        return updateOption(editedOption)
-    }
-
-    const handleDelete = () => {
-        return deleteOption(option.id!)
-    }
-
+const OptionCard = ({ option, mode, onOptionChange, onClear, onSave, onDelete, ...props }: OptionCardProps) => {
     return (
         <EntityCard
-            cardHeader={<OptionCardHeader option={editedOption}/>}
-            cardContent={<OptionCardContent option={editedOption} onOptionChange={handleChange} mode={mode}/>}
-            cardActions={<OptionCardActions onClear={handleClear} onSave={handleSave} onDelete={handleDelete} mode={mode}/>}
+            cardHeader={<OptionCardHeader option={option}/>}
+            cardContent={<OptionCardContent option={option} onOptionChange={onOptionChange} mode={mode}/>}
+            cardActions={<OptionCardActions onClear={onClear} onSave={onSave} onDelete={onDelete} mode={mode}/>}
             {...props}/>
     );
 }

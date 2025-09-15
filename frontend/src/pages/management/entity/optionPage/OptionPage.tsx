@@ -119,13 +119,58 @@ export const OptionForm = ({entity: option}: OptionFormProps) => {
 }
 
 const OptionPage = () => {
+	const navigate = useNavigate()
 	const { optionId } = useParams<{ optionId: string }>();
+	const [option, setOption] = useState<Option | null>(null)
+	const [editedOption, setEditedOption] = useState<Option | null>(null)
+
+	const handleOptionChange = (changedOption: Option) => {
+		setEditedOption(changedOption)
+	}
+
+	const handleClear = () => {
+		setEditedOption(structuredClone(option))
+		return Promise.resolve()
+	}
+
+	const handleSave = () => {
+		if (editedOption) {
+			return updateOption(editedOption)
+		}
+		return Promise.resolve()
+	}
+
+	const handleDelete = async () => {
+		if (option?.id) {
+			await deleteOption(option.id)
+			navigate(MANAGEMENT_OPTIONS_ROUTE)
+		}
+	}
 
 	return (
 		<EntityPage
 			title="Option Page"
-			getEntity={() => optionId ? getOption(optionId) : Promise.resolve(null)}
-			entityRenderer={option => <OptionCard option={option} mode={Mode.VIEW}/>}/>
+			getEntity={async () => {
+				if(optionId) {
+					const option = await getOption(optionId)
+					setOption(structuredClone(option))
+					setEditedOption(structuredClone(option))
+					return option
+				}
+
+				return Promise.resolve(null)
+			}}
+			entityRenderer={option => (
+				editedOption ?
+					<OptionCard
+						option={editedOption}
+						mode={Mode.VIEW}
+						onOptionChange={handleOptionChange}
+						onClear={handleClear}
+						onSave={handleSave}
+						onDelete={handleDelete}/> :
+					null
+			)}/>
 	);
 }
 

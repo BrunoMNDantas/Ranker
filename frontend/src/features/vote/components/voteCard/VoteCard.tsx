@@ -1,7 +1,6 @@
-import React, { HTMLAttributes, useState } from 'react';
+import React, { HTMLAttributes } from 'react';
 import { Vote } from '../../model/Vote.types';
 import EntityCard from '../../../../components/entityCard/EntityCard';
-import { deleteVote, updateVote } from '../../api/Vote.api';
 import VoteCardHeader from './voteCardHeader/VoteCardHeader';
 import VoteCardActions from './voteCardActions/VoteCardActions';
 import VoteCardContent from './voteCardContent/VoteCardContent';
@@ -10,33 +9,18 @@ import { Mode } from '../../../../components/entityCard/EntityCard';
 export interface VoteCardProps extends HTMLAttributes<HTMLDivElement> {
     vote: Vote
     mode: Mode
+    onVoteChange: (changedVote: Vote) => void
+    onClear: () => Promise<void>
+    onSave: () => Promise<void>
+    onDelete: () => Promise<void>
 }
 
-const VoteCard = ({ vote, mode, ...props }: VoteCardProps) => {
-    const [editedVote, setEditedVote] = useState(structuredClone(vote))
-
-    const handleChange = (changedVote: Vote) => {
-        setEditedVote(changedVote)
-    }
-
-    const handleClear = () => {
-        setEditedVote(structuredClone(vote))
-        return Promise.resolve()
-    }
-
-    const handleSave = () => {
-        return updateVote(editedVote)
-    }
-
-    const handleDelete = () => {
-        return deleteVote(vote.id!)
-    }
-
+const VoteCard = ({ vote, mode, onVoteChange, onClear, onSave, onDelete, ...props }: VoteCardProps) => {
     return (
         <EntityCard
-            cardHeader={<VoteCardHeader vote={editedVote}/>}
-            cardContent={<VoteCardContent vote={editedVote} onVoteChange={handleChange} mode={mode}/>}
-            cardActions={<VoteCardActions onClear={handleClear} onSave={handleSave} onDelete={handleDelete} mode={mode}/>}
+            cardHeader={<VoteCardHeader vote={vote}/>}
+            cardContent={<VoteCardContent vote={vote} onVoteChange={onVoteChange} mode={mode}/>}
+            cardActions={<VoteCardActions onClear={onClear} onSave={onSave} onDelete={onDelete} mode={mode}/>}
             {...props}/>
     );
 }

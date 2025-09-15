@@ -1,7 +1,6 @@
-import React, { HTMLAttributes, useState } from 'react';
+import React, { HTMLAttributes } from 'react';
 import { Rank } from '../../model/Rank.types';
 import EntityCard from '../../../../components/entityCard/EntityCard';
-import { deleteRank, updateRank } from '../../api/Rank.api';
 import RankCardHeader from './rankCardHeader/RankCardHeader';
 import RankCardActions from './rankCardActions/RankCardActions';
 import RankCardContent from './rankCardContent/RankCardContent';
@@ -10,33 +9,18 @@ import { Mode } from '../../../../components/entityCard/EntityCard';
 export interface RankCardProps extends HTMLAttributes<HTMLDivElement> {
     rank: Rank
     mode: Mode
+    onRankChange: (changedRank: Rank) => void
+    onClear: () => Promise<void>
+    onSave: () => Promise<void>
+    onDelete: () => Promise<void>
 }
 
-const RankCard = ({ rank, mode, ...props }: RankCardProps) => {
-    const [editedRank, setEditedRank] = useState(structuredClone(rank))
-
-    const handleChange = (changedRank: Rank) => {
-        setEditedRank(changedRank)
-    }
-
-    const handleClear = () => {
-        setEditedRank(structuredClone(rank))
-        return Promise.resolve()
-    }
-
-    const handleSave = () => {
-        return updateRank(editedRank)
-    }
-
-    const handleDelete = () => {
-        return deleteRank(rank.id!)
-    }
-
+const RankCard = ({ rank, mode, onRankChange, onClear, onSave, onDelete, ...props }: RankCardProps) => {
     return (
         <EntityCard
-            cardHeader={<RankCardHeader rank={editedRank}/>}
-            cardContent={<RankCardContent rank={editedRank} onRankChange={handleChange} mode={mode}/>}
-            cardActions={<RankCardActions onClear={handleClear} onSave={handleSave} onDelete={handleDelete} mode={mode}/>}
+            cardHeader={<RankCardHeader rank={rank}/>}
+            cardContent={<RankCardContent rank={rank} onRankChange={onRankChange} mode={mode}/>}
+            cardActions={<RankCardActions onClear={onClear} onSave={onSave} onDelete={onDelete} mode={mode}/>}
             {...props}/>
     );
 }

@@ -1,7 +1,6 @@
-import React, { HTMLAttributes, useState } from 'react';
+import React, { HTMLAttributes } from 'react';
 import { Assignment } from '../../model/Assignment.types';
 import EntityCard from '../../../../components/entityCard/EntityCard';
-import { deleteAssignment, updateAssignment } from '../../api/Assignment.api';
 import AssignmentCardHeader from './assignmentCardHeader/AssignmentCardHeader';
 import AssignmentCardActions from './assignmentCardActions/AssignmentCardActions';
 import AssignmentCardContent from './assignmentCardContent/AssignmentCardContent';
@@ -10,33 +9,18 @@ import { Mode } from '../../../../components/entityCard/EntityCard';
 export interface AssignmentCardProps extends HTMLAttributes<HTMLDivElement> {
     assignment: Assignment
     mode: Mode
+    onAssignmentChange: (changedAssignment: Assignment) => void
+    onClear: () => Promise<void>
+    onSave: () => Promise<void>
+    onDelete: () => Promise<void>
 }
 
-const AssignmentCard = ({ assignment, mode, ...props }: AssignmentCardProps) => {
-    const [editedAssignment, setEditedAssignment] = useState(structuredClone(assignment))
-
-    const handleChange = (changedAssignment: Assignment) => {
-        setEditedAssignment(changedAssignment)
-    }
-
-    const handleClear = () => {
-        setEditedAssignment(structuredClone(assignment))
-        return Promise.resolve()
-    }
-
-    const handleSave = () => {
-        return updateAssignment(editedAssignment)
-    }
-
-    const handleDelete = () => {
-        return deleteAssignment(assignment.id!)
-    }
-
+const AssignmentCard = ({ assignment, mode, onAssignmentChange, onClear, onSave, onDelete, ...props }: AssignmentCardProps) => {
     return (
         <EntityCard
-            cardHeader={<AssignmentCardHeader assignment={editedAssignment}/>}
-            cardContent={<AssignmentCardContent assignment={editedAssignment} onAssignmentChange={handleChange} mode={mode}/>}
-            cardActions={<AssignmentCardActions onClear={handleClear} onSave={handleSave} onDelete={handleDelete} mode={mode}/>}
+            cardHeader={<AssignmentCardHeader assignment={assignment}/>}
+            cardContent={<AssignmentCardContent assignment={assignment} onAssignmentChange={onAssignmentChange} mode={mode}/>}
+            cardActions={<AssignmentCardActions onClear={onClear} onSave={onSave} onDelete={onDelete} mode={mode}/>}
             {...props}/>
     );
 }

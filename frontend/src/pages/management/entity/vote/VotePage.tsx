@@ -136,13 +136,58 @@ export const VoteForm = ({entity: vote}: VoteFormProps) => {
 }
 
 const VotePage = () => {
+	const navigate = useNavigate()
 	const { voteId } = useParams<{ voteId: string }>();
+	const [vote, setVote] = useState<Vote | null>(null)
+	const [editedVote, setEditedVote] = useState<Vote | null>(null)
+
+	const handleVoteChange = (changedVote: Vote) => {
+		setEditedVote(changedVote)
+	}
+
+	const handleClear = () => {
+		setEditedVote(structuredClone(vote))
+		return Promise.resolve()
+	}
+
+	const handleSave = () => {
+		if (editedVote) {
+			return updateVote(editedVote)
+		}
+		return Promise.resolve()
+	}
+
+	const handleDelete = async () => {
+		if (vote?.id) {
+			await deleteVote(vote.id)
+			navigate(MANAGEMENT_VOTES_ROUTE)
+		}
+	}
 
 	return (
 		<EntityPage
 			title="Vote Page"
-			getEntity={() => voteId ? getVote(voteId) : Promise.resolve(null)}
-			entityRenderer={vote => <VoteCard vote={vote} mode={Mode.VIEW}/>}/>
+			getEntity={async () => {
+				if(voteId) {
+					const vote = await getVote(voteId)
+					setVote(structuredClone(vote))
+					setEditedVote(structuredClone(vote))
+					return vote
+				}
+
+				return Promise.resolve(null)
+			}}
+			entityRenderer={vote => (
+				editedVote ?
+					<VoteCard
+						vote={editedVote}
+						mode={Mode.VIEW}
+						onVoteChange={handleVoteChange}
+						onClear={handleClear}
+						onSave={handleSave}
+						onDelete={handleDelete}/> :
+					null
+			)}/>
 	);
 }
 
