@@ -9,7 +9,6 @@ import { Rank } from '../../../../features/rank/model/Rank.types';
 import { Vote } from '../../../../features/vote/model/Vote.types';
 import { Tier } from '../../../../features/tier/model/Tier.types';
 import { Option } from '../../../../features/option/model/Option.types';
-import TextField from '@mui/material/TextField';
 import { List, ListItem, ListItemButton, ListItemText, Typography, Divider, Button } from '@mui/material';
 import { useExecute } from '../../../../hooks/UseExecute';
 import { managementVoteRoute, managementTierRoute, managementOptionRoute, MANAGEMENT_RANKS_ROUTE } from '../../../../app/Routes';
@@ -161,52 +160,6 @@ export const RankOptionsList = ({ rankId }: RankOptionsListProps) => {
 					Create Option
 				</Button>
 			</LoadElement>
-		</div>
-	)
-}
-
-export interface RankPropertiesProps {
-	rank: Rank
-	onTitleChange: (title: string) => void
-	onDescriptionChange: (description: string) => void
-	onImageUrlChange: (imageUrl: string) => void
-}
-
-export const RankProperties = ({rank, onTitleChange, onDescriptionChange, onImageUrlChange}: RankPropertiesProps) => {
-	return (
-		<div className={classes.properties}>
-			<TextField
-				disabled={true}
-				label="Id"
-				type="text"
-				value={rank.id}/>
-			<TextField
-				disabled={true}
-				label="Creation Date"
-				type="text"
-				value={rank.creationDate?.toLocaleString()}/>
-			<TextField
-				label="Title"
-				type="text"
-				value={rank.title || ""}
-				onChange={e => onTitleChange(e.target.value)}/>
-			<TextField
-				label="Description"
-				type="text"
-				multiline
-				rows={3}
-				value={rank.description || ""}
-				onChange={e => onDescriptionChange(e.target.value)}/>
-			<TextField
-				label="Image URL"
-				type="url"
-				value={rank.imageUrl || ""}
-				onChange={e => onImageUrlChange(e.target.value)}/>
-			<div className={classes.relatedEntities}>
-				<RankVotesList rankId={rank.id} />
-				<RankTiersList rankId={rank.id} />
-				<RankOptionsList rankId={rank.id} />
-			</div>
 		</div>
 	)
 }

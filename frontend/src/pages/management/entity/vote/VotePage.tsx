@@ -5,7 +5,6 @@ import { deleteVote, getVote, updateVote } from '../../../../features/vote/api/V
 import { getAssignmentsOfVote, createAssignment } from '../../../../features/assignment/api/Assignment.api';
 import { Vote } from '../../../../features/vote/model/Vote.types';
 import { Assignment } from '../../../../features/assignment/model/Assignment.types';
-import TextField from '@mui/material/TextField';
 import { Button, List, ListItem, ListItemButton, ListItemText, Typography, Divider } from '@mui/material';
 import { useExecute } from '../../../../hooks/UseExecute';
 import { createAssignment as createNewAssignment } from '../../../../services/EntityFactory.service';
@@ -59,40 +58,6 @@ export const VoteAssignmentsList = ({ voteId }: VoteAssignmentsListProps) => {
 					Create Assignment
 				</Button>
 			</LoadElement>
-		</div>
-	)
-}
-
-export interface VotePropertiesProps {
-	vote: Vote
-}
-
-export const VoteProperties = ({vote}: VotePropertiesProps) => {
-	return (
-		<div className={classes.properties}>
-			<div className={classes.rank}>
-				<div>
-					<strong>Rank ID:</strong> <span>{vote.rankId}</span>
-				</div>
-				<Button
-					variant="contained"
-					size="small"
-					component={Link}
-					to={managementRankRoute(vote.rankId!)}>
-					Go to Rank
-				</Button>
-			</div>
-			<TextField
-				disabled={true}
-				label="Id"
-				type="text"
-				value={vote.id}/>
-			<TextField
-				disabled={true}
-				label="Creation Date"
-				type="text"
-				value={vote.creationDate?.toLocaleString()}/>
-			<VoteAssignmentsList voteId={vote.id} />
 		</div>
 	)
 }
