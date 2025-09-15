@@ -36,7 +36,7 @@ const TierCard = ({ tier, mode, ...props }: TierCardProps) => {
         <EntityCard
             cardHeader={<TierCardHeader tier={editedTier}/>}
             cardContent={<TierCardContent tier={editedTier} onTierChange={handleChange} mode={mode}/>}
-            cardActions={<TierCardActions tier={editedTier} onClear={handleClear} onSave={handleSave} onDelete={handleDelete} mode={mode}/>}
+            cardActions={<TierCardActions onClear={handleClear} onSave={handleSave} onDelete={handleDelete} mode={mode}/>}
             {...props}/>
     );
 }

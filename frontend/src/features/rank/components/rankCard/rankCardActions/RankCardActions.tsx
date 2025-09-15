@@ -1,5 +1,4 @@
 import React, { HTMLAttributes, useState } from 'react';
-import { Rank } from '../../../model/Rank.types';
 import ClearIcon from '@mui/icons-material/Restore';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -7,14 +6,13 @@ import EntityCardActions, { Action } from '../../../../../components/entityCard/
 import { Mode } from '../../../../../components/entityCard/EntityCard';
 
 export interface RankCardActionsProps extends HTMLAttributes<HTMLDivElement> {
-    rank: Rank
     onClear: () => Promise<void>
     onSave: () => Promise<void>
     onDelete: () => Promise<void>
     mode: Mode
 }
 
-const RankCardActions = ({ rank, onClear, onSave, onDelete, mode, ...props }: RankCardActionsProps) => {
+const RankCardActions = ({ onClear, onSave, onDelete, mode, ...props }: RankCardActionsProps) => {
     const [executing, setExecuting] = useState(false)
 
     const handleClear = () => {

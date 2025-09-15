@@ -1,5 +1,4 @@
 import React, { HTMLAttributes, useState } from 'react';
-import { Assignment } from '../../../model/Assignment.types';
 import ClearIcon from '@mui/icons-material/Restore';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -7,14 +6,13 @@ import EntityCardActions, { Action } from '../../../../../components/entityCard/
 import { Mode } from '../../../../../components/entityCard/EntityCard';
 
 export interface AssignmentCardActionsProps extends HTMLAttributes<HTMLDivElement> {
-    assignment: Assignment
     onClear: () => Promise<void>
     onSave: () => Promise<void>
     onDelete: () => Promise<void>
     mode: Mode
 }
 
-const AssignmentCardActions = ({ assignment, onClear, onSave, onDelete, mode, ...props }: AssignmentCardActionsProps) => {
+const AssignmentCardActions = ({ onClear, onSave, onDelete, mode, ...props }: AssignmentCardActionsProps) => {
     const [executing, setExecuting] = useState(false)
 
     const handleClear = () => {

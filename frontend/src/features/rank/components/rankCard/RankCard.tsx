@@ -36,7 +36,7 @@ const RankCard = ({ rank, mode, ...props }: RankCardProps) => {
         <EntityCard
             cardHeader={<RankCardHeader rank={editedRank}/>}
             cardContent={<RankCardContent rank={editedRank} onRankChange={handleChange} mode={mode}/>}
-            cardActions={<RankCardActions rank={editedRank} onClear={handleClear} onSave={handleSave} onDelete={handleDelete} mode={mode}/>}
+            cardActions={<RankCardActions onClear={handleClear} onSave={handleSave} onDelete={handleDelete} mode={mode}/>}
             {...props}/>
     );
 }

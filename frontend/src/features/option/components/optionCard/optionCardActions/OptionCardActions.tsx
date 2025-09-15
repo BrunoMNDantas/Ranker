@@ -1,5 +1,4 @@
 import React, { HTMLAttributes, useState } from 'react';
-import { Option } from '../../../model/Option.types';
 import ClearIcon from '@mui/icons-material/Restore';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -7,14 +6,13 @@ import EntityCardActions, { Action } from '../../../../../components/entityCard/
 import { Mode } from '../../../../../components/entityCard/EntityCard';
 
 export interface OptionCardActionsProps extends HTMLAttributes<HTMLDivElement> {
-    option: Option
     onClear: () => Promise<void>
     onSave: () => Promise<void>
     onDelete: () => Promise<void>
     mode: Mode
 }
 
-const OptionCardActions = ({ option, onClear, onSave, onDelete, mode, ...props }: OptionCardActionsProps) => {
+const OptionCardActions = ({ onClear, onSave, onDelete, mode, ...props }: OptionCardActionsProps) => {
     const [executing, setExecuting] = useState(false)
 
     const handleClear = () => {

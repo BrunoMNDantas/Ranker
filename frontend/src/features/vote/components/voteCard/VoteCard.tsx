@@ -36,7 +36,7 @@ const VoteCard = ({ vote, mode, ...props }: VoteCardProps) => {
         <EntityCard
             cardHeader={<VoteCardHeader vote={editedVote}/>}
             cardContent={<VoteCardContent vote={editedVote} onVoteChange={handleChange} mode={mode}/>}
-            cardActions={<VoteCardActions vote={editedVote} onClear={handleClear} onSave={handleSave} onDelete={handleDelete} mode={mode}/>}
+            cardActions={<VoteCardActions onClear={handleClear} onSave={handleSave} onDelete={handleDelete} mode={mode}/>}
             {...props}/>
     );
 }

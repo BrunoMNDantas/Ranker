@@ -14,11 +14,11 @@ export interface Action {
     disabled: boolean
 }
 
-export interface CardAction {
+export interface CardActionProps {
     action: Action
 }
 
-export const EntityCardAction = ({ action }: CardAction) => {
+export const EntityCardAction = ({ action }: CardActionProps) => {
     const [executing, setExecuting] = useState(false)
     const spinnerSize = SPINNER_SIZE_MAP[action.iconProps.size || "medium"] + "px"
 

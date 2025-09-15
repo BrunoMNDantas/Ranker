@@ -36,7 +36,7 @@ const OptionCard = ({ option, mode, ...props }: OptionCardProps) => {
         <EntityCard
             cardHeader={<OptionCardHeader option={editedOption}/>}
             cardContent={<OptionCardContent option={editedOption} onOptionChange={handleChange} mode={mode}/>}
-            cardActions={<OptionCardActions option={editedOption} onClear={handleClear} onSave={handleSave} onDelete={handleDelete} mode={mode}/>}
+            cardActions={<OptionCardActions onClear={handleClear} onSave={handleSave} onDelete={handleDelete} mode={mode}/>}
             {...props}/>
     );
 }

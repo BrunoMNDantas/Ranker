@@ -36,7 +36,7 @@ const AssignmentCard = ({ assignment, mode, ...props }: AssignmentCardProps) => 
         <EntityCard
             cardHeader={<AssignmentCardHeader assignment={editedAssignment}/>}
             cardContent={<AssignmentCardContent assignment={editedAssignment} onAssignmentChange={handleChange} mode={mode}/>}
-            cardActions={<AssignmentCardActions assignment={editedAssignment} onClear={handleClear} onSave={handleSave} onDelete={handleDelete} mode={mode}/>}
+            cardActions={<AssignmentCardActions onClear={handleClear} onSave={handleSave} onDelete={handleDelete} mode={mode}/>}
             {...props}/>
     );
 }

@@ -1,5 +1,4 @@
 import React, { HTMLAttributes, useState } from 'react';
-import { Tier } from '../../../model/Tier.types';
 import ClearIcon from '@mui/icons-material/Restore';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -7,14 +6,13 @@ import EntityCardActions, { Action } from '../../../../../components/entityCard/
 import { Mode } from '../../../../../components/entityCard/EntityCard';
 
 export interface TierCardActionsProps extends HTMLAttributes<HTMLDivElement> {
-    tier: Tier
     onClear: () => Promise<void>
     onSave: () => Promise<void>
     onDelete: () => Promise<void>
     mode: Mode
 }
 
-const TierCardActions = ({ tier, onClear, onSave, onDelete, mode, ...props }: TierCardActionsProps) => {
+const TierCardActions = ({ onClear, onSave, onDelete, mode, ...props }: TierCardActionsProps) => {
     const [executing, setExecuting] = useState(false)
 
     const handleClear = () => {
