@@ -40,13 +40,13 @@ export const rgbaToHex = (rgba: RgbaColor): string => {
 };
 
 export interface ColorFieldProps {
-    label?: string;
-    value: string | null;
+    label: string;
+    value: string;
     onChange: (color: string) => void;
     disabled?: boolean;
 }
 
-const ColorField = ({ label = "Color", value, onChange, disabled = false }: ColorFieldProps) => {
+const ColorField = ({ label, value, onChange, disabled = false }: ColorFieldProps) => {
     const [colorPickerAnchor, setColorPickerAnchor] = useState<HTMLElement | null>(null);
 
     const handleColorChange = (newColor: RgbaColor) => {
@@ -62,7 +62,7 @@ const ColorField = ({ label = "Color", value, onChange, disabled = false }: Colo
                 disabled={disabled}
                 label={label}
                 type="text"
-                value={value || ""}
+                value={value}
                 onChange={e => !disabled ? onChange(e.target.value) : null}
                 slotProps={{
                     input: {
