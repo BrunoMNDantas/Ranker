@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import classes from './AssignmentPage.module.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import EntityPage from '../entityPage/EntityPage';
 import { deleteAssignment, getAssignment, updateAssignment } from '../../../../features/assignment/api/Assignment.api';
 import { Assignment } from '../../../../features/assignment/model/Assignment.types';
 import TextField from '@mui/material/TextField';
-import EntityForm from '../entityForm/EntityForm';
 import { Button } from '@mui/material';
 import { MANAGEMENT_ASSIGNMENTS_ROUTE, managementOptionRoute, managementTierRoute, managementVoteRoute } from '../../../../app/Routes';
 import AssignmentCard from '../../../../features/assignment/components/assignmentCard/AssignmentCard';
 import { Mode } from '../../../../components/entityCard/EntityCard';
+import { useExecute } from '../../../../hooks/UseExecute';
+import LoadElement from '../../../../components/loadElement/LoadElement';
 
 export interface AssignmentPropertiesProps {
 	assignment: Assignment
@@ -68,48 +68,18 @@ export const AssignmentProperties = ({assignment}: AssignmentPropertiesProps) =>
 	)
 }
 
-export interface AssignmentFormProps {
-	entity: Assignment
-}
-
-export const AssignmentForm = ({entity: assignment}: AssignmentFormProps) => {
-	const navigate = useNavigate()
-	const [editedAssignment, setEditedAssignment] = useState(assignment)
-
-	const handleClear = () => {
-		setEditedAssignment(structuredClone(assignment))
-	}
-
-	const handleSave = () => {
-		if(editedAssignment) {
-			updateAssignment(editedAssignment)
-		}
-	}
-
-	const handleDelete = async () => {
-		if(assignment.id) {
-			await deleteAssignment(assignment.id)
-			navigate(MANAGEMENT_ASSIGNMENTS_ROUTE)
-		}
-	}
-
-	return (
-		<EntityForm
-			entity={editedAssignment}
-			onClear={handleClear}
-			onSave={handleSave}
-			onDelete={handleDelete}>
-			<AssignmentProperties assignment={editedAssignment}/>
-		</EntityForm>
-	)
-}
-
 const AssignmentPage = () => {
 	const navigate = useNavigate()
-
 	const { assignmentId } = useParams<{ assignmentId: string }>()
-	const [assignment, setAssignment] = useState<Assignment | null>(null)
+	const getAssignmentCallback = useCallback(() => assignmentId ? getAssignment(assignmentId) : Promise.resolve(null), [assignmentId])
+	const { result: assignment, executing, error } = useExecute(getAssignmentCallback)
 	const [editedAssignment, setEditedAssignment] = useState<Assignment | null>(null)
+
+	useEffect(() => {
+		if(!editedAssignment) {
+			setEditedAssignment(structuredClone(assignment))
+		}
+	}, [editedAssignment, assignment])
 
 	const handleAssignmentChange = (changedAssignment: Assignment) => {
 		setEditedAssignment(changedAssignment)
@@ -135,29 +105,22 @@ const AssignmentPage = () => {
 	}
 
 	return (
-		<EntityPage
-			title="Assignment Page"
-			getEntity={async () => {
-				if(assignmentId) {
-					const assignment = await getAssignment(assignmentId)
-					setAssignment(structuredClone(assignment))
-					setEditedAssignment(structuredClone(assignment))
-					return assignment
-				}
-
-				return Promise.resolve(null)
-			}}
-			entityRenderer={assignment => (
-				editedAssignment ?
+		<div className={classes.root}>
+			<LoadElement loading={executing}>
+				{!executing && error ? error.toString() : null}
+				{!executing && !error && !assignment ? "Entity not found!" : null}
+				{!executing && !error && editedAssignment ?
 					<AssignmentCard
 						assignment={editedAssignment}
-						mode={Mode.VIEW}
+						mode={Mode.EDIT}
 						onAssignmentChange={handleAssignmentChange}
 						onClear={handleClear}
 						onSave={handleSave}
 						onDelete={handleDelete}/> :
 					null
-			)}/>
+				}
+			</LoadElement>
+		</div>
 	);
 }
 

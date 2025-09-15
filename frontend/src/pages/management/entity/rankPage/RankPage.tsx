@@ -1,7 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import classes from './RankPage.module.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import EntityPage from '../entityPage/EntityPage';
 import { deleteRank, getRank, updateRank } from '../../../../features/rank/api/Rank.api';
 import { getVotesOfRank, createVote } from '../../../../features/vote/api/Vote.api';
 import { getTiersOfRank, createTier } from '../../../../features/tier/api/Tier.api';
@@ -11,7 +10,6 @@ import { Vote } from '../../../../features/vote/model/Vote.types';
 import { Tier } from '../../../../features/tier/model/Tier.types';
 import { Option } from '../../../../features/option/model/Option.types';
 import TextField from '@mui/material/TextField';
-import EntityForm from '../entityForm/EntityForm';
 import { List, ListItem, ListItemButton, ListItemText, Typography, Divider, Button } from '@mui/material';
 import { useExecute } from '../../../../hooks/UseExecute';
 import { managementVoteRoute, managementTierRoute, managementOptionRoute, MANAGEMENT_RANKS_ROUTE } from '../../../../app/Routes';
@@ -213,65 +211,18 @@ export const RankProperties = ({rank, onTitleChange, onDescriptionChange, onImag
 	)
 }
 
-export interface RankFormProps {
-	entity: Rank
-}
-
-export const RankForm = ({entity: rank}: RankFormProps) => {
-	const navigate = useNavigate()
-	const [editedRank, setEditedRank] = useState(rank)
-
-	const handleTitleChange = (title: string) => {
-		if (editedRank) {
-			setEditedRank({...editedRank, title})
-		}
-	}
-
-	const handleDescriptionChange = (description: string) => {
-		if (editedRank) {
-			setEditedRank({...editedRank, description})
-		}
-	}
-
-	const handleImageUrlChange = (imageUrl: string) => {
-		if (editedRank) {
-			setEditedRank({...editedRank, imageUrl})
-		}
-	}
-
-	const handleClear = () => {
-		setEditedRank(structuredClone(rank))
-	}
-
-	const handleSave = () => {
-		if(editedRank) {
-			updateRank(editedRank)
-		}
-	}
-
-	const handleDelete = async () => {
-		if(rank.id) {
-			await deleteRank(rank.id)
-			navigate(MANAGEMENT_RANKS_ROUTE)
-		}
-	}
-
-	return (
-		<EntityForm
-			entity={editedRank}
-			onClear={handleClear}
-			onSave={handleSave}
-			onDelete={handleDelete}>
-			<RankProperties rank={editedRank} onTitleChange={handleTitleChange} onDescriptionChange={handleDescriptionChange} onImageUrlChange={handleImageUrlChange}/>
-		</EntityForm>
-	)
-}
-
 const RankPage = () => {
 	const navigate = useNavigate()
-	const { rankId } = useParams<{ rankId: string }>();
-	const [rank, setRank] = useState<Rank | null>(null)
+	const { rankId } = useParams<{ rankId: string }>()
+	const getRankCallback = useCallback(() => rankId ? getRank(rankId) : Promise.resolve(null), [rankId])
+	const { result: rank, executing, error } = useExecute(getRankCallback)
 	const [editedRank, setEditedRank] = useState<Rank | null>(null)
+
+	useEffect(() => {
+		if(!editedRank) {
+			setEditedRank(structuredClone(rank))
+		}
+	}, [editedRank, rank])
 
 	const handleRankChange = (changedRank: Rank) => {
 		setEditedRank(changedRank)
@@ -297,29 +248,22 @@ const RankPage = () => {
 	}
 
 	return (
-		<EntityPage
-			title="Rank Page"
-			getEntity={async () => {
-				if(rankId) {
-					const rank = await getRank(rankId)
-					setRank(structuredClone(rank))
-					setEditedRank(structuredClone(rank))
-					return rank
-				}
-
-				return Promise.resolve(null)
-			}}
-			entityRenderer={rank => (
-				editedRank ?
+		<div className={classes.root}>
+			<LoadElement loading={executing}>
+				{!executing && error ? error.toString() : null}
+				{!executing && !error && !rank ? "Entity not found!" : null}
+				{!executing && !error && editedRank ?
 					<RankCard
 						rank={editedRank}
-						mode={Mode.VIEW}
+						mode={Mode.EDIT}
 						onRankChange={handleRankChange}
 						onClear={handleClear}
 						onSave={handleSave}
-						onDelete={handleDelete}/>:
+						onDelete={handleDelete}/> :
 					null
-			)}/>
+				}
+			</LoadElement>
+		</div>
 	);
 }
 

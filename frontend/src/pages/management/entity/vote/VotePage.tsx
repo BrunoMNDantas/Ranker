@@ -1,13 +1,11 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import classes from './VotePage.module.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import EntityPage from '../entityPage/EntityPage';
 import { deleteVote, getVote, updateVote } from '../../../../features/vote/api/Vote.api'
 import { getAssignmentsOfVote, createAssignment } from '../../../../features/assignment/api/Assignment.api';
 import { Vote } from '../../../../features/vote/model/Vote.types';
 import { Assignment } from '../../../../features/assignment/model/Assignment.types';
 import TextField from '@mui/material/TextField';
-import EntityForm from '../entityForm/EntityForm';
 import { Button, List, ListItem, ListItemButton, ListItemText, Typography, Divider } from '@mui/material';
 import { useExecute } from '../../../../hooks/UseExecute';
 import { createAssignment as createNewAssignment } from '../../../../services/EntityFactory.service';
@@ -99,47 +97,18 @@ export const VoteProperties = ({vote}: VotePropertiesProps) => {
 	)
 }
 
-export interface VoteFormProps {
-	entity: Vote
-}
-
-export const VoteForm = ({entity: vote}: VoteFormProps) => {
-	const navigate = useNavigate()
-	const [editedVote, setEditedVote] = useState(vote)
-
-	const handleClear = () => {
-		setEditedVote(structuredClone(vote))
-	}
-
-	const handleSave = () => {
-		if(editedVote) {
-			updateVote(editedVote)
-		}
-	}
-
-	const handleDelete = async () => {
-		if(vote.id) {
-			await deleteVote(vote.id)
-			navigate(MANAGEMENT_VOTES_ROUTE)
-		}
-	}
-
-	return (
-		<EntityForm
-			entity={editedVote}
-			onClear={handleClear}
-			onSave={handleSave}
-			onDelete={handleDelete}>
-			<VoteProperties vote={editedVote}/>
-		</EntityForm>
-	)
-}
-
 const VotePage = () => {
 	const navigate = useNavigate()
-	const { voteId } = useParams<{ voteId: string }>();
-	const [vote, setVote] = useState<Vote | null>(null)
+	const { voteId } = useParams<{ voteId: string }>()
+	const getVoteCallback = useCallback(() => voteId ? getVote(voteId) : Promise.resolve(null), [voteId])
+	const { result: vote, executing, error } = useExecute(getVoteCallback)
 	const [editedVote, setEditedVote] = useState<Vote | null>(null)
+
+	useEffect(() => {
+		if(!editedVote) {
+			setEditedVote(structuredClone(vote))
+		}
+	}, [editedVote, vote])
 
 	const handleVoteChange = (changedVote: Vote) => {
 		setEditedVote(changedVote)
@@ -165,29 +134,22 @@ const VotePage = () => {
 	}
 
 	return (
-		<EntityPage
-			title="Vote Page"
-			getEntity={async () => {
-				if(voteId) {
-					const vote = await getVote(voteId)
-					setVote(structuredClone(vote))
-					setEditedVote(structuredClone(vote))
-					return vote
-				}
-
-				return Promise.resolve(null)
-			}}
-			entityRenderer={vote => (
-				editedVote ?
+		<div className={classes.root}>
+			<LoadElement loading={executing}>
+				{!executing && error ? error.toString() : null}
+				{!executing && !error && !vote ? "Entity not found!" : null}
+				{!executing && !error && editedVote ?
 					<VoteCard
 						vote={editedVote}
-						mode={Mode.VIEW}
+						mode={Mode.EDIT}
 						onVoteChange={handleVoteChange}
 						onClear={handleClear}
 						onSave={handleSave}
 						onDelete={handleDelete}/> :
 					null
-			)}/>
+				}
+			</LoadElement>
+		</div>
 	);
 }
 

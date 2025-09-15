@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import classes from './TierPage.module.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import EntityPage from '../entityPage/EntityPage';
 import { deleteTier, getTier, updateTier } from '../../../../features/tier/api/Tier.api';
 import { Tier } from '../../../../features/tier/model/Tier.types';
 import TextField from '@mui/material/TextField';
-import EntityForm from '../entityForm/EntityForm';
 import { Button } from '@mui/material';
 import { MANAGEMENT_TIERS_ROUTE, managementRankRoute } from '../../../../app/Routes';
 import TierCard from '../../../../features/tier/components/tierCard/TierCard';
 import { Mode } from '../../../../components/entityCard/EntityCard';
+import { useExecute } from '../../../../hooks/UseExecute';
+import LoadElement from '../../../../components/loadElement/LoadElement';
 
 export interface TierPropertiesProps {
 	tier: Tier
@@ -64,65 +64,19 @@ export const TierProperties = ({tier, onTitleChange, onDescriptionChange, onImag
 	)
 }
 
-export interface TierFormProps {
-	entity: Tier
-}
-
-export const TierForm = ({entity: tier}: TierFormProps) => {
-	const navigate = useNavigate()
-	const [editedTier, setEditedTier] = useState(tier)
-
-	const handleTitleChange = (title: string) => {
-		if (editedTier) {
-			setEditedTier({...editedTier, title})
-		}
-	}
-
-	const handleDescriptionChange = (description: string) => {
-		if (editedTier) {
-			setEditedTier({...editedTier, description})
-		}
-	}
-
-	const handleImageUrlChange = (imageUrl: string) => {
-		if (editedTier) {
-			setEditedTier({...editedTier, imageUrl})
-		}
-	}
-
-	const handleClear = () => {
-		setEditedTier(structuredClone(tier))
-	}
-
-	const handleSave = () => {
-		if(editedTier) {
-			updateTier(editedTier)
-		}
-	}
-
-	const handleDelete = async () => {
-		if(tier.id) {
-			await deleteTier(tier.id)
-			navigate(MANAGEMENT_TIERS_ROUTE)
-		}
-	}
-
-	return (
-		<EntityForm
-			entity={editedTier}
-			onClear={handleClear}
-			onSave={handleSave}
-			onDelete={handleDelete}>
-			<TierProperties tier={editedTier} onTitleChange={handleTitleChange} onDescriptionChange={handleDescriptionChange} onImageUrlChange={handleImageUrlChange}/>
-		</EntityForm>
-	)
-}
-
 const TierPage = () => {
 	const navigate = useNavigate()
-	const { tierId } = useParams<{ tierId: string }>();
-	const [tier, setTier] = useState<Tier | null>(null)
+	const { tierId } = useParams<{ tierId: string }>()
+	const getTierCallback = useCallback(() => tierId ? getTier(tierId) : Promise.resolve(null), [tierId])
+	const { result: tier, executing, error } = useExecute(getTierCallback)
 	const [editedTier, setEditedTier] = useState<Tier | null>(null)
+
+	useEffect(() => {
+		if(!editedTier) {
+			setEditedTier(structuredClone(tier))
+		}
+	}, [editedTier, tier])
+
 
 	const handleTierChange = (changedTier: Tier) => {
 		setEditedTier(changedTier)
@@ -148,29 +102,22 @@ const TierPage = () => {
 	}
 
 	return (
-		<EntityPage
-			title="Tier Page"
-			getEntity={async () => {
-				if(tierId) {
-					const tier = await getTier(tierId)
-					setTier(structuredClone(tier))
-					setEditedTier(structuredClone(tier))
-					return tier
-				}
-
-				return Promise.resolve(null)
-			}}
-			entityRenderer={tier => (
-				editedTier ?
+		<div className={classes.root}>
+			<LoadElement loading={executing}>
+				{!executing && error ? error.toString() : null}
+				{!executing && !error && !tier ? "Entity not found!" : null}
+				{!executing && !error && editedTier ?
 					<TierCard
 						tier={editedTier}
-						mode={Mode.VIEW}
+						mode={Mode.EDIT}
 						onTierChange={handleTierChange}
 						onClear={handleClear}
 						onSave={handleSave}
 						onDelete={handleDelete}/> :
 					null
-			)}/>
+				}
+			</LoadElement>
+		</div>
 	);
 }
 

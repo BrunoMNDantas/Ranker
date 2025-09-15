@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import classes from './OptionPage.module.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import EntityPage from '../entityPage/EntityPage';
 import { deleteOption, getOption, updateOption } from '../../../../features/option/api/Option.api';
 import { Option } from '../../../../features/option/model/Option.types';
 import TextField from '@mui/material/TextField';
-import EntityForm from '../entityForm/EntityForm';
 import { Button } from '@mui/material';
 import { MANAGEMENT_OPTIONS_ROUTE, managementRankRoute } from '../../../../app/Routes';
 import OptionCard from '../../../../features/option/components/optionCard/OptionCard';
 import { Mode } from '../../../../components/entityCard/EntityCard';
+import { useExecute } from '../../../../hooks/UseExecute';
+import LoadElement from '../../../../components/loadElement/LoadElement';
 
 export interface OptionPropertiesProps {
 	option: Option
@@ -64,65 +64,18 @@ export const OptionProperties = ({option, onTitleChange, onDescriptionChange, on
 	)
 }
 
-export interface OptionFormProps {
-	entity: Option
-}
-
-export const OptionForm = ({entity: option}: OptionFormProps) => {
-	const navigate = useNavigate()
-	const [editedOption, setEditedOption] = useState(option)
-
-	const handleTitleChange = (title: string) => {
-		if (editedOption) {
-			setEditedOption({...editedOption, title})
-		}
-	}
-
-	const handleDescriptionChange = (description: string) => {
-		if (editedOption) {
-			setEditedOption({...editedOption, description})
-		}
-	}
-
-	const handleImageUrlChange = (imageUrl: string) => {
-		if (editedOption) {
-			setEditedOption({...editedOption, imageUrl})
-		}
-	}
-
-	const handleClear = () => {
-		setEditedOption(structuredClone(option))
-	}
-
-	const handleSave = () => {
-		if(editedOption) {
-			updateOption(editedOption)
-		}
-	}
-
-	const handleDelete = async () => {
-		if(option.id) {
-			await deleteOption(option.id)
-			navigate(MANAGEMENT_OPTIONS_ROUTE)
-		}
-	}
-
-	return (
-		<EntityForm
-			entity={editedOption}
-			onClear={handleClear}
-			onSave={handleSave}
-			onDelete={handleDelete}>
-			<OptionProperties option={editedOption} onTitleChange={handleTitleChange} onDescriptionChange={handleDescriptionChange} onImageUrlChange={handleImageUrlChange}/>
-		</EntityForm>
-	)
-}
-
 const OptionPage = () => {
 	const navigate = useNavigate()
-	const { optionId } = useParams<{ optionId: string }>();
-	const [option, setOption] = useState<Option | null>(null)
+	const { optionId } = useParams<{ optionId: string }>()
+	const getOptionCallback = useCallback(() => optionId ? getOption(optionId) : Promise.resolve(null), [optionId])
+	const { result: option, executing, error } = useExecute(getOptionCallback)
 	const [editedOption, setEditedOption] = useState<Option | null>(null)
+
+	useEffect(() => {
+		if(!editedOption) {
+			setEditedOption(structuredClone(option))
+		}
+	}, [editedOption, option])
 
 	const handleOptionChange = (changedOption: Option) => {
 		setEditedOption(changedOption)
@@ -148,29 +101,22 @@ const OptionPage = () => {
 	}
 
 	return (
-		<EntityPage
-			title="Option Page"
-			getEntity={async () => {
-				if(optionId) {
-					const option = await getOption(optionId)
-					setOption(structuredClone(option))
-					setEditedOption(structuredClone(option))
-					return option
-				}
-
-				return Promise.resolve(null)
-			}}
-			entityRenderer={option => (
-				editedOption ?
+		<div className={classes.root}>
+			<LoadElement loading={executing}>
+				{!executing && error ? error.toString() : null}
+				{!executing && !error && !option ? "Entity not found!" : null}
+				{!executing && !error && editedOption ?
 					<OptionCard
 						option={editedOption}
-						mode={Mode.VIEW}
+						mode={Mode.EDIT}
 						onOptionChange={handleOptionChange}
 						onClear={handleClear}
 						onSave={handleSave}
 						onDelete={handleDelete}/> :
 					null
-			)}/>
+				}
+			</LoadElement>
+		</div>
 	);
 }
 
