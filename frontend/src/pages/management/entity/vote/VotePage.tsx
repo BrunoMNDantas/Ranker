@@ -1,17 +1,18 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import classes from './VotePage.module.css';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { deleteVote, getVote, updateVote } from '../../../../features/vote/api/Vote.api'
 import { getAssignmentsOfVote, createAssignment } from '../../../../features/assignment/api/Assignment.api';
 import { Vote } from '../../../../features/vote/model/Vote.types';
 import { Assignment } from '../../../../features/assignment/model/Assignment.types';
-import { Button, List, ListItem, ListItemButton, ListItemText, Typography, Divider } from '@mui/material';
+import { Button, Typography, Divider } from '@mui/material';
 import { useExecute } from '../../../../hooks/UseExecute';
 import { createAssignment as createNewAssignment } from '../../../../services/EntityFactory.service';
-import { MANAGEMENT_VOTES_ROUTE, managementAssignmentRoute, managementRankRoute } from '../../../../app/Routes';
+import { MANAGEMENT_VOTES_ROUTE, managementAssignmentRoute } from '../../../../app/Routes';
 import LoadElement from '../../../../components/loadElement/LoadElement';
 import VoteCard from '../../../../features/vote/components/voteCard/VoteCard';
 import { Mode } from '../../../../components/entityCard/EntityCard';
+import AssignmentList from '../../../../features/assignment/components/assignmentList/AssignmentList';
 
 export interface VoteAssignmentsListProps {
 	voteId: string | null
@@ -38,18 +39,7 @@ export const VoteAssignmentsList = ({ voteId }: VoteAssignmentsListProps) => {
 			<Divider />
 			<LoadElement loading={executing}>
 				{error ? <Typography color="error">Error loading assignments: {error.message}</Typography> : null}
-				<List>
-					{assignments?.map((assignment) => (
-						<ListItem
-							key={assignment.id}
-							disablePadding
-							className={classes.assignmentItem}>
-							<ListItemButton component={Link} to={managementAssignmentRoute(assignment.id!)}>
-								<ListItemText primary={`Assignment ${assignment.id}`}/>
-							</ListItemButton>
-						</ListItem>
-					))}
-				</List>
+				{assignments ? <AssignmentList assignments={assignments} assignmentUrl={assignment => managementAssignmentRoute(assignment.id!)} /> : null}
 				<Button
 					variant="contained"
 					size="small"
@@ -114,6 +104,9 @@ const VotePage = () => {
 					null
 				}
 			</LoadElement>
+			<div className={classes.relatedContainers}>
+				{voteId  ? <div className={classes.relatedContainer}><VoteAssignmentsList voteId={voteId}/></div> : null}
+			</div>
 		</div>
 	);
 }

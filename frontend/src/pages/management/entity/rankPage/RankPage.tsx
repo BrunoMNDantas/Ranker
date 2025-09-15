@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import classes from './RankPage.module.css';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { deleteRank, getRank, updateRank } from '../../../../features/rank/api/Rank.api';
 import { getVotesOfRank, createVote } from '../../../../features/vote/api/Vote.api';
 import { getTiersOfRank, createTier } from '../../../../features/tier/api/Tier.api';
@@ -9,13 +9,16 @@ import { Rank } from '../../../../features/rank/model/Rank.types';
 import { Vote } from '../../../../features/vote/model/Vote.types';
 import { Tier } from '../../../../features/tier/model/Tier.types';
 import { Option } from '../../../../features/option/model/Option.types';
-import { List, ListItem, ListItemButton, ListItemText, Typography, Divider, Button } from '@mui/material';
+import { Typography, Divider, Button } from '@mui/material';
 import { useExecute } from '../../../../hooks/UseExecute';
 import { managementVoteRoute, managementTierRoute, managementOptionRoute, MANAGEMENT_RANKS_ROUTE } from '../../../../app/Routes';
 import LoadElement from '../../../../components/loadElement/LoadElement';
 import { createVote as createNewVote, createTier as createNewTier, createOption as createNewOption } from '../../../../services/EntityFactory.service';
 import RankCard from '../../../../features/rank/components/rankCard/RankCard';
 import { Mode } from '../../../../components/entityCard/EntityCard';
+import OptionList from '../../../../features/option/components/optionList/OptionList';
+import TierList from '../../../../features/tier/components/tierList/TierList';
+import VoteList from '../../../../features/vote/components/voteList/VoteList';
 
 export interface RankVotesListProps {
 	rankId: string | null
@@ -42,26 +45,15 @@ export const RankVotesList = ({ rankId }: RankVotesListProps) => {
 			<Divider />
 			<LoadElement loading={executing}>
 				{error ? <Typography color="error">Error loading votes: {error.message}</Typography> : null}
-				<List>
-					{votes?.map((vote) => (
-						<ListItem
-							key={vote.id}
-							disablePadding
-							className={classes.relatedItem}>
-							<ListItemButton component={Link} to={managementVoteRoute(vote.id!)}>
-								<ListItemText primary={`Vote ${vote.id}`}/>
-							</ListItemButton>
-						</ListItem>
-					))}
-				</List>
-				<Button
-					variant="contained"
-					size="small"
-					onClick={handleCreateVote}
-					className={classes.createButton}>
-					Create Vote
-				</Button>
+				{votes ? <VoteList votes={votes} voteUrl={vote => managementVoteRoute(vote.id!)} /> : null}
 			</LoadElement>
+			<Button
+				variant="contained"
+				size="small"
+				onClick={handleCreateVote}
+				className={classes.createButton}>
+				Create Vote
+			</Button>
 		</div>
 	)
 }
@@ -91,26 +83,15 @@ export const RankTiersList = ({ rankId }: RankTiersListProps) => {
 			<Divider />
 			<LoadElement loading={executing}>
 				{error ? <Typography color="error">Error loading tiers: {error.message}</Typography> : null}
-				<List>
-					{tiers?.map((tier) => (
-						<ListItem
-							key={tier.id}
-							disablePadding
-							className={classes.relatedItem}>
-							<ListItemButton component={Link} to={managementTierRoute(tier.id!)}>
-								<ListItemText primary={`${tier.title || 'Untitled Tier'}`}/>
-							</ListItemButton>
-						</ListItem>
-					))}
-				</List>
-				<Button
-					variant="contained"
-					size="small"
-					onClick={handleCreateTier}
-					className={classes.createButton}>
-					Create Tier
-				</Button>
+				{tiers ? <TierList tiers={tiers} tierUrl={tier => managementTierRoute(tier.id!)}/> : null}
 			</LoadElement>
+			<Button
+				variant="contained"
+				size="small"
+				onClick={handleCreateTier}
+				className={classes.createButton}>
+				Create Tier
+			</Button>
 		</div>
 	)
 }
@@ -140,26 +121,15 @@ export const RankOptionsList = ({ rankId }: RankOptionsListProps) => {
 			<Divider />
 			<LoadElement loading={executing}>
 				{error ? <Typography color="error">Error loading options: {error.message}</Typography> : null}
-				<List>
-					{options?.map((option) => (
-						<ListItem
-							key={option.id}
-							disablePadding
-							className={classes.relatedItem}>
-							<ListItemButton component={Link} to={managementOptionRoute(option.id!)}>
-								<ListItemText primary={`${option.title || 'Untitled Option'}`}/>
-							</ListItemButton>
-						</ListItem>
-					))}
-				</List>
-				<Button
-					variant="contained"
-					size="small"
-					onClick={handleCreateOption}
-					className={classes.createButton}>
-					Create Option
-				</Button>
+				{options ? <OptionList options={options} optionUrl={option => managementOptionRoute(option.id!)}/> : null}
 			</LoadElement>
+			<Button
+				variant="contained"
+				size="small"
+				onClick={handleCreateOption}
+				className={classes.createButton}>
+				Create Option
+			</Button>
 		</div>
 	)
 }
@@ -216,6 +186,11 @@ const RankPage = () => {
 					null
 				}
 			</LoadElement>
+			<div className={classes.relatedContainers}>
+				{rankId ? <div className={classes.relatedItem}><RankOptionsList rankId={rankId}/></div> : null}
+				{rankId ? <div className={classes.relatedItem}><RankTiersList rankId={rankId}/></div> : null}
+				{rankId ? <div className={classes.relatedItem}><RankVotesList rankId={rankId}/></div> : null}
+			</div>
 		</div>
 	);
 }
