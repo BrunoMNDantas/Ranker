@@ -8,7 +8,7 @@ export interface VoteAvatarProps extends HTMLAttributes<HTMLDivElement> {
 
 const VoteAvatar = ({ vote, ...props }: VoteAvatarProps) => {
     const imageUrl = '/vote.png'
-    return <EntityAvatar imageUrl={imageUrl} {...props}/>;
+    return <EntityAvatar imageUrl={imageUrl} avatarColor={null} {...props}/>;
 }
 
 export default VoteAvatar;

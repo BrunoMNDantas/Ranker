@@ -6,4 +6,5 @@ export interface Tier {
     title: string | null
     description: string | null
     imageUrl: string | null
+    color: string | null
 }

@@ -8,7 +8,7 @@ export interface OptionAvatarProps extends HTMLAttributes<HTMLDivElement> {
 
 const OptionAvatar = ({ option, ...props }: OptionAvatarProps) => {
     const imageUrl = option.imageUrl ? option.imageUrl : '/check.png'
-    return <EntityAvatar imageUrl={imageUrl} {...props}/>;
+    return <EntityAvatar imageUrl={imageUrl} avatarColor={option.color} {...props}/>;
 }
 
 export default OptionAvatar;

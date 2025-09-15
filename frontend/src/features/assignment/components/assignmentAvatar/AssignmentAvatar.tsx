@@ -8,7 +8,7 @@ export interface AssignmentAvatarProps extends HTMLAttributes<HTMLDivElement> {
 
 const AssignmentAvatar = ({ assignment, ...props }: AssignmentAvatarProps) => {
     const imageUrl = '/link.png'
-    return <EntityAvatar imageUrl={imageUrl} {...props}/>;
+    return <EntityAvatar imageUrl={imageUrl} avatarColor={null} {...props}/>;
 }
 
 export default AssignmentAvatar;

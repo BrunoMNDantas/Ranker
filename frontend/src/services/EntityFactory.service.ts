@@ -5,15 +5,15 @@ import type { Vote } from "../features/vote/model/Vote.types";
 import type { Assignment } from "../features/assignment/model/Assignment.types";
 
 export const createRank = (partial: Partial<Rank>): Rank => {
-    return { id: null, creationDate: null, title: null, description: null, imageUrl: null, ...partial }
+    return { id: null, creationDate: null, title: null, description: null, imageUrl: null, color: null, ...partial }
 }
 
 export const createTier = (partial: Partial<Tier>): Tier => {
-    return { id: null, creationDate: null, rankId: null, order: 0, title: null, description: null, imageUrl: null, ...partial }
+    return { id: null, creationDate: null, rankId: null, order: 0, title: null, description: null, imageUrl: null, color: null, ...partial }
 }
 
 export const createOption = (partial: Partial<Option>): Option => {
-    return { id: null, creationDate: null, rankId: null, order: 0, title: null, description: null, imageUrl: null, ...partial }
+    return { id: null, creationDate: null, rankId: null, order: 0, title: null, description: null, imageUrl: null, color: null, ...partial }
 }
 
 export const createVote = (partial: Partial<Vote>): Vote => {

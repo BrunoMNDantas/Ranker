@@ -3,6 +3,8 @@ import { Option } from '../../../model/Option.types';
 import EntityCardContent from '../../../../../components/entityCard/entityCardContent/EntityCardContent';
 import { TextField } from '@mui/material';
 import { Mode } from '../../../../../components/entityCard/EntityCard';
+import ColorField from '../../../../../components/colorField/ColorField';
+import { DEFAULT_COLOR } from '../../../../../components/entityAvatar/EntityAvatar';
 
 export interface OptionCardContentProps extends HTMLAttributes<HTMLDivElement> {
     option: Option
@@ -35,7 +37,12 @@ const OptionCardContent = ({ option, onOptionChange, mode, ...props }: OptionCar
             label="Image URL"
             type="url"
             value={option.imageUrl || ""}
-            onChange={e => editable ? onOptionChange({...option, imageUrl: e.target.value}) : null}/>
+            onChange={e => editable ? onOptionChange({...option, imageUrl: e.target.value}) : null}/>,
+        <ColorField
+            disabled={!editable}
+            label="Color"
+            value={option.color || DEFAULT_COLOR}
+            onChange={(color) => editable ? onOptionChange({...option, color}) : null}/>
     ]
 
     return <EntityCardContent properties={properties} {...props}/>

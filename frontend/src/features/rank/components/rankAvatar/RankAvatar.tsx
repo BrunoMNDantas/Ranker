@@ -8,7 +8,7 @@ export interface RankAvatarProps extends HTMLAttributes<HTMLDivElement> {
 
 const RankAvatar = ({ rank, ...props }: RankAvatarProps) => {
     const imageUrl = rank.imageUrl ? rank.imageUrl : '/ranking.png'
-    return <EntityAvatar imageUrl={imageUrl} {...props}/>;
+    return <EntityAvatar imageUrl={imageUrl} avatarColor={rank.color} {...props}/>;
 }
 
 export default RankAvatar;

@@ -8,7 +8,7 @@ export interface TierAvatarProps extends HTMLAttributes<HTMLDivElement> {
 
 const TierAvatar = ({ tier, ...props }: TierAvatarProps) => {
     const imageUrl = tier.imageUrl ? tier.imageUrl : '/list.png'
-    return <EntityAvatar imageUrl={imageUrl} {...props}/>;
+    return <EntityAvatar imageUrl={imageUrl} avatarColor={tier.color} {...props}/>;
 }
 
 export default TierAvatar;

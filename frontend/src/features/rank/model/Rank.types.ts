@@ -4,4 +4,5 @@ export interface Rank {
     title: string | null
     description: string | null
     imageUrl: string | null
+    color: string | null
 }
