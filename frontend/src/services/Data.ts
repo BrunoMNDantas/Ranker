@@ -303,7 +303,7 @@ export const ASSIGNMENTS = MOCKED_DATA.map(rank => {
             return {
                 id: rank.id + "-" + vote.id + "-" + assignment.id,
                 creationDate: new Date(),
-                voteId: rank + "-" + vote.id,
+                voteId: rank.id + "-" + vote.id,
                 order: assignment.order,
                 optionId: rank.id + "-" + assignment.optionId,
                 tierId: rank.id + "-" + assignment.tierId
