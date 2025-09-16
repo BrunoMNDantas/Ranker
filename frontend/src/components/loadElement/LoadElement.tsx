@@ -1,17 +1,13 @@
+import React, { ReactNode } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
-import React, { HTMLAttributes } from 'react';
 
-export interface LoadElementProps extends HTMLAttributes<HTMLDivElement> {
-	loading: boolean
+export interface LoadElementProps {
+  	loading: boolean;
+  	children?: ReactNode;
 }
 
-export const LoadElement = ({ loading, children, ...props }: LoadElementProps) => {
-	return (
-		<div {...props}>
-			{ loading ? <CircularProgress/> : null }
-			{ children }
-		</div>
-	);
+export const LoadElement = ({ loading, children }: LoadElementProps) => {
+  	return loading ? <CircularProgress/> : <>{children}</>;
 };
 
 export default LoadElement;
