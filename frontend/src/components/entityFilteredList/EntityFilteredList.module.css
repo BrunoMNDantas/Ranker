@@ -1,0 +1,22 @@
+.root {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    overflow: auto;
+}
+
+.filter {
+    width: 100%;
+    padding-top: 5px;
+}
+
+.filter > * {
+    width: 100%;
+}
+
+.list {
+    width: 100%;
+    flex-grow: 1;
+    overflow: auto;
+}
