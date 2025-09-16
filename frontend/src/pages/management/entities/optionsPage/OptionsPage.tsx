@@ -1,7 +1,7 @@
 import React from 'react';
 import { getAllOptions } from '../../../../features/option/api/Option.api';
 import EntitiesPage from '../entitiesPage/EntitiesPage';
-import OptionList from '../../../../features/option/components/optionList/OptionList';
+import OptionsList from '../../../../features/option/components/optionsList/OptionsList';
 import { managementOptionRoute } from '../../../../app/Routes';
 
 const OptionsPage = () => {
@@ -10,7 +10,7 @@ const OptionsPage = () => {
 			title="Options Page"
 			getEntities={getAllOptions}
 			entitiesRenderer={entities => (
-				 <OptionList options={entities} optionUrl={option => managementOptionRoute(option.id!)}/>
+				 <OptionsList options={entities} optionUrl={option => managementOptionRoute(option.id!)}/>
 			)}/>
 	);
 }

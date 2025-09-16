@@ -3,13 +3,13 @@ import { Vote } from '../../model/Vote.types';
 import VoteChip from '../voteChip/VoteChip';
 import EntityList from '../../../../components/entityList/EntityList';
 
-export interface VoteListProps extends HTMLAttributes<HTMLDivElement> {
+export interface VotesListProps extends HTMLAttributes<HTMLDivElement> {
     votes: Vote[]
     voteUrl?: (vote: Vote) => string
     onVoteClick?: (vote: Vote) => void
 }
 
-const VoteList = ({ votes, voteUrl, onVoteClick, ...props }: VoteListProps) => {
+const VotesList = ({ votes, voteUrl, onVoteClick, ...props }: VotesListProps) => {
     return <EntityList
         entities={votes}
         entityRenderer={vote => <VoteChip vote={vote}/>}
@@ -18,4 +18,4 @@ const VoteList = ({ votes, voteUrl, onVoteClick, ...props }: VoteListProps) => {
         {...props}/>
 }
 
-export default VoteList;
+export default VotesList;

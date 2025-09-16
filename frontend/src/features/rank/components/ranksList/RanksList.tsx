@@ -3,13 +3,13 @@ import { Rank } from '../../model/Rank.types';
 import RankChip from '../rankChip/RankChip';
 import EntityList from '../../../../components/entityList/EntityList';
 
-export interface RankListProps extends HTMLAttributes<HTMLDivElement> {
+export interface RanksListProps extends HTMLAttributes<HTMLDivElement> {
     ranks: Rank[]
     rankUrl?: (rank: Rank) => string
     onRankClick?: (rank: Rank) => void
 }
 
-const RankList = ({ ranks, rankUrl, onRankClick, ...props }: RankListProps) => {
+const RanksList = ({ ranks, rankUrl, onRankClick, ...props }: RanksListProps) => {
     return <EntityList
         entities={ranks}
         entityRenderer={rank => <RankChip rank={rank}/>}
@@ -18,4 +18,4 @@ const RankList = ({ ranks, rankUrl, onRankClick, ...props }: RankListProps) => {
         {...props}/>
 }
 
-export default RankList;
+export default RanksList;

@@ -2,7 +2,7 @@ import React from 'react';
 import { getAllVotes } from '../../../../features/vote/api/Vote.api';
 import EntitiesPage from '../entitiesPage/EntitiesPage';
 import { managementVoteRoute } from '../../../../app/Routes';
-import VoteList from '../../../../features/vote/components/voteList/VoteList';
+import VotesList from '../../../../features/vote/components/votesList/VotesList';
 
 const VotesPage = () => {
 	return (
@@ -10,7 +10,7 @@ const VotesPage = () => {
 			title="Votes Page"
 			getEntities={getAllVotes}
 			entitiesRenderer={entities => (
-				<VoteList votes={entities} voteUrl={vote => managementVoteRoute(vote.id!)}/>
+				<VotesList votes={entities} voteUrl={vote => managementVoteRoute(vote.id!)}/>
 			)}/>
 	);
 }

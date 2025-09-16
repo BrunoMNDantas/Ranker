@@ -16,9 +16,9 @@ import LoadElement from '../../../../components/loadElement/LoadElement';
 import { createVote as createNewVote, createTier as createNewTier, createOption as createNewOption } from '../../../../services/EntityFactory.service';
 import RankCard from '../../../../features/rank/components/rankCard/RankCard';
 import { Mode } from '../../../../components/entityCard/EntityCard';
-import OptionList from '../../../../features/option/components/optionList/OptionList';
-import TierList from '../../../../features/tier/components/tierList/TierList';
-import VoteList from '../../../../features/vote/components/voteList/VoteList';
+import OptionsList from '../../../../features/option/components/optionsList/OptionsList';
+import TiersList from '../../../../features/tier/components/tiersList/TiersList';
+import VotesList from '../../../../features/vote/components/votesList/VotesList';
 
 export interface RankVotesListProps {
 	rankId: string | null
@@ -45,7 +45,7 @@ export const RankVotesList = ({ rankId }: RankVotesListProps) => {
 			<Divider />
 			<LoadElement loading={executing}>
 				{error ? <Typography color="error">Error loading votes: {error.message}</Typography> : null}
-				{votes ? <VoteList votes={votes} voteUrl={vote => managementVoteRoute(vote.id!)} /> : null}
+				{votes ? <VotesList votes={votes} voteUrl={vote => managementVoteRoute(vote.id!)} /> : null}
 			</LoadElement>
 			<Button
 				variant="contained"
@@ -83,7 +83,7 @@ export const RankTiersList = ({ rankId }: RankTiersListProps) => {
 			<Divider />
 			<LoadElement loading={executing}>
 				{error ? <Typography color="error">Error loading tiers: {error.message}</Typography> : null}
-				{tiers ? <TierList tiers={tiers} tierUrl={tier => managementTierRoute(tier.id!)}/> : null}
+				{tiers ? <TiersList tiers={tiers} tierUrl={tier => managementTierRoute(tier.id!)}/> : null}
 			</LoadElement>
 			<Button
 				variant="contained"
@@ -121,7 +121,7 @@ export const RankOptionsList = ({ rankId }: RankOptionsListProps) => {
 			<Divider />
 			<LoadElement loading={executing}>
 				{error ? <Typography color="error">Error loading options: {error.message}</Typography> : null}
-				{options ? <OptionList options={options} optionUrl={option => managementOptionRoute(option.id!)}/> : null}
+				{options ? <OptionsList options={options} optionUrl={option => managementOptionRoute(option.id!)}/> : null}
 			</LoadElement>
 			<Button
 				variant="contained"

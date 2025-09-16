@@ -3,13 +3,13 @@ import { Assignment } from '../../model/Assignment.types';
 import AssignmentChip from '../assignmentChip/AssignmentChip';
 import EntityList from '../../../../components/entityList/EntityList';
 
-export interface AssignmentListProps extends HTMLAttributes<HTMLDivElement> {
+export interface AssignmentsListProps extends HTMLAttributes<HTMLDivElement> {
     assignments: Assignment[]
     assignmentUrl?: (assignment: Assignment) => string
     onAssignmentClick?: (assignment: Assignment) => void
 }
 
-const AssignmentList = ({ assignments, assignmentUrl, onAssignmentClick, ...props }: AssignmentListProps) => {
+const AssignmentsList = ({ assignments, assignmentUrl, onAssignmentClick, ...props }: AssignmentsListProps) => {
     return <EntityList
         entities={assignments}
         entityRenderer={assignment => <AssignmentChip assignment={assignment}/>}
@@ -18,4 +18,4 @@ const AssignmentList = ({ assignments, assignmentUrl, onAssignmentClick, ...prop
         {...props}/>
 }
 
-export default AssignmentList;
+export default AssignmentsList;

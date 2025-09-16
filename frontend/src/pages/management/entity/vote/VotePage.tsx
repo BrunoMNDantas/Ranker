@@ -12,7 +12,7 @@ import { MANAGEMENT_VOTES_ROUTE, managementAssignmentRoute } from '../../../../a
 import LoadElement from '../../../../components/loadElement/LoadElement';
 import VoteCard from '../../../../features/vote/components/voteCard/VoteCard';
 import { Mode } from '../../../../components/entityCard/EntityCard';
-import AssignmentList from '../../../../features/assignment/components/assignmentList/AssignmentList';
+import AssignmentsList from '../../../../features/assignment/components/assignmentsList/AssignmentsList';
 
 export interface VoteAssignmentsListProps {
 	voteId: string | null
@@ -39,7 +39,7 @@ export const VoteAssignmentsList = ({ voteId }: VoteAssignmentsListProps) => {
 			<Divider />
 			<LoadElement loading={executing}>
 				{error ? <Typography color="error">Error loading assignments: {error.message}</Typography> : null}
-				{assignments ? <AssignmentList assignments={assignments} assignmentUrl={assignment => managementAssignmentRoute(assignment.id!)} /> : null}
+				{assignments ? <AssignmentsList assignments={assignments} assignmentUrl={assignment => managementAssignmentRoute(assignment.id!)} /> : null}
 				<Button
 					variant="contained"
 					size="small"

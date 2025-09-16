@@ -1,7 +1,7 @@
 import React from 'react';
 import { getAllRanks } from '../../../../features/rank/api/Rank.api';
 import EntitiesPage from '../entitiesPage/EntitiesPage';
-import RankList from '../../../../features/rank/components/rankList/RankList';
+import RanksList from '../../../../features/rank/components/ranksList/RanksList';
 import { managementRankRoute } from '../../../../app/Routes';
 
 const RanksPage = () => {
@@ -10,7 +10,7 @@ const RanksPage = () => {
 			title="Ranks Page"
 			getEntities={getAllRanks}
 			entitiesRenderer={entities => (
-				<RankList ranks={entities} rankUrl={rank => managementRankRoute(rank.id!)}/>
+				<RanksList ranks={entities} rankUrl={rank => managementRankRoute(rank.id!)}/>
 			)}/>
 	);
 }

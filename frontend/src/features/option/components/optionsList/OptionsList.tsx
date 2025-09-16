@@ -3,13 +3,13 @@ import { Option } from '../../model/Option.types';
 import OptionChip from '../optionChip/OptionChip';
 import EntityList from '../../../../components/entityList/EntityList';
 
-export interface OptionListProps extends HTMLAttributes<HTMLDivElement> {
+export interface OptionsListProps extends HTMLAttributes<HTMLDivElement> {
     options: Option[]
     optionUrl?: (option: Option) => string
     onOptionClick?: (option: Option) => void
 }
 
-const OptionList = ({ options, optionUrl, onOptionClick, ...props }: OptionListProps) => {
+const OptionsList = ({ options, optionUrl, onOptionClick, ...props }: OptionsListProps) => {
     return <EntityList
     entities={options}
     entityRenderer={option => <OptionChip option={option}/>}
@@ -18,4 +18,4 @@ const OptionList = ({ options, optionUrl, onOptionClick, ...props }: OptionListP
     {...props}/>
 }
 
-export default OptionList;
+export default OptionsList;
