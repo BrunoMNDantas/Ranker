@@ -1,26 +1,9 @@
-.app {
+.root {
     display: flex;
     flex-direction: column;
 
     width: 100vw;
     height: 100vh;
 
-    background: linear-gradient(
-        to bottom,
-        transparent,
-        rgb(0, 0, 0, 0.4) 0%,
-        rgb(0, 0, 0, 0.1) 98%,
-        transparent
-    );
-}
-
-.title {
-    text-align: center;
-    font-size: 50px;
-}
-
-.content {
-    flex-grow: 1;
     overflow: auto;
-    color: white;
 }
