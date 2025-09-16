@@ -1,18 +1,21 @@
 import React from 'react';
-import EntitiesPage from '../entitiesPage/EntitiesPage';
-import { getAllAssignments } from '../../../../features/assignment/api/Assignment.api';
+import classes from './AssignmentsPage.module.css';
 import { managementAssignmentRoute } from '../../../../app/Routes';
 import AssignmentsList from '../../../../features/assignment/components/assignmentsList/AssignmentsList';
+import { useAssignments } from '../../../../features/assignment/hooks/UseAssignments.hook';
+import LoadElement from '../../../../components/loadElement/LoadElement';
 
 const AssignmentsPage = () => {
+	const {assignments, error, fetching} = useAssignments()
+
 	return (
-		<EntitiesPage
-			title="Assignments Page"
-			getEntities={getAllAssignments}
-			entitiesRenderer={entities => (
-				<AssignmentsList assignments={entities} assignmentUrl={assignment => managementAssignmentRoute(assignment.id!)}/>
-			)}/>
-	);
+		<div className={classes.root}>
+			<LoadElement loading={fetching}>
+				<AssignmentsList assignments={assignments || []} assignmentUrl={assignment => managementAssignmentRoute(assignment.id!)}/>
+				{error ? error.toString() : null}
+			</LoadElement>
+		</div>
+	)
 }
 
 export default AssignmentsPage;

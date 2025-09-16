@@ -1,18 +1,21 @@
 import React from 'react';
-import { getAllOptions } from '../../../../features/option/api/Option.api';
-import EntitiesPage from '../entitiesPage/EntitiesPage';
-import OptionsList from '../../../../features/option/components/optionsList/OptionsList';
+import classes from './OptionsPage.module.css';
 import { managementOptionRoute } from '../../../../app/Routes';
+import { useOptions } from '../../../../features/option/hooks/UseOptions.hook';
+import LoadElement from '../../../../components/loadElement/LoadElement';
+import OptionsFilteredList from '../../../../features/option/components/optionsFilteredList/OptionsFilteredList';
 
 const OptionsPage = () => {
+	const {options, error, fetching} = useOptions()
+
 	return (
-		<EntitiesPage
-			title="Options Page"
-			getEntities={getAllOptions}
-			entitiesRenderer={entities => (
-				 <OptionsList options={entities} optionUrl={option => managementOptionRoute(option.id!)}/>
-			)}/>
-	);
+		<div className={classes.root}>
+			<LoadElement loading={fetching}>
+				<OptionsFilteredList options={options || []} optionUrl={option => managementOptionRoute(option.id!)}/>
+				{error ? error.toString() : null}
+			</LoadElement>
+		</div>
+	)
 }
 
 export default OptionsPage;

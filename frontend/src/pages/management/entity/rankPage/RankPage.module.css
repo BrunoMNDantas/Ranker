@@ -27,10 +27,16 @@
 	flex-direction: column;
 	justify-content: start;
 	align-items: baseline;
-	gap: 10px;
+	gap: 5px;
 
 	max-height: 300px;
 	overflow: auto;
+
+	width: 25%;
+}
+
+.relatedContainer > * {
+	width: 100%;
 }
 
 .createButton {

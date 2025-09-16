@@ -13,6 +13,8 @@ import LoadElement from '../../../../components/loadElement/LoadElement';
 import VoteCard from '../../../../features/vote/components/voteCard/VoteCard';
 import { Mode } from '../../../../components/entityCard/EntityCard';
 import AssignmentsList from '../../../../features/assignment/components/assignmentsList/AssignmentsList';
+import { useAssignments } from '../../../../features/assignment/hooks/UseAssignments.hook';
+import { useVotes } from '../../../../features/vote/hooks/UseVotes.hook';
 
 export interface VoteAssignmentsListProps {
 	voteId: string | null
@@ -32,7 +34,7 @@ export const VoteAssignmentsList = ({ voteId }: VoteAssignmentsListProps) => {
 	}
 
 	return (
-		<div className={classes.assignmentsContainer}>
+		<div className={classes.relatedContainer}>
 			<Typography variant="h6" gutterBottom>
 				Assignments:
 			</Typography>
@@ -105,7 +107,7 @@ const VotePage = () => {
 				}
 			</LoadElement>
 			<div className={classes.relatedContainers}>
-				{voteId  ? <div className={classes.relatedContainer}><VoteAssignmentsList voteId={voteId}/></div> : null}
+				{voteId  ? <VoteAssignmentsList voteId={voteId}/> : null}
 			</div>
 		</div>
 	);

@@ -1,18 +1,21 @@
 import React from 'react';
-import { getAllTiers } from '../../../../features/tier/api/Tier.api';
-import EntitiesPage from '../entitiesPage/EntitiesPage';
-import TiersList from '../../../../features/tier/components/tiersList/TiersList';
+import classes from './TiersPage.module.css';
 import { managementTierRoute } from '../../../../app/Routes';
+import { useTiers } from '../../../../features/tier/hooks/UseTiers.hook';
+import LoadElement from '../../../../components/loadElement/LoadElement';
+import TiersFilteredList from '../../../../features/tier/components/tiersFilteredList/TiersFilteredList';
 
 const TiersPage = () => {
+	const {tiers, error, fetching} = useTiers()
+
 	return (
-		<EntitiesPage
-			title="Tiers Page"
-			getEntities={getAllTiers}
-			entitiesRenderer={entities => (
-				<TiersList tiers={entities} tierUrl={tier => managementTierRoute(tier.id!)}/>
-			)}/>
-	);
+		<div className={classes.root}>
+			<LoadElement loading={fetching}>
+				<TiersFilteredList tiers={tiers || []} tierUrl={tier => managementTierRoute(tier.id!)}/>
+				{error ? error.toString() : null}
+			</LoadElement>
+		</div>
+	)
 }
 
 export default TiersPage;

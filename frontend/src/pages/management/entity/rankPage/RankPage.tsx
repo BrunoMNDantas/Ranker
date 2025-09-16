@@ -16,9 +16,9 @@ import LoadElement from '../../../../components/loadElement/LoadElement';
 import { createVote as createNewVote, createTier as createNewTier, createOption as createNewOption } from '../../../../services/EntityFactory.service';
 import RankCard from '../../../../features/rank/components/rankCard/RankCard';
 import { Mode } from '../../../../components/entityCard/EntityCard';
-import OptionsList from '../../../../features/option/components/optionsList/OptionsList';
-import TiersList from '../../../../features/tier/components/tiersList/TiersList';
 import VotesList from '../../../../features/vote/components/votesList/VotesList';
+import OptionsFilteredList from '../../../../features/option/components/optionsFilteredList/OptionsFilteredList';
+import TiersFilteredList from '../../../../features/tier/components/tiersFilteredList/TiersFilteredList';
 
 export interface RankVotesListProps {
 	rankId: string | null
@@ -83,7 +83,7 @@ export const RankTiersList = ({ rankId }: RankTiersListProps) => {
 			<Divider />
 			<LoadElement loading={executing}>
 				{error ? <Typography color="error">Error loading tiers: {error.message}</Typography> : null}
-				{tiers ? <TiersList tiers={tiers} tierUrl={tier => managementTierRoute(tier.id!)}/> : null}
+				{tiers ? <TiersFilteredList tiers={tiers} tierUrl={tier => managementTierRoute(tier.id!)}/> : null}
 			</LoadElement>
 			<Button
 				variant="contained"
@@ -121,7 +121,7 @@ export const RankOptionsList = ({ rankId }: RankOptionsListProps) => {
 			<Divider />
 			<LoadElement loading={executing}>
 				{error ? <Typography color="error">Error loading options: {error.message}</Typography> : null}
-				{options ? <OptionsList options={options} optionUrl={option => managementOptionRoute(option.id!)}/> : null}
+				{options ? <OptionsFilteredList options={options} optionUrl={option => managementOptionRoute(option.id!)}/> : null}
 			</LoadElement>
 			<Button
 				variant="contained"
@@ -187,9 +187,9 @@ const RankPage = () => {
 				}
 			</LoadElement>
 			<div className={classes.relatedContainers}>
-				{rankId ? <div className={classes.relatedItem}><RankOptionsList rankId={rankId}/></div> : null}
-				{rankId ? <div className={classes.relatedItem}><RankTiersList rankId={rankId}/></div> : null}
-				{rankId ? <div className={classes.relatedItem}><RankVotesList rankId={rankId}/></div> : null}
+				{rankId ? <RankOptionsList rankId={rankId}/> : null}
+				{rankId ? <RankTiersList rankId={rankId}/> : null}
+				{rankId ? <RankVotesList rankId={rankId}/> : null}
 			</div>
 		</div>
 	);
