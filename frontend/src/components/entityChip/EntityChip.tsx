@@ -15,7 +15,7 @@ const EntityChip = ({ name, description, children, ...props }: EntityChipProps) 
             {children}
             <div className={classes.labels}>
                 <Tooltip title={name} enterDelay={1000} enterNextDelay={1000} placement='top'>
-                    <Typography className={classes.name} variant="h5">{name}</Typography>
+                    <Typography className={classes.name} variant="h6">{name}</Typography>
                 </Tooltip>
                 <Tooltip title={description} enterDelay={1000} enterNextDelay={1000} placement='top'>
                     <Typography className={classes.description} variant="caption">{description}</Typography>
