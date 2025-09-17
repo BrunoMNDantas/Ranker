@@ -1,14 +1,14 @@
 import React, { HTMLAttributes } from 'react';
 import { Assignment } from '../../model/Assignment.types';
 import EntityAvatar from '../../../../components/entityAvatar/EntityAvatar';
-import LinkIcon from '@mui/icons-material/Link';
+import AssignmentIcon from '../assignmentIcon/AssignmentIcon';
 
 export interface AssignmentAvatarProps extends HTMLAttributes<HTMLDivElement> {
     assignment: Assignment
 }
 
 const AssignmentAvatar = ({ assignment, ...props }: AssignmentAvatarProps) => {
-    return <EntityAvatar Icon={LinkIcon} {...props}/>
+    return <EntityAvatar Icon={AssignmentIcon} {...props}/>
 }
 
 export default AssignmentAvatar;
