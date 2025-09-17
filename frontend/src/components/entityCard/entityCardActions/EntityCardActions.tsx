@@ -1,5 +1,5 @@
 import React, { HTMLAttributes, ReactNode, useState } from 'react';
-import { CardActions, CircularProgress, IconButton, IconButtonProps } from '@mui/material';
+import { CardActions, CardActionsProps, CircularProgress, IconButton, IconButtonProps } from '@mui/material';
 
 const SPINNER_SIZE_MAP: Record<NonNullable<IconButtonProps["size"]>, number> = {
   small: 16,
@@ -39,7 +39,7 @@ export const EntityCardAction = ({ action }: CardActionProps) => {
     )
 }
 
-export interface EntityCardActionsProps extends HTMLAttributes<HTMLDivElement> {
+export interface EntityCardActionsProps extends CardActionsProps {
     actions: Action[]
 }
 

@@ -1,13 +1,13 @@
-import React, { HTMLAttributes, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import classes from './EntityCardContent.module.css';
-import { CardContent } from '@mui/material';
+import { CardContent, CardContentProps } from '@mui/material';
 
-export interface EntityCardContentProps extends HTMLAttributes<HTMLDivElement> {
+export interface EntityCardContentProps extends CardContentProps {
     properties: ReactNode[]
 }
 
 const EntityCardContent = ({ properties, ...props }: EntityCardContentProps) => {
-    const className = props.className ? props.className : classes.root
+    const className = props.className || classes.root
     return (
         <CardContent className={className} {...props}>
             {properties}

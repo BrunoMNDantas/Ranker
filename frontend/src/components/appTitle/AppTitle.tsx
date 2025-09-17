@@ -1,18 +1,18 @@
 import React from 'react';
-import { Typography } from '@mui/material';
+import { Typography, TypographyProps } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { ROOT_ROUTE } from '../../app/Routes';
 
-const AppTitle = ({ ...props }) => {
-	const style = {
-		textDecoration: "none",
-		color: "inherit",
-		fontWeight: "inherit",
-		cursor: "pointer"
-	}
+export const DEFAULT_SX = {
+	textDecoration: "none",
+	color: "inherit",
+	fontWeight: "inherit",
+	cursor: "pointer"
+}
 
+const AppTitle = ({ variant="h1", component=Link, sx=DEFAULT_SX, ...props }: TypographyProps) => {
 	return (
-		<Typography variant="h1" component={Link} to={ROOT_ROUTE} sx={style} {...props}>
+		<Typography variant={variant} component={component} to={ROOT_ROUTE} sx={sx} {...props}>
       		Ranker
     	</Typography>
 	);
