@@ -11,7 +11,7 @@ export interface EntityAvatarProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const EntityAvatar = ({ imageUrl, avatarColor, Icon, ...props }: EntityAvatarProps) => {
-    const className = props.className ? props.className : classes.root
+    const className = props.className || classes.root
     const color = avatarColor || DEFAULT_COLOR
 
     return (

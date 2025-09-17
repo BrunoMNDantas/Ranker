@@ -6,7 +6,7 @@ export interface EntityCardHeaderProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const EntityCardHeader = ({ avatar, children, ...props }: EntityCardHeaderProps) => {
-    const className = props.className ? props.className : classes.root
+    const className = props.className || classes.root
 
     return (
         <div className={className} {...props}>

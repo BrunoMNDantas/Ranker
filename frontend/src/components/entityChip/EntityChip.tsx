@@ -8,7 +8,7 @@ export interface EntityChipProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const EntityChip = ({ name, description, children, ...props }: EntityChipProps) => {
-    const className = props.className ? props.className : classes.root
+    const className = props.className || classes.root
 
     return (
         <div className={className} {...props}>

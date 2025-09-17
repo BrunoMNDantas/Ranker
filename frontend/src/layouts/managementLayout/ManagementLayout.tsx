@@ -13,7 +13,7 @@ const ManagementLayout = () => {
 	return (
 		<div className={classes.root}>
 			<div className={classes.title}>
-				<AppTitle className={classes}/>
+				<AppTitle/>
 			</div>
 			<div className={classes.content}>
 				<Outlet/>
