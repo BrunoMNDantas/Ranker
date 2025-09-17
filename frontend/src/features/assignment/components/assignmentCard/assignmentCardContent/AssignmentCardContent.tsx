@@ -15,11 +15,6 @@ const AssignmentCardContent = ({ assignment, onAssignmentChange, mode, ...props 
 
     const properties = [
         <TextField
-            label="Order"
-            type="number"
-            value={assignment.order || ""}
-            onChange={e => editable ? onAssignmentChange({...assignment, order: parseInt(e.target.value) || null}) : null}/>,
-        <TextField
             label="Option ID"
             type="text"
             value={assignment.optionId || ""}

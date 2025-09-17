@@ -11,15 +11,7 @@ export interface VoteCardContentProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const VoteCardContent = ({ vote, onVoteChange, mode, ...props }: VoteCardContentProps) => {
-    const properties = [
-        <TextField
-            disabled
-            label="ID"
-            type="text"
-            value={vote.id || ""}/>
-    ]
-
-    return <EntityCardContent properties={properties} {...props}/>
+    return <EntityCardContent properties={[]} {...props}/>
 }
 
 export default VoteCardContent;

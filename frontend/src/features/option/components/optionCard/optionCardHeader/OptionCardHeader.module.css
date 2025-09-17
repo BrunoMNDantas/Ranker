@@ -1,0 +1,5 @@
+.title {
+    display: grid;
+    grid-template-columns: minmax(45px, 0fr) minmax(0, 1fr);
+    gap: 5px;
+}

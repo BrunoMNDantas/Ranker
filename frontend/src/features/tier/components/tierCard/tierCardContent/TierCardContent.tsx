@@ -17,11 +17,6 @@ const TierCardContent = ({ tier, onTierChange, mode, ...props }: TierCardContent
 
     const properties = [
         <TextField
-            disabled
-            label="Order"
-            type="number"
-            value={tier.order || "0"}/>,
-        <TextField
             label="Title"
             type="text"
             value={tier.title || ""}
