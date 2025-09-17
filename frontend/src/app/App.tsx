@@ -39,7 +39,7 @@ const App = () => {
                     <Route path={OPTION_SUB_ROUTE} element={<AppOptionPage/>} />
                     <Route path={TIER_SUB_ROUTE} element={<AppTierPage/>} />
                     <Route path={VOTE_SUB_ROUTE} element={<AppVotePage/>} />
-                    <Route path={ASSIGNMENTS_SUB_ROUTE} element={<AppAssignmentPage/>} />
+                    <Route path={ASSIGNMENT_SUB_ROUTE} element={<AppAssignmentPage/>} />
                 </Route>
 
                 <Route path= {MANAGEMENT_ROUTE} element={<ManagementLayout/>}>
