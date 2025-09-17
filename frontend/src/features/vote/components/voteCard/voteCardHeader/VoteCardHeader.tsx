@@ -3,6 +3,7 @@ import { Vote } from '../../../model/Vote.types';
 import EntityCardHeader from '../../../../../components/entityCard/entityCardHeader/EntityCardHeader';
 import VoteAvatar from '../../voteAvatar/VoteAvatar';
 import EntityProperty from '../../../../../components/entityProperty/EntityProperty';
+import VoteBreadcrumbs from '../../voteBreadcrumbs/VoteBreadcrumbs';
 
 export interface VoteCardHeaderProps extends HTMLAttributes<HTMLDivElement> {
     vote: Vote
@@ -14,6 +15,7 @@ const VoteCardHeader = ({ vote, ...props }: VoteCardHeaderProps) => {
 
     return (
         <EntityCardHeader avatar={<VoteAvatar vote={vote}/>} {...props}>
+            <VoteBreadcrumbs vote={vote}/>
             <EntityProperty value={id} variant='h6'/>
             <EntityProperty value={date} variant='caption'/>
         </EntityCardHeader>

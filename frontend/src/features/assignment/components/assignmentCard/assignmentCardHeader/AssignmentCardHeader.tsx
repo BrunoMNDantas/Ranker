@@ -3,6 +3,7 @@ import { Assignment } from '../../../model/Assignment.types';
 import EntityCardHeader from '../../../../../components/entityCard/entityCardHeader/EntityCardHeader';
 import AssignmentAvatar from '../../assignmentAvatar/AssignmentAvatar';
 import EntityProperty from '../../../../../components/entityProperty/EntityProperty';
+import AssignmentBreadcrumbs from '../../../assignmentBreadcrumbs/AssignmentBreadcrumbs';
 
 export interface AssignmentCardHeaderProps extends HTMLAttributes<HTMLDivElement> {
     assignment: Assignment
@@ -14,6 +15,7 @@ const AssignmentCardHeader = ({ assignment, ...props }: AssignmentCardHeaderProp
 
     return (
         <EntityCardHeader avatar={<AssignmentAvatar assignment={assignment}/>} {...props}>
+            <AssignmentBreadcrumbs assignment={assignment}/>
             <EntityProperty value={order} variant='h6'/>
             <EntityProperty value={date} variant='caption'/>
         </EntityCardHeader>

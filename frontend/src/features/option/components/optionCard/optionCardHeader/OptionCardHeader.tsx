@@ -4,6 +4,7 @@ import { Option } from '../../../model/Option.types';
 import EntityCardHeader from '../../../../../components/entityCard/entityCardHeader/EntityCardHeader';
 import OptionAvatar from '../../optionAvatar/OptionAvatar';
 import EntityProperty from '../../../../../components/entityProperty/EntityProperty';
+import OptionBreadcrumbs from '../../optionBreadcrumbs/OptionBreadcrumbs';
 
 export interface OptionCardHeaderProps extends HTMLAttributes<HTMLDivElement> {
     option: Option
@@ -16,6 +17,7 @@ const OptionCardHeader = ({ option, ...props }: OptionCardHeaderProps) => {
 
     return (
         <EntityCardHeader avatar={<OptionAvatar option={option}/>} {...props}>
+            <OptionBreadcrumbs option={option}/>
             <div className={classes.title}>
                 <EntityProperty value={order} variant='h6'/>
                 <EntityProperty value={title} variant='h6'/>
