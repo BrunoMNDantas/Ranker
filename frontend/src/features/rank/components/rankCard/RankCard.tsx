@@ -5,9 +5,15 @@ import RankCardHeader from './rankCardHeader/RankCardHeader';
 import RankCardActions from './rankCardActions/RankCardActions';
 import RankCardContent from './rankCardContent/RankCardContent';
 import { Mode } from '../../../../components/entityCard/EntityCard';
+import { Tier } from '../../../tier/model/Tier.types';
+import { Option } from '../../../option/model/Option.types';
+import { Vote } from '../../../vote/model/Vote.types';
 
 export interface RankCardProps extends HTMLAttributes<HTMLDivElement> {
     rank: Rank
+    tiers: Tier[]
+    options: Option[]
+    votes: Vote[]
     mode: Mode
     onRankChange: (changedRank: Rank) => void
     onClear: () => Promise<void>
@@ -15,11 +21,11 @@ export interface RankCardProps extends HTMLAttributes<HTMLDivElement> {
     onDelete: () => Promise<void>
 }
 
-const RankCard = ({ rank, mode, onRankChange, onClear, onSave, onDelete, ...props }: RankCardProps) => {
+const RankCard = ({ rank, tiers, options, votes, mode, onRankChange, onClear, onSave, onDelete, ...props }: RankCardProps) => {
     return (
         <EntityCard
             cardHeader={<RankCardHeader rank={rank}/>}
-            cardContent={<RankCardContent rank={rank} onRankChange={onRankChange} mode={mode}/>}
+            cardContent={<RankCardContent rank={rank} tiers={tiers} options={options} votes={votes} onRankChange={onRankChange} mode={mode}/>}
             cardActions={<RankCardActions onClear={onClear} onSave={onSave} onDelete={onDelete} mode={mode}/>}
             {...props}/>
     );

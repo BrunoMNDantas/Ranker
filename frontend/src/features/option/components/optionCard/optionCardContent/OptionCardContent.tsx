@@ -1,45 +1,36 @@
 import React, { HTMLAttributes } from 'react';
 import { Option } from '../../../model/Option.types';
 import EntityCardContent from '../../../../../components/entityCard/entityCardContent/EntityCardContent';
-import { TextField } from '@mui/material';
 import { Mode } from '../../../../../components/entityCard/EntityCard';
-import ColorField from '../../../../../components/colorField/ColorField';
+import OptionCardForm from '../optionCardForm/OptionCardForm';
+import OptionIcon from '../../optionIcon/OptionIcon';
+import AssignmentIcon from '../../../../assignment/components/assignmentIcon/AssignmentIcon';
+import AssignmentsList from '../../../../assignment/components/assignmentsList/AssignmentsList';
+import { Assignment } from '../../../../assignment/model/Assignment.types';
+import { appAssignmentRoute } from '../../../../../app/Routes';
 
 export interface OptionCardContentProps extends HTMLAttributes<HTMLDivElement> {
     option: Option
+    assignments: Assignment[]
     onOptionChange: (option: Option) => void
     mode: Mode
 }
 
-const OptionCardContent = ({ option, onOptionChange, mode, ...props }: OptionCardContentProps) => {
-    const editable = mode === Mode.EDIT
-
-    const properties = [
-        <TextField
-            label="Title"
-            type="text"
-            value={option.title || ""}
-            onChange={e => editable ? onOptionChange({...option, title: e.target.value}) : null}/>,
-        <TextField
-            label="Description"
-            type="text"
-            multiline
-            rows={3}
-            value={option.description || ""}
-            onChange={e => editable ? onOptionChange({...option, description: e.target.value}) : null}/>,
-        <TextField
-            label="Image URL"
-            type="url"
-            value={option.imageUrl || ""}
-            onChange={e => editable ? onOptionChange({...option, imageUrl: e.target.value}) : null}/>,
-        <ColorField
-            disabled={!editable}
-            label="Color"
-            value={option.color}
-            onChange={(color) => editable ? onOptionChange({...option, color}) : null}/>
+const OptionCardContent = ({ option, assignments, onOptionChange, mode, ...props }: OptionCardContentProps) => {
+    const tabs = [
+        {
+            icon: <OptionIcon/>,
+            label: "Option",
+            view: <OptionCardForm option={option} onOptionChange={onOptionChange} mode={mode}/>
+        },
+        {
+            icon: <AssignmentIcon/>,
+            label: "Assignments",
+            view: <AssignmentsList assignments={assignments} assignmentUrl={assignment => appAssignmentRoute(assignment.id!)}/>
+        }
     ]
 
-    return <EntityCardContent properties={properties} {...props}/>
+    return <EntityCardContent tabs={tabs} {...props}/>
 }
 
 export default OptionCardContent;

@@ -1,8 +1,25 @@
 .root {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
 
-    max-height: 300px;
+    overflow: hidden;
+    padding: 0px !important;
+    flex-grow: 1;
+}
+
+.tabs {
+    flex: 0 0 auto;
+}
+
+.view {
+    flex: 1 1 auto;
     overflow: auto;
+    width: 90%;
+}
+
+.view > * {
+    height: 100%;
 }

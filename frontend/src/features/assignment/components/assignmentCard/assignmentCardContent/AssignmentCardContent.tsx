@@ -1,8 +1,9 @@
 import React, { HTMLAttributes } from 'react';
 import { Assignment } from '../../../model/Assignment.types';
 import EntityCardContent from '../../../../../components/entityCard/entityCardContent/EntityCardContent';
-import { TextField } from '@mui/material';
 import { Mode } from '../../../../../components/entityCard/EntityCard';
+import AssignmentCardForm from '../assignmentCardForm/AssignmentCardForm';
+import AssignmentIcon from '../../assignmentIcon/AssignmentIcon';
 
 export interface AssignmentCardContentProps extends HTMLAttributes<HTMLDivElement> {
     assignment: Assignment
@@ -11,22 +12,14 @@ export interface AssignmentCardContentProps extends HTMLAttributes<HTMLDivElemen
 }
 
 const AssignmentCardContent = ({ assignment, onAssignmentChange, mode, ...props }: AssignmentCardContentProps) => {
-    const editable = mode === Mode.EDIT
-
-    const properties = [
-        <TextField
-            label="Option ID"
-            type="text"
-            value={assignment.optionId || ""}
-            onChange={e => editable ? onAssignmentChange({...assignment, optionId: e.target.value}) : null}/>,
-        <TextField
-            label="Tier ID"
-            type="text"
-            value={assignment.tierId || ""}
-            onChange={e => editable ? onAssignmentChange({...assignment, tierId: e.target.value}) : null}/>
+    const tabs = [
+        {
+            icon: <AssignmentIcon/>,
+            label: "Assignment",
+            view: <AssignmentCardForm assignment={assignment} onAssignmentChange={onAssignmentChange} mode={mode}/>}
     ]
 
-    return <EntityCardContent properties={properties} {...props}/>
+    return <EntityCardContent tabs={tabs} {...props}/>
 }
 
 export default AssignmentCardContent;

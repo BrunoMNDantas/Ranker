@@ -1,45 +1,36 @@
 import React, { HTMLAttributes } from 'react';
 import { Tier } from '../../../model/Tier.types';
 import EntityCardContent from '../../../../../components/entityCard/entityCardContent/EntityCardContent';
-import { TextField } from '@mui/material';
 import { Mode } from '../../../../../components/entityCard/EntityCard';
-import ColorField from '../../../../../components/colorField/ColorField';
+import TierCardForm from '../tierCardForm/TierCardForm';
+import TierIcon from '../../tierIcon/TierIcon';
+import AssignmentIcon from '../../../../assignment/components/assignmentIcon/AssignmentIcon';
+import AssignmentsList from '../../../../assignment/components/assignmentsList/AssignmentsList';
+import { Assignment } from '../../../../assignment/model/Assignment.types';
+import { appAssignmentRoute } from '../../../../../app/Routes';
 
 export interface TierCardContentProps extends HTMLAttributes<HTMLDivElement> {
     tier: Tier
+    assignments: Assignment[]
     onTierChange: (tier: Tier) => void
     mode: Mode
 }
 
-const TierCardContent = ({ tier, onTierChange, mode, ...props }: TierCardContentProps) => {
-    const editable = mode === Mode.EDIT
-
-    const properties = [
-        <TextField
-            label="Title"
-            type="text"
-            value={tier.title || ""}
-            onChange={e => editable ? onTierChange({...tier, title: e.target.value}) : null}/>,
-        <TextField
-            label="Description"
-            type="text"
-            multiline
-            rows={3}
-            value={tier.description || ""}
-            onChange={e => editable ? onTierChange({...tier, description: e.target.value}) : null}/>,
-        <TextField
-            label="Image URL"
-            type="url"
-            value={tier.imageUrl || ""}
-            onChange={e => editable ? onTierChange({...tier, imageUrl: e.target.value}) : null}/>,
-        <ColorField
-            disabled={!editable}
-            label="Color"
-            value={tier.color}
-            onChange={color => editable ? onTierChange({...tier, color}) : null}/>
+const TierCardContent = ({ tier, assignments, onTierChange, mode, ...props }: TierCardContentProps) => {
+    const tabs = [
+        {
+            icon: <TierIcon/>,
+            label: "Tier",
+            view: <TierCardForm tier={tier} onTierChange={onTierChange} mode={mode}/>
+        },
+        {
+            icon: <AssignmentIcon/>,
+            label: "Assignments",
+            view: <AssignmentsList assignments={assignments} assignmentUrl={assignment => appAssignmentRoute(assignment.id!)}/>
+        }
     ]
 
-    return <EntityCardContent properties={properties} {...props}/>
+    return <EntityCardContent tabs={tabs} {...props}/>
 }
 
 export default TierCardContent;
