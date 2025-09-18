@@ -9,37 +9,3 @@
 
 	overflow: auto;
 }
-
-.relatedContainers {
-	width: 100%;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-evenly;
-	align-items: baseline;
-}
-
-.relatedContainer {
-	background-color: rgba(0, 0, 0, 0.082);
-	padding: 10px;
-	border-radius: 10px;
-
-	display: flex;
-	flex-direction: column;
-	justify-content: start;
-	align-items: baseline;
-	gap: 5px;
-
-	max-height: 300px;
-	overflow: auto;
-
-	width: 25%;
-}
-
-.relatedContainer > * {
-	width: 100%;
-}
-
-.createButton {
-	margin-top: 15px;
-	align-self: center;
-}

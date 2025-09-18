@@ -1,20 +1,25 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classes from './TierPage.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
-import { deleteTier, getTier, updateTier } from '../../features/tier/api/Tier.api';
-import { useExecute } from '../../hooks/UseExecute';
+import { deleteTier, updateTier } from '../../features/tier/api/Tier.api';
 import { Tier } from '../../features/tier/model/Tier.types';
 import { APP_TIERS_ROUTE } from '../../app/Routes';
 import LoadElement from '../../components/loadElement/LoadElement';
 import TierCard from '../../features/tier/components/tierCard/TierCard';
 import { Mode } from '../../components/entityCard/EntityCard';
+import { useTier } from '../../features/tier/hooks/UseTier.hook';
+import { useAssignmentsOfTier } from '../../features/assignment/hooks/UseAssignmentsOfTier.hook';
 
 const TierPage = () => {
 	const navigate = useNavigate()
 	const { tierId } = useParams<{ tierId: string }>()
-	const getTierCallback = useCallback(() => tierId ? getTier(tierId) : Promise.resolve(null), [tierId])
-	const { result: tier, executing, error } = useExecute(getTierCallback)
 	const [editedTier, setEditedTier] = useState<Tier | null>(null)
+
+	const { tier, fetching: fetchingTier, error: tierError } = useTier(tierId || "")
+	const { assignments, fetching: fetchingAssignments, error: assignmentsError } = useAssignmentsOfTier(tierId || "")
+
+	const fetching = fetchingTier || fetchingAssignments
+	const error = tierError || assignmentsError
 
 	useEffect(() => {
 		if(!editedTier) {
@@ -48,12 +53,13 @@ const TierPage = () => {
 
 	return (
 		<div className={classes.root}>
-			<LoadElement loading={executing}>
-				{!executing && error ? error.toString() : null}
-				{!executing && !error && !tier ? "Entity not found!" : null}
-				{!executing && !error && editedTier ?
+			<LoadElement loading={fetching}>
+				{!fetching && error ? error.toString() : null}
+				{!fetching && !error && !tier ? "Entity not found!" : null}
+				{!fetching && !error && editedTier ?
 					<TierCard
 						tier={editedTier}
+						assignments={assignments || []}
 						mode={Mode.EDIT}
 						onTierChange={handleTierChange}
 						onClear={handleClear}

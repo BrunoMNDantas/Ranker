@@ -1,20 +1,25 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classes from './OptionPage.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
-import { deleteOption, getOption, updateOption } from '../../../../features/option/api/Option.api';
+import { deleteOption, updateOption } from '../../../../features/option/api/Option.api';
 import { Option } from '../../../../features/option/model/Option.types';
 import { MANAGEMENT_OPTIONS_ROUTE } from '../../../../app/Routes';
 import OptionCard from '../../../../features/option/components/optionCard/OptionCard';
 import { Mode } from '../../../../components/entityCard/EntityCard';
-import { useExecute } from '../../../../hooks/UseExecute';
 import LoadElement from '../../../../components/loadElement/LoadElement';
+import { useOption } from '../../../../features/option/hooks/UseOption.hook';
+import { useAssignmentsOfOption } from '../../../../features/assignment/hooks/UseAssignmentsOfOption.hook';
 
 const OptionPage = () => {
 	const navigate = useNavigate()
 	const { optionId } = useParams<{ optionId: string }>()
-	const getOptionCallback = useCallback(() => optionId ? getOption(optionId) : Promise.resolve(null), [optionId])
-	const { result: option, executing, error } = useExecute(getOptionCallback)
 	const [editedOption, setEditedOption] = useState<Option | null>(null)
+
+	const { option, fetching: fetchingOption, error: optionError } = useOption(optionId || "")
+	const { assignments, fetching: fetchingAssignments, error: assignmentsError } = useAssignmentsOfOption(optionId || "")
+
+	const fetching = fetchingOption || fetchingAssignments
+	const error = optionError || assignmentsError
 
 	useEffect(() => {
 		if(!editedOption) {
@@ -47,12 +52,13 @@ const OptionPage = () => {
 
 	return (
 		<div className={classes.root}>
-			<LoadElement loading={executing}>
-				{!executing && error ? error.toString() : null}
-				{!executing && !error && !option ? "Entity not found!" : null}
-				{!executing && !error && editedOption ?
+			<LoadElement loading={fetching}>
+				{!fetching && error ? error.toString() : null}
+				{!fetching && !error && !option ? "Entity not found!" : null}
+				{!fetching && !error && editedOption ?
 					<OptionCard
 						option={editedOption}
+						assignments={assignments || []}
 						mode={Mode.EDIT}
 						onOptionChange={handleOptionChange}
 						onClear={handleClear}
