@@ -1,8 +1,9 @@
 import { getOptionsOfRank } from "../api/Option.api";
-import { Option } from "../model/Option.types";
 import { useExecute } from "../../../hooks/UseExecute";
+import { useCallback } from "react";
 
-export function useOptionsOfRank(rankId: string) {
-    const { executing: fetching, result: options, error } = useExecute<Option[]>(() => getOptionsOfRank(rankId))
+export function useOptionsOfRank(rankId?: string | null) {
+    const getOptionsCallback = useCallback(() => rankId ? getOptionsOfRank(rankId) : Promise.resolve([]), [rankId])
+    const { executing: fetching, result: options, error } = useExecute(getOptionsCallback)
     return { fetching, options, error }
 }

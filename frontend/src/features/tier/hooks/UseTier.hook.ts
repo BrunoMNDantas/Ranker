@@ -1,8 +1,9 @@
+import { useCallback } from "react";
 import { useExecute } from "../../../hooks/UseExecute";
 import { getTier } from "../api/Tier.api";
-import { Tier } from "../model/Tier.types";
 
-export function useTier(tierId: string) {
-    const { executing: fetching, result: tier, error } = useExecute<Tier|null>(() => getTier(tierId))
+export function useTier(tierId?: string | null) {
+    const getTierCallback = useCallback(() => tierId ? getTier(tierId) : Promise.resolve(null), [tierId])
+    const { executing: fetching, result: tier, error } = useExecute(getTierCallback)
     return { fetching, tier, error }
 }

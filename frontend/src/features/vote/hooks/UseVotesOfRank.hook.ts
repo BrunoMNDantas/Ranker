@@ -1,8 +1,9 @@
+import { useCallback } from "react";
 import { useExecute } from "../../../hooks/UseExecute";
 import { getVotesOfRank } from "../api/Vote.api";
-import { Vote } from "../model/Vote.types";
 
-export function useVotesOfRank(rankId: string) {
-    const { executing: fetching, result: votes, error } = useExecute<Vote[]>(() => getVotesOfRank(rankId))
+export function useVotesOfRank(rankId?: string | null) {
+    const getVotesCallback = useCallback(() => rankId ? getVotesOfRank(rankId) : Promise.resolve([]), [rankId])
+    const { executing: fetching, result: votes, error } = useExecute(getVotesCallback)
     return { fetching, votes, error }
 }
