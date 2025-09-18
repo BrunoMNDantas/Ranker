@@ -41,7 +41,7 @@ export const rgbaToHex = (rgba: RgbaColor): string => {
 
 export interface ColorFieldProps {
     label: string;
-    value: string;
+    value: string | null;
     onChange: (color: string) => void;
     disabled?: boolean;
 }
@@ -62,7 +62,7 @@ const ColorField = ({ label, value, onChange, disabled = false }: ColorFieldProp
                 disabled={disabled}
                 label={label}
                 type="text"
-                value={value}
+                value={value || ''}
                 onChange={e => !disabled ? onChange(e.target.value) : null}
                 slotProps={{
                     input: {

@@ -4,7 +4,6 @@ import EntityCardContent from '../../../../../components/entityCard/entityCardCo
 import { TextField } from '@mui/material';
 import { Mode } from '../../../../../components/entityCard/EntityCard';
 import ColorField from '../../../../../components/colorField/ColorField';
-import { DEFAULT_COLOR } from '../../../../../components/entityAvatar/EntityAvatar';
 
 export interface TierCardContentProps extends HTMLAttributes<HTMLDivElement> {
     tier: Tier
@@ -36,7 +35,7 @@ const TierCardContent = ({ tier, onTierChange, mode, ...props }: TierCardContent
         <ColorField
             disabled={!editable}
             label="Color"
-            value={tier.color || DEFAULT_COLOR}
+            value={tier.color}
             onChange={color => editable ? onTierChange({...tier, color}) : null}/>
     ]
 
