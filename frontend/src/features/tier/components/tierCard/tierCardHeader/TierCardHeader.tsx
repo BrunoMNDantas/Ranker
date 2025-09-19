@@ -8,16 +8,17 @@ import TierBreadcrumbs from '../../tierBreadcrumbs/TierBreadcrumbs';
 
 export interface TierCardHeaderProps extends HTMLAttributes<HTMLDivElement> {
     tier: Tier
+    showBreadcrumbs?: boolean
 }
 
-const TierCardHeader = ({ tier, ...props }: TierCardHeaderProps) => {
+const TierCardHeader = ({ tier, showBreadcrumbs=true, ...props }: TierCardHeaderProps) => {
     const order = tier.order + "º"
     const title = tier.title
     const date = new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(tier.creationDate!)
 
     return (
         <EntityCardHeader avatar={<TierAvatar tier={tier}/>} {...props}>
-            <TierBreadcrumbs tier={tier}/>
+            { showBreadcrumbs ? <TierBreadcrumbs tier={tier}/> : null }
             <div className={classes.title}>
                 <EntityProperty value={order} variant='h6'/>
                 <EntityProperty value={title} variant='h6'/>

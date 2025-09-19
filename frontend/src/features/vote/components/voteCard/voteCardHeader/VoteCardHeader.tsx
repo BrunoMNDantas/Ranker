@@ -7,15 +7,16 @@ import VoteBreadcrumbs from '../../voteBreadcrumbs/VoteBreadcrumbs';
 
 export interface VoteCardHeaderProps extends HTMLAttributes<HTMLDivElement> {
     vote: Vote
+    showBreadcrumbs?: boolean
 }
 
-const VoteCardHeader = ({ vote, ...props }: VoteCardHeaderProps) => {
+const VoteCardHeader = ({ vote, showBreadcrumbs=true, ...props }: VoteCardHeaderProps) => {
     const id = vote.id
     const date = new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(vote.creationDate!)
 
     return (
         <EntityCardHeader avatar={<VoteAvatar vote={vote}/>} {...props}>
-            <VoteBreadcrumbs vote={vote}/>
+            { showBreadcrumbs ? <VoteBreadcrumbs vote={vote}/> : null }
             <EntityProperty value={id} variant='h6'/>
             <EntityProperty value={date} variant='caption'/>
         </EntityCardHeader>

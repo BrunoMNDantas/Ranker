@@ -7,15 +7,16 @@ import AssignmentBreadcrumbs from '../../../assignmentBreadcrumbs/AssignmentBrea
 
 export interface AssignmentCardHeaderProps extends HTMLAttributes<HTMLDivElement> {
     assignment: Assignment
+    showBreadcrumbs?: boolean
 }
 
-const AssignmentCardHeader = ({ assignment, ...props }: AssignmentCardHeaderProps) => {
+const AssignmentCardHeader = ({ assignment, showBreadcrumbs=true, ...props }: AssignmentCardHeaderProps) => {
     const order = assignment.order + "º"
     const date = new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(assignment.creationDate!)
 
     return (
         <EntityCardHeader avatar={<AssignmentAvatar assignment={assignment}/>} {...props}>
-            <AssignmentBreadcrumbs assignment={assignment}/>
+            { showBreadcrumbs ? <AssignmentBreadcrumbs assignment={assignment}/> : null }
             <EntityProperty value={order} variant='h6'/>
             <EntityProperty value={date} variant='caption'/>
         </EntityCardHeader>
