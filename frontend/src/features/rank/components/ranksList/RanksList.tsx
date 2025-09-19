@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import React, { HTMLAttributes, ReactNode } from 'react';
 import { Rank } from '../../model/Rank.types';
 import RankChip from '../rankChip/RankChip';
 import EntityList from '../../../../components/entityList/EntityList';
@@ -7,15 +7,18 @@ export interface RanksListProps extends HTMLAttributes<HTMLDivElement> {
     ranks: Rank[]
     rankUrl?: (rank: Rank) => string
     onRankClick?: (rank: Rank) => void
+    chipActions?: (rank: Rank) => ReactNode[]
 }
 
-const RanksList = ({ ranks, rankUrl, onRankClick, ...props }: RanksListProps) => {
-    return <EntityList
-        entities={ranks}
-        entityRenderer={rank => <RankChip rank={rank}/>}
-        entityUrl={rankUrl}
-        onEntityClick={onRankClick}
-        {...props}/>
+const RanksList = ({ ranks, rankUrl, onRankClick, chipActions=()=>[], ...props }: RanksListProps) => {
+    return (
+        <EntityList
+            entities={ranks}
+            entityRenderer={rank => <RankChip rank={rank}>{chipActions(rank)}</RankChip>}
+            entityUrl={rankUrl}
+            onEntityClick={onRankClick}
+            {...props}/>
+    )
 }
 
 export default RanksList;
