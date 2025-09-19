@@ -8,15 +8,20 @@ import AssignmentIcon from '../../../../assignment/components/assignmentIcon/Ass
 import AssignmentsList from '../../../../assignment/components/assignmentsList/AssignmentsList';
 import { Assignment } from '../../../../assignment/model/Assignment.types';
 import { appAssignmentRoute } from '../../../../../app/Routes';
+import { IconButton } from '@mui/material';
+import ClearIcon from '@mui/icons-material/Clear';
 
 export interface OptionCardContentProps extends HTMLAttributes<HTMLDivElement> {
     option: Option
     assignments: Assignment[]
-    onOptionChange: (option: Option) => void
     mode: Mode
+    onOptionChange: (option: Option) => void
+    onDeleteAssignment: (assignment: Assignment) => Promise<void>
 }
 
-const OptionCardContent = ({ option, assignments, onOptionChange, mode, ...props }: OptionCardContentProps) => {
+const OptionCardContent = ({ option, assignments, mode, onOptionChange, onDeleteAssignment, ...props }: OptionCardContentProps) => {
+    const editMode = mode === Mode.EDIT
+
     const tabs = [
         {
             icon: <OptionIcon/>,
@@ -26,7 +31,24 @@ const OptionCardContent = ({ option, assignments, onOptionChange, mode, ...props
         {
             icon: <AssignmentIcon/>,
             label: "Assignments",
-            view: <AssignmentsList assignments={assignments} assignmentUrl={assignment => appAssignmentRoute(assignment.id!)}/>
+            view: (
+                <AssignmentsList
+                    assignments={assignments}
+                    assignmentUrl={assignment => appAssignmentRoute(assignment.id!)}
+                    chipActions={assignment => [
+                        editMode ?
+                            <IconButton
+                                color="error"
+                                onClick={e => {
+                                    e.preventDefault()
+                                    onDeleteAssignment(assignment)
+                                }}
+                                size='small'>
+                                <ClearIcon/>
+                            </IconButton> :
+                        null
+                    ]}/>
+            )
         }
     ]
 

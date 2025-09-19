@@ -7,8 +7,8 @@ import AssignmentIcon from '../../assignmentIcon/AssignmentIcon';
 
 export interface AssignmentCardContentProps extends HTMLAttributes<HTMLDivElement> {
     assignment: Assignment
-    onAssignmentChange: (assignment: Assignment) => void
     mode: Mode
+    onAssignmentChange: (assignment: Assignment) => void
 }
 
 const AssignmentCardContent = ({ assignment, onAssignmentChange, mode, ...props }: AssignmentCardContentProps) => {

@@ -15,16 +15,19 @@ export interface VoteCardProps extends HTMLAttributes<HTMLDivElement> {
     onClear: () => Promise<void>
     onSave: () => Promise<void>
     onDelete: () => Promise<void>
+    onDeleteAssignment: (assignment: Assignment) => Promise<void>
 }
 
-const VoteCard = ({ vote, assignments, mode, onVoteChange, onClear, onSave, onDelete, ...props }: VoteCardProps) => {
-    return (
-        <EntityCard
-            cardHeader={<VoteCardHeader vote={vote}/>}
-            cardContent={<VoteCardContent vote={vote} assignments={assignments} onVoteChange={onVoteChange} mode={mode}/>}
-            cardActions={<VoteCardActions onClear={onClear} onSave={onSave} onDelete={onDelete} mode={mode}/>}
-            {...props}/>
-    );
+const VoteCard = ({ vote, assignments, mode, onVoteChange, onClear, onSave, onDelete, onDeleteAssignment, ...props }: VoteCardProps) => {
+    const cardHeader =<VoteCardHeader vote={vote}/>
+    const cardContent = (
+        <VoteCardContent
+            vote={vote} assignments={assignments} mode={mode}
+            onVoteChange={onVoteChange} onDeleteAssignment={onDeleteAssignment}/>
+    )
+    const cardActions = <VoteCardActions onClear={onClear} onSave={onSave} onDelete={onDelete} mode={mode}/>
+
+    return <EntityCard cardHeader={cardHeader} cardContent={cardContent} cardActions={cardActions} {...props}/>
 }
 
 export default VoteCard;

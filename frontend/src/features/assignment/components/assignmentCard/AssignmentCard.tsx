@@ -16,13 +16,11 @@ export interface AssignmentCardProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const AssignmentCard = ({ assignment, mode, onAssignmentChange, onClear, onSave, onDelete, ...props }: AssignmentCardProps) => {
-    return (
-        <EntityCard
-            cardHeader={<AssignmentCardHeader assignment={assignment}/>}
-            cardContent={<AssignmentCardContent assignment={assignment} onAssignmentChange={onAssignmentChange} mode={mode}/>}
-            cardActions={<AssignmentCardActions onClear={onClear} onSave={onSave} onDelete={onDelete} mode={mode}/>}
-            {...props}/>
-    );
+    const cardHeader = <AssignmentCardHeader assignment={assignment}/>
+    const cardContent = <AssignmentCardContent assignment={assignment} mode={mode} onAssignmentChange={onAssignmentChange}/>
+    const cardActions = <AssignmentCardActions onClear={onClear} onSave={onSave} onDelete={onDelete} mode={mode}/>
+
+    return <EntityCard cardHeader={cardHeader} cardContent={cardContent} cardActions={cardActions} {...props}/>
 }
 
 export default AssignmentCard;

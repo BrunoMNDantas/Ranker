@@ -11,6 +11,12 @@ import { useRank } from '../../features/rank/hooks/UseRank.hook';
 import { useOptionsOfRank } from '../../features/option/hooks/UseOptionsOfRank.hook';
 import { useTiersOfRank } from '../../features/tier/hooks/UseTiersOfRank.hook';
 import { useVotesOfRank } from '../../features/vote/hooks/UseVotesOfRank.hook';
+import { Tier } from '../../features/tier/model/Tier.types';
+import { deleteTier } from '../../features/tier/api/Tier.api';
+import { deleteOption } from '../../features/option/api/Option.api';
+import { Option } from '../../features/option/model/Option.types';
+import { deleteVote } from '../../features/vote/api/Vote.api';
+import { Vote } from '../../features/vote/model/Vote.types';
 
 const RankPage = () => {
 	const navigate = useNavigate()
@@ -54,6 +60,10 @@ const RankPage = () => {
 		}
 	}
 
+	const handleDeleteTier = async (tier: Tier) => deleteTier(tier.id!)
+	const handleDeleteOption = async (option: Option) => deleteOption(option.id!)
+	const handleDeleteVote = async (vote: Vote) => deleteVote(vote.id!)
+
 	return (
 		<div className={classes.root}>
 			<LoadElement loading={fetching}>
@@ -69,7 +79,10 @@ const RankPage = () => {
 						onRankChange={handleRankChange}
 						onClear={handleClear}
 						onSave={handleSave}
-						onDelete={handleDelete}/> :
+						onDelete={handleDelete}
+						onDeleteTier={handleDeleteTier}
+						onDeleteOption={handleDeleteOption}
+						onDeleteVote={handleDeleteVote}/> :
 					null
 				}
 			</LoadElement>

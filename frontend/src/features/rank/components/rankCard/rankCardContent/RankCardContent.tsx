@@ -14,17 +14,28 @@ import TiersFilteredList from '../../../../tier/components/tiersFilteredList/Tie
 import OptionsFilteredList from '../../../../option/components/optionsFilteredList/OptionsFilteredList';
 import VotesList from '../../../../vote/components/votesList/VotesList';
 import { appOptionRoute, appTierRoute, appVoteRoute } from '../../../../../app/Routes';
+import ClearIcon from '@mui/icons-material/Clear';
+import { IconButton } from '@mui/material';
 
 export interface RankCardContentProps extends HTMLAttributes<HTMLDivElement> {
     rank: Rank
     tiers: Tier[]
     options: Option[]
     votes: Vote[]
-    onRankChange: (rank: Rank) => void
     mode: Mode
+    onRankChange: (rank: Rank) => void
+    onDeleteTier: (tier: Tier) => Promise<void>
+    onDeleteOption: (option: Option) => Promise<void>
+    onDeleteVote: (vote: Vote) => Promise<void>
 }
 
-const RankCardContent = ({ rank, tiers, options, votes, onRankChange, mode, ...props }: RankCardContentProps) => {
+const RankCardContent = ({
+    rank, tiers, options, votes, mode,
+    onRankChange, onDeleteTier, onDeleteOption, onDeleteVote,
+    ...props
+}: RankCardContentProps) => {
+    const editMode = mode === Mode.EDIT
+
     const tabs = [
         {
             icon: <RankIcon/>,
@@ -34,17 +45,68 @@ const RankCardContent = ({ rank, tiers, options, votes, onRankChange, mode, ...p
         {
             icon: <TierIcon/>,
             label: "Tiers",
-            view: <TiersFilteredList tiers={tiers} tierUrl={tier => appTierRoute(tier.id!)}/>
+            view: (
+                <TiersFilteredList
+                    tiers={tiers}
+                    tierUrl={tier => appTierRoute(tier.id!)}
+                    chipActions={tier => [
+                        editMode ?
+                             <IconButton
+                                color="error"
+                                onClick={e => {
+                                    e.preventDefault()
+                                    onDeleteTier(tier)
+                                }}
+                                size='small'>
+                                <ClearIcon/>
+                            </IconButton> :
+                        null
+                    ]}/>
+            )
         },
         {
             icon: <OptionIcon/>,
             label: "Options",
-            view: <OptionsFilteredList options={options} optionUrl={option => appOptionRoute(option.id!)}/>
+            view: (
+                <OptionsFilteredList
+                    options={options}
+                    optionUrl={option => appOptionRoute(option.id!)}
+                    chipActions={option => [
+                        editMode ?
+                             <IconButton
+                                color="error"
+                                onClick={e => {
+                                    e.preventDefault()
+                                    onDeleteOption(option)
+                                }}
+                                size='small'>
+                                <ClearIcon/>
+                            </IconButton> :
+                            null
+                    ]}/>
+            )
         },
         {
             icon: <VoteIcon/>,
             label: "Votes",
-            view: <VotesList votes={votes} voteUrl={vote => appVoteRoute(vote.id!)}/>
+            view: (
+                <VotesList
+                    votes={votes}
+                    voteUrl={vote => appVoteRoute(vote.id!)}
+                    chipActions={vote => [
+                        editMode ?
+                             <IconButton
+                                color="error"
+                                onClick={e => {
+                                    e.preventDefault()
+                                    onDeleteVote(vote)
+                                }}
+                                size='small'>
+                                <ClearIcon/>
+                            </IconButton> :
+                            null
+                    ]}/>
+            )
         }
     ]
 

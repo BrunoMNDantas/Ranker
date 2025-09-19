@@ -15,16 +15,19 @@ export interface OptionCardProps extends HTMLAttributes<HTMLDivElement> {
     onClear: () => Promise<void>
     onSave: () => Promise<void>
     onDelete: () => Promise<void>
+    onDeleteAssignment: (assignment: Assignment) => Promise<void>
 }
 
-const OptionCard = ({ option, assignments, mode, onOptionChange, onClear, onSave, onDelete, ...props }: OptionCardProps) => {
-    return (
-        <EntityCard
-            cardHeader={<OptionCardHeader option={option}/>}
-            cardContent={<OptionCardContent option={option} assignments={assignments} onOptionChange={onOptionChange} mode={mode}/>}
-            cardActions={<OptionCardActions onClear={onClear} onSave={onSave} onDelete={onDelete} mode={mode}/>}
-            {...props}/>
-    );
+const OptionCard = ({ option, assignments, mode, onOptionChange, onClear, onSave, onDelete, onDeleteAssignment, ...props }: OptionCardProps) => {
+    const cardHeader = <OptionCardHeader option={option}/>
+    const cardContent = (
+        <OptionCardContent
+            option={option} assignments={assignments} mode={mode}
+            onOptionChange={onOptionChange} onDeleteAssignment={onDeleteAssignment}/>
+    )
+    const cardActions = <OptionCardActions onClear={onClear} onSave={onSave} onDelete={onDelete} mode={mode}/>
+
+    return <EntityCard cardHeader={cardHeader} cardContent={cardContent} cardActions={cardActions} {...props}/>
 }
 
 export default OptionCard;

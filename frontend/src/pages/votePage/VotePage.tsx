@@ -9,6 +9,8 @@ import VoteCard from '../../features/vote/components/voteCard/VoteCard';
 import { Mode } from '../../components/entityCard/EntityCard';
 import { useVote } from '../../features/vote/hooks/UseVote.hook';
 import { useAssignmentsOfVote } from '../../features/assignment/hooks/UseAssignmentsOfVote.hook';
+import { deleteAssignment } from '../../features/assignment/api/Assignment.api';
+import { Assignment } from '../../features/assignment/model/Assignment.types';
 
 const VotePage = () => {
 	const navigate = useNavigate()
@@ -50,6 +52,8 @@ const VotePage = () => {
 		}
 	}
 
+	const handleDeleteAssignment = (assignment: Assignment) => deleteAssignment(assignment.id!)
+
 	return (
 		<div className={classes.root}>
 			<LoadElement loading={fetching}>
@@ -63,7 +67,8 @@ const VotePage = () => {
 						onVoteChange={handleVoteChange}
 						onClear={handleClear}
 						onSave={handleSave}
-						onDelete={handleDelete}/> :
+						onDelete={handleDelete}
+						onDeleteAssignment={handleDeleteAssignment}/> :
 					null
 				}
 			</LoadElement>

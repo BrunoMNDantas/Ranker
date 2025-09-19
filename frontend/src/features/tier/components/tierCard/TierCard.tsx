@@ -15,16 +15,19 @@ export interface TierCardProps extends HTMLAttributes<HTMLDivElement> {
     onClear: () => Promise<void>
     onSave: () => Promise<void>
     onDelete: () => Promise<void>
+    onDeleteAssignment: (assignment: Assignment) => Promise<void>
 }
 
-const TierCard = ({ tier, assignments, mode, onTierChange, onClear, onSave, onDelete, ...props }: TierCardProps) => {
-    return (
-        <EntityCard
-            cardHeader={<TierCardHeader tier={tier}/>}
-            cardContent={<TierCardContent tier={tier} assignments={assignments} onTierChange={onTierChange} mode={mode}/>}
-            cardActions={<TierCardActions onClear={onClear} onSave={onSave} onDelete={onDelete} mode={mode}/>}
-            {...props}/>
-    );
+const TierCard = ({ tier, assignments, mode, onTierChange, onClear, onSave, onDelete, onDeleteAssignment, ...props }: TierCardProps) => {
+    const cardHeader = <TierCardHeader tier={tier}/>
+    const cardContent = (
+        <TierCardContent
+            tier={tier} assignments={assignments} mode={mode}
+            onTierChange={onTierChange} onDeleteAssignment={onDeleteAssignment}/>
+    )
+    const cardActions = <TierCardActions onClear={onClear} onSave={onSave} onDelete={onDelete} mode={mode}/>
+
+    return <EntityCard cardHeader={cardHeader} cardContent={cardContent} cardActions={cardActions} {...props}/>
 }
 
 export default TierCard;

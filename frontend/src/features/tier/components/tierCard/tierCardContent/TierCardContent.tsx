@@ -8,15 +8,20 @@ import AssignmentIcon from '../../../../assignment/components/assignmentIcon/Ass
 import AssignmentsList from '../../../../assignment/components/assignmentsList/AssignmentsList';
 import { Assignment } from '../../../../assignment/model/Assignment.types';
 import { appAssignmentRoute } from '../../../../../app/Routes';
+import { IconButton } from '@mui/material';
+import ClearIcon from '@mui/icons-material/Clear';
 
 export interface TierCardContentProps extends HTMLAttributes<HTMLDivElement> {
     tier: Tier
     assignments: Assignment[]
-    onTierChange: (tier: Tier) => void
     mode: Mode
+    onTierChange: (tier: Tier) => void
+    onDeleteAssignment: (assignment: Assignment) => Promise<void>
 }
 
-const TierCardContent = ({ tier, assignments, onTierChange, mode, ...props }: TierCardContentProps) => {
+const TierCardContent = ({ tier, assignments, mode, onTierChange, onDeleteAssignment, ...props }: TierCardContentProps) => {
+    const editMode = mode === Mode.EDIT
+
     const tabs = [
         {
             icon: <TierIcon/>,
@@ -26,7 +31,24 @@ const TierCardContent = ({ tier, assignments, onTierChange, mode, ...props }: Ti
         {
             icon: <AssignmentIcon/>,
             label: "Assignments",
-            view: <AssignmentsList assignments={assignments} assignmentUrl={assignment => appAssignmentRoute(assignment.id!)}/>
+            view: (
+                <AssignmentsList
+                    assignments={assignments}
+                    assignmentUrl={assignment => appAssignmentRoute(assignment.id!)}
+                    chipActions={assignment => [
+                        editMode ?
+                             <IconButton
+                                color="error"
+                                onClick={e => {
+                                    e.preventDefault()
+                                    onDeleteAssignment(assignment)
+                                }}
+                                size='small'>
+                                <ClearIcon/>
+                            </IconButton> :
+                        null
+                    ]}/>
+            )
         }
     ]
 

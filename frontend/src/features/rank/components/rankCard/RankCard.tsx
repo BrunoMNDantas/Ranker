@@ -19,16 +19,26 @@ export interface RankCardProps extends HTMLAttributes<HTMLDivElement> {
     onClear: () => Promise<void>
     onSave: () => Promise<void>
     onDelete: () => Promise<void>
+    onDeleteTier: (tier: Tier) => Promise<void>
+    onDeleteOption: (option: Option) => Promise<void>
+    onDeleteVote: (vote: Vote) => Promise<void>
 }
 
-const RankCard = ({ rank, tiers, options, votes, mode, onRankChange, onClear, onSave, onDelete, ...props }: RankCardProps) => {
-    return (
-        <EntityCard
-            cardHeader={<RankCardHeader rank={rank}/>}
-            cardContent={<RankCardContent rank={rank} tiers={tiers} options={options} votes={votes} onRankChange={onRankChange} mode={mode}/>}
-            cardActions={<RankCardActions onClear={onClear} onSave={onSave} onDelete={onDelete} mode={mode}/>}
-            {...props}/>
-    );
+const RankCard = ({
+    rank, tiers, options, votes, mode,
+    onRankChange, onClear, onSave,
+    onDelete, onDeleteTier, onDeleteOption, onDeleteVote,
+    ...props
+}: RankCardProps) => {
+    const cardHeader = <RankCardHeader rank={rank}/>
+    const cardContent = (
+        <RankCardContent
+            rank={rank} tiers={tiers} options={options} votes={votes} mode={mode}
+            onRankChange={onRankChange} onDeleteTier={onDeleteTier} onDeleteOption={onDeleteOption} onDeleteVote={onDeleteVote}/>
+    )
+    const cardActions = <RankCardActions onClear={onClear} onSave={onSave} onDelete={onDelete} mode={mode}/>
+
+    return <EntityCard cardHeader={cardHeader} cardContent={cardContent} cardActions={cardActions} {...props}/>
 }
 
 export default RankCard;

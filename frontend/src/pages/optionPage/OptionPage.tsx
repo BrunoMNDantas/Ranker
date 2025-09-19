@@ -9,6 +9,8 @@ import OptionCard from '../../features/option/components/optionCard/OptionCard';
 import { Mode } from '../../components/entityCard/EntityCard';
 import { useOption } from '../../features/option/hooks/UseOption.hook';
 import { useAssignmentsOfOption } from '../../features/assignment/hooks/UseAssignmentsOfOption.hook';
+import { Assignment } from '../../features/assignment/model/Assignment.types';
+import { deleteAssignment } from '../../features/assignment/api/Assignment.api';
 
 const OptionPage = () => {
 	const navigate = useNavigate()
@@ -50,6 +52,8 @@ const OptionPage = () => {
 		}
 	}
 
+	const handleDeleteAssignment = (assignment: Assignment) => deleteAssignment(assignment.id!)
+
 	return (
 		<div className={classes.root}>
 			<LoadElement loading={fetching}>
@@ -63,7 +67,8 @@ const OptionPage = () => {
 						onOptionChange={handleOptionChange}
 						onClear={handleClear}
 						onSave={handleSave}
-						onDelete={handleDelete}/> :
+						onDelete={handleDelete}
+						onDeleteAssignment={handleDeleteAssignment}/> :
 					null
 				}
 			</LoadElement>

@@ -9,6 +9,8 @@ import TierCard from '../../features/tier/components/tierCard/TierCard';
 import { Mode } from '../../components/entityCard/EntityCard';
 import { useTier } from '../../features/tier/hooks/UseTier.hook';
 import { useAssignmentsOfTier } from '../../features/assignment/hooks/UseAssignmentsOfTier.hook';
+import { deleteAssignment } from '../../features/assignment/api/Assignment.api';
+import { Assignment } from '../../features/assignment/model/Assignment.types';
 
 const TierPage = () => {
 	const navigate = useNavigate()
@@ -51,6 +53,8 @@ const TierPage = () => {
 		}
 	}
 
+	const handleDeleteAssignment = (assignment: Assignment) => deleteAssignment(assignment.id!)
+
 	return (
 		<div className={classes.root}>
 			<LoadElement loading={fetching}>
@@ -64,7 +68,8 @@ const TierPage = () => {
 						onTierChange={handleTierChange}
 						onClear={handleClear}
 						onSave={handleSave}
-						onDelete={handleDelete}/> :
+						onDelete={handleDelete}
+						onDeleteAssignment={handleDeleteAssignment}/> :
 					null
 				}
 			</LoadElement>
