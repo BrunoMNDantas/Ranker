@@ -45,7 +45,7 @@ export interface EntityListProps<T extends Entity> extends HTMLAttributes<HTMLDi
     entities: T[]
     entityRenderer: (entity: T) => ReactNode
     entityUrl?: (entity: T) => string
-    onEntityClick?: (entity: T )=> void
+    onEntityClick?: (entity: T ) => void
 }
 
 const EntityList =  <T extends Entity,>({ entities, entityRenderer, entityUrl, onEntityClick, ...props }: EntityListProps<T>) => {

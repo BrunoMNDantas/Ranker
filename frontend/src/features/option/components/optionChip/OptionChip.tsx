@@ -7,11 +7,15 @@ export interface OptionChipProps extends HTMLAttributes<HTMLDivElement> {
     option: Option
 }
 
-const OptionChip = ({ option, ...props }: OptionChipProps) => {
+const OptionChip = ({ option, children, ...props }: OptionChipProps) => {
     const name = option.title? option.title : "-"
     return (
-        <EntityChip name={name} description={option.description} {...props}>
-            <OptionAvatar option={option}/>
+        <EntityChip
+            name={name}
+            description={option.description}
+            avatar={<OptionAvatar option={option}/>}
+            {...props}>
+            {children}
         </EntityChip>
     );
 }

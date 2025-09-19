@@ -7,11 +7,15 @@ export interface RankChipProps extends HTMLAttributes<HTMLDivElement> {
     rank: Rank
 }
 
-const RankChip = ({ rank, ...props }: RankChipProps) => {
+const RankChip = ({ rank, children, ...props }: RankChipProps) => {
     const name = rank.title? rank.title : "-"
     return (
-        <EntityChip name={name} description={rank.description} {...props}>
-            <RankAvatar rank={rank}/>
+        <EntityChip
+            name={name}
+            description={rank.description}
+            avatar={<RankAvatar rank={rank}/>}
+            {...props}>
+            {children}
         </EntityChip>
     );
 }

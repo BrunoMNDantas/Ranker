@@ -7,11 +7,15 @@ export interface TierChipProps extends HTMLAttributes<HTMLDivElement> {
     tier: Tier
 }
 
-const TierChip = ({ tier, ...props }: TierChipProps) => {
+const TierChip = ({ tier, children, ...props }: TierChipProps) => {
     const name = tier.title? tier.title : "-"
     return (
-        <EntityChip name={name} description={tier.description} {...props}>
-            <TierAvatar tier={tier}/>
+        <EntityChip
+            name={name}
+            description={tier.description}
+            avatar={<TierAvatar tier={tier}/>}
+            {...props}>
+            {children}
         </EntityChip>
     );
 }
