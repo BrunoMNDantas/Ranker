@@ -1,11 +1,43 @@
-import React, { HTMLAttributes } from 'react';
+import React, { HTMLAttributes, useState } from 'react';
 import { Option } from '../../model/Option.types';
 import EntityCard from '../../../../components/entityCard/EntityCard';
 import OptionCardHeader from './optionCardHeader/OptionCardHeader';
-import OptionCardActions from './optionCardActions/OptionCardActions';
-import OptionCardContent from './optionCardContent/OptionCardContent';
+import SaveIcon from '@mui/icons-material/Save';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ClearIcon from '@mui/icons-material/Clear';
 import { Mode } from '../../../../components/entityCard/EntityCard';
 import { Assignment } from '../../../assignment/model/Assignment.types';
+import EntityCardContent from '../../../../components/entityCard/entityCardContent/EntityCardContent';
+import OptionIcon from '../optionIcon/OptionIcon';
+import OptionCardForm from './optionCardForm/OptionCardForm';
+import AssignmentIcon from '../../../assignment/components/assignmentIcon/AssignmentIcon';
+import AssignmentsList from '../../../assignment/components/assignmentsList/AssignmentsList';
+import { IconButton } from '@mui/material';
+import { appAssignmentRoute } from '../../../../app/Routes';
+import EntityCardActions, { Action } from '../../../../components/entityCard/entityCardActions/EntityCardActions';
+
+export const OptionAssignmentsTabView = (
+    {assignments, editMode, onDeleteAssignment}: {assignments: Assignment[], editMode: boolean, onDeleteAssignment: (assignment: Assignment)=>Promise<void>}
+) => {
+    return (
+        <AssignmentsList
+            assignments={assignments}
+            assignmentUrl={assignment => appAssignmentRoute(assignment.id!)}
+            chipActions={assignment => [
+                editMode ?
+                    <IconButton
+                        color="error"
+                        onClick={e => {
+                            e.preventDefault()
+                            onDeleteAssignment(assignment)
+                        }}
+                        size='small'>
+                        <ClearIcon/>
+                    </IconButton> :
+                null
+            ]}/>
+    )
+}
 
 export interface OptionCardProps extends HTMLAttributes<HTMLDivElement> {
     option: Option
@@ -19,13 +51,62 @@ export interface OptionCardProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const OptionCard = ({ option, assignments, mode, onOptionChange, onClear, onSave, onDelete, onDeleteAssignment, ...props }: OptionCardProps) => {
+    const [activeTabIndex, setActiveTabIndex] = useState(0)
+    const [executing, setExecuting] = useState(false)
+    const editMode = mode === Mode.EDIT
+
+    const execute = async (action: ()=>Promise<void>) => {
+        setExecuting(true)
+        try {
+            return await action()
+        } finally {
+            return setExecuting(false)
+        }
+    }
+
+    const handleClear = () => execute(onClear)
+    const handleSave = () => execute(onSave)
+    const handleDelete = () => execute(onDelete)
+
+    const clearAction: Action = {
+        iconProps: { size: "large", color: "info" },
+        icon: <ClearIcon/>,
+        onClick: handleClear,
+        disabled: executing || mode === Mode.VIEW
+    }
+
+    const saveAction: Action = {
+        iconProps: { size: "large", color: "info" },
+        icon: <SaveIcon/>,
+        onClick: handleSave,
+        disabled: executing || mode === Mode.VIEW
+    }
+
+    const deleteAction: Action = {
+        iconProps: { size: "large", color: "error" },
+        icon: <DeleteIcon/>,
+        onClick: handleDelete,
+        disabled: executing || mode === Mode.VIEW
+    }
+
+    const tabs = [
+        {
+            icon: <OptionIcon/>,
+            label: "Option",
+            view: <OptionCardForm option={option} onOptionChange={onOptionChange} mode={mode}/>,
+            actions: [clearAction, saveAction, deleteAction]
+        },
+        {
+            icon: <AssignmentIcon/>,
+            label: "Assignments",
+            view: <OptionAssignmentsTabView assignments={assignments} editMode={editMode} onDeleteAssignment={onDeleteAssignment}/>,
+            actions: []
+        }
+    ]
+
     const cardHeader = <OptionCardHeader option={option}/>
-    const cardContent = (
-        <OptionCardContent
-            option={option} assignments={assignments} mode={mode}
-            onOptionChange={onOptionChange} onDeleteAssignment={onDeleteAssignment}/>
-    )
-    const cardActions = <OptionCardActions onClear={onClear} onSave={onSave} onDelete={onDelete} mode={mode}/>
+    const cardContent = <EntityCardContent activeTabIndex={activeTabIndex} activeTabIndexChanged={setActiveTabIndex} tabs={tabs} {...props}/>
+    const cardActions = <EntityCardActions actions={tabs[activeTabIndex].actions} {...props}/>
 
     return <EntityCard cardHeader={cardHeader} cardContent={cardContent} cardActions={cardActions} {...props}/>
 }
