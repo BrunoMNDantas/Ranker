@@ -18,7 +18,7 @@ const OptionPage = () => {
 	const [editedOption, setEditedOption] = useState<Option | null>(null)
 
 	const { option, fetching: fetchingOption, error: optionError } = useOption(optionId || "")
-	const { assignments, fetching: fetchingAssignments, error: assignmentsError } = useAssignmentsOfOption(optionId || "")
+	const { assignments, fetching: fetchingAssignments, error: assignmentsError, fetch: fetchAssignments } = useAssignmentsOfOption(optionId || "")
 
 	const fetching = fetchingOption || fetchingAssignments
 	const error = optionError || assignmentsError
@@ -52,7 +52,10 @@ const OptionPage = () => {
 		}
 	}
 
-	const handleDeleteAssignment = (assignment: Assignment) => deleteAssignment(assignment.id!)
+	const handleDeleteAssignment = async (assignment: Assignment) => {
+		await deleteAssignment(assignment.id!)
+		fetchAssignments()
+	}
 
 	return (
 		<div className={classes.root}>

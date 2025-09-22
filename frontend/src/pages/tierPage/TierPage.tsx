@@ -18,7 +18,7 @@ const TierPage = () => {
 	const [editedTier, setEditedTier] = useState<Tier | null>(null)
 
 	const { tier, fetching: fetchingTier, error: tierError } = useTier(tierId || "")
-	const { assignments, fetching: fetchingAssignments, error: assignmentsError } = useAssignmentsOfTier(tierId || "")
+	const { assignments, fetching: fetchingAssignments, error: assignmentsError, fetch: fetchAssignments } = useAssignmentsOfTier(tierId || "")
 
 	const fetching = fetchingTier || fetchingAssignments
 	const error = tierError || assignmentsError
@@ -53,7 +53,10 @@ const TierPage = () => {
 		}
 	}
 
-	const handleDeleteAssignment = (assignment: Assignment) => deleteAssignment(assignment.id!)
+	const handleDeleteAssignment = async (assignment: Assignment) => {
+		await deleteAssignment(assignment.id!)
+		fetchAssignments()
+	}
 
 	return (
 		<div className={classes.root}>

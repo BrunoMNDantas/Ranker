@@ -18,7 +18,7 @@ const VotePage = () => {
 	const [editedVote, setEditedVote] = useState<Vote | null>(null)
 
 	const { vote, fetching: fetchingVote, error: voteError } = useVote(voteId || "")
-	const { assignments, fetching: fetchingAssignments, error: assignmentsError } = useAssignmentsOfVote(voteId ||"")
+	const { assignments, fetching: fetchingAssignments, error: assignmentsError, fetch: fetchAssignments } = useAssignmentsOfVote(voteId ||"")
 
 	const fetching = fetchingVote || fetchingAssignments
 	const error = voteError || assignmentsError
@@ -52,7 +52,10 @@ const VotePage = () => {
 		}
 	}
 
-	const handleDeleteAssignment = (assignment: Assignment) => deleteAssignment(assignment.id!)
+	const handleDeleteAssignment = async (assignment: Assignment) => {
+		await deleteAssignment(assignment.id!)
+		fetchAssignments()
+	}
 
 	return (
 		<div className={classes.root}>
