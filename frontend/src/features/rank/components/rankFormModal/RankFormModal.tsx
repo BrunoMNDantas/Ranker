@@ -5,7 +5,7 @@ import EntityFormModal from '../../../../components/entityFormModal/EntityFormMo
 import { Rank } from '../../model/Rank.types';
 import RankCardHeader from '../rankCard/rankCardHeader/RankCardHeader';
 import RankCardForm from '../rankCard/rankCardForm/RankCardForm';
-import RankIcon from '../rankIcon/RankIcon';
+import RankCreateIcon from '../rankCreateIcon/RankCreateIcon';
 
 export interface RankFormModalProps extends HTMLAttributes<HTMLDivElement> {
     open: boolean
@@ -25,7 +25,7 @@ const RankFormModal = ({ open, defaultRank, onCreate, onCancel, ...props }: Rank
             open={open}
             modalHeader={modalHeader}
             modalForm={modalForm}
-            entityIcon={<RankIcon/>}
+            entityCreateIcon={<RankCreateIcon/>}
             onCreate={() => onCreate(rank)}
             onCancel={onCancel}
             {...props}/>

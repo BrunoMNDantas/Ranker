@@ -5,7 +5,7 @@ import { createOption } from '../../../../services/EntityFactory.service';
 import OptionCardForm from '../optionCard/optionCardForm/OptionCardForm';
 import{ Mode } from '../../../../components/entityCard/EntityCard'
 import EntityFormModal from '../../../../components/entityFormModal/EntityFormModal';
-import OptionIcon from '../optionIcon/OptionIcon';
+import OptionCreateIcon from '../optionCreateIcon/OptionCreateIcon';
 
 export interface OptionFormModalProps extends HTMLAttributes<HTMLDivElement> {
     open: boolean
@@ -25,7 +25,7 @@ const OptionFormModal = ({ open, defaultOption, onCreate, onCancel, ...props }: 
             open={open}
             modalHeader={modalHeader}
             modalForm={modalForm}
-            entityIcon={<OptionIcon/>}
+            entityCreateIcon={<OptionCreateIcon/>}
             onCreate={() => onCreate(option)}
             onCancel={onCancel}
             {...props}/>

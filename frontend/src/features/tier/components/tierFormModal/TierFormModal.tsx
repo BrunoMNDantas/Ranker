@@ -5,7 +5,7 @@ import { createTier } from '../../../../services/EntityFactory.service';
 import TierCardForm from '../tierCard/tierCardForm/TierCardForm';
 import{ Mode } from '../../../../components/entityCard/EntityCard'
 import EntityFormModal from '../../../../components/entityFormModal/EntityFormModal';
-import TierIcon from '../tierIcon/TierIcon';
+import TierCreateIcon from '../tierCreateIcon/TierCreateIcon';
 
 export interface TierFormModalProps extends HTMLAttributes<HTMLDivElement> {
     open: boolean
@@ -25,7 +25,7 @@ const TierFormModal = ({ open, defaultTier, onCreate, onCancel, ...props }: Tier
             open={open}
             modalHeader={modalHeader}
             modalForm={modalForm}
-            entityIcon={<TierIcon/>}
+            entityCreateIcon={<TierCreateIcon/>}
             onCreate={() => onCreate(tier)}
             onCancel={onCancel}
             {...props}/>

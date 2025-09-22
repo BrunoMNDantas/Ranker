@@ -4,16 +4,17 @@ import { Badge, Modal, ModalProps } from '@mui/material';
 import EntityCardActions from '../entityCard/entityCardActions/EntityCardActions';
 import EntityCard from '../entityCard/EntityCard';
 import CloseIcon from '@mui/icons-material/Close';
+import EntityCreateIcon from '../entityCreateIcon/EntityCreateIcon';
 
 export interface EntityFormModalProps<T> extends Omit<ModalProps, 'children'> {
     modalHeader: ReactNode,
     modalForm: ReactNode,
-    entityIcon: ReactNode,
+    entityCreateIcon: ReactNode,
     onCreate: () => Promise<void>
     onCancel: () => Promise<void>
 }
 
-const EntityFormModal = <T,>({ modalHeader, modalForm, entityIcon, onCreate, onCancel, ...props }: EntityFormModalProps<T>) => {
+const EntityFormModal = <T,>({ modalHeader, modalForm, entityCreateIcon, onCreate, onCancel, ...props }: EntityFormModalProps<T>) => {
     const className = props.className || classes.root
 
     const cardActions = (
@@ -26,10 +27,7 @@ const EntityFormModal = <T,>({ modalHeader, modalForm, entityIcon, onCreate, onC
             },
             {
                 iconProps: { size: "large", color: "info" },
-                icon: <>
-                    {entityIcon}
-                    <Badge badgeContent={"+"} color="default" overlap="circular" sx={{top: "-10px", right:"-2px"}}/>
-                </>,
+                icon: entityCreateIcon,
                 onClick: onCreate,
                 disabled: false
             }
