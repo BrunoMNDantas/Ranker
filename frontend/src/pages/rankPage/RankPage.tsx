@@ -17,16 +17,23 @@ import { deleteOption } from '../../features/option/api/Option.api';
 import { Option } from '../../features/option/model/Option.types';
 import { deleteVote } from '../../features/vote/api/Vote.api';
 import { Vote } from '../../features/vote/model/Vote.types';
+import { createOption, createTier } from '../../services/EntityFactory.service';
+import TierFormModal from '../../features/tier/components/tierFormModal/TierFormModal';
+import OptionFormModal from '../../features/option/components/optionFormModal/OptionFormModal';
+import { createTier as submitTier } from '../../features/tier/api/Tier.api';
+import { createOption as submitOption } from '../../features/option/api/Option.api'
 
 const RankPage = () => {
 	const navigate = useNavigate()
 	const { rankId } = useParams<{ rankId: string }>()
 	const [editedRank, setEditedRank] = useState<Rank | null>(null)
+	const [showTierModal, setShowTierModal] = useState(false)
+	const [showOptionModal, setShowOptionModal] = useState(false)
 
 	const { rank, fetching: fetchingRank, error: rankError } = useRank(rankId || "")
-	const { options, fetching: fetchingOptions, error: optionsError } = useOptionsOfRank(rankId || "")
-	const { tiers, fetching: fetchingTiers, error: tiersError } = useTiersOfRank(rankId || "")
-	const { votes, fetching: fetchingVotes, error: votesError } = useVotesOfRank(rankId || "")
+	const { options, fetching: fetchingOptions, error: optionsError, fetch: fetchOptions } = useOptionsOfRank(rankId || "")
+	const { tiers, fetching: fetchingTiers, error: tiersError, fetch: fetchTiers } = useTiersOfRank(rankId || "")
+	const { votes, fetching: fetchingVotes, error: votesError, fetch: fetchVotes } = useVotesOfRank(rankId || "")
 
 	const fetching = fetchingRank || fetchingOptions || fetchingTiers || fetchingVotes
 	const error = rankError || optionsError || tiersError || votesError
@@ -60,9 +67,53 @@ const RankPage = () => {
 		}
 	}
 
-	const handleDeleteTier = async (tier: Tier) => deleteTier(tier.id!)
-	const handleDeleteOption = async (option: Option) => deleteOption(option.id!)
-	const handleDeleteVote = async (vote: Vote) => deleteVote(vote.id!)
+	const handleDeleteTier = async (tier: Tier) => {
+		await deleteTier(tier.id!)
+		fetchTiers()
+	}
+
+	const handleDeleteOption = async (option: Option) => {
+		await deleteOption(option.id!)
+		fetchOptions()
+	}
+
+	const handleDeleteVote = async (vote: Vote) => {
+		await deleteVote(vote.id!)
+		fetchVotes()
+	}
+
+	const handleCreateTierClick = () => {
+		setShowTierModal(true)
+		return Promise.resolve()
+	}
+
+	const handleCreateOptionClick = () => {
+		setShowOptionModal(true)
+		return Promise.resolve()
+	}
+
+	const handleCreateTierCancel = () => {
+		setShowTierModal(false)
+		return Promise.resolve()
+	}
+
+	const handleCreateOptionCancel = () => {
+		setShowOptionModal(false)
+		return Promise.resolve()
+	}
+
+	const handleCreateTier = async (tier: Tier) => {
+		await submitTier(tier)
+		setShowTierModal(false)
+		fetchTiers()
+	}
+
+	const handleCreateOption = async (option: Option) => {
+		await submitOption(option)
+		setShowOptionModal(false)
+		fetchOptions()
+	}
+
 
 	return (
 		<div className={classes.root}>
@@ -79,6 +130,8 @@ const RankPage = () => {
 						onRankChange={handleRankChange}
 						onClear={handleClear}
 						onSave={handleSave}
+						onCreateTier={handleCreateTierClick}
+						onCreateOption={handleCreateOptionClick}
 						onDelete={handleDelete}
 						onDeleteTier={handleDeleteTier}
 						onDeleteOption={handleDeleteOption}
@@ -86,6 +139,8 @@ const RankPage = () => {
 					null
 				}
 			</LoadElement>
+			<TierFormModal open={showTierModal} defaultTier={createTier({rankId})} onCancel={handleCreateTierCancel} onCreate={handleCreateTier}/>
+			<OptionFormModal open={showOptionModal} defaultOption={createOption({rankId})} onCancel={handleCreateOptionCancel} onCreate={handleCreateOption}/>
 		</div>
 	);
 }
