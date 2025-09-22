@@ -20,14 +20,24 @@ const OptionFormModal = ({ open, defaultOption, onCreate, onCancel, ...props }: 
     const modalHeader = <OptionCardHeader option={option} showBreadcrumbs={false}/>
     const modalForm = <OptionCardForm option={option} onOptionChange={setOption} mode={Mode.EDIT}/>
 
+    const handleCancel = async () => {
+        await onCancel()
+        setOption(defaultOption)
+    }
+
+    const handleCreate = async () => {
+        await onCreate(option)
+        setOption(defaultOption)
+    }
+
     return (
         <EntityFormModal
             open={open}
             modalHeader={modalHeader}
             modalForm={modalForm}
             entityCreateIcon={<OptionCreateIcon/>}
-            onCreate={() => onCreate(option)}
-            onCancel={onCancel}
+            onCancel={handleCancel}
+            onCreate={handleCreate}
             {...props}/>
     );
 }

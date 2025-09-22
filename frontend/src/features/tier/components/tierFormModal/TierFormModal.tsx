@@ -20,14 +20,24 @@ const TierFormModal = ({ open, defaultTier, onCreate, onCancel, ...props }: Tier
     const modalHeader = <TierCardHeader tier={tier} showBreadcrumbs={false}/>
     const modalForm = <TierCardForm tier={tier} onTierChange={setTier} mode={Mode.EDIT}/>
 
+    const handleCancel = async () => {
+        await onCancel()
+        setTier(defaultTier)
+    }
+
+    const handleCreate = async () => {
+        await onCreate(tier)
+        setTier(defaultTier)
+    }
+
     return (
         <EntityFormModal
             open={open}
             modalHeader={modalHeader}
             modalForm={modalForm}
             entityCreateIcon={<TierCreateIcon/>}
-            onCreate={() => onCreate(tier)}
-            onCancel={onCancel}
+            onCancel={handleCancel}
+            onCreate={handleCreate}
             {...props}/>
     );
 }

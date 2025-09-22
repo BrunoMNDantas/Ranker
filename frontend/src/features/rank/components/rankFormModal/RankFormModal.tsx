@@ -20,14 +20,24 @@ const RankFormModal = ({ open, defaultRank, onCreate, onCancel, ...props }: Rank
     const modalHeader = <RankCardHeader rank={rank} showBreadcrumbs={false}/>
     const modalForm = <RankCardForm rank={rank} onRankChange={setRank} mode={Mode.EDIT}/>
 
+    const handleCancel = async () => {
+        await onCancel()
+        setRank(defaultRank)
+    }
+
+    const handleCreate = async () => {
+        await onCreate(rank)
+        setRank(defaultRank)
+    }
+
     return (
         <EntityFormModal
             open={open}
             modalHeader={modalHeader}
             modalForm={modalForm}
             entityCreateIcon={<RankCreateIcon/>}
-            onCreate={() => onCreate(rank)}
-            onCancel={onCancel}
+            onCancel={handleCancel}
+            onCreate={handleCreate}
             {...props}/>
     );
 }
