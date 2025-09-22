@@ -4,7 +4,7 @@ import EntityCard from '../../../../components/entityCard/EntityCard';
 import VoteCardHeader from './voteCardHeader/VoteCardHeader';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ClearIcon from '@mui/icons-material/Restore';
+import ClearIcon from '@mui/icons-material/Clear';
 import { Mode } from '../../../../components/entityCard/EntityCard';
 import { Assignment } from '../../../assignment/model/Assignment.types';
 import EntityCardContent from '../../../../components/entityCard/entityCardContent/EntityCardContent';
