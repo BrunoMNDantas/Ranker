@@ -4,6 +4,6 @@ import { getRank } from "../api/Rank.api";
 
 export function useRank(rankId?: string | null) {
     const getRankCallback = useCallback(() => rankId ? getRank(rankId) : Promise.resolve(null), [rankId])
-    const { executing: fetching, result: rank, error } = useExecute(getRankCallback)
-    return { fetching, rank, error }
+    const { executing: fetching, result: rank, error, execute: fetch } = useExecute(getRankCallback)
+    return { fetching, rank, error, fetch }
 }

@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 export function useExecute<T>(operation: ()=>Promise<T>) {
     const [result, setResult] = useState<T | null>(null);
     const [executing, setExecuting] = useState<boolean>(true);
     const [error, setError] = useState<Error | null>(null);
+    const [destroyed, setDestroyed] = useState(false)
 
-    useEffect(() => {
-        let destroyed = false
+    const execute = useCallback(() => {
         setExecuting(true)
 
         operation()
@@ -20,9 +20,14 @@ export function useExecute<T>(operation: ()=>Promise<T>) {
             .finally(() => {
                 if(!destroyed) setExecuting(false)
             });
+    }, [])
 
-        return () => { destroyed = true }
+    useEffect(() => { execute() }, [execute]);
+
+    useEffect(() => {
+        execute()
+        return () => setDestroyed(true)
     }, [ operation ])
 
-    return { result, executing, error }
+    return { result, executing, error, execute }
 }

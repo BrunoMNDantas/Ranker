@@ -4,6 +4,6 @@ import { useCallback } from "react";
 
 export function useOption(optionId?: string | null) {
     const getOptionCallback = useCallback(() => optionId ? getOption(optionId) : Promise.resolve(null) , [optionId])
-    const { executing: fetching, result: option, error } = useExecute(getOptionCallback)
-    return { fetching, option, error }
+    const { executing: fetching, result: option, error, execute: fetch } = useExecute(getOptionCallback)
+    return { fetching, option, error, fetch }
 }
