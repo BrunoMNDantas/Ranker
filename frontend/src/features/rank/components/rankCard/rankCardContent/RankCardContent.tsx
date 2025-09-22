@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import React, { HTMLAttributes, useState } from 'react';
 import { Rank } from '../../../model/Rank.types';
 import EntityCardContent from '../../../../../components/entityCard/entityCardContent/EntityCardContent';
 import { Mode } from '../../../../../components/entityCard/EntityCard';
@@ -34,6 +34,7 @@ const RankCardContent = ({
     onRankChange, onDeleteTier, onDeleteOption, onDeleteVote,
     ...props
 }: RankCardContentProps) => {
+    const [activeTabIndex, setActiveTabIndex] = useState(0)
     const editMode = mode === Mode.EDIT
 
     const tabs = [
@@ -110,7 +111,7 @@ const RankCardContent = ({
         }
     ]
 
-    return <EntityCardContent tabs={tabs} {...props}/>
+    return <EntityCardContent activeTabIndex={activeTabIndex} activeTabIndexChanged={setActiveTabIndex} tabs={tabs} {...props}/>
 }
 
 export default RankCardContent;

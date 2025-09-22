@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import React, { HTMLAttributes, useState } from 'react';
 import { Vote } from '../../../model/Vote.types';
 import EntityCardContent from '../../../../../components/entityCard/entityCardContent/EntityCardContent';
 import { Mode } from '../../../../../components/entityCard/EntityCard';
@@ -20,6 +20,7 @@ export interface VoteCardContentProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const VoteCardContent = ({ vote, assignments, mode, onVoteChange, onDeleteAssignment, ...props }: VoteCardContentProps) => {
+    const [activeTabIndex, setActiveTabIndex] = useState(1)
     const editMode = mode === Mode.EDIT
 
     const tabs = [
@@ -52,7 +53,7 @@ const VoteCardContent = ({ vote, assignments, mode, onVoteChange, onDeleteAssign
         }
     ]
 
-    return <EntityCardContent tabs={tabs} {...props}/>
+    return <EntityCardContent activeTabIndex={activeTabIndex} activeTabIndexChanged={setActiveTabIndex} tabs={tabs} {...props}/>
 }
 
 export default VoteCardContent;

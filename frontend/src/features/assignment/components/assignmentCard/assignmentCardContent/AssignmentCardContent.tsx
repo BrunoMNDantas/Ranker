@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import React, { HTMLAttributes, useState } from 'react';
 import { Assignment } from '../../../model/Assignment.types';
 import EntityCardContent from '../../../../../components/entityCard/entityCardContent/EntityCardContent';
 import { Mode } from '../../../../../components/entityCard/EntityCard';
@@ -12,6 +12,7 @@ export interface AssignmentCardContentProps extends HTMLAttributes<HTMLDivElemen
 }
 
 const AssignmentCardContent = ({ assignment, onAssignmentChange, mode, ...props }: AssignmentCardContentProps) => {
+    const [activeTabIndex, setActiveTabIndex] = useState(1)
     const tabs = [
         {
             icon: <AssignmentIcon/>,
@@ -19,7 +20,7 @@ const AssignmentCardContent = ({ assignment, onAssignmentChange, mode, ...props 
             view: <AssignmentCardForm assignment={assignment} onAssignmentChange={onAssignmentChange} mode={mode}/>}
     ]
 
-    return <EntityCardContent tabs={tabs} {...props}/>
+    return <EntityCardContent activeTabIndex={activeTabIndex} activeTabIndexChanged={setActiveTabIndex} tabs={tabs} {...props}/>
 }
 
 export default AssignmentCardContent;

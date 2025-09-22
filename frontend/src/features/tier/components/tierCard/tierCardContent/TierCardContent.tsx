@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import React, { HTMLAttributes, useState } from 'react';
 import { Tier } from '../../../model/Tier.types';
 import EntityCardContent from '../../../../../components/entityCard/entityCardContent/EntityCardContent';
 import { Mode } from '../../../../../components/entityCard/EntityCard';
@@ -20,6 +20,7 @@ export interface TierCardContentProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const TierCardContent = ({ tier, assignments, mode, onTierChange, onDeleteAssignment, ...props }: TierCardContentProps) => {
+    const [activeTabIndex, setActiveTabIndex] = useState(1)
     const editMode = mode === Mode.EDIT
 
     const tabs = [
@@ -52,7 +53,7 @@ const TierCardContent = ({ tier, assignments, mode, onTierChange, onDeleteAssign
         }
     ]
 
-    return <EntityCardContent tabs={tabs} {...props}/>
+    return <EntityCardContent activeTabIndex={activeTabIndex} activeTabIndexChanged={setActiveTabIndex} tabs={tabs} {...props}/>
 }
 
 export default TierCardContent;

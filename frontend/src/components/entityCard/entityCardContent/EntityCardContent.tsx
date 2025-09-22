@@ -9,24 +9,25 @@ export interface TabProps {
 }
 
 export interface EntityCardContentProps extends CardContentProps {
+    activeTabIndex: number,
+    activeTabIndexChanged: (index: number) => void
     tabs: TabProps[]
 }
 
-const EntityCardContent = ({ tabs, ...props }: EntityCardContentProps) => {
-    const [activeTabIndex, setActiveTabIndex] = useState(1)
+const EntityCardContent = ({ activeTabIndex, activeTabIndexChanged, tabs, ...props }: EntityCardContentProps) => {
     const className = props.className || classes.root
 
     const handleTabChange = (e: any, value: number) => {
-        setActiveTabIndex(value)
+        activeTabIndexChanged(value-1)
     }
 
     return (
         <CardContent className={className} {...props}>
-            <Tabs className={classes.tabs} value={activeTabIndex} onChange={handleTabChange}>
+            <Tabs className={classes.tabs} value={activeTabIndex+1} onChange={handleTabChange}>
                 { tabs.map((tab, index) => <Tab icon={tab.icon} label={tab.label} value={index+1}/>) }
             </Tabs>
             <div className={classes.view}>
-                { tabs[activeTabIndex-1].view }
+                { tabs[activeTabIndex].view }
             </div>
         </CardContent>
     );
