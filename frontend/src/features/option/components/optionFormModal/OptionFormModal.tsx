@@ -11,9 +11,10 @@ export interface OptionFormModalProps extends HTMLAttributes<HTMLDivElement> {
     open: boolean
     defaultOption: Option
     onCreate: (option: Option) => Promise<void>
+    onCancel: () => Promise<void>
 }
 
-const OptionFormModal = ({ open, defaultOption, onCreate, ...props }: OptionFormModalProps) => {
+const OptionFormModal = ({ open, defaultOption, onCreate, onCancel, ...props }: OptionFormModalProps) => {
     const [option, setOption] = useState(createOption(defaultOption))
 
     const modalHeader = <OptionCardHeader option={option} showBreadcrumbs={false}/>
@@ -26,6 +27,7 @@ const OptionFormModal = ({ open, defaultOption, onCreate, ...props }: OptionForm
             modalForm={modalForm}
             entityIcon={<OptionIcon/>}
             onCreate={() => onCreate(option)}
+            onCancel={onCancel}
             {...props}/>
     );
 }

@@ -11,9 +11,10 @@ export interface RankFormModalProps extends HTMLAttributes<HTMLDivElement> {
     open: boolean
     defaultRank: Rank
     onCreate: (rank: Rank) => Promise<void>
+    onCancel: () => Promise<void>
 }
 
-const RankFormModal = ({ open, defaultRank, onCreate, ...props }: RankFormModalProps) => {
+const RankFormModal = ({ open, defaultRank, onCreate, onCancel, ...props }: RankFormModalProps) => {
     const [rank, setRank] = useState(createRank(defaultRank))
 
     const modalHeader = <RankCardHeader rank={rank} showBreadcrumbs={false}/>
@@ -26,6 +27,7 @@ const RankFormModal = ({ open, defaultRank, onCreate, ...props }: RankFormModalP
             modalForm={modalForm}
             entityIcon={<RankIcon/>}
             onCreate={() => onCreate(rank)}
+            onCancel={onCancel}
             {...props}/>
     );
 }

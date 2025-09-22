@@ -11,9 +11,10 @@ export interface TierFormModalProps extends HTMLAttributes<HTMLDivElement> {
     open: boolean
     defaultTier: Tier
     onCreate: (tier: Tier) => Promise<void>
+    onCancel: () => Promise<void>
 }
 
-const TierFormModal = ({ open, defaultTier, onCreate, ...props }: TierFormModalProps) => {
+const TierFormModal = ({ open, defaultTier, onCreate, onCancel, ...props }: TierFormModalProps) => {
     const [tier, setTier] = useState(createTier(defaultTier))
 
     const modalHeader = <TierCardHeader tier={tier} showBreadcrumbs={false}/>
@@ -26,6 +27,7 @@ const TierFormModal = ({ open, defaultTier, onCreate, ...props }: TierFormModalP
             modalForm={modalForm}
             entityIcon={<TierIcon/>}
             onCreate={() => onCreate(tier)}
+            onCancel={onCancel}
             {...props}/>
     );
 }
