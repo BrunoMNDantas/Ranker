@@ -3,7 +3,7 @@ import { Assignment } from '../../../model/Assignment.types';
 import EntityCardHeader from '../../../../../components/entityCard/entityCardHeader/EntityCardHeader';
 import AssignmentAvatar from '../../assignmentAvatar/AssignmentAvatar';
 import EntityProperty from '../../../../../components/entityProperty/EntityProperty';
-import AssignmentBreadcrumbs from '../../../assignmentBreadcrumbs/AssignmentBreadcrumbs';
+import AssignmentBreadcrumbs from '../../assignmentBreadcrumbs/AssignmentBreadcrumbs';
 
 export interface AssignmentCardHeaderProps extends HTMLAttributes<HTMLDivElement> {
     assignment: Assignment
