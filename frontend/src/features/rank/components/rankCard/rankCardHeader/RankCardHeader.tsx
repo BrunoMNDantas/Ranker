@@ -8,17 +8,21 @@ import RankBreadcrumbs from '../../rankBreadcrumbs/RankBreadcrumbs';
 export interface RankCardHeaderProps extends HTMLAttributes<HTMLDivElement> {
     rank: Rank
     showBreadcrumbs?: boolean
+    showCreationDate?: boolean
+    showDescription?: boolean
 }
 
-const RankCardHeader = ({ rank, showBreadcrumbs=true, ...props }: RankCardHeaderProps) => {
+const RankCardHeader = ({ rank, showBreadcrumbs=true, showCreationDate=true, showDescription=true, ...props }: RankCardHeaderProps) => {
     const title = rank.title
     const date = new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(rank.creationDate!)
+    const description = rank.description
 
     return (
         <EntityCardHeader avatar={<RankAvatar rank={rank}/>} {...props}>
             { showBreadcrumbs ? <RankBreadcrumbs rank={rank}/> : null }
             <EntityProperty value={title} variant='h6'/>
-            <EntityProperty value={date} variant='caption'/>
+            { showCreationDate ? <EntityProperty value={date} variant='caption'/> : null }
+            { showDescription ? <EntityProperty value={description} variant='caption'/> : null }
         </EntityCardHeader>
     )
 }

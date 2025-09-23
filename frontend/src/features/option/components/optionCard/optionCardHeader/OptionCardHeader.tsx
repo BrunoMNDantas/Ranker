@@ -9,12 +9,15 @@ import OptionBreadcrumbs from '../../optionBreadcrumbs/OptionBreadcrumbs';
 export interface OptionCardHeaderProps extends HTMLAttributes<HTMLDivElement> {
     option: Option
     showBreadcrumbs?: boolean
+    showCreationDate?: boolean
+    showDescription?: boolean
 }
 
-const OptionCardHeader = ({ option, showBreadcrumbs=true, ...props }: OptionCardHeaderProps) => {
+const OptionCardHeader = ({ option, showBreadcrumbs=true, showCreationDate=true, showDescription=true, ...props }: OptionCardHeaderProps) => {
     const order = option.order + "º"
     const title = option.title
     const date = new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(option.creationDate!)
+    const description = option.description
 
     return (
         <EntityCardHeader avatar={<OptionAvatar option={option}/>} {...props}>
@@ -23,7 +26,8 @@ const OptionCardHeader = ({ option, showBreadcrumbs=true, ...props }: OptionCard
                 <EntityProperty value={order} variant='h6'/>
                 <EntityProperty value={title} variant='h6'/>
             </div>
-            <EntityProperty value={date} variant='caption'/>
+            { showCreationDate ? <EntityProperty value={date} variant='caption'/> : null }
+            { showDescription ? <EntityProperty value={description} variant='caption'/> : null }
         </EntityCardHeader>
     )
 }
