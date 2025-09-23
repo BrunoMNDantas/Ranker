@@ -21,6 +21,9 @@ import OptionCreateIcon from '../../../option/components/optionCreateIcon/Option
 import RankTiersTabView from './RankTiersTabView';
 import RankOptionsTabView from './RankOptionsTabView';
 import RankVotesTabView from './RankVotesTabView';
+import VoteCreateIcon from '../../../vote/components/voteCreateIcon/VoteCreateIcon';
+import { useNavigate } from 'react-router-dom';
+import { appRankVoteRoute } from '../../../../app/Routes';
 
 export interface RankCardProps extends HTMLAttributes<HTMLDivElement> {
     rank: Rank
@@ -46,6 +49,7 @@ const RankCard = ({
     onDelete, onDeleteTier, onDeleteOption, onDeleteVote,
     ...props
 }: RankCardProps) => {
+    const navigate = useNavigate()
     const [activeTabIndex, setActiveTabIndex] = useState(0)
     const [executing, setExecuting] = useState(false)
     const editMode = mode === Mode.EDIT
@@ -64,6 +68,10 @@ const RankCard = ({
     const handleDelete = () => execute(onDelete)
     const handleCreateTier = () => execute(onCreateTier)
     const handleCreateOption = () => execute(onCreateOption)
+    const handleCreateVote = () => {
+        navigate(appRankVoteRoute(rank.id!))
+        return Promise.resolve()
+    }
 
     const clearAction: Action = {
         iconProps: { color: "info" },
@@ -100,6 +108,13 @@ const RankCard = ({
         disabled: executing || !editMode
     }
 
+    const createVoteAction: Action = {
+        iconProps: { color: "info" },
+        icon: <VoteCreateIcon/>,
+        onClick: handleCreateVote,
+        disabled: executing || !editMode
+    }
+
     const tabs = [
         {
             label: "Rank",
@@ -123,7 +138,7 @@ const RankCard = ({
             label: "Votes",
             icon: <VoteIcon/>,
             view: <RankVotesTabView votes={votes} editMode={editMode} onDeleteVote={onDeleteVote}/>,
-            actions: []
+            actions: [createVoteAction]
         }
     ]
 

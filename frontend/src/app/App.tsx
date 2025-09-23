@@ -2,17 +2,18 @@ import React from 'react';
 import classes from './App.module.css';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import AppLayout from '../layouts/appLayout/AppLayout';
-import AppRankPage from '../pages/rankPage/RankPage';
-import AppRanksPage from '../pages/ranksPage/RanksPage';
-import AppOptionPage from '../pages/optionPage/OptionPage';
-import AppTierPage from '../pages/tierPage/TierPage';
-import AppVotePage from '../pages/votePage/VotePage';
-import AppAssignmentPage from '../pages/assignmentPage/AssignmentPage';
-
+import RankPage from '../pages/rankPage/RankPage';
+import RanksPage from '../pages/ranksPage/RanksPage';
+import RankVotePage from '../pages/rankVotePage/RankVotePage';
+import OptionPage from '../pages/optionPage/OptionPage';
+import TierPage from '../pages/tierPage/TierPage';
+import VotePage from '../pages/votePage/VotePage';
+import AssignmentPage from '../pages/assignmentPage/AssignmentPage';
 import {
     ROOT_ROUTE, APP_ROUTE, RANK_SUB_ROUTE, TIER_SUB_ROUTE,
     OPTION_SUB_ROUTE, VOTE_SUB_ROUTE, ASSIGNMENT_SUB_ROUTE,
-    RANKS_SUB_ROUTE, APP_RANKS_ROUTE
+    RANKS_SUB_ROUTE, APP_RANKS_ROUTE,
+    RANK_VOTE_SUB_ROUTE
 } from './Routes';
 
 const App = () => {
@@ -22,13 +23,14 @@ const App = () => {
                 <Route path={ROOT_ROUTE} element={<Navigate to={APP_RANKS_ROUTE} replace/>}/>
 
                 <Route path= {APP_ROUTE} element={<AppLayout/>}>
-                    <Route index element={<AppRanksPage/>} />
-                    <Route path={RANKS_SUB_ROUTE} element={<AppRanksPage/>} />
-                    <Route path={RANK_SUB_ROUTE} element={<AppRankPage/>} />
-                    <Route path={OPTION_SUB_ROUTE} element={<AppOptionPage/>} />
-                    <Route path={TIER_SUB_ROUTE} element={<AppTierPage/>} />
-                    <Route path={VOTE_SUB_ROUTE} element={<AppVotePage/>} />
-                    <Route path={ASSIGNMENT_SUB_ROUTE} element={<AppAssignmentPage/>} />
+                    <Route index element={<RanksPage/>} />
+                    <Route path={RANKS_SUB_ROUTE} element={<RanksPage/>} />
+                    <Route path={RANK_SUB_ROUTE} element={<RankPage/>} />
+                    <Route path={RANK_VOTE_SUB_ROUTE} element={<RankVotePage/>} />
+                    <Route path={OPTION_SUB_ROUTE} element={<OptionPage/>} />
+                    <Route path={TIER_SUB_ROUTE} element={<TierPage/>} />
+                    <Route path={VOTE_SUB_ROUTE} element={<VotePage/>} />
+                    <Route path={ASSIGNMENT_SUB_ROUTE} element={<AssignmentPage/>} />
                 </Route>
             </Routes>
         </div>
