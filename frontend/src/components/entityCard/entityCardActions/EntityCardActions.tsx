@@ -1,11 +1,6 @@
-import React, { ReactNode, useState } from 'react';
-import { CardActions, CardActionsProps, CircularProgress, IconButton, IconButtonProps } from '@mui/material';
-
-const SPINNER_SIZE_MAP: Record<NonNullable<IconButtonProps["size"]>, number> = {
-  small: 16,
-  medium: 20,
-  large: 24,
-};
+import React, { ReactNode } from 'react';
+import { CardActions, CardActionsProps, IconButtonProps } from '@mui/material';
+import ActionButton from '../../actionButton/ActionButton';
 
 export interface Action {
     iconProps: IconButtonProps
@@ -19,23 +14,10 @@ export interface CardActionProps {
 }
 
 export const EntityCardAction = ({ action }: CardActionProps) => {
-    const [executing, setExecuting] = useState(false)
-    const spinnerSize = SPINNER_SIZE_MAP[action.iconProps.size || "medium"] + "px"
-
-    const handleClick = () => {
-        setExecuting(true)
-        action.onClick()
-            .finally(() => setExecuting(false))
-    }
-
     return (
-        <IconButton onClick={handleClick} disabled={action.disabled} {...action.iconProps}>
-            {
-                executing ?
-                    <CircularProgress size={spinnerSize}/> :
-                    action.icon
-            }
-        </IconButton>
+        <ActionButton buttonAction={action.onClick} disabled={action.disabled} {...action.iconProps}>
+            {action.icon}
+        </ActionButton>
     )
 }
 

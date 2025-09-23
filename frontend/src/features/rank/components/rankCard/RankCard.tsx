@@ -5,6 +5,7 @@ import RankCardHeader from './rankCardHeader/RankCardHeader';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ClearIcon from '@mui/icons-material/Clear';
+import RestoreIcon from '@mui/icons-material/Restore';
 import { Mode } from '../../../../components/entityCard/EntityCard';
 import { Tier } from '../../../tier/model/Tier.types';
 import { Option } from '../../../option/model/Option.types';
@@ -13,7 +14,6 @@ import EntityCardContent from '../../../../components/entityCard/entityCardConte
 import VoteIcon from '../../../vote/components/voteIcon/VoteIcon';
 import VotesList from '../../../vote/components/votesList/VotesList';
 import { appOptionRoute, appTierRoute, appVoteRoute } from '../../../../app/Routes';
-import { IconButton } from '@mui/material';
 import OptionIcon from '../../../option/components/optionIcon/OptionIcon';
 import OptionsFilteredList from '../../../option/components/optionsFilteredList/OptionsFilteredList';
 import TiersFilteredList from '../../../tier/components/tiersFilteredList/TiersFilteredList';
@@ -23,65 +23,63 @@ import RankIcon from '../rankIcon/RankIcon';
 import EntityCardActions, { Action } from '../../../../components/entityCard/entityCardActions/EntityCardActions';
 import TierCreateIcon from '../../../tier/components/tierCreateIcon/TierCreateIcon';
 import OptionCreateIcon from '../../../option/components/optionCreateIcon/OptionCreateIcon';
+import ActionButton from '../../../../components/actionButton/ActionButton';
 
 export const RankTiersTabView = ({tiers, editMode, onDeleteTier}: {tiers: Tier[], editMode: boolean, onDeleteTier: (tier: Tier)=>Promise<void>}) => {
+    const handleDelete = async (e: React.MouseEvent, tier: Tier) => {
+        e.preventDefault()
+        await onDeleteTier(tier)
+    }
+
     return (
         <TiersFilteredList
             tiers={tiers}
             tierUrl={tier => appTierRoute(tier.id!)}
             chipActions={tier => [
                 editMode ?
-                        <IconButton
-                        color="error"
-                        onClick={e => {
-                            e.preventDefault()
-                            onDeleteTier(tier)
-                        }}
-                        size='small'>
-                        <ClearIcon/>
-                    </IconButton> :
-                null
+                    <ActionButton buttonAction={e => handleDelete(e, tier)} color='error' size='small'>
+                        <ClearIcon fontSize='small'/>
+                    </ActionButton> :
+                    null
             ]}/>
     )
 }
 
 export const RankOptionsTabView = ({options, editMode, onDeleteOption}: {options: Option[], editMode: boolean, onDeleteOption: (option: Option)=>Promise<void>}) => {
+    const handleDelete = async (e: React.MouseEvent, option: Option) => {
+        e.preventDefault()
+        await onDeleteOption(option)
+    }
+
     return (
         <OptionsFilteredList
             options={options}
             optionUrl={option => appOptionRoute(option.id!)}
             chipActions={option => [
                 editMode ?
-                        <IconButton
-                        color="error"
-                        onClick={e => {
-                            e.preventDefault()
-                            onDeleteOption(option)
-                        }}
-                        size='small'>
-                        <ClearIcon/>
-                    </IconButton> :
+                    <ActionButton buttonAction={e => handleDelete(e, option)} color='error' size='small'>
+                        <ClearIcon fontSize='small'/>
+                    </ActionButton> :
                     null
             ]}/>
     )
 }
 
 export const RankVotesTabView = ({votes, editMode, onDeleteVote}: {votes: Vote[], editMode: boolean, onDeleteVote: (vote: Vote)=>Promise<void>}) => {
+    const handleDelete = async (e: React.MouseEvent, vote: Vote) => {
+        e.preventDefault()
+        await onDeleteVote(vote)
+    }
+
     return (
         <VotesList
             votes={votes}
             voteUrl={vote => appVoteRoute(vote.id!)}
             chipActions={vote => [
                 editMode ?
-                        <IconButton
-                        color="error"
-                        onClick={e => {
-                            e.preventDefault()
-                            onDeleteVote(vote)
-                        }}
-                        size='small'>
-                        <ClearIcon/>
-                    </IconButton> :
+                    <ActionButton buttonAction={e => handleDelete(e, vote)} color='error' size='small'>
+                        <ClearIcon fontSize='small'/>
+                    </ActionButton> :
                     null
             ]}/>
     )
@@ -131,38 +129,38 @@ const RankCard = ({
     const handleCreateOption = () => execute(onCreateOption)
 
     const clearAction: Action = {
-        iconProps: { size: "large", color: "info" },
-        icon: <ClearIcon/>,
+        iconProps: { color: "info" },
+        icon: <RestoreIcon/>,
         onClick: handleClear,
-        disabled: executing || mode === Mode.VIEW
+        disabled: executing || !editMode
     }
 
     const saveAction: Action = {
-        iconProps: { size: "large", color: "info" },
+        iconProps: { color: "info" },
         icon: <SaveIcon/>,
         onClick: handleSave,
-        disabled: executing || mode === Mode.VIEW
+        disabled: executing || !editMode
     }
 
     const deleteAction: Action = {
-        iconProps: { size: "large", color: "error" },
+        iconProps: { color: "error" },
         icon: <DeleteIcon/>,
         onClick: handleDelete,
-        disabled: executing || mode === Mode.VIEW
+        disabled: executing || !editMode
     }
 
     const createTierAction: Action = {
-        iconProps: { size: "large", color: "info" },
+        iconProps: { color: "info" },
         icon: <TierCreateIcon/>,
         onClick: handleCreateTier,
-        disabled: executing || mode === Mode.VIEW
+        disabled: executing || !editMode
     }
 
     const createOptionAction: Action = {
-        iconProps: { size: "large", color: "info" },
+        iconProps: { color: "info" },
         icon: <OptionCreateIcon/>,
         onClick: handleCreateOption,
-        disabled: executing || mode === Mode.VIEW
+        disabled: executing || !editMode
     }
 
     const tabs = [

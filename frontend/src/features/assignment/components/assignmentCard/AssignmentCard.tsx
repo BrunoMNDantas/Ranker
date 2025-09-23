@@ -4,7 +4,7 @@ import EntityCard from '../../../../components/entityCard/EntityCard';
 import AssignmentCardHeader from './assignmentCardHeader/AssignmentCardHeader';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ClearIcon from '@mui/icons-material/Restore';
+import RestoreIcon from '@mui/icons-material/Restore';
 import { Mode } from '../../../../components/entityCard/EntityCard';
 import EntityCardContent from '../../../../components/entityCard/entityCardContent/EntityCardContent';
 import AssignmentIcon from '../assignmentIcon/AssignmentIcon';
@@ -39,24 +39,24 @@ const AssignmentCard = ({ assignment, mode, onAssignmentChange, onClear, onSave,
     const handleDelete = () => execute(onDelete)
 
     const clearAction: Action = {
-        iconProps: { size: "large", color: "info" },
-        icon: <ClearIcon/>,
+        iconProps: { color: "info" },
+        icon: <RestoreIcon/>,
         onClick: handleClear,
-        disabled: executing || mode === Mode.VIEW
+        disabled: executing || !editMode
     }
 
     const saveAction: Action = {
-        iconProps: { size: "large", color: "info" },
+        iconProps: { color: "info" },
         icon: <SaveIcon/>,
         onClick: handleSave,
-        disabled: executing || mode === Mode.VIEW
+        disabled: executing || !editMode
     }
 
     const deleteAction: Action = {
-        iconProps: { size: "large", color: "error" },
+        iconProps: { color: "error" },
         icon: <DeleteIcon/>,
         onClick: handleDelete,
-        disabled: executing || mode === Mode.VIEW
+        disabled: executing || !editMode
     }
 
     const tabs = [

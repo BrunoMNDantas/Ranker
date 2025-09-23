@@ -5,6 +5,7 @@ import TierCardHeader from './tierCardHeader/TierCardHeader';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ClearIcon from '@mui/icons-material/Clear';
+import RestoreIcon from '@mui/icons-material/Restore';
 import { Mode } from '../../../../components/entityCard/EntityCard';
 import { Assignment } from '../../../assignment/model/Assignment.types';
 import EntityCardContent from '../../../../components/entityCard/entityCardContent/EntityCardContent';
@@ -13,28 +14,27 @@ import TierCardForm from './tierCardForm/TierCardForm';
 import AssignmentIcon from '../../../assignment/components/assignmentIcon/AssignmentIcon';
 import AssignmentsList from '../../../assignment/components/assignmentsList/AssignmentsList';
 import { appAssignmentRoute } from '../../../../app/Routes';
-import { IconButton } from '@mui/material';
 import EntityCardActions, { Action } from '../../../../components/entityCard/entityCardActions/EntityCardActions';
+import ActionButton from '../../../../components/actionButton/ActionButton';
 
 export const TierAssignmentsTabView = (
     {assignments, editMode, onDeleteAssignment}: {assignments: Assignment[], editMode: boolean, onDeleteAssignment: (assignment: Assignment)=>Promise<void>}
 ) => {
+    const handleDelete = async (e: React.MouseEvent, assignment: Assignment) => {
+        e.preventDefault()
+        await onDeleteAssignment(assignment)
+    }
+
     return (
         <AssignmentsList
             assignments={assignments}
             assignmentUrl={assignment => appAssignmentRoute(assignment.id!)}
             chipActions={assignment => [
-                editMode ?
-                    <IconButton
-                        color="error"
-                        onClick={e => {
-                            e.preventDefault()
-                            onDeleteAssignment(assignment)
-                        }}
-                        size='small'>
-                        <ClearIcon/>
-                    </IconButton> :
-                null
+                 editMode ?
+                    <ActionButton buttonAction={e => handleDelete(e, assignment)} color='error' size='small'>
+                        <ClearIcon fontSize='small'/>
+                    </ActionButton> :
+                    null
             ]}/>
     )
 }
@@ -69,24 +69,24 @@ const TierCard = ({ tier, assignments, mode, onTierChange, onClear, onSave, onDe
     const handleDelete = () => execute(onDelete)
 
     const clearAction: Action = {
-        iconProps: { size: "large", color: "info" },
-        icon: <ClearIcon/>,
+        iconProps: { color: "info" },
+        icon: <RestoreIcon/>,
         onClick: handleClear,
-        disabled: executing || mode === Mode.VIEW
+        disabled: executing || !editMode
     }
 
     const saveAction: Action = {
-        iconProps: { size: "large", color: "info" },
+        iconProps: { color: "info" },
         icon: <SaveIcon/>,
         onClick: handleSave,
-        disabled: executing || mode === Mode.VIEW
+        disabled: executing || !editMode
     }
 
     const deleteAction: Action = {
-        iconProps: { size: "large", color: "error" },
+        iconProps: { color: "error" },
         icon: <DeleteIcon/>,
         onClick: handleDelete,
-        disabled: executing || mode === Mode.VIEW
+        disabled: executing || !editMode
     }
 
     const tabs = [
