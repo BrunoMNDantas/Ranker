@@ -4,46 +4,15 @@ import EntityCard from '../../../../components/entityCard/EntityCard';
 import TierCardHeader from './tierCardHeader/TierCardHeader';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ClearIcon from '@mui/icons-material/Clear';
 import RestoreIcon from '@mui/icons-material/Restore';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Mode } from '../../../../components/entityCard/EntityCard';
 import { Assignment } from '../../../assignment/model/Assignment.types';
 import EntityCardContent from '../../../../components/entityCard/entityCardContent/EntityCardContent';
 import TierIcon from '../tierIcon/TierIcon';
 import TierCardForm from './tierCardForm/TierCardForm';
 import AssignmentIcon from '../../../assignment/components/assignmentIcon/AssignmentIcon';
-import AssignmentsList from '../../../assignment/components/assignmentsList/AssignmentsList';
-import { appAssignmentRoute } from '../../../../app/Routes';
 import EntityCardActions, { Action } from '../../../../components/entityCard/entityCardActions/EntityCardActions';
-import ActionButton from '../../../../components/actionButton/ActionButton';
-import { IconButton } from '@mui/material';
-
-export const TierAssignmentsTabView = (
-    {assignments, editMode, onDeleteAssignment}: {assignments: Assignment[], editMode: boolean, onDeleteAssignment: (assignment: Assignment)=>Promise<void>}
-) => {
-    const sortedAssignments = assignments.sort((a,b) => a.order! - b.order!)
-
-    const handleDelete = async (e: React.MouseEvent, assignment: Assignment) => {
-        e.preventDefault()
-        await onDeleteAssignment(assignment)
-    }
-
-    return (
-        <AssignmentsList
-            assignments={sortedAssignments}
-            chipActions={assignment => [
-                <IconButton href={appAssignmentRoute(assignment.id!)} color='info' size='small'>
-                    <VisibilityIcon fontSize='small'/>
-                </IconButton>,
-                 editMode ?
-                    <ActionButton buttonAction={e => handleDelete(e, assignment)} color='error' size='small'>
-                        <ClearIcon fontSize='small'/>
-                    </ActionButton> :
-                    null
-            ]}/>
-    )
-}
+import TierAssignmentsTabView from './TierAssignmentsTabView';
 
 export interface TierCardProps extends HTMLAttributes<HTMLDivElement> {
     tier: Tier

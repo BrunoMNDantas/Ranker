@@ -2,7 +2,7 @@ import React from 'react';
 import RanksList, { RanksListProps } from '../ranksList/RanksList';
 import EntityFilteredList from '../../../../components/entityFilteredList/EntityFilteredList';
 
-const RanksFilteredList = ({ ranks, chipActions=()=>[], ...props }: RanksListProps) => {
+const RanksFilteredList = ({ ranks, ...props }: RanksListProps) => {
     const handleFilter = (text: string) => {
         const lowerCaseText = text.toLowerCase()
         return ranks.filter(rank => rank.title?.toLowerCase().includes(lowerCaseText))

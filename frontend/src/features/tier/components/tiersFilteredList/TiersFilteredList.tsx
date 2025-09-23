@@ -2,7 +2,7 @@ import React from 'react';
 import TiersList, { TiersListProps } from '../tiersList/TiersList';
 import EntityFilteredList from '../../../../components/entityFilteredList/EntityFilteredList';
 
-const TiersFilteredList = ({ tiers, chipActions=()=>[], ...props }: TiersListProps) => {
+const TiersFilteredList = ({ tiers, ...props }: TiersListProps) => {
     const handleFilter = (text: string) => {
         const lowerCaseText = text.toLowerCase()
         return tiers.filter(tier => tier.title?.toLowerCase().includes(lowerCaseText))
