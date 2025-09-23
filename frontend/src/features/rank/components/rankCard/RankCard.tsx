@@ -6,6 +6,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ClearIcon from '@mui/icons-material/Clear';
 import RestoreIcon from '@mui/icons-material/Restore';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Mode } from '../../../../components/entityCard/EntityCard';
 import { Tier } from '../../../tier/model/Tier.types';
 import { Option } from '../../../option/model/Option.types';
@@ -24,6 +25,7 @@ import EntityCardActions, { Action } from '../../../../components/entityCard/ent
 import TierCreateIcon from '../../../tier/components/tierCreateIcon/TierCreateIcon';
 import OptionCreateIcon from '../../../option/components/optionCreateIcon/OptionCreateIcon';
 import ActionButton from '../../../../components/actionButton/ActionButton';
+import { IconButton } from '@mui/material';
 
 export const RankTiersTabView = ({tiers, editMode, onDeleteTier}: {tiers: Tier[], editMode: boolean, onDeleteTier: (tier: Tier)=>Promise<void>}) => {
     const sortedTiers = tiers.sort((a,b) => a.order! - b.order!)
@@ -36,8 +38,10 @@ export const RankTiersTabView = ({tiers, editMode, onDeleteTier}: {tiers: Tier[]
     return (
         <TiersFilteredList
             tiers={sortedTiers}
-            tierUrl={tier => appTierRoute(tier.id!)}
             chipActions={tier => [
+                <IconButton href={appTierRoute(tier.id!)} color='info' size='small'>
+                    <VisibilityIcon fontSize='small'/>
+                </IconButton>,
                 editMode ?
                     <ActionButton buttonAction={e => handleDelete(e, tier)} color='error' size='small'>
                         <ClearIcon fontSize='small'/>
@@ -58,8 +62,10 @@ export const RankOptionsTabView = ({options, editMode, onDeleteOption}: {options
     return (
         <OptionsFilteredList
             options={sortedOptions}
-            optionUrl={option => appOptionRoute(option.id!)}
             chipActions={option => [
+                <IconButton href={appOptionRoute(option.id!)} color='info' size='small'>
+                    <VisibilityIcon fontSize='small'/>
+                </IconButton>,
                 editMode ?
                     <ActionButton buttonAction={e => handleDelete(e, option)} color='error' size='small'>
                         <ClearIcon fontSize='small'/>
@@ -78,8 +84,10 @@ export const RankVotesTabView = ({votes, editMode, onDeleteVote}: {votes: Vote[]
     return (
         <VotesList
             votes={votes}
-            voteUrl={vote => appVoteRoute(vote.id!)}
             chipActions={vote => [
+                <IconButton href={appVoteRoute(vote.id!)} color='info' size='small'>
+                    <VisibilityIcon fontSize='small'/>
+                </IconButton>,
                 editMode ?
                     <ActionButton buttonAction={e => handleDelete(e, vote)} color='error' size='small'>
                         <ClearIcon fontSize='small'/>

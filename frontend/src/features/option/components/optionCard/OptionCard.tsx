@@ -6,6 +6,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ClearIcon from '@mui/icons-material/Clear';
 import RestoreIcon from '@mui/icons-material/Restore';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Mode } from '../../../../components/entityCard/EntityCard';
 import { Assignment } from '../../../assignment/model/Assignment.types';
 import EntityCardContent from '../../../../components/entityCard/entityCardContent/EntityCardContent';
@@ -16,6 +17,7 @@ import AssignmentsList from '../../../assignment/components/assignmentsList/Assi
 import { appAssignmentRoute } from '../../../../app/Routes';
 import EntityCardActions, { Action } from '../../../../components/entityCard/entityCardActions/EntityCardActions';
 import ActionButton from '../../../../components/actionButton/ActionButton';
+import { IconButton } from '@mui/material';
 
 export const OptionAssignmentsTabView = (
     {assignments, editMode, onDeleteAssignment}: {assignments: Assignment[], editMode: boolean, onDeleteAssignment: (assignment: Assignment)=>Promise<void>}
@@ -30,8 +32,10 @@ export const OptionAssignmentsTabView = (
     return (
         <AssignmentsList
             assignments={sortedAssignments}
-            assignmentUrl={assignment => appAssignmentRoute(assignment.id!)}
             chipActions={assignment => [
+                <IconButton href={appAssignmentRoute(assignment.id!)} color='info' size='small'>
+                    <VisibilityIcon fontSize='small'/>
+                </IconButton>,
                 editMode ?
                     <ActionButton buttonAction={e => handleDelete(e, assignment)} color='error' size='small'>
                         <ClearIcon fontSize='small'/>
