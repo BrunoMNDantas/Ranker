@@ -32,7 +32,18 @@ export const createAssignment = async (assignment: Assignment): Promise<string> 
 
 export const updateAssignment = (assignment: Assignment): Promise<void> => ASSIGNMENT_STORE.update(assignment)
 
-export const deleteAssignment = (id: string): Promise<void> => ASSIGNMENT_STORE.delete(id)
+export const deleteAssignment = async (id: string): Promise<void> => {
+    const assignment = await ASSIGNMENT_STORE.get(id)
+    const assignmentsOfVote = await getAssignmentsOfVote(assignment?.voteId!)
+    const updateOrderPromises = assignmentsOfVote
+        .filter(assignment => assignment.id !== id)
+        .sort((assignmentA, assignmentB) => assignmentA.order! - assignmentB.order!)
+        .map((assignment, index) => { return { ...assignment, order: index + 1 } })
+        .map(updateAssignment)
+    await Promise.all(updateOrderPromises)
+
+    await ASSIGNMENT_STORE.delete(id)
+}
 
 export const deleteAssignmentsOfVote = async (voteId: string): Promise<void> => {
     const assignments = await getAssignmentsOfVote(voteId)

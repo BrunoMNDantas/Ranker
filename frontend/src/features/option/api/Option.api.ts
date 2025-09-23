@@ -24,7 +24,17 @@ export const createOption = async (option: Option): Promise<string> => {
 export const updateOption = (option: Option): Promise<void> => OPTION_STORE.update(option)
 
 export const deleteOption = async (id: string): Promise<void> => {
+    const option = await OPTION_STORE.get(id)
+    const optionsOfRank = await getOptionsOfRank(option?.rankId!)
+    const updateOrderPromises = optionsOfRank
+        .filter(option => option.id !== id)
+        .sort((optionA, optionB) => optionA.order! - optionB.order!)
+        .map((option, index) => { return { ...option, order: index + 1 } })
+        .map(updateOption)
+    await Promise.all(updateOrderPromises)
+
     await deleteAssignmentsOfOption(id)
+
     await OPTION_STORE.delete(id)
 }
 

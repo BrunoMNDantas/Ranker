@@ -24,7 +24,17 @@ export const createTier = async (tier: Tier): Promise<string> => {
 export const updateTier = (tier: Tier): Promise<void> => TIER_STORE.update(tier)
 
 export const deleteTier = async (id: string): Promise<void> => {
+    const tier = await TIER_STORE.get(id)
+    const tiersOfRank = await getTiersOfRank(tier?.rankId!)
+    const updateOrderPromises = tiersOfRank
+        .filter(tier => tier.id !== id)
+        .sort((tierA, tierB) => tierA.order! - tierB.order!)
+        .map((tier, index) => { return { ...tier, order: index + 1 } })
+        .map(updateTier)
+    await Promise.all(updateOrderPromises)
+
     await deleteAssignmentsOfTier(id)
+
     await TIER_STORE.delete(id)
 }
 
