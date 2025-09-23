@@ -1,21 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { HTMLAttributes, useEffect, useState } from 'react';
 import classes from './EntityFilteredList.module.css';
-import { Entity } from '../../services/Store';
-import EntityList, { EntityListProps } from '../entityList/EntityList';
 import { TextField } from '@mui/material';
 
-export interface EntityFilteredListProps<T extends Entity> extends EntityListProps<T> {
-    filter: (text: string) => T[]
+export interface EntityFilteredListProps extends HTMLAttributes<HTMLDivElement> {
+    onFilter: (text: string) => void,
 }
 
-const EntityFilteredList =  <T extends Entity,>({ filter, ...props }: EntityFilteredListProps<T>) => {
+const EntityFilteredList =  ({ onFilter, children, ...props }: EntityFilteredListProps) => {
     const [filterText, setFilterText] = useState("")
-    const [filteredEntities, setFilteredEntities] = useState<T[]>([])
     const className = props.className || classes.root
 
-    useEffect(() => {
-        setFilteredEntities(filter(filterText))
-    }, [props.entities, filterText, setFilteredEntities])
+    useEffect(() => {  onFilter(filterText) }, [onFilter, filterText])
 
     return (
         <div className={className} {...props}>
@@ -23,7 +18,7 @@ const EntityFilteredList =  <T extends Entity,>({ filter, ...props }: EntityFilt
                 <TextField label="Filter" type="text" value={filterText} onChange={e => setFilterText(e.target.value)}/>
             </div>
             <div className={classes.list}>
-                <EntityList {...props} entities={filteredEntities}/>
+                {children}
             </div>
         </div>
     );
