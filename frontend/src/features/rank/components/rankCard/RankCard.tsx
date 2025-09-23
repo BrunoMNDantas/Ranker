@@ -26,6 +26,8 @@ import OptionCreateIcon from '../../../option/components/optionCreateIcon/Option
 import ActionButton from '../../../../components/actionButton/ActionButton';
 
 export const RankTiersTabView = ({tiers, editMode, onDeleteTier}: {tiers: Tier[], editMode: boolean, onDeleteTier: (tier: Tier)=>Promise<void>}) => {
+    const sortedTiers = tiers.sort((a,b) => a.order! - b.order!)
+
     const handleDelete = async (e: React.MouseEvent, tier: Tier) => {
         e.preventDefault()
         await onDeleteTier(tier)
@@ -33,7 +35,7 @@ export const RankTiersTabView = ({tiers, editMode, onDeleteTier}: {tiers: Tier[]
 
     return (
         <TiersFilteredList
-            tiers={tiers}
+            tiers={sortedTiers}
             tierUrl={tier => appTierRoute(tier.id!)}
             chipActions={tier => [
                 editMode ?
@@ -46,6 +48,8 @@ export const RankTiersTabView = ({tiers, editMode, onDeleteTier}: {tiers: Tier[]
 }
 
 export const RankOptionsTabView = ({options, editMode, onDeleteOption}: {options: Option[], editMode: boolean, onDeleteOption: (option: Option)=>Promise<void>}) => {
+    const sortedOptions = options.sort((a,b) => a.order! - b.order!)
+
     const handleDelete = async (e: React.MouseEvent, option: Option) => {
         e.preventDefault()
         await onDeleteOption(option)
@@ -53,7 +57,7 @@ export const RankOptionsTabView = ({options, editMode, onDeleteOption}: {options
 
     return (
         <OptionsFilteredList
-            options={options}
+            options={sortedOptions}
             optionUrl={option => appOptionRoute(option.id!)}
             chipActions={option => [
                 editMode ?

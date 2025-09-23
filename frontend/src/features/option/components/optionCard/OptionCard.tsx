@@ -20,6 +20,8 @@ import ActionButton from '../../../../components/actionButton/ActionButton';
 export const OptionAssignmentsTabView = (
     {assignments, editMode, onDeleteAssignment}: {assignments: Assignment[], editMode: boolean, onDeleteAssignment: (assignment: Assignment)=>Promise<void>}
 ) => {
+    const sortedAssignments = assignments.sort((a,b) => a.order! - b.order!)
+
     const handleDelete = async (e: React.MouseEvent, assignment: Assignment) => {
         e.preventDefault()
         await onDeleteAssignment(assignment)
@@ -27,7 +29,7 @@ export const OptionAssignmentsTabView = (
 
     return (
         <AssignmentsList
-            assignments={assignments}
+            assignments={sortedAssignments}
             assignmentUrl={assignment => appAssignmentRoute(assignment.id!)}
             chipActions={assignment => [
                 editMode ?
