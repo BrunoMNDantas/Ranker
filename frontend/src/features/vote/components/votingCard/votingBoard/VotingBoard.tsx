@@ -83,13 +83,22 @@ const VotingBoard = ({ tiers, options, assignments, onAssignmentsChange, ...prop
         } else {
             const newAssignments = assignments.filter(assignment => assignment.optionId !== draggedOption.id)
 
-            const droppedTier = tiers.find(tier => tier.id === droppedAssignment?.tierId)
-            const tierOptions = getOptionsForTier(droppedTier!)
-            newAssignments.push(createAssignment({
-                order: tierOptions.length,
+            const droppedOrder = droppedAssignment.order || 0
+            const insertIndex = newAssignments.findIndex(assignment =>
+                assignment.tierId === droppedAssignment.tierId && assignment.order! >= droppedOrder
+            )
+
+            const newAssignment = createAssignment({
+                order: 0,
                 optionId: draggedOption.id,
-                tierId: droppedTier?.id
-            }))
+                tierId: droppedAssignment.tierId
+            })
+
+            if (insertIndex === -1) {
+                newAssignments.push(newAssignment)
+            } else {
+                newAssignments.splice(insertIndex, 0, newAssignment)
+            }
 
             updateAssignmentsOrder(newAssignments)
 
