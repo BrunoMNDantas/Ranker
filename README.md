@@ -128,11 +128,9 @@ Leverage artificial intelligence to assist users in building richer Ranks.
 
 ## ⚙️ Technical Documentation
 
-## 📌 Domain Model (Updated)
+## 📌 Domain Model
 
-This section reflects the latest entity diagram and should replace the current **Domain Model** subsection in the README.
-
-> High‑level relations: **Rank** has many **Tiers**, **Options**, and **Votes**. A **Vote** includes many **Assignments**. Each **Assignment** maps one **Option** to one **Tier** within that **Vote**.
+High‑level relations: **Rank** has many **Tiers**, **Options**, and **Votes**. A **Vote** includes many **Assignments**. Each **Assignment** maps one **Option** to one **Tier** within that **Vote**.
 
 ---
 
