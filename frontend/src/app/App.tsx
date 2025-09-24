@@ -4,7 +4,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import AppLayout from '../layouts/appLayout/AppLayout';
 import RankPage from '../pages/rankPage/RankPage';
 import RanksPage from '../pages/ranksPage/RanksPage';
-import RankVotePage from '../pages/rankVotePage/RankVotePage';
+import VottingPage from '../pages/VotingPage/VotingPage';
 import OptionPage from '../pages/optionPage/OptionPage';
 import TierPage from '../pages/tierPage/TierPage';
 import VotePage from '../pages/votePage/VotePage';
@@ -26,7 +26,7 @@ const App = () => {
                     <Route index element={<RanksPage/>} />
                     <Route path={RANKS_SUB_ROUTE} element={<RanksPage/>} />
                     <Route path={RANK_SUB_ROUTE} element={<RankPage/>} />
-                    <Route path={RANK_VOTE_SUB_ROUTE} element={<RankVotePage/>} />
+                    <Route path={RANK_VOTE_SUB_ROUTE} element={<VottingPage/>} />
                     <Route path={OPTION_SUB_ROUTE} element={<OptionPage/>} />
                     <Route path={TIER_SUB_ROUTE} element={<TierPage/>} />
                     <Route path={VOTE_SUB_ROUTE} element={<VotePage/>} />

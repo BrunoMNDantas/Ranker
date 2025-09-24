@@ -39,5 +39,5 @@ body::after {
 
 html {
   scrollbar-width: thin;
-  scrollbar-color: #888 #ffffff00;
+  scrollbar-color: #888 transparent !important;
 }
