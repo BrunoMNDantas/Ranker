@@ -1,0 +1,32 @@
+.root {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.07);
+    transition: 0.2s ease;
+}
+
+.root:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.root > * {
+    height: 70px;
+}
+
+.tierOptions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 10px;
+
+    flex-grow: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+}

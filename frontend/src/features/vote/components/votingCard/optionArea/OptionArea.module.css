@@ -1,0 +1,18 @@
+.root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 40px;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.root:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+}
+
+.root:active {
+    cursor: grabbing;
+}
