@@ -28,11 +28,9 @@ export const VoteAssignmentsTabView = ({ assignments, editMode, onDeleteAssignme
                 <IconButton href={appAssignmentRoute(assignment.id!)} color='info' size='small'>
                     <VisibilityIcon fontSize='small' />
                 </IconButton>,
-                editMode ?
-                    <ActionButton buttonAction={e => handleDelete(e, assignment)} color='error' size='small'>
-                        <ClearIcon fontSize='small' />
-                    </ActionButton> :
-                    null
+                <ActionButton buttonAction={e => handleDelete(e, assignment)} color='error' size='small' disabled={!editMode}>
+                    <ClearIcon fontSize='small' />
+                </ActionButton>
             ]} />
     )
 }

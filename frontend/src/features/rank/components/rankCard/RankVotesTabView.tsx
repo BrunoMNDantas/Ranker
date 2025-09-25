@@ -26,11 +26,9 @@ export const RankVotesTabView = ({ votes, editMode, onDeleteVote }: RankVotesTab
                 <IconButton href={appVoteRoute(vote.id!)} color='info' size='small'>
                     <VisibilityIcon fontSize='small' />
                 </IconButton>,
-                editMode ?
-                    <ActionButton buttonAction={e => handleDelete(e, vote)} color='error' size='small'>
-                        <ClearIcon fontSize='small' />
-                    </ActionButton> :
-                    null
+                <ActionButton buttonAction={e => handleDelete(e, vote)} color='error' size='small' disabled={!editMode}>
+                    <ClearIcon fontSize='small' />
+                </ActionButton>
             ]} />
     )
 }

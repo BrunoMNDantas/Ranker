@@ -28,11 +28,9 @@ export const RankTiersTabView = ({ tiers, editMode, onDeleteTier }: RankTiersTab
                 <IconButton href={appTierRoute(tier.id!)} color='info' size='small'>
                     <VisibilityIcon fontSize='small' />
                 </IconButton>,
-                editMode ?
-                    <ActionButton buttonAction={e => handleDelete(e, tier)} color='error' size='small'>
-                        <ClearIcon fontSize='small' />
-                    </ActionButton> :
-                    null
+                <ActionButton buttonAction={e => handleDelete(e, tier)} color='error' size='small' disabled={!editMode}>
+                    <ClearIcon fontSize='small' />
+                </ActionButton>
             ]} />
     )
 }
