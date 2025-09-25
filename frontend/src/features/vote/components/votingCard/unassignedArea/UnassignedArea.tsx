@@ -13,12 +13,13 @@ export interface UnassignedOptionsAreaProps extends HTMLAttributes<HTMLDivElemen
 
 const UnassignedOptionsArea = ({ options, ...props }: UnassignedOptionsAreaProps) => {
     const { setNodeRef } = useDroppable({id: UNASSIGNED_AREA_ID})
+    const sortedOptions = options.sort((optionA, optionB) => optionA.order! - optionB.order!)
     const optionsIds = options.map(option => option.id!)
 
     return (
         <div ref={setNodeRef} className={classes.root} {...props}>
             <SortableContext items={optionsIds} strategy={horizontalListSortingStrategy}>
-                { options.map(option => <OptionArea key={option.id} option={option}/>) }
+                { sortedOptions.map(option => <OptionArea key={option.id} option={option}/>) }
             </SortableContext>
         </div>
     )
