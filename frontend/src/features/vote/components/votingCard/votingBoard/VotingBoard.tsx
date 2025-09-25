@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, useState, useRef } from 'react';
+import React, { HTMLAttributes, useState } from 'react';
 import classes from './VotingBoard.module.css'
 import { Tier } from '../../../../tier/model/Tier.types';
 import { Option } from '../../../../option/model/Option.types';
@@ -23,7 +23,6 @@ export interface VotingBoardProps extends HTMLAttributes<HTMLDivElement> {
 
 const VotingBoard = ({ tiers, options, assignments, onAssignmentsChange, ...props }: VotingBoardProps) => {
     const [activeId, setActiveId] = useState<string | null>(null);
-    const tiersRef = useRef<HTMLDivElement>(null);
     const unassignedOptions = options.filter(option => assignments.every(assignment => assignment.optionId !== option.id))
 
     const sensors = useSensors(
@@ -141,7 +140,7 @@ const VotingBoard = ({ tiers, options, assignments, onAssignmentsChange, ...prop
     return (
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
             <div className={classes.root} {...props}>
-                <div ref={tiersRef} className={classes.tiers}>
+                <div className={classes.tiers}>
                     { tiers.map(tier => <TierArea key={tier.id} tier={tier} options={getOptionsForTier(tier)}/>) }
                 </div>
                 <Divider/>
