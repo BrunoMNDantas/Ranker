@@ -1,0 +1,23 @@
+.dragOverlay {
+    cursor: grabbing;
+    opacity: 0.6;
+}
+
+.item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 40px;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.item:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+}
+
+.item:active {
+    cursor: grabbing;
+}
