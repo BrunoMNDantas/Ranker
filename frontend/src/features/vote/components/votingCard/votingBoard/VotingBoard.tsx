@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, useState, useRef, useEffect } from 'react';
+import React, { HTMLAttributes, useState, useRef } from 'react';
 import classes from './VotingBoard.module.css'
 import { Tier } from '../../../../tier/model/Tier.types';
 import { Option } from '../../../../option/model/Option.types';
@@ -13,10 +13,6 @@ import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { createAssignment } from '../../../../../services/EntityFactory.service';
 import UnassignedOptionsArea from '../unassignedArea/UnassignedArea';
 import TierArea from '../tierArea/TierArea';
-
-const SCROLL_THRESHOLD = 50
-const SCROLL_JUMP = 1
-const SCROLL_INTERVAL = 5
 
 export interface VotingBoardProps extends HTMLAttributes<HTMLDivElement> {
     tiers: Tier[]
@@ -52,40 +48,6 @@ const VotingBoard = ({ tiers, options, assignments, onAssignmentsChange, ...prop
                 return (assignmentA?.order || 0) - (assignmentB?.order || 0)
             })
     };
-
-    useEffect(() => {
-        let scrollInterval: NodeJS.Timeout;
-
-        const handleMouseMove = (e: MouseEvent) => {
-            if (!activeId || !tiersRef.current) {
-                return
-            }
-
-            const tiersRect = tiersRef.current.getBoundingClientRect()
-            const mouseNearTop = e.clientY < tiersRect.top + SCROLL_THRESHOLD
-            const mouseNearBottom = e.clientY > tiersRect.bottom - SCROLL_THRESHOLD
-
-            clearInterval(scrollInterval)
-
-            if (mouseNearTop || mouseNearBottom) {
-                const scrollDirection = mouseNearTop ? -SCROLL_JUMP : SCROLL_JUMP;
-                scrollInterval = setInterval(() => {
-                    if (tiersRef.current) {
-                        tiersRef.current.scrollTop += scrollDirection;
-                    }
-                }, SCROLL_INTERVAL)
-            }
-        };
-
-        if (activeId) {
-            document.addEventListener('mousemove', handleMouseMove);
-        }
-
-        return () => {
-            document.removeEventListener('mousemove', handleMouseMove);
-            clearInterval(scrollInterval);
-        };
-    }, [activeId])
 
     const handleDragStart = ({ active }: DragStartEvent) => {
         setActiveId(active.id as string)
@@ -177,7 +139,7 @@ const VotingBoard = ({ tiers, options, assignments, onAssignmentsChange, ...prop
     }
 
     return (
-        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd} autoScroll={false}>
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
             <div className={classes.root} {...props}>
                 <div ref={tiersRef} className={classes.tiers}>
                     { tiers.map(tier => <TierArea key={tier.id} tier={tier} options={getOptionsForTier(tier)}/>) }

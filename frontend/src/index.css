@@ -15,9 +15,8 @@ body {
 /* Wave layers */
 body::before, body::after {
   content: "";
-  position: absolute;
-  width: 100%;
-  height: 100%;
+  position: fixed;
+  inset: 0;         /* width/height 100% of viewport */
   z-index: -1;
 }
 
