@@ -34,19 +34,22 @@ export interface RankCardProps extends HTMLAttributes<HTMLDivElement> {
     onRankChange: (changedRank: Rank) => void
     onClear: () => Promise<void>
     onSave: () => Promise<void>
-    onCreateTier: () => Promise<void>
-    onCreateOption: ( ) => Promise<void>
     onDelete: () => Promise<void>
+    onCreateTier: () => Promise<void>
+    onTierChange: (tier: Tier) => Promise<void>
     onDeleteTier: (tier: Tier) => Promise<void>
+    onCreateOption: () => Promise<void>
+    onOptionChange: (option: Option) => Promise<void>
     onDeleteOption: (option: Option) => Promise<void>
     onDeleteVote: (vote: Vote) => Promise<void>
 }
 
 const RankCard = ({
     rank, tiers, options, votes, mode,
-    onRankChange, onClear,
-    onSave, onCreateTier, onCreateOption,
-    onDelete, onDeleteTier, onDeleteOption, onDeleteVote,
+    onRankChange, onClear, onSave, onDelete,
+    onCreateTier, onTierChange, onDeleteTier,
+    onCreateOption, onOptionChange, onDeleteOption,
+    onDeleteVote,
     ...props
 }: RankCardProps) => {
     const navigate = useNavigate()
@@ -64,10 +67,19 @@ const RankCard = ({
     }
 
     const handleClear = () => execute(onClear)
+
     const handleSave = () => execute(onSave)
+
     const handleDelete = () => execute(onDelete)
+
     const handleCreateTier = () => execute(onCreateTier)
+
+    const handleTiersChange = async (tiers: Tier[]) => Promise.all(tiers.map(onTierChange))
+
     const handleCreateOption = () => execute(onCreateOption)
+
+    const handleOptionsChange = (options: Option[]) => Promise.all(options.map(onOptionChange))
+
     const handleCreateVote = () => {
         navigate(appRankVoteRoute(rank.id!))
         return Promise.resolve()
@@ -125,13 +137,13 @@ const RankCard = ({
         {
             label: "Tiers",
             icon: <TierIcon/>,
-            view: <RankTiersTabView tiers={tiers} editMode={editMode} onDeleteTier={onDeleteTier}/>,
+            view: <RankTiersTabView tiers={tiers} editMode={editMode} onTiersChange={handleTiersChange} onDeleteTier={onDeleteTier}/>,
             actions: [createTierAction]
         },
         {
             label: "Options",
             icon: <OptionIcon/>,
-            view: <RankOptionsTabView options={options} editMode={editMode} onDeleteOption={onDeleteOption}/>,
+            view: <RankOptionsTabView options={options} editMode={editMode} onOptionsChange={handleOptionsChange} onDeleteOption={onDeleteOption}/>,
             actions: [createOptionAction]
         },
         {

@@ -42,7 +42,11 @@ const EntitySortableList = <T extends Entity, >({ entities, onEntitiesChange, en
     const [activeId, setActiveId] = useState<string | null>(null)
 
     const sensors = useSensors(
-        useSensor(PointerSensor),
+        useSensor(PointerSensor, {
+            activationConstraint: {
+                distance: 1,
+            },
+        }),
         useSensor(KeyboardSensor, {
             coordinateGetter: sortableKeyboardCoordinates,
         })

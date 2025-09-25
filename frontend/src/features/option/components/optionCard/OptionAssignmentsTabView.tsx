@@ -21,20 +21,18 @@ export const OptionAssignmentsTabView = ({ assignments, editMode, onDeleteAssign
         await onDeleteAssignment(assignment)
     }
 
-    return (
-        <AssignmentsList
-            assignments={sortedAssignments}
-            chipActions={assignment => [
-                <IconButton href={appAssignmentRoute(assignment.id!)} color='info' size='small'>
-                    <VisibilityIcon fontSize='small' />
-                </IconButton>,
-                editMode ?
-                    <ActionButton buttonAction={e => handleDelete(e, assignment)} color='error' size='small'>
-                        <ClearIcon fontSize='small' />
-                    </ActionButton> :
-                    null
-            ]} />
-    )
+    const getChipActions = (assignment: Assignment) => {
+        return [
+            <IconButton href={appAssignmentRoute(assignment.id!)} color='info' size='small'>
+                <VisibilityIcon fontSize='small' />
+            </IconButton>,
+            <ActionButton buttonAction={e => handleDelete(e, assignment)} color='error' size='small'>
+                <ClearIcon fontSize='small'/>
+            </ActionButton>
+        ]
+    }
+
+    return <AssignmentsList assignments={sortedAssignments} chipActions={getChipActions}/>
 }
 
 export default OptionAssignmentsTabView;

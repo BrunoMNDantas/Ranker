@@ -19,18 +19,18 @@ export const RankVotesTabView = ({ votes, editMode, onDeleteVote }: RankVotesTab
         await onDeleteVote(vote)
     }
 
-    return (
-        <VotesList
-            votes={votes}
-            chipActions={vote => [
-                <IconButton href={appVoteRoute(vote.id!)} color='info' size='small'>
-                    <VisibilityIcon fontSize='small' />
-                </IconButton>,
-                <ActionButton buttonAction={e => handleDelete(e, vote)} color='error' size='small' disabled={!editMode}>
-                    <ClearIcon fontSize='small' />
-                </ActionButton>
-            ]} />
-    )
+    const getChipActions = (vote: Vote) => {
+        return [
+            <IconButton href={appVoteRoute(vote.id!)} color='info' size='small'>
+                <VisibilityIcon fontSize='small' />
+            </IconButton>,
+            <ActionButton buttonAction={e => handleDelete(e, vote)} color='error' size='small' disabled={!editMode}>
+                <ClearIcon fontSize='small' />
+            </ActionButton>
+        ]
+    }
+
+    return <VotesList votes={votes} chipActions={getChipActions}/>
 }
 
 export default RankVotesTabView;

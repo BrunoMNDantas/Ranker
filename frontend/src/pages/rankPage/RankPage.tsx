@@ -12,8 +12,8 @@ import { useOptionsOfRank } from '../../features/option/hooks/UseOptionsOfRank.h
 import { useTiersOfRank } from '../../features/tier/hooks/UseTiersOfRank.hook';
 import { useVotesOfRank } from '../../features/vote/hooks/UseVotesOfRank.hook';
 import { Tier } from '../../features/tier/model/Tier.types';
-import { deleteTier } from '../../features/tier/api/Tier.api';
-import { deleteOption } from '../../features/option/api/Option.api';
+import { deleteTier, updateTier } from '../../features/tier/api/Tier.api';
+import { deleteOption, updateOption } from '../../features/option/api/Option.api';
 import { Option } from '../../features/option/model/Option.types';
 import { deleteVote } from '../../features/vote/api/Vote.api';
 import { Vote } from '../../features/vote/model/Vote.types';
@@ -58,6 +58,16 @@ const RankPage = () => {
 			return updateRank(editedRank)
 		}
 		return Promise.resolve()
+	}
+
+	const handleTierChange = async (tier: Tier) => {
+		await updateTier(tier)
+		fetchTiers()
+	}
+
+	const handleOptionChange = async (option: Option) => {
+		await updateOption(option)
+		fetchOptions()
 	}
 
 	const handleDelete = async () => {
@@ -114,7 +124,6 @@ const RankPage = () => {
 		fetchOptions()
 	}
 
-
 	return (
 		<div className={classes.root}>
 			<LoadElement loading={fetching}>
@@ -130,10 +139,12 @@ const RankPage = () => {
 						onRankChange={handleRankChange}
 						onClear={handleClear}
 						onSave={handleSave}
-						onCreateTier={handleCreateTierClick}
-						onCreateOption={handleCreateOptionClick}
 						onDelete={handleDelete}
+						onCreateTier={handleCreateTierClick}
+						onTierChange={handleTierChange}
 						onDeleteTier={handleDeleteTier}
+						onCreateOption={handleCreateOptionClick}
+						onOptionChange={handleOptionChange}
 						onDeleteOption={handleDeleteOption}
 						onDeleteVote={handleDeleteVote}/> :
 					null
