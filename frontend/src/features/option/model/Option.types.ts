@@ -1,6 +1,7 @@
 export interface Option {
     id: string | null
     creationDate: Date | null
+    lastUpdateDate: Date | null
     rankId: string | null
     order: number | null
     title: string | null

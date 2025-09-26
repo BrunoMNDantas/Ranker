@@ -27,10 +27,14 @@ export const getAssignmentsOfOption = async (optionId: string): Promise<Assignme
 
 export const createAssignment = async (assignment: Assignment): Promise<string> => {
     assignment.creationDate = new Date()
+    assignment.lastUpdateDate = new Date()
     return await ASSIGNMENT_STORE.create(assignment)
 }
 
-export const updateAssignment = (assignment: Assignment): Promise<void> => ASSIGNMENT_STORE.update(assignment)
+export const updateAssignment = (assignment: Assignment): Promise<void> => {
+    assignment.lastUpdateDate = new Date()
+    return ASSIGNMENT_STORE.update(assignment)
+}
 
 export const deleteAssignment = async (id: string): Promise<void> => {
     const assignment = await ASSIGNMENT_STORE.get(id)

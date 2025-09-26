@@ -18,10 +18,14 @@ export const getVotesOfRank = async (rankId: string): Promise<Vote[]> => {
 
 export const createVote = async (vote: Vote): Promise<string> => {
     vote.creationDate = new Date()
+    vote.lastUpdateDate = new Date()
     return await VOTE_STORE.create(vote)
 }
 
-export const updateVote = (vote: Vote): Promise<void> => VOTE_STORE.update(vote)
+export const updateVote = (vote: Vote): Promise<void> => {
+    vote.lastUpdateDate = new Date()
+    return VOTE_STORE.update(vote)
+}
 
 export const deleteVote = async (id: string): Promise<void> => {
     await deleteAssignmentsOfVote(id)

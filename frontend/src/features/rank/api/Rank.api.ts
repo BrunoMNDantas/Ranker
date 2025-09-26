@@ -15,10 +15,14 @@ export const getRank = (id: string): Promise<Rank|null> => RANK_STORE.get(id)
 
 export const createRank = async (rank: Rank): Promise<string> => {
     rank.creationDate = new Date()
+    rank.lastUpdateDate = new Date()
     return await RANK_STORE.create(rank)
 }
 
-export const updateRank = (rank: Rank): Promise<void> => RANK_STORE.update(rank)
+export const updateRank = (rank: Rank): Promise<void> => {
+    rank.lastUpdateDate = new Date()
+    return RANK_STORE.update(rank)
+}
 
 export const deleteRank = async (id: string): Promise<void> => {
     await deleteTiersOfRank(id)

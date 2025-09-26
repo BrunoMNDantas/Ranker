@@ -250,6 +250,7 @@ export const RANKS = MOCKED_DATA.map(rank => {
     return {
         id: "RANK-" + rank.id,
         creationDate: new Date(),
+        lastUpdateDate: new Date(),
         title: rank.title,
         description: rank.description,
         imageUrl: rank.imageUrl,
@@ -262,6 +263,7 @@ export const TIERS = MOCKED_DATA.map(rank => {
         return {
             id: "TIER-" + rank.id + "-" + tier.id,
             creationDate: new Date(),
+            lastUpdateDate: new Date(),
             rankId: "RANK-" + rank.id,
             order: tier.order,
             title: tier.title,
@@ -277,6 +279,7 @@ export const OPTIONS = MOCKED_DATA.map(rank => {
         return {
             id: "OPTION-" + rank.id + "-" + option.id,
             creationDate: new Date(),
+            lastUpdateDate: new Date(),
             rankId: "RANK-" + rank.id,
             order: option.order,
             title: option.title,
@@ -292,6 +295,7 @@ export const VOTES = MOCKED_DATA.map(rank => {
         return {
             id: "VOTE-" + rank.id + "-" + vote.id,
             creationDate: new Date(),
+            lastUpdateDate: new Date(),
             rankId: "RANK-" + rank.id
         }
     })
@@ -303,6 +307,7 @@ export const ASSIGNMENTS = MOCKED_DATA.map(rank => {
             return {
                 id: "ASSIGNMENT-" + rank.id + "-" + vote.id + "-" + assignment.id,
                 creationDate: new Date(),
+                lastUpdateDate: new Date(),
                 voteId: "VOTE-" + rank.id + "-" + vote.id,
                 order: assignment.order,
                 optionId: "OPTION-" + rank.id + "-" + assignment.optionId,

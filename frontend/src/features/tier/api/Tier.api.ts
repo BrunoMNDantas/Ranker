@@ -18,10 +18,14 @@ export const getTiersOfRank = async (rankId: string): Promise<Tier[]> => {
 
 export const createTier = async (tier: Tier): Promise<string> => {
     tier.creationDate = new Date()
+    tier.lastUpdateDate = new Date()
     return await TIER_STORE.create(tier)
 }
 
-export const updateTier = (tier: Tier): Promise<void> => TIER_STORE.update(tier)
+export const updateTier = (tier: Tier): Promise<void> => {
+    tier.lastUpdateDate = new Date()
+    return TIER_STORE.update(tier)
+}
 
 export const deleteTier = async (id: string): Promise<void> => {
     const tier = await TIER_STORE.get(id)

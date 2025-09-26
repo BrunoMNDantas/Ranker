@@ -18,10 +18,14 @@ export const getOptionsOfRank = async (rankId: string): Promise<Option[]> => {
 
 export const createOption = async (option: Option): Promise<string> => {
     option.creationDate = new Date()
+    option.lastUpdateDate = new Date()
     return await OPTION_STORE.create(option)
 }
 
-export const updateOption = (option: Option): Promise<void> => OPTION_STORE.update(option)
+export const updateOption = (option: Option): Promise<void> => {
+    option.lastUpdateDate = new Date()
+    return OPTION_STORE.update(option)
+}
 
 export const deleteOption = async (id: string): Promise<void> => {
     const option = await OPTION_STORE.get(id)
