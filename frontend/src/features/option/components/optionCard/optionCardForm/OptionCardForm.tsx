@@ -18,7 +18,7 @@ const OptionCardForm = ({ option, onOptionChange, mode, ...props }: OptionCardFo
         <TextField
             label="Title"
             type="text"
-            value={option.title || ""}
+            value={option.title}
             onChange={e => editable ? onOptionChange({...option, title: e.target.value}) : null}/>,
         <TextField
             label="Description"

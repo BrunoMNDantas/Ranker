@@ -39,7 +39,7 @@ const RankVotePage = () => {
 				{!fetching && error ? error.toString() : null}
 				{!fetching && !error && !rank ? "Entity not found!" : null}
 				{!fetching && !error && rank ?
-					<VotingCard rank={rank} tiers={tiers || []} options={options || []} onVote={handleVote}/> :
+					<VotingCard rank={rank} tiers={tiers} options={options} onVote={handleVote}/> :
 					null
 				}
 			</LoadElement>

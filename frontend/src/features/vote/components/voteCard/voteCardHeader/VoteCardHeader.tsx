@@ -13,7 +13,7 @@ export interface VoteCardHeaderProps extends HTMLAttributes<HTMLDivElement> {
 
 const VoteCardHeader = ({ vote, showBreadcrumbs=true, showCreationDate=true, ...props }: VoteCardHeaderProps) => {
     const id = vote.id
-    const date = new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(vote.creationDate!)
+    const date = new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(vote.creationDate)
 
     return (
         <EntityCardHeader avatar={<VoteAvatar vote={vote}/>} {...props}>

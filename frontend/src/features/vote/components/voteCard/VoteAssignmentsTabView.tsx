@@ -14,7 +14,7 @@ export interface VoteAssignmentsTabViewProps {
 }
 
 export const VoteAssignmentsTabView = ({ assignments, editMode, onDeleteAssignment }: VoteAssignmentsTabViewProps) => {
-    const sortedAssignments = assignments.sort((a, b) => a.order! - b.order!)
+    const sortedAssignments = assignments.sort((a, b) => a.order - b.order)
 
     const handleDelete = async (e: React.MouseEvent, assignment: Assignment) => {
         e.preventDefault()
@@ -23,7 +23,7 @@ export const VoteAssignmentsTabView = ({ assignments, editMode, onDeleteAssignme
 
     const getChipActions = (assignment: Assignment) => {
         return [
-            <IconButton href={appAssignmentRoute(assignment.id!)} color='info' size='small'>
+            <IconButton href={appAssignmentRoute(assignment.id)} color='info' size='small'>
                 <VisibilityIcon fontSize='small' />
             </IconButton>,
             <ActionButton buttonAction={e => handleDelete(e, assignment)} color='error' size='small'>

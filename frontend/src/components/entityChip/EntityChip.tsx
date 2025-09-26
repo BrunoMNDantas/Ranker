@@ -3,7 +3,7 @@ import classes from './EntityChip.module.css';
 import EntityProperty from '../entityProperty/EntityProperty';
 
 export interface EntityChipProps extends HTMLAttributes<HTMLDivElement> {
-    name: string | null
+    name: string
     description: string | null
     avatar: ReactNode
 }

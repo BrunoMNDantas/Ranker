@@ -18,7 +18,7 @@ const TierCardForm = ({ tier, onTierChange, mode, ...props }: TierCardFormProps)
         <TextField
             label="Title"
             type="text"
-            value={tier.title || ""}
+            value={tier.title}
             onChange={e => editable ? onTierChange({...tier, title: e.target.value}) : null}/>,
         <TextField
             label="Description"

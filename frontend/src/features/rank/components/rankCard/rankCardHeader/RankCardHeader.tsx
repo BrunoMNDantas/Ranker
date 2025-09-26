@@ -14,7 +14,7 @@ export interface RankCardHeaderProps extends HTMLAttributes<HTMLDivElement> {
 
 const RankCardHeader = ({ rank, showBreadcrumbs=true, showCreationDate=true, showDescription=true, ...props }: RankCardHeaderProps) => {
     const title = rank.title
-    const date = new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(rank.creationDate!)
+    const date = new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(rank.creationDate)
     const description = rank.description
 
     return (

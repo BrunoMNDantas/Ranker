@@ -13,8 +13,8 @@ export interface AssignmentBreadcrumbsProps extends BreadcrumbsProps {
 
 const AssignmentBreadcrumbs = ({ assignment, ...props }: AssignmentBreadcrumbsProps) => {
     const links=[
-        {name: "Vote", href: appVoteRoute(assignment.voteId!), Icon: VoteIcon},
-        {name: "Assignment", href: appAssignmentRoute(assignment.id!), Icon: AssignmentIcon}
+        {name: "Vote", href: appVoteRoute(assignment.voteId), Icon: VoteIcon},
+        {name: "Assignment", href: appAssignmentRoute(assignment.id), Icon: AssignmentIcon}
     ]
 
     return <EntityBreadcrumbs links={links} {...props}/>

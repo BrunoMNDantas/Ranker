@@ -11,7 +11,7 @@ export interface OptionAreaProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const OptionArea = ({ option, ...props }: OptionAreaProps) => {
-    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({id: option.id!})
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({id: option.id})
 
     const style: CSSProperties = {
         transform: CSS.Transform.toString(transform),

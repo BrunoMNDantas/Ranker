@@ -38,10 +38,10 @@ export const updateAssignment = (assignment: Assignment): Promise<void> => {
 
 export const deleteAssignment = async (id: string): Promise<void> => {
     const assignment = await ASSIGNMENT_STORE.get(id)
-    const assignmentsOfVote = await getAssignmentsOfVote(assignment?.voteId!)
+    const assignmentsOfVote = await getAssignmentsOfVote(assignment?.voteId || "")
     const updateOrderPromises = assignmentsOfVote
         .filter(assignment => assignment.id !== id)
-        .sort((assignmentA, assignmentB) => assignmentA.order! - assignmentB.order!)
+        .sort((assignmentA, assignmentB) => assignmentA.order - assignmentB.order)
         .map((assignment, index) => { return { ...assignment, order: index + 1 } })
         .map(updateAssignment)
     await Promise.all(updateOrderPromises)

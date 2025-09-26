@@ -81,7 +81,7 @@ const RankCard = ({
     const handleOptionsChange = (options: Option[]) => Promise.all(options.map(onOptionChange))
 
     const handleCreateVote = () => {
-        navigate(appRankVoteRoute(rank.id!))
+        navigate(appRankVoteRoute(rank.id))
         return Promise.resolve()
     }
 

@@ -1,7 +1,7 @@
 import { generateId } from "./Services.utils";
 
 export interface Entity {
-    id: string | null;
+    id: string
 }
 
 export default class Store<T extends Entity> {

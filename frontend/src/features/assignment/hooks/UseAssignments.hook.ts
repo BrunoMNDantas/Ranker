@@ -3,6 +3,6 @@ import { getAllAssignments } from "../api/Assignment.api";
 import { Assignment } from "../model/Assignment.types";
 
 export function useAssignments() {
-    const { executing: fetching, result: assignments, error, execute: fetch } = useExecute<Assignment[]>(getAllAssignments)
+    const { executing: fetching, result: assignments, error, execute: fetch } = useExecute<Assignment[]>(getAllAssignments, [])
     return { fetching, assignments, error, fetch }
 }

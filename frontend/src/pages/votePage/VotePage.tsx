@@ -53,7 +53,7 @@ const VotePage = () => {
 	}
 
 	const handleDeleteAssignment = async (assignment: Assignment) => {
-		await deleteAssignment(assignment.id!)
+		await deleteAssignment(assignment.id)
 		fetchAssignments()
 	}
 
@@ -65,7 +65,7 @@ const VotePage = () => {
 				{!fetching && !error && editedVote ?
 					<VoteCard
 						vote={editedVote}
-						assignments={assignments || []}
+						assignments={assignments}
 						mode={Mode.EDIT}
 						onVoteChange={handleVoteChange}
 						onClear={handleClear}

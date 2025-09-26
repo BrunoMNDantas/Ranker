@@ -15,7 +15,7 @@ export interface TierAreaProps extends HTMLAttributes<HTMLDivElement> {
 
 export const TierArea = ({ tier, options, ...props } : TierAreaProps) => {
     const { setNodeRef } = useDroppable({id: `${tier.id}`});
-    const optionsIds = options.map(option => option.id!)
+    const optionsIds = options.map(option => option.id)
 
     return (
         <div ref={setNodeRef} className={classes.root} {...props}>

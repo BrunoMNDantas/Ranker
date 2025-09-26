@@ -21,7 +21,7 @@ export const RankVotesTabView = ({ votes, editMode, onDeleteVote }: RankVotesTab
 
     const getChipActions = (vote: Vote) => {
         return [
-            <IconButton href={appVoteRoute(vote.id!)} color='info' size='small'>
+            <IconButton href={appVoteRoute(vote.id)} color='info' size='small'>
                 <VisibilityIcon fontSize='small' />
             </IconButton>,
             <ActionButton buttonAction={e => handleDelete(e, vote)} color='error' size='small' disabled={!editMode}>

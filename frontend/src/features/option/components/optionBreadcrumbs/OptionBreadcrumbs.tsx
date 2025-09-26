@@ -12,8 +12,8 @@ export interface OptionBreadcrumbsProps extends BreadcrumbsProps {
 
 const OptionBreadcrumbs = ({ option, ...props }: OptionBreadcrumbsProps) => {
     const links=[
-        {name: "Rank", href: appRankRoute(option.rankId!), Icon: RankIcon},
-        {name: "Option", href: appOptionRoute(option.id!), Icon: OptionIcon}
+        {name: "Rank", href: appRankRoute(option.rankId), Icon: RankIcon},
+        {name: "Option", href: appOptionRoute(option.id), Icon: OptionIcon}
     ]
 
     return <EntityBreadcrumbs links={links} {...props}/>

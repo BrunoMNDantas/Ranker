@@ -12,7 +12,7 @@ import { useAssignment } from '../../features/assignment/hooks/UseAssignment.hoo
 const AssignmentPage = () => {
 	const navigate = useNavigate()
 	const { assignmentId } = useParams<{ assignmentId: string }>()
-	const { assignment, fetching, error } = useAssignment(assignmentId)
+	const { assignment, fetching, error } = useAssignment(assignmentId || "")
 	const [editedAssignment, setEditedAssignment] = useState<Assignment | null>(null)
 
 	useEffect(() => {

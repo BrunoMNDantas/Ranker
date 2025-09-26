@@ -12,8 +12,8 @@ export interface TierBreadcrumbsProps extends BreadcrumbsProps {
 
 const TierBreadcrumbs = ({ tier, ...props }: TierBreadcrumbsProps) => {
     const links=[
-        {name: "Rank", href: appRankRoute(tier.rankId!), Icon: RankIcon},
-        {name: "Tier", href: appTierRoute(tier.id!), Icon: TierIcon}
+        {name: "Rank", href: appRankRoute(tier.rankId), Icon: RankIcon},
+        {name: "Tier", href: appTierRoute(tier.id), Icon: TierIcon}
     ]
 
     return <EntityBreadcrumbs links={links} {...props}/>

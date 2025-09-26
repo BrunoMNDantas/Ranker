@@ -12,8 +12,8 @@ export interface VoteBreadcrumbsProps extends BreadcrumbsProps {
 
 const VoteBreadcrumbs = ({ vote, ...props }: VoteBreadcrumbsProps) => {
     const links=[
-        {name: "Rank", href: appRankRoute(vote.rankId!), Icon: RankIcon},
-        {name: "Vote", href: appVoteRoute(vote.id!), Icon: VoteIcon}
+        {name: "Rank", href: appRankRoute(vote.rankId), Icon: RankIcon},
+        {name: "Vote", href: appVoteRoute(vote.id), Icon: VoteIcon}
     ]
 
     return <EntityBreadcrumbs links={links} {...props}/>

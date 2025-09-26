@@ -18,7 +18,7 @@ const RankCardForm = ({ rank, onRankChange, mode, ...props }: RankCardFormProps)
         <TextField
             label="Title"
             type="text"
-            value={rank.title || ""}
+            value={rank.title}
             onChange={e => editable ? onRankChange({...rank, title: e.target.value}) : null}/>,
         <TextField
             label="Description"

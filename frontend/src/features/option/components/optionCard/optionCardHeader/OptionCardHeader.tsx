@@ -16,7 +16,7 @@ export interface OptionCardHeaderProps extends HTMLAttributes<HTMLDivElement> {
 const OptionCardHeader = ({ option, showBreadcrumbs=true, showCreationDate=true, showDescription=true, ...props }: OptionCardHeaderProps) => {
     const order = option.order + "º"
     const title = option.title
-    const date = new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(option.creationDate!)
+    const date = new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(option.creationDate)
     const description = option.description
 
     return (

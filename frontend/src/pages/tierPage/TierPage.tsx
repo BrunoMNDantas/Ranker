@@ -54,7 +54,7 @@ const TierPage = () => {
 	}
 
 	const handleDeleteAssignment = async (assignment: Assignment) => {
-		await deleteAssignment(assignment.id!)
+		await deleteAssignment(assignment.id)
 		fetchAssignments()
 	}
 
@@ -66,7 +66,7 @@ const TierPage = () => {
 				{!fetching && !error && editedTier ?
 					<TierCard
 						tier={editedTier}
-						assignments={assignments || []}
+						assignments={assignments}
 						mode={Mode.EDIT}
 						onTierChange={handleTierChange}
 						onClear={handleClear}

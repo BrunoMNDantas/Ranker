@@ -17,12 +17,12 @@ const AssignmentCardForm = ({ assignment, onAssignmentChange, mode, ...props }: 
         <TextField
             label="Option ID"
             type="text"
-            value={assignment.optionId || ""}
+            value={assignment.optionId}
             onChange={e => editable ? onAssignmentChange({...assignment, optionId: e.target.value}) : null}/>,
         <TextField
             label="Tier ID"
             type="text"
-            value={assignment.tierId || ""}
+            value={assignment.tierId}
             onChange={e => editable ? onAssignmentChange({...assignment, tierId: e.target.value}) : null}/>
     ]
 

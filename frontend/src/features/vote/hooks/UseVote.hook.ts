@@ -2,8 +2,8 @@ import { useCallback } from "react";
 import { useExecute } from "../../../hooks/UseExecute";
 import { getVote } from "../api/Vote.api";
 
-export function useVote(voteId?: string | null) {
-    const getVoteCallback = useCallback(() => voteId ? getVote(voteId) : Promise.resolve(null), [voteId])
-    const { executing: fetching, result: vote, error, execute: fetch } = useExecute(getVoteCallback)
+export function useVote(voteId: string) {
+    const getVoteCallback = useCallback(() => getVote(voteId), [voteId])
+    const { executing: fetching, result: vote, error, execute: fetch } = useExecute(getVoteCallback, null)
     return { fetching, vote, error, fetch }
 }

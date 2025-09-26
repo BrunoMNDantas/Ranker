@@ -1,8 +1,8 @@
 export interface Rank {
-    id: string | null
-    creationDate: Date | null
-    lastUpdateDate: Date | null
-    title: string | null
+    id: string
+    creationDate: Date
+    lastUpdateDate: Date
+    title: string
     description: string | null
     imageUrl: string | null
     color: string | null

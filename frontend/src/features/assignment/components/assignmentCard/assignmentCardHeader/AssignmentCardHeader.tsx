@@ -13,7 +13,7 @@ export interface AssignmentCardHeaderProps extends HTMLAttributes<HTMLDivElement
 
 const AssignmentCardHeader = ({ assignment, showBreadcrumbs=true, showCreationDate=true, ...props }: AssignmentCardHeaderProps) => {
     const order = assignment.order + "º"
-    const date = new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(assignment.creationDate!)
+    const date = new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(assignment.creationDate)
 
     return (
         <EntityCardHeader avatar={<AssignmentAvatar assignment={assignment}/>} {...props}>

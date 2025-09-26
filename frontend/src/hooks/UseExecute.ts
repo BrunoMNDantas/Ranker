@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 
-export function useExecute<T>(operation: ()=>Promise<T>) {
-    const [result, setResult] = useState<T | null>(null);
+export function useExecute<T>(operation: ()=>Promise<T>, defaultValue: T) {
+    const [result, setResult] = useState<T>(defaultValue);
     const [executing, setExecuting] = useState<boolean>(true);
     const [error, setError] = useState<Error | null>(null);
     const [destroyed, setDestroyed] = useState(false)

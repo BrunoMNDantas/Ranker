@@ -16,7 +16,7 @@ export interface TierCardHeaderProps extends HTMLAttributes<HTMLDivElement> {
 const TierCardHeader = ({ tier, showBreadcrumbs=true, showCreationDate=true, showDescription=true, ...props }: TierCardHeaderProps) => {
     const order = tier.order + "º"
     const title = tier.title
-    const date = new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(tier.creationDate!)
+    const date = new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(tier.creationDate)
     const description = tier.description
 
     return (

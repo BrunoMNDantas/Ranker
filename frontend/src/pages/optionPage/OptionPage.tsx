@@ -53,7 +53,7 @@ const OptionPage = () => {
 	}
 
 	const handleDeleteAssignment = async (assignment: Assignment) => {
-		await deleteAssignment(assignment.id!)
+		await deleteAssignment(assignment.id)
 		fetchAssignments()
 	}
 
@@ -65,7 +65,7 @@ const OptionPage = () => {
 				{!fetching && !error && editedOption ?
 					<OptionCard
 						option={editedOption}
-						assignments={assignments || []}
+						assignments={assignments}
 						mode={Mode.EDIT}
 						onOptionChange={handleOptionChange}
 						onClear={handleClear}

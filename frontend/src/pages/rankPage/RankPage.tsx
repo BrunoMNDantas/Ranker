@@ -78,17 +78,17 @@ const RankPage = () => {
 	}
 
 	const handleDeleteTier = async (tier: Tier) => {
-		await deleteTier(tier.id!)
+		await deleteTier(tier.id)
 		fetchTiers()
 	}
 
 	const handleDeleteOption = async (option: Option) => {
-		await deleteOption(option.id!)
+		await deleteOption(option.id)
 		fetchOptions()
 	}
 
 	const handleDeleteVote = async (vote: Vote) => {
-		await deleteVote(vote.id!)
+		await deleteVote(vote.id)
 		fetchVotes()
 	}
 
@@ -132,9 +132,9 @@ const RankPage = () => {
 				{!fetching && !error && editedRank ?
 					<RankCard
 						rank={editedRank}
-						tiers={tiers || []}
-						options={options || []}
-						votes={votes || []}
+						tiers={tiers}
+						options={options}
+						votes={votes}
 						mode={Mode.EDIT}
 						onRankChange={handleRankChange}
 						onClear={handleClear}

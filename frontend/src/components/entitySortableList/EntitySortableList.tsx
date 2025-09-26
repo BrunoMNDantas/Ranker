@@ -16,7 +16,7 @@ export interface EntityListIemProps<T extends Entity> extends HTMLAttributes<HTM
 }
 
 const EntityListItem = <T extends Entity,>({ entity, entityRenderer, ...props }: EntityListItemProps<T>) => {
-    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({id: entity.id!})
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({id: entity.id})
 
     const style: CSSProperties = {
         transform: CSS.Transform.toString(transform),
