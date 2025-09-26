@@ -12,11 +12,14 @@ Ranker is a web application that allows users to **create rankings** and **vote 
 - [⚙️ Getting Started](#-getting-started)
 - [🧪 Running Tests](#-running-tests)
 - [📌 Roadmap](#-roadmap)
-  - [Version 0.0.1 — Data Foundations](#version-001--data-foundations)
-  - [Version 0.0.2 — Towards the Real App](#version-002--towards-the-real-app)
-  - [Version 0.0.3 — Data + Users](#version-003--data--users)
-  - [Version 0.0.4 — UI & Customization Enhancements](#version-004--ui--customization-enhancements)
-  - [Version 0.0.5 — Responsive Experience + External Storage](#version-005--responsive-experience--external-storage)
+  - [Version 0.0.1 — Data Management](#-version-001--data-management-released)
+  - [Version 0.0.2 — App with UI](#-version-002--app-with-ui-released)
+  - [Version 0.0.3 — GraphQL & Validation](#-version-003--graphql--validation-in-progress)
+  - [Version 0.0.4 — Users](#-version-004--users-future)
+  - [Version 0.0.5 — App Flow & User Experience](#-version-005--app-flow--user-experience-future)
+  - [Version 0.0.6 — User Options & Analytics](#-version-006--user-options--analytics-future)
+  - [Version 0.0.7 — Mobile](#-version-007--mobile-future)
+  - [Version 0.0.8 — AI Assistance](#-version-008--ai-assistance-future)
 - [⚙️ Technical Documentation](#-technical-documentation)
   - [📌 Domain Model](#-domain-model)
     - [Rank](#rank)
@@ -31,8 +34,14 @@ Ranker is a web application that allows users to **create rankings** and **vote 
 
 ## 🚀 Features
 
-- Create custom rankings on any topic
-- Vote on rankings created by other users
+- Create custom rankings on any topic.
+- Vote on rankings created by other users.
+- Manage entities (Ranks, Tiers, Options, Votes, Assignments).
+- Associate Ranks and Votes with users (future release).
+- Responsive UI optimized for desktop and mobile (future release).
+- Customization options for colors and voting rules (future release).
+- Side-by-side vote comparison and rank statistics (future release).
+- AI-powered rank creation and suggestions (future release).
 
 ---
 
@@ -87,42 +96,49 @@ npm test
 
 ## 📌 Roadmap
 
-### Version 0.0.1 — Data Foundations
-The first step is to build a **data management interface** to visualize and manipulate the core entities.
-- **UI Features**: View, create, edit, and delete entities (Rank, Tier, Option, Vote, Assignment).
-- **Data Storage**: Use in-memory storage.
-- **Goal**: Ensure all entities can be created and managed manually through the UI.
+### ✅ Version 0.0.1 — Data Management (Released)
+- Build a **data management interface** to visualize and manipulate core entities (Rank, Tier, Option, Vote, Assignment).
+- Use in-memory storage.
+- Ensure entities can be created and managed manually through the UI.
 
-### Version 0.0.2 — Towards the Real App
-Transition from pure data management to the early structure of the final app.
-- **UI Features**: Begin implementing the real ranking interactions (assigning Options to Tiers within Votes).
-- **Entity Expansion**: Add optional descriptions and images to Ranks, Tiers, and Options.
-- **Goal**: Bridge the gap between raw entity management and the ranking experience.
+### ✅ Version 0.0.2 — App with UI (Released)
+- Transition from raw data management to early app structure.
+- Implement basic ranking interactions (assign Options to Tiers within Votes).
+- Add optional descriptions and images to entities.
 
-### Version 0.0.3 — Data + Users
-Introduce a **basic user concept** to associate entities with users, still within the context of data management.
-- **User Ownership**: Ranks and Votes belong to a user. Only the user can edit their own Ranks and Votes.
-- **Guest Mode**: Guests can view data but cannot create or edit entities.
-- **Storage**: Move from in-memory to Firebase for persistence and syncing.
-- **Goal**: Simulate multi-user data management with external storage.
+### 🚧 Version 0.0.3 — GraphQL & Validation (In Progress)
+- Introduce **GraphQL** as the main API layer.
+- Refactor data flow to support queries and mutations.
+- Implement **validation logic** at the services layer.
 
-### Version 0.0.4 — UI & Customization Enhancements
-Focus on making the experience more appealing and flexible.
-- **UI Enhancements**: Improve layouts, design, and usability.
-- **Customization Options**: Entities can have colors and configurable backgrounds.
-- **Goal**: Move towards a polished user interface.
+### 🔜 Version 0.0.4 — Users (Future)
+- Add a **login screen**.
+- Associate **Ranks and Votes with users**.
+- Restrict editing so only the owner can modify their entities.
+- Clean UI separation between **Edit** and **View** modes.
 
-### Version 0.0.5 — Responsive Experience + External Storage
-Prepare the app for broader use.
-- **Responsive Design**: Ensure layouts and components adapt to desktop, tablet, and mobile.
-- **Blind Voting Mode**: Enable users to vote **without seeing all options upfront**. Options are revealed **one by one**, and the user votes sequentially.
-- **Goal**: Deliver a usable app that stores and syncs data beyond the local browser while introducing novel voting interactions.
+### 🔮 Version 0.0.5 — App Flow & User Experience (Future)
+- Improve **VoteCard** and **AssignmentCard**. (Place text on the card with the name of the entity?)
+- Handle missing images more clearly (better option/tier representation).
+- Add a more engaging **vote button**.
+- On the voting page (Assignments tab), show the **voting board**.
+- Introduce **Redux** for state management.
 
-### Version 0.0.6 – AI-Powered Rank Creation
-Leverage artificial intelligence to assist users in building richer Ranks.
-- **AI-Generated Tiers & Options**: Automatically propose tiers and options based on the Rank’s title and description.
-- **Smart Suggestions**: Offer AI-driven recommendations while editing or refining Ranks.
-- **Goal**: Simplify the Rank creation process and inspire users with intelligent defaults.
+### 🔮 Version 0.0.6 — User Options & Analytics (Future)
+- Implement **user customization choices**:
+  - Range of colors to derive colors for all options and tiers.
+  - Option to enforce only one tier per rank.
+- Add ability to **compare two votes side by side** for the same rank.
+- Provide **statistics on votes** for each rank.
+
+### 🔮 Version 0.0.7 — Mobile (Future)
+- Build a fully **responsive mobile experience**.
+- Optimize layouts and components for small screens.
+
+### 🔮 Version 0.0.8 — AI Assistance (Future)
+- Create a **Rank based on a description**.
+- Automatically generate **tiers** for a Rank based on its description.
+- Automatically generate **options** for a Rank based on its description.
 
 ---
 
