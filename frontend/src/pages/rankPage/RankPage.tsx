@@ -150,8 +150,16 @@ const RankPage = () => {
 					null
 				}
 			</LoadElement>
-			<TierFormModal open={showTierModal} defaultTier={createTier({rankId})} onCancel={handleCreateTierCancel} onCreate={handleCreateTier}/>
-			<OptionFormModal open={showOptionModal} defaultOption={createOption({rankId})} onCancel={handleCreateOptionCancel} onCreate={handleCreateOption}/>
+			<TierFormModal
+				open={showTierModal}
+				defaultTier={createTier({rankId, order: tiers.length})}
+				onCancel={handleCreateTierCancel}
+				onCreate={handleCreateTier}/>
+			<OptionFormModal
+				open={showOptionModal}
+				defaultOption={createOption({rankId, order: options.length})}
+				onCancel={handleCreateOptionCancel}
+				onCreate={handleCreateOption}/>
 		</div>
 	);
 }
