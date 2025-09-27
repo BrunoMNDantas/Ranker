@@ -106,12 +106,12 @@ npm test
 - Implement basic ranking interactions (assign Options to Tiers within Votes).
 - Add optional descriptions and images to entities.
 
-### ✅ Version 0.0.3 — GraphQL & Validation (In Progress)
+### ✅ Version 0.0.3 — GraphQL & Validation (Released)
 - Introduce **GraphQL** as the main API layer.
 - Refactor data flow to support queries and mutations.
 - Implement **validation logic** at the services layer.
 
-### 🚧 Version 0.0.4 — Users (Future)
+### 🚧 Version 0.0.4 — Users (In Progress)
 - Add a **login screen**.
 - Associate **Ranks and Votes with users**.
 - Restrict editing so only the owner can modify their entities.
@@ -148,6 +148,8 @@ npm test
 ## 📌 Domain Model
 
 High‑level relations: **Rank** has many **Tiers**, **Options**, and **Votes**. A **Vote** includes many **Assignments**. Each **Assignment** maps one **Option** to one **Tier** within that **Vote**.
+
+![Domain Entities](https://raw.githubusercontent.com/BrunoMNDantas/Ranker/main/docs/DomainEntities.png)
 
 ---
 
