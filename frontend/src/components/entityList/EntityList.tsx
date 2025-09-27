@@ -1,6 +1,6 @@
 import React, { HTMLAttributes, ReactNode } from 'react';
 import classes from './EntityList.module.css';
-import { Entity } from '../../services/Store';
+import { Entity } from '../../services/store/Store';
 import { Link as RouterLink } from 'react-router-dom';
 import { Link } from '@mui/material';
 

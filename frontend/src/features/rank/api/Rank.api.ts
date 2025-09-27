@@ -1,12 +1,13 @@
 import { Rank } from "../model/Rank.types"
-import { RANKS } from "../../../services/Data"
-import { delay, Delayed } from "../../../services/DelayedStore"
+import DelayedStore from "../../../services/store/Delayed.store"
 import { deleteOptionsOfRank } from "../../option/api/Option.api"
-import Store from "../../../services/Store"
 import { deleteTiersOfRank } from "../../tier/api/Tier.api"
 import { deleteVotesOfRank } from "../../vote/api/Vote.api"
+import FirestoreStore from "../../../services/store/Firestore.store"
+import Store from "../../../services/store/Store"
+import { API_RESPONSE_TIME } from "../../../app/Constants"
 
-export const RANK_STORE: Delayed<Store<Rank>> = delay(new Store(RANKS))
+export const RANK_STORE: Store<Rank> = new DelayedStore<Rank>(new FirestoreStore<Rank>("ranks"), API_RESPONSE_TIME)
 
 
 export const getAllRanks = (): Promise<Rank[]> => RANK_STORE.getAll()

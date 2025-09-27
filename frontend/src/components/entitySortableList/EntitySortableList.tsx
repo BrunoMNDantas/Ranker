@@ -5,7 +5,7 @@ import {
     closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors
 } from '@dnd-kit/core';
 import { sortableKeyboardCoordinates, useSortable } from '@dnd-kit/sortable';
-import { Entity } from '../../services/Store';
+import { Entity } from '../../services/store/Store';
 import EntityList, { EntityListItemProps } from '../entityList/EntityList';
 import { CSSProperties } from '@mui/material';
 import { CSS } from '@dnd-kit/utilities';

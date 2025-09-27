@@ -1,9 +1,10 @@
 import { Assignment } from "../model/Assignment.types"
-import { ASSIGNMENTS } from "../../../services/Data"
-import { delay, Delayed } from "../../../services/DelayedStore"
-import Store from "../../../services/Store"
+import DelayedStore from "../../../services/store/Delayed.store"
+import Store from "../../../services/store/Store"
+import FirestoreStore from "../../../services/store/Firestore.store"
+import { API_RESPONSE_TIME } from "../../../app/Constants"
 
-export const ASSIGNMENT_STORE: Delayed<Store<Assignment>> = delay(new Store(ASSIGNMENTS))
+export const ASSIGNMENT_STORE: Store<Assignment> = new DelayedStore<Assignment>(new FirestoreStore<Assignment>("assignments"), API_RESPONSE_TIME)
 
 
 export const getAllAssignments = (): Promise<Assignment[]> => ASSIGNMENT_STORE.getAll()

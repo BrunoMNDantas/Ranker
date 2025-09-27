@@ -1,10 +1,11 @@
 import { Option } from "../model/Option.types"
 import { deleteAssignmentsOfOption } from "../../assignment/api/Assignment.api"
-import { OPTIONS } from "../../../services/Data"
-import { delay, Delayed } from "../../../services/DelayedStore"
-import Store from "../../../services/Store"
+import DelayedStore from "../../../services/store/Delayed.store"
+import Store from "../../../services/store/Store"
+import FirestoreStore from "../../../services/store/Firestore.store"
+import { API_RESPONSE_TIME } from "../../../app/Constants"
 
-export const OPTION_STORE: Delayed<Store<Option>> = delay(new Store(OPTIONS))
+export const OPTION_STORE: Store<Option> = new DelayedStore<Option>(new FirestoreStore<Option>("options"), API_RESPONSE_TIME)
 
 
 export const getAllOptions = (): Promise<Option[]> => OPTION_STORE.getAll()

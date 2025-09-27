@@ -1,10 +1,11 @@
 import { Vote } from "../model/Vote.types"
 import { deleteAssignmentsOfVote } from "../../assignment/api/Assignment.api"
-import { VOTES } from "../../../services/Data"
-import { delay, Delayed } from "../../../services/DelayedStore"
-import Store from "../../../services/Store"
+import DelayedStore from "../../../services/store/Delayed.store"
+import Store from "../../../services/store/Store"
+import FirestoreStore from "../../../services/store/Firestore.store"
+import { API_RESPONSE_TIME } from "../../../app/Constants"
 
-export const VOTE_STORE: Delayed<Store<Vote>> = delay(new Store(VOTES))
+export const VOTE_STORE: Store<Vote> = new DelayedStore<Vote>(new FirestoreStore<Vote>("votes"), API_RESPONSE_TIME)
 
 
 export const getAllVotes = (): Promise<Vote[]> => VOTE_STORE.getAll()

@@ -1,10 +1,11 @@
 import { Tier } from "../model/Tier.types"
 import { deleteAssignmentsOfTier } from "../../assignment/api/Assignment.api"
-import { TIERS } from "../../../services/Data"
-import { delay, Delayed } from "../../../services/DelayedStore"
-import Store from "../../../services/Store"
+import DelayedStore from "../../../services/store/Delayed.store"
+import Store from "../../../services/store/Store"
+import FirestoreStore from "../../../services/store/Firestore.store"
+import { API_RESPONSE_TIME } from "../../../app/Constants"
 
-export const TIER_STORE: Delayed<Store<Tier>> = delay(new Store(TIERS))
+export const TIER_STORE: Store<Tier> = new DelayedStore<Tier>(new FirestoreStore<Tier>("tiers"), API_RESPONSE_TIME)
 
 
 export const getAllTiers = (): Promise<Tier[]> => TIER_STORE.getAll()
