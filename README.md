@@ -14,7 +14,7 @@ Ranker is a web application that allows users to **create rankings** and **vote 
 - [📌 Roadmap](#-roadmap)
   - [Version 0.0.1 — Data Management](#-version-001--data-management-released)
   - [Version 0.0.2 — App with UI](#-version-002--app-with-ui-released)
-  - [Version 0.0.3 — GraphQL & Validation](#-version-003--graphql--validation-in-progress)
+  - [Version 0.0.3 — Firestore & Validation](#-version-003--firestore--validation-in-progress)
   - [Version 0.0.4 — Users](#-version-004--users-future)
   - [Version 0.0.5 — App Flow & User Experience](#-version-005--app-flow--user-experience-future)
   - [Version 0.0.6 — User Options & Analytics](#-version-006--user-options--analytics-future)
@@ -106,8 +106,8 @@ npm test
 - Implement basic ranking interactions (assign Options to Tiers within Votes).
 - Add optional descriptions and images to entities.
 
-### ✅ Version 0.0.3 — GraphQL & Validation (Released)
-- Introduce **GraphQL** as the main API layer.
+### ✅ Version 0.0.3 — Firestore & Validation (Released)
+- Introduce **Firestore** as persistence.
 - Refactor data flow to support queries and mutations.
 - Implement **validation logic** at the services layer.
 
