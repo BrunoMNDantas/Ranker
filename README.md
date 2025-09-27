@@ -12,14 +12,14 @@ Ranker is a web application that allows users to **create rankings** and **vote 
 - [⚙️ Getting Started](#-getting-started)
 - [🧪 Running Tests](#-running-tests)
 - [📌 Roadmap](#-roadmap)
-  - [Version 0.0.1 — Data Management](#-version-001--data-management-released)
-  - [Version 0.0.2 — App with UI](#-version-002--app-with-ui-released)
-  - [Version 0.0.3 — Firestore & Validation](#-version-003--firestore--validation-in-progress)
-  - [Version 0.0.4 — Users](#-version-004--users-future)
-  - [Version 0.0.5 — App Flow & User Experience](#-version-005--app-flow--user-experience-future)
-  - [Version 0.0.6 — User Options & Analytics](#-version-006--user-options--analytics-future)
-  - [Version 0.0.7 — Mobile](#-version-007--mobile-future)
-  - [Version 0.0.8 — AI Assistance](#-version-008--ai-assistance-future)
+  - [Version 0.0.1 — Data Management](#-version-001--data-management)
+  - [Version 0.0.2 — App with UI](#-version-002--app-with-ui)
+  - [Version 0.0.3 — Firestore & Validation](#-version-003--firestore--validation)
+  - [Version 0.0.4 — Users](#-version-004--users)
+  - [Version 0.0.5 — App Flow & User Experience](#-version-005--app-flow--user-experience)
+  - [Version 0.0.6 — User Options & Analytics](#-version-006--user-options--analytics)
+  - [Version 0.0.7 — Mobile](#-version-007--mobile)
+  - [Version 0.0.8 — AI Assistance](#-version-008--ai-assistance)
 - [⚙️ Technical Documentation](#-technical-documentation)
   - [📌 Domain Model](#-domain-model)
     - [Rank](#rank)
@@ -96,28 +96,28 @@ npm test
 
 ## 📌 Roadmap
 
-### ✅ Version 0.0.1 — Data Management (Released)
+### ✅ Version 0.0.1 — Data Management
 - Build a **data management interface** to visualize and manipulate core entities (Rank, Tier, Option, Vote, Assignment).
 - Use in-memory storage.
 - Ensure entities can be created and managed manually through the UI.
 
-### ✅ Version 0.0.2 — App with UI (Released)
+### ✅ Version 0.0.2 — App with UI
 - Transition from raw data management to early app structure.
 - Implement basic ranking interactions (assign Options to Tiers within Votes).
 - Add optional descriptions and images to entities.
 
-### ✅ Version 0.0.3 — Firestore & Validation (Released)
+### ✅ Version 0.0.3 — Firestore & Validation
 - Introduce **Firestore** as persistence.
 - Refactor data flow to support queries and mutations.
 - Implement **validation logic** at the services layer.
 
-### 🚧 Version 0.0.4 — Users (In Progress)
+### 🚧 Version 0.0.4 — Users
 - Add a **login screen**.
 - Associate **Ranks and Votes with users**.
 - Restrict editing so only the owner can modify their entities.
 - Clean UI separation between **Edit** and **View** modes.
 
-### 🔮 Version 0.0.5 — App Flow & User Experience (Future)
+### 🔮 Version 0.0.5 — App Flow & User Experience
 - Improve **VoteCard** and **AssignmentCard**. (Place text on the card with the name of the entity?)
 - Handle missing images more clearly (better option/tier representation).
 - Add a more engaging **vote button**.
@@ -125,18 +125,18 @@ npm test
 - Introduce **Redux** for state management.
 - Improve the error handling
 
-### 🔮 Version 0.0.6 — User Options & Analytics (Future)
+### 🔮 Version 0.0.6 — User Options & Analytics
 - Implement **user customization choices**:
   - Range of colors to derive colors for all options and tiers.
   - Option to enforce only one tier per rank.
 - Add ability to **compare two votes side by side** for the same rank.
 - Provide **statistics on votes** for each rank.
 
-### 🔮 Version 0.0.7 — Mobile (Future)
+### 🔮 Version 0.0.7 — Mobile
 - Build a fully **responsive mobile experience**.
 - Optimize layouts and components for small screens.
 
-### 🔮 Version 0.0.8 — AI Assistance (Future)
+### 🔮 Version 0.0.8 — AI Assistance
 - Create a **Rank based on a description**.
 - Automatically generate **tiers** for a Rank based on its description.
 - Automatically generate **options** for a Rank based on its description.
