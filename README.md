@@ -106,12 +106,12 @@ npm test
 - Implement basic ranking interactions (assign Options to Tiers within Votes).
 - Add optional descriptions and images to entities.
 
-### 🚧 Version 0.0.3 — GraphQL & Validation (In Progress)
+### ✅ Version 0.0.3 — GraphQL & Validation (In Progress)
 - Introduce **GraphQL** as the main API layer.
 - Refactor data flow to support queries and mutations.
 - Implement **validation logic** at the services layer.
 
-### 🔜 Version 0.0.4 — Users (Future)
+### 🚧 Version 0.0.4 — Users (Future)
 - Add a **login screen**.
 - Associate **Ranks and Votes with users**.
 - Restrict editing so only the owner can modify their entities.
@@ -123,6 +123,7 @@ npm test
 - Add a more engaging **vote button**.
 - On the voting page (Assignments tab), show the **voting board**.
 - Introduce **Redux** for state management.
+- Improve the error handling
 
 ### 🔮 Version 0.0.6 — User Options & Analytics (Future)
 - Implement **user customization choices**:
