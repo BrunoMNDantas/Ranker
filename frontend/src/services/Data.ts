@@ -316,3 +316,51 @@ export const ASSIGNMENTS = MOCKED_DATA.map(rank => {
         })
     }).flat()
 }).flat()
+
+/*
+const exec = async () => {
+    console.log("::STARTED::")
+
+    console.log("RANKS")
+    for(const rank of RANKS) {
+        const oldId = rank.id
+        await createRank(rank)
+
+        TIERS.forEach(tier => tier.rankId = tier.rankId === oldId ? rank.id : tier.rankId)
+        OPTIONS.forEach(option => option.rankId = option.rankId === oldId ? rank.id : option.rankId)
+        VOTES.forEach(vote => vote.rankId = vote.rankId === oldId ? rank.id : vote.rankId)
+    }
+
+    console.log("TIERS")
+    for(const tier of TIERS) {
+        const oldId = tier.id
+        await createTier(tier)
+
+        ASSIGNMENTS.forEach(assignment => assignment.tierId = assignment.tierId === oldId ? tier.id : assignment.tierId)
+    }
+
+    console.log("OPTIONS")
+    for(const option of OPTIONS) {
+        const oldId = option.id
+        await createOption(option)
+
+        ASSIGNMENTS.forEach(assignment => assignment.optionId = assignment.optionId === oldId ? option.id : assignment.optionId)
+    }
+
+    console.log("VOTES")
+    for(const vote of VOTES) {
+        const oldId = vote.id
+        await createVote(vote)
+
+        ASSIGNMENTS.forEach(assignment => assignment.voteId = assignment.voteId === oldId ? vote.id : assignment.voteId)
+    }
+
+    console.log("ASSIGNMENTS")
+    for(const assignment of ASSIGNMENTS) {
+        await createAssignment(assignment)
+    }
+
+    console.log("::FINISHED::")
+}
+exec()
+*/
