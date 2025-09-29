@@ -1,6 +1,6 @@
 import React, { HTMLAttributes, useState } from 'react';
 import EntityCard from '../../../../components/entityCard/EntityCard';
-import UserCardHeader from './UserCardHeader/UserCardHeader';
+import UserCardHeader from './userCardHeader/UserCardHeader';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RestoreIcon from '@mui/icons-material/Restore';
@@ -8,7 +8,7 @@ import { Mode } from '../../../../components/entityCard/EntityCard';
 import { Assignment } from '../../../assignment/model/Assignment.types';
 import EntityCardContent from '../../../../components/entityCard/entityCardContent/EntityCardContent';
 import UserIcon from '../userIcon/UserIcon';
-import UserCardForm from './UserCardForm/UserCardForm';
+import UserCardForm from './userCardForm/UserCardForm';
 import AssignmentIcon from '../../../assignment/components/assignmentIcon/AssignmentIcon';
 import EntityCardActions, { Action } from '../../../../components/entityCard/entityCardActions/EntityCardActions';
 import { User } from '../../model/User.types';
