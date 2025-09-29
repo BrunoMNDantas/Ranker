@@ -3,6 +3,11 @@ import type { Tier } from "../features/tier/model/Tier.types";
 import type { Option } from "../features/option/model/Option.types";
 import type { Vote } from "../features/vote/model/Vote.types";
 import type { Assignment } from "../features/assignment/model/Assignment.types";
+import { User } from "../features/user/model/User.types";
+
+export const createUser = (partial: Partial<User>): User => {
+    return { id: "", creationDate: new Date(), lastUpdateDate: new Date(), username: "", imageUrl: null, color: null, ...partial }
+}
 
 export const createRank = (partial: Partial<Rank>): Rank => {
     return { id: "", creationDate: new Date(), lastUpdateDate: new Date(), title: "", description: null, imageUrl: null, color: null, ...partial }
