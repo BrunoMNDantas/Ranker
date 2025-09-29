@@ -9,7 +9,7 @@ export interface AssignmentChipProps extends HTMLAttributes<HTMLDivElement> {
 
 const AssignmentChip = ({ assignment, children, ...props }: AssignmentChipProps) => {
     const name = "#" + assignment.order
-    const description = assignment.creationDate ? new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(assignment.creationDate) : null
+    const description = new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(assignment.creationDate)
 
     return (
         <EntityChip

@@ -45,5 +45,5 @@ export const deleteTier = async (id: string): Promise<void> => {
 
 export const deleteTiersOfRank = async (rankId: string): Promise<void> => {
     const tiers = await getTiersOfRank(rankId)
-    await Promise.all(tiers.map(tier => tier.id ? deleteTier(tier.id) : Promise.resolve()))
+    await Promise.all(tiers.map(tier => tier.id).map(deleteTier))
 }

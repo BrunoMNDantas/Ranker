@@ -52,15 +52,15 @@ export const deleteAssignment = async (id: string): Promise<void> => {
 
 export const deleteAssignmentsOfVote = async (voteId: string): Promise<void> => {
     const assignments = await getAssignmentsOfVote(voteId)
-    await Promise.all(assignments.map(assignment => assignment.id ? deleteAssignment(assignment.id) : Promise.resolve()))
+    await Promise.all(assignments.map(assignment => assignment.id).map(deleteAssignment))
 }
 
 export const deleteAssignmentsOfTier = async (tierId: string): Promise<void> => {
     const assignments = await getAssignmentsOfTier(tierId)
-    await Promise.all(assignments.map(assignment => assignment.id ? deleteAssignment(assignment.id) : Promise.resolve()))
+    await Promise.all(assignments.map(assignment => assignment.id).map(deleteAssignment))
 }
 
 export const deleteAssignmentsOfOption = async (optionId: string): Promise<void> => {
     const assignments = await getAssignmentsOfOption(optionId)
-    await Promise.all(assignments.map(assignment => assignment.id ? deleteAssignment(assignment.id) : Promise.resolve()))
+    await Promise.all(assignments.map(assignment => assignment.id).map(deleteAssignment))
 }

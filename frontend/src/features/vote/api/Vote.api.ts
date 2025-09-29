@@ -35,5 +35,5 @@ export const deleteVote = async (id: string): Promise<void> => {
 
 export const deleteVotesOfRank = async (rankId: string): Promise<void> => {
     const votes = await getVotesOfRank(rankId)
-    await Promise.all(votes.map(vote => vote.id ? deleteVote(vote.id) : Promise.resolve()))
+    await Promise.all(votes.map(vote => vote.id).map(deleteVote))
 }

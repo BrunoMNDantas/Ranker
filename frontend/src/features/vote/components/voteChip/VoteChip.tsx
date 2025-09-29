@@ -9,7 +9,7 @@ export interface VoteChipProps extends HTMLAttributes<HTMLDivElement> {
 
 const VoteChip = ({ vote, children, ...props }: VoteChipProps) => {
     const name = vote.id
-    const description = vote.creationDate ? new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(vote.creationDate) : null
+    const description = new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(vote.creationDate)
 
     return (
         <EntityChip
