@@ -4,7 +4,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import AppLayout from '../layouts/appLayout/AppLayout';
 import RankPage from '../pages/rankPage/RankPage';
 import RanksPage from '../pages/ranksPage/RanksPage';
-import VotingPage from '../pages/VotingPage/VotingPage';
+import VotingPage from '../pages/votingPage/VotingPage';
 import OptionPage from '../pages/optionPage/OptionPage';
 import TierPage from '../pages/tierPage/TierPage';
 import VotePage from '../pages/votePage/VotePage';
