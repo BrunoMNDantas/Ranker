@@ -4,7 +4,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import AppLayout from '../layouts/appLayout/AppLayout';
 import RankPage from '../pages/rankPage/RankPage';
 import RanksPage from '../pages/ranksPage/RanksPage';
-import VottingPage from '../pages/VotingPage/VotingPage';
+import VotingPage from '../pages/VotingPage/VotingPage';
 import OptionPage from '../pages/optionPage/OptionPage';
 import TierPage from '../pages/tierPage/TierPage';
 import VotePage from '../pages/votePage/VotePage';
@@ -17,27 +17,36 @@ import {
 } from './Routes';
 import UserPage from '../pages/userPage/UserPage';
 import LoginPage from '../pages/loginPage/LoginPage';
+import { AuthProvider } from '../features/auth/components/AuthContext';
+import { PublicRoute } from '../features/auth/components/PublicRoute';
+import { ProtectedRoute } from '../features/auth/components/ProtectedRoute';
 
 const App = () => {
     return (
         <div className={classes.root}>
-            <Routes>
-                <Route path={ROOT_ROUTE} element={<Navigate to={APP_RANKS_ROUTE} replace/>}/>
+            <AuthProvider>
+                <Routes>
+                    <Route path={ROOT_ROUTE} element={<Navigate to={APP_RANKS_ROUTE} replace/>}/>
 
-                <Route path={LOGIN_ROUTE} element={<LoginPage/>}/>
+                    <Route element={<PublicRoute/>}>
+                        <Route path={LOGIN_ROUTE} element={<LoginPage/>}/>
+                    </Route>
 
-                <Route path= {APP_ROUTE} element={<AppLayout/>}>
-                    <Route index element={<RanksPage/>}/>
-                    <Route path={USER_SUB_ROUTE} element={<UserPage/>}/>
-                    <Route path={RANKS_SUB_ROUTE} element={<RanksPage/>}/>
-                    <Route path={RANK_SUB_ROUTE} element={<RankPage/>}/>
-                    <Route path={RANK_VOTE_SUB_ROUTE} element={<VottingPage/>}/>
-                    <Route path={OPTION_SUB_ROUTE} element={<OptionPage/>}/>
-                    <Route path={TIER_SUB_ROUTE} element={<TierPage/>}/>
-                    <Route path={VOTE_SUB_ROUTE} element={<VotePage/>}/>
-                    <Route path={ASSIGNMENT_SUB_ROUTE} element={<AssignmentPage/>}/>
-                </Route>
-            </Routes>
+                    <Route element={<ProtectedRoute/>}>
+                        <Route path={APP_ROUTE} element={<AppLayout/>}>
+                            <Route index element={<RanksPage/>}/>
+                            <Route path={USER_SUB_ROUTE} element={<UserPage/>}/>
+                            <Route path={RANKS_SUB_ROUTE} element={<RanksPage/>}/>
+                            <Route path={RANK_SUB_ROUTE} element={<RankPage/>}/>
+                            <Route path={RANK_VOTE_SUB_ROUTE} element={<VotingPage/>}/>
+                            <Route path={OPTION_SUB_ROUTE} element={<OptionPage/>}/>
+                            <Route path={TIER_SUB_ROUTE} element={<TierPage/>}/>
+                            <Route path={VOTE_SUB_ROUTE} element={<VotePage/>}/>
+                            <Route path={ASSIGNMENT_SUB_ROUTE} element={<AssignmentPage/>}/>
+                        </Route>
+                    </Route>
+                </Routes>
+            </AuthProvider>
         </div>
     );
 }
