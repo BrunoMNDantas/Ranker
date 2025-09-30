@@ -4,6 +4,11 @@ import FirestoreStore from "../../../services/store/Firestore.store"
 import { API_RESPONSE_TIME } from "../../../app/Constants"
 import { User } from "../model/User.types"
 import EntityStore from "../../../services/store/Entity.store"
+import { deleteRanksOfUser } from "../../rank/api/Rank.api"
+import { deleteTiersOfUser } from "../../tier/api/Tier.api"
+import { deleteOptionsOfUser } from "../../option/api/Option.api"
+import { deleteVotesOfUser } from "../../vote/api/Vote.api"
+import { deleteAssignmentsOfUser } from "../../assignment/api/Assignment.api"
 
 export const USER_STORE: Store<User> = new DelayedStore(
     new EntityStore(new FirestoreStore("users"), user => user.id),
@@ -19,4 +24,12 @@ export const createUser = (user: User): Promise<string> => USER_STORE.create(use
 
 export const updateUser = (user: User): Promise<void> => USER_STORE.update(user)
 
-export const deleteUser = async (id: string): Promise<void> => USER_STORE.delete(id)
+export const deleteUser = async (id: string): Promise<void> => {
+    await deleteAssignmentsOfUser(id)
+    await deleteVotesOfUser(id)
+    await deleteOptionsOfUser(id)
+    await deleteTiersOfUser(id)
+    await deleteRanksOfUser(id)
+
+    await USER_STORE.delete(id)
+}

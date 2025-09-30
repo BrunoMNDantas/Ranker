@@ -34,6 +34,11 @@ export const getAssignmentsOfOption = async (optionId: string): Promise<Assignme
     return assignments.filter(assignment => assignment.optionId === optionId)
 }
 
+export const getAssignmentsOfUser = async (ownerId: string): Promise<Assignment[]> => {
+    const assignments = await ASSIGNMENT_STORE.getAll()
+    return assignments.filter(assignment => assignment.ownerId === ownerId)
+}
+
 export const createAssignment = (assignment: Assignment): Promise<string> => ASSIGNMENT_STORE.create(assignment)
 
 export const updateAssignment = (assignment: Assignment): Promise<void> => ASSIGNMENT_STORE.update(assignment)
@@ -63,5 +68,10 @@ export const deleteAssignmentsOfTier = async (tierId: string): Promise<void> => 
 
 export const deleteAssignmentsOfOption = async (optionId: string): Promise<void> => {
     const assignments = await getAssignmentsOfOption(optionId)
+    await Promise.all(assignments.map(assignment => assignment.id).map(deleteAssignment))
+}
+
+export const deleteAssignmentsOfUser = async (ownerId: string): Promise<void> => {
+    const assignments = await getAssignmentsOfUser(ownerId)
     await Promise.all(assignments.map(assignment => assignment.id).map(deleteAssignment))
 }

@@ -25,6 +25,11 @@ export const getTiersOfRank = async (rankId: string): Promise<Tier[]> => {
     return tiers.filter(tier => tier.rankId === rankId)
 }
 
+export const getTiersOfUser = async (ownerId: string): Promise<Tier[]> => {
+    const tiers = await TIER_STORE.getAll()
+    return tiers.filter(tier => tier.ownerId === ownerId)
+}
+
 export const createTier = (tier: Tier): Promise<string> => TIER_STORE.create(tier)
 
 export const updateTier = (tier: Tier): Promise<void> => TIER_STORE.update(tier)
@@ -46,5 +51,10 @@ export const deleteTier = async (id: string): Promise<void> => {
 
 export const deleteTiersOfRank = async (rankId: string): Promise<void> => {
     const tiers = await getTiersOfRank(rankId)
+    await Promise.all(tiers.map(tier => tier.id).map(deleteTier))
+}
+
+export const deleteTiersOfUser = async (ownerId: string): Promise<void> => {
+    const tiers = await getTiersOfUser(ownerId)
     await Promise.all(tiers.map(tier => tier.id).map(deleteTier))
 }

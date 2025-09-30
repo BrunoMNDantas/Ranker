@@ -25,6 +25,11 @@ export const getOptionsOfRank = async (rankId: string): Promise<Option[]> => {
     return options.filter(option => option.rankId === rankId)
 }
 
+export const getOptionsOfUser = async (ownerId: string): Promise<Option[]> => {
+    const options = await OPTION_STORE.getAll()
+    return options.filter(option => option.ownerId === ownerId)
+}
+
 export const createOption = (option: Option): Promise<string> => OPTION_STORE.create(option)
 
 export const updateOption = (option: Option): Promise<void> => OPTION_STORE.update(option)
@@ -46,5 +51,10 @@ export const deleteOption = async (id: string): Promise<void> => {
 
 export const deleteOptionsOfRank = async (rankId: string): Promise<void> => {
     const options = await getOptionsOfRank(rankId)
+    await Promise.all(options.map(option => option.id).map(deleteOption))
+}
+
+export const deleteOptionsOfUser = async (ownerId: string): Promise<void> => {
+    const options = await getOptionsOfUser(ownerId)
     await Promise.all(options.map(option => option.id).map(deleteOption))
 }
