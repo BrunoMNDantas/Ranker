@@ -9,24 +9,34 @@ import { useUser } from '../../features/user/hooks/UseUser.hook';
 import { deleteUser, updateUser } from '../../features/user/api/User.api';
 import UserCard from '../../features/user/components/userCard/UserCard';
 import { useAuth } from '../../features/auth/components/AuthContext';
+import { useRanksOfUser } from '../../features/rank/hooks/UseRanksOfUser.hook';
+import { useVotesOfUser } from '../../features/vote/hooks/UseVotesOfUser.hook';
+import RankFormModal from '../../features/rank/components/rankFormModal/RankFormModal';
+import { createRank } from '../../services/EntityFactory.service';
+import { Rank } from '../../features/rank/model/Rank.types';
+import { deleteRank, createRank as submitRank } from '../../features/rank/api/Rank.api';
+import { Vote } from '../../features/vote/model/Vote.types';
+import { deleteVote } from '../../features/vote/api/Vote.api';
 
 const UserPage = () => {
 	const navigate = useNavigate()
 	const auth = useAuth()
 	const { userId } = useParams<{ userId: string }>()
 	const [editedUser, setEditedUser] = useState<User | null>(null)
+	const [showRankModal, setShowRankModal] = useState(false)
 
 	const { user, fetching: fetchingUser, error: userError } = useUser(userId || "")
+	const { ranks, fetching: fetchingRanks, error: ranksError, fetch: fetchRanks } = useRanksOfUser(userId || "")
+	const { votes, fetching: fetchingVotes, error: votesError, fetch: fetchVotes } = useVotesOfUser(userId || "")
 
-	const fetching = fetchingUser
-	const error = userError
+	const fetching = fetchingUser || fetchingRanks || fetchingVotes
+	const error = userError || ranksError || votesError
 
 	useEffect(() => {
 		if(!editedUser) {
 			setEditedUser(structuredClone(user))
 		}
 	}, [editedUser, user])
-
 
 	const handleUserChange = (changedUser: User) => {
 		setEditedUser(changedUser)
@@ -44,6 +54,32 @@ const UserPage = () => {
 		return Promise.resolve()
 	}
 
+	const handleCreateRankClick = () => {
+		setShowRankModal(true)
+		return Promise.resolve()
+	}
+
+	const handleCreateRank = async (rank: Rank) => {
+		await submitRank(rank)
+		setShowRankModal(false)
+		fetchRanks()
+	}
+
+	const handleCreateRankCancel = () => {
+		setShowRankModal(false)
+		return Promise.resolve()
+	}
+
+	const handleDeleteRank = async (rank: Rank) => {
+		await deleteRank(rank.id)
+		fetchVotes()
+	}
+
+	const handleDeleteVote = async (vote: Vote) => {
+		await deleteVote(vote.id)
+		fetchVotes()
+	}
+
 	const handleDelete = async () => {
 		if (user?.id) {
 			await deleteUser(user.id)
@@ -59,14 +95,24 @@ const UserPage = () => {
 				{!fetching && !error && editedUser ?
 					<UserCard
 						user={editedUser}
+						ranks={ranks}
+						votes={votes}
 						mode={auth.userId === editedUser.id ? Mode.EDIT : Mode.VIEW}
 						onUserChange={handleUserChange}
 						onClear={handleClear}
 						onSave={handleSave}
-						onDelete={handleDelete}/> :
+						onDelete={handleDelete}
+						onCreateRank={handleCreateRankClick}
+						onDeleteRank={handleDeleteRank}
+						onDeleteVote={handleDeleteVote}/> :
 					null
 				}
 			</LoadElement>
+			<RankFormModal
+				open={showRankModal}
+				defaultRank={createRank({})}
+				onCancel={handleCreateRankCancel}
+				onCreate={handleCreateRank}/>
 		</div>
 	);
 }

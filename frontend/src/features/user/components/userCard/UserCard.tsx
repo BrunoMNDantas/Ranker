@@ -10,17 +10,34 @@ import UserIcon from '../userIcon/UserIcon';
 import UserCardForm from './userCardForm/UserCardForm';
 import EntityCardActions, { Action } from '../../../../components/entityCard/entityCardActions/EntityCardActions';
 import { User } from '../../model/User.types';
+import RankIcon from '../../../rank/components/rankIcon/RankIcon';
+import UserRanksTabView from './UserRanksTabView';
+import VoteIcon from '../../../vote/components/voteIcon/VoteIcon';
+import UserVotesTabView from './UserVotesTabView';
+import { Rank } from '../../../rank/model/Rank.types';
+import { Vote } from '../../../vote/model/Vote.types';
+import RankCreateIcon from '../../../rank/components/rankCreateIcon/RankCreateIcon';
 
 export interface UserCardProps extends HTMLAttributes<HTMLDivElement> {
     user: User
+    ranks: Rank[]
+    votes: Vote[]
     mode: Mode
     onUserChange: (changedUser: User) => void
     onClear: () => Promise<void>
     onSave: () => Promise<void>
     onDelete: () => Promise<void>
+    onCreateRank: () => Promise<void>
+    onDeleteRank: (rank: Rank) => Promise<void>
+    onDeleteVote: (vote: Vote) => Promise<void>
 }
 
-const UserCard = ({ user, mode, onUserChange, onClear, onSave, onDelete, ...props }: UserCardProps) => {
+const UserCard = ({
+    user, ranks, votes, mode,
+    onUserChange, onClear, onSave, onDelete,
+    onCreateRank, onDeleteRank, onDeleteVote,
+    ...props
+}: UserCardProps) => {
     const [activeTabIndex, setActiveTabIndex] = useState(0)
     const [executing, setExecuting] = useState(false)
     const editMode = mode === Mode.EDIT
@@ -37,6 +54,7 @@ const UserCard = ({ user, mode, onUserChange, onClear, onSave, onDelete, ...prop
     const handleClear = () => execute(onClear)
     const handleSave = () => execute(onSave)
     const handleDelete = () => execute(onDelete)
+    const handleCreateRank = () => execute(onCreateRank)
 
     const clearAction: Action = {
         iconProps: { color: "info" },
@@ -59,12 +77,31 @@ const UserCard = ({ user, mode, onUserChange, onClear, onSave, onDelete, ...prop
         disabled: executing || !editMode
     }
 
+    const createRankAction: Action = {
+        iconProps: { color: "info" },
+        icon: <RankCreateIcon/>,
+        onClick: handleCreateRank,
+        disabled: executing || !editMode
+    }
+
     const tabs = [
         {
             icon: <UserIcon/>,
             label: "User",
             view: <UserCardForm user={user} onUserChange={onUserChange} mode={mode}/>,
             actions: [clearAction, saveAction, deleteAction]
+        },
+        {
+            label: "Ranks",
+            icon: <RankIcon/>,
+            view: <UserRanksTabView ranks={ranks} editMode={editMode} onDeleteRank={onDeleteRank}/>,
+            actions: [createRankAction]
+        },
+        {
+            label: "Votes",
+            icon: <VoteIcon/>,
+            view: <UserVotesTabView votes={votes} editMode={editMode} onDeleteVote={onDeleteVote}/>,
+            actions: []
         }
     ]
 
