@@ -18,8 +18,7 @@ export interface RankOptionsTabViewProps {
 export const RankOptionsTabView = ({ options, onOptionsChange, editMode, onDeleteOption }: RankOptionsTabViewProps) => {
     const [sortedOptions, setSortedOptions] = useState(options.sort((a, b) => a.order - b.order))
 
-    const handleDelete = async (e: React.MouseEvent, option: Option) => {
-        e.preventDefault()
+    const handleDelete = async (option: Option) => {
         await onDeleteOption(option)
     }
 
@@ -38,7 +37,7 @@ export const RankOptionsTabView = ({ options, onOptionsChange, editMode, onDelet
                     <IconButton href={appOptionRoute(option.id)} color='info' size='small'>
                         <VisibilityIcon fontSize='small' />
                     </IconButton>
-                    <ActionButton buttonAction={e => handleDelete(e, option)} color='error' size='small' disabled={!editMode}>
+                    <ActionButton buttonAction={e => handleDelete(option)} color='error' size='small' disabled={!editMode}>
                         <ClearIcon fontSize='small' />
                     </ActionButton>
                 </OptionChip>

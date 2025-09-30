@@ -18,8 +18,7 @@ export interface RankTiersTabViewProps {
 export const RankTiersTabView = ({ tiers, onTiersChange, editMode, onDeleteTier }: RankTiersTabViewProps) => {
     const [sortedTiers, setSortedTiers] = useState(tiers.sort((a, b) => a.order - b.order))
 
-    const handleDelete = async (e: React.MouseEvent, tier: Tier) => {
-        e.preventDefault()
+    const handleDelete = async (tier: Tier) => {
         await onDeleteTier(tier)
     }
 
@@ -38,7 +37,7 @@ export const RankTiersTabView = ({ tiers, onTiersChange, editMode, onDeleteTier 
                     <IconButton href={appTierRoute(tier.id)} color='info' size='small'>
                         <VisibilityIcon fontSize='small' />
                     </IconButton>
-                    <ActionButton buttonAction={e => handleDelete(e, tier)} color='error' size='small' disabled={!editMode}>
+                    <ActionButton buttonAction={e => handleDelete(tier)} color='error' size='small' disabled={!editMode}>
                         <ClearIcon fontSize='small' />
                     </ActionButton>
                 </TierChip>

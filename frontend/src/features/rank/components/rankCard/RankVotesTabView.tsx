@@ -14,8 +14,7 @@ export interface RankVotesTabViewProps {
 }
 
 export const RankVotesTabView = ({ votes, editMode, onDeleteVote }: RankVotesTabViewProps) => {
-    const handleDelete = async (e: React.MouseEvent, vote: Vote) => {
-        e.preventDefault()
+    const handleDelete = async (vote: Vote) => {
         await onDeleteVote(vote)
     }
 
@@ -24,7 +23,7 @@ export const RankVotesTabView = ({ votes, editMode, onDeleteVote }: RankVotesTab
             <IconButton href={appVoteRoute(vote.id)} color='info' size='small'>
                 <VisibilityIcon fontSize='small' />
             </IconButton>,
-            <ActionButton buttonAction={e => handleDelete(e, vote)} color='error' size='small' disabled={!editMode}>
+            <ActionButton buttonAction={e => handleDelete(vote)} color='error' size='small' disabled={!editMode}>
                 <ClearIcon fontSize='small' />
             </ActionButton>
         ]
