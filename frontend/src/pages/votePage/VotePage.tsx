@@ -11,9 +11,11 @@ import { useVote } from '../../features/vote/hooks/UseVote.hook';
 import { useAssignmentsOfVote } from '../../features/assignment/hooks/UseAssignmentsOfVote.hook';
 import { deleteAssignment } from '../../features/assignment/api/Assignment.api';
 import { Assignment } from '../../features/assignment/model/Assignment.types';
+import { useAuth } from '../../features/auth/components/AuthContext';
 
 const VotePage = () => {
 	const navigate = useNavigate()
+	const auth = useAuth()
 	const { voteId } = useParams<{ voteId: string }>()
 	const [editedVote, setEditedVote] = useState<Vote | null>(null)
 
@@ -66,7 +68,7 @@ const VotePage = () => {
 					<VoteCard
 						vote={editedVote}
 						assignments={assignments}
-						mode={Mode.EDIT}
+						mode={auth.userId === editedVote.ownerId ? Mode.EDIT : Mode.VIEW}
 						onVoteChange={handleVoteChange}
 						onClear={handleClear}
 						onSave={handleSave}

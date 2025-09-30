@@ -11,9 +11,11 @@ import { useTier } from '../../features/tier/hooks/UseTier.hook';
 import { useAssignmentsOfTier } from '../../features/assignment/hooks/UseAssignmentsOfTier.hook';
 import { deleteAssignment } from '../../features/assignment/api/Assignment.api';
 import { Assignment } from '../../features/assignment/model/Assignment.types';
+import { useAuth } from '../../features/auth/components/AuthContext';
 
 const TierPage = () => {
 	const navigate = useNavigate()
+	const auth = useAuth()
 	const { tierId } = useParams<{ tierId: string }>()
 	const [editedTier, setEditedTier] = useState<Tier | null>(null)
 
@@ -67,7 +69,7 @@ const TierPage = () => {
 					<TierCard
 						tier={editedTier}
 						assignments={assignments}
-						mode={Mode.EDIT}
+						mode={auth.userId === editedTier.ownerId ? Mode.EDIT : Mode.VIEW}
 						onTierChange={handleTierChange}
 						onClear={handleClear}
 						onSave={handleSave}

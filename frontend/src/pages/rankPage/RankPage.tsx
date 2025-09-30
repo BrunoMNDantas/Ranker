@@ -22,9 +22,11 @@ import TierFormModal from '../../features/tier/components/tierFormModal/TierForm
 import OptionFormModal from '../../features/option/components/optionFormModal/OptionFormModal';
 import { createTier as submitTier } from '../../features/tier/api/Tier.api';
 import { createOption as submitOption } from '../../features/option/api/Option.api'
+import { useAuth } from '../../features/auth/components/AuthContext';
 
 const RankPage = () => {
 	const navigate = useNavigate()
+	const auth = useAuth()
 	const { rankId } = useParams<{ rankId: string }>()
 	const [editedRank, setEditedRank] = useState<Rank | null>(null)
 	const [showTierModal, setShowTierModal] = useState(false)
@@ -135,7 +137,7 @@ const RankPage = () => {
 						tiers={tiers}
 						options={options}
 						votes={votes}
-						mode={Mode.EDIT}
+						mode={auth.userId === editedRank.ownerId ? Mode.EDIT : Mode.VIEW}
 						onRankChange={handleRankChange}
 						onClear={handleClear}
 						onSave={handleSave}

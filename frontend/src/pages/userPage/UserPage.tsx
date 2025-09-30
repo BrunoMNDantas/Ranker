@@ -8,9 +8,11 @@ import { User } from '../../features/user/model/User.types';
 import { useUser } from '../../features/user/hooks/UseUser.hook';
 import { deleteUser, updateUser } from '../../features/user/api/User.api';
 import UserCard from '../../features/user/components/userCard/UserCard';
+import { useAuth } from '../../features/auth/components/AuthContext';
 
 const UserPage = () => {
 	const navigate = useNavigate()
+	const auth = useAuth()
 	const { userId } = useParams<{ userId: string }>()
 	const [editedUser, setEditedUser] = useState<User | null>(null)
 
@@ -57,7 +59,7 @@ const UserPage = () => {
 				{!fetching && !error && editedUser ?
 					<UserCard
 						user={editedUser}
-						mode={Mode.EDIT}
+						mode={auth.userId === editedUser.id ? Mode.EDIT : Mode.VIEW}
 						onUserChange={handleUserChange}
 						onClear={handleClear}
 						onSave={handleSave}

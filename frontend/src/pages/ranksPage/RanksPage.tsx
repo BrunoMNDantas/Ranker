@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { createRank } from '../../services/EntityFactory.service';
 import { createRank as submitRank } from '../../features/rank/api/Rank.api';
 import RankFormModal from '../../features/rank/components/rankFormModal/RankFormModal';
+
 const RanksPage = () => {
 	const navigate = useNavigate()
 	const {ranks, error, fetching,} = useRanks()

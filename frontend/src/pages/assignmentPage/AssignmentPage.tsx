@@ -8,9 +8,11 @@ import LoadElement from '../../components/loadElement/LoadElement';
 import AssignmentCard from '../../features/assignment/components/assignmentCard/AssignmentCard';
 import { Mode } from '../../components/entityCard/EntityCard';
 import { useAssignment } from '../../features/assignment/hooks/UseAssignment.hook';
+import { useAuth } from '../../features/auth/components/AuthContext';
 
 const AssignmentPage = () => {
 	const navigate = useNavigate()
+	const auth = useAuth()
 	const { assignmentId } = useParams<{ assignmentId: string }>()
 	const { assignment, fetching, error } = useAssignment(assignmentId || "")
 	const [editedAssignment, setEditedAssignment] = useState<Assignment | null>(null)
@@ -52,7 +54,7 @@ const AssignmentPage = () => {
 				{!fetching && !error && editedAssignment ?
 					<AssignmentCard
 						assignment={editedAssignment}
-						mode={Mode.EDIT}
+						mode={auth.userId === editedAssignment.ownerId ? Mode.EDIT : Mode.VIEW}
 						onAssignmentChange={handleAssignmentChange}
 						onClear={handleClear}
 						onSave={handleSave}

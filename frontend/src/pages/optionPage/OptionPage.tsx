@@ -11,9 +11,11 @@ import { useOption } from '../../features/option/hooks/UseOption.hook';
 import { useAssignmentsOfOption } from '../../features/assignment/hooks/UseAssignmentsOfOption.hook';
 import { Assignment } from '../../features/assignment/model/Assignment.types';
 import { deleteAssignment } from '../../features/assignment/api/Assignment.api';
+import { useAuth } from '../../features/auth/components/AuthContext';
 
 const OptionPage = () => {
 	const navigate = useNavigate()
+	const auth = useAuth()
 	const { optionId } = useParams<{ optionId: string }>()
 	const [editedOption, setEditedOption] = useState<Option | null>(null)
 
@@ -66,7 +68,7 @@ const OptionPage = () => {
 					<OptionCard
 						option={editedOption}
 						assignments={assignments}
-						mode={Mode.EDIT}
+						mode={auth.userId === editedOption.ownerId ? Mode.EDIT : Mode.VIEW}
 						onOptionChange={handleOptionChange}
 						onClear={handleClear}
 						onSave={handleSave}
