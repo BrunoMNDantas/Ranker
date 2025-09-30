@@ -1,4 +1,3 @@
-import { generateId } from "../Services.utils";
 import Store, { Entity } from "./Store";
 
 export default class MemoryStore<T extends Entity> implements Store<T> {
@@ -22,12 +21,8 @@ export default class MemoryStore<T extends Entity> implements Store<T> {
     }
 
     create(entity: T): Promise<string> {
-        const id = generateId()
-        entity.id = id
-
         this.entities.push(structuredClone(entity))
-
-        return Promise.resolve(id)
+        return Promise.resolve(entity.id)
     }
 
     update(entity: T): Promise<void> {

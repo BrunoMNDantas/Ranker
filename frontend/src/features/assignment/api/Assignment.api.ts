@@ -1,10 +1,18 @@
 import { Assignment } from "../model/Assignment.types"
 import DelayedStore from "../../../services/store/Delayed.store"
 import Store from "../../../services/store/Store"
-import FirestoreStore from "../../../services/store/Firestore.store"
+import FirestoreStore, { AUTH } from "../../../services/store/Firestore.store"
 import { API_RESPONSE_TIME } from "../../../app/Constants"
+import EntityStore from "../../../services/store/Entity.store"
+import AuthStore from "../../../services/store/Auth.store"
 
-export const ASSIGNMENT_STORE: Store<Assignment> = new DelayedStore<Assignment>(new FirestoreStore<Assignment>("assignments"), API_RESPONSE_TIME)
+export const ASSIGNMENT_STORE: Store<Assignment> = new DelayedStore(
+    new AuthStore(
+        new EntityStore(new FirestoreStore("assignments")),
+        () => AUTH.currentUser?.uid || ""
+    ),
+    API_RESPONSE_TIME
+)
 
 
 export const getAllAssignments = (): Promise<Assignment[]> => ASSIGNMENT_STORE.getAll()
@@ -26,16 +34,9 @@ export const getAssignmentsOfOption = async (optionId: string): Promise<Assignme
     return assignments.filter(assignment => assignment.optionId === optionId)
 }
 
-export const createAssignment = async (assignment: Assignment): Promise<string> => {
-    assignment.creationDate = new Date()
-    assignment.lastUpdateDate = new Date()
-    return await ASSIGNMENT_STORE.create(assignment)
-}
+export const createAssignment = (assignment: Assignment): Promise<string> => ASSIGNMENT_STORE.create(assignment)
 
-export const updateAssignment = (assignment: Assignment): Promise<void> => {
-    assignment.lastUpdateDate = new Date()
-    return ASSIGNMENT_STORE.update(assignment)
-}
+export const updateAssignment = (assignment: Assignment): Promise<void> => ASSIGNMENT_STORE.update(assignment)
 
 export const deleteAssignment = async (id: string): Promise<void> => {
     const assignment = await ASSIGNMENT_STORE.get(id)

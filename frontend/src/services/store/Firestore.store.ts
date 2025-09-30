@@ -4,7 +4,6 @@ import { collection, doc, getDoc, getDocs, query, setDoc, updateDoc, deleteDoc }
 import { getAuth, browserLocalPersistence, setPersistence } from "firebase/auth";
 import Store, { Entity } from './Store';
 import { Timestamp } from "firebase/firestore";
-import { generateId } from '../Services.utils';
 
 const FIREBASE_CONFIG = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -53,12 +52,10 @@ export const convertDatesFromFirestore = (obj: Record<string, any>): Record<stri
 export default class FirestoreStore<T extends Entity> implements Store<T> {
 
     entities: CollectionReference<DocumentData, DocumentData>
-    idGenerator: (entity: T) => string
 
 
-    constructor(path: string, idGenerator=(entity:T)=>generateId()) {
+    constructor(path: string) {
         this.entities = collection(DB, path)
-        this.idGenerator = idGenerator
     }
 
 
@@ -80,14 +77,11 @@ export default class FirestoreStore<T extends Entity> implements Store<T> {
     async create(entity: T): Promise<string> {
         convertDatesToFirestore(entity)
 
-        const id = this.idGenerator(entity)
-        const ref = doc(this.entities, id)
-
-        entity.id = id
+        const ref = doc(this.entities, entity.id)
 
         await setDoc(ref, {...entity})
 
-        return id
+        return entity.id
     }
 
     async update(entity: T): Promise<void> {

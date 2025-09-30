@@ -2,10 +2,18 @@ import { Vote } from "../model/Vote.types"
 import { deleteAssignmentsOfVote } from "../../assignment/api/Assignment.api"
 import DelayedStore from "../../../services/store/Delayed.store"
 import Store from "../../../services/store/Store"
-import FirestoreStore from "../../../services/store/Firestore.store"
+import FirestoreStore, { AUTH } from "../../../services/store/Firestore.store"
 import { API_RESPONSE_TIME } from "../../../app/Constants"
+import EntityStore from "../../../services/store/Entity.store"
+import AuthStore from "../../../services/store/Auth.store"
 
-export const VOTE_STORE: Store<Vote> = new DelayedStore<Vote>(new FirestoreStore<Vote>("votes"), API_RESPONSE_TIME)
+export const VOTE_STORE: Store<Vote> = new DelayedStore(
+    new AuthStore(
+        new EntityStore(new FirestoreStore("votes")),
+        () => AUTH.currentUser?.uid || ""
+    ),
+    API_RESPONSE_TIME
+)
 
 
 export const getAllVotes = (): Promise<Vote[]> => VOTE_STORE.getAll()
@@ -17,16 +25,9 @@ export const getVotesOfRank = async (rankId: string): Promise<Vote[]> => {
     return votes.filter(vote => vote.rankId === rankId)
 }
 
-export const createVote = async (vote: Vote): Promise<string> => {
-    vote.creationDate = new Date()
-    vote.lastUpdateDate = new Date()
-    return await VOTE_STORE.create(vote)
-}
+export const createVote = (vote: Vote): Promise<string> => VOTE_STORE.create(vote)
 
-export const updateVote = (vote: Vote): Promise<void> => {
-    vote.lastUpdateDate = new Date()
-    return VOTE_STORE.update(vote)
-}
+export const updateVote = (vote: Vote): Promise<void> => VOTE_STORE.update(vote)
 
 export const deleteVote = async (id: string): Promise<void> => {
     await deleteAssignmentsOfVote(id)
