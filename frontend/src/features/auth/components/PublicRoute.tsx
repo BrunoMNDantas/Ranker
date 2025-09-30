@@ -3,6 +3,11 @@ import { useAuth } from "./AuthContext";
 import { APP_RANKS_ROUTE } from "../../../app/Routes";
 
 export const PublicRoute = () => {
-    const { isAuthenticated } = useAuth()
+    const { isAuthenticated, loading } = useAuth()
+
+    if (loading) {
+        return null
+    }
+
     return isAuthenticated ? <Navigate to={APP_RANKS_ROUTE} replace/> : <Outlet/>
 };
