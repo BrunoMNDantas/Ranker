@@ -1,8 +1,10 @@
 import { initializeApp } from 'firebase/app';
 import { CollectionReference, DocumentData, getFirestore } from 'firebase/firestore';
 import { collection, doc, getDoc, getDocs, query, setDoc, updateDoc, deleteDoc } from "firebase/firestore";
+import { getAuth, browserLocalPersistence, setPersistence } from "firebase/auth";
 import Store, { Entity } from './Store';
 import { Timestamp } from "firebase/firestore";
+import { generateId } from '../Services.utils';
 
 const FIREBASE_CONFIG = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -13,8 +15,11 @@ const FIREBASE_CONFIG = {
     appId: process.env.REACT_APP_FIREBASE_APP_ID,
 }
 
-const APP = initializeApp(FIREBASE_CONFIG)
-const DB  = getFirestore(APP)
+export const APP = initializeApp(FIREBASE_CONFIG)
+export const DB  = getFirestore(APP)
+export const AUTH = getAuth(APP)
+
+setPersistence(AUTH, browserLocalPersistence)
 
 
 export const convertDatesToFirestore = (obj: Record<string, any>): Record<string, any> => {
@@ -48,10 +53,12 @@ export const convertDatesFromFirestore = (obj: Record<string, any>): Record<stri
 export default class FirestoreStore<T extends Entity> implements Store<T> {
 
     entities: CollectionReference<DocumentData, DocumentData>
+    idGenerator: (entity: T) => string
 
 
-    constructor(path: string) {
+    constructor(path: string, idGenerator=(entity:T)=>generateId()) {
         this.entities = collection(DB, path)
+        this.idGenerator = idGenerator
     }
 
 
@@ -73,7 +80,7 @@ export default class FirestoreStore<T extends Entity> implements Store<T> {
     async create(entity: T): Promise<string> {
         convertDatesToFirestore(entity)
 
-        const id = crypto.randomUUID()
+        const id = this.idGenerator(entity)
         const ref = doc(this.entities, id)
 
         entity.id = id

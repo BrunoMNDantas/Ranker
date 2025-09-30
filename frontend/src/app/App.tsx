@@ -13,9 +13,10 @@ import {
     ROOT_ROUTE, APP_ROUTE, RANK_SUB_ROUTE, TIER_SUB_ROUTE,
     OPTION_SUB_ROUTE, VOTE_SUB_ROUTE, ASSIGNMENT_SUB_ROUTE,
     RANKS_SUB_ROUTE, APP_RANKS_ROUTE, RANK_VOTE_SUB_ROUTE,
-    USER_SUB_ROUTE
+    USER_SUB_ROUTE, LOGIN_ROUTE
 } from './Routes';
 import UserPage from '../pages/userPage/UserPage';
+import LoginPage from '../pages/loginPage/LoginPage';
 
 const App = () => {
     return (
@@ -23,16 +24,18 @@ const App = () => {
             <Routes>
                 <Route path={ROOT_ROUTE} element={<Navigate to={APP_RANKS_ROUTE} replace/>}/>
 
+                <Route path={LOGIN_ROUTE} element={<LoginPage/>}/>
+
                 <Route path= {APP_ROUTE} element={<AppLayout/>}>
-                    <Route index element={<RanksPage/>} />
-                    <Route path={USER_SUB_ROUTE} element={<UserPage/>} />
-                    <Route path={RANKS_SUB_ROUTE} element={<RanksPage/>} />
-                    <Route path={RANK_SUB_ROUTE} element={<RankPage/>} />
-                    <Route path={RANK_VOTE_SUB_ROUTE} element={<VottingPage/>} />
-                    <Route path={OPTION_SUB_ROUTE} element={<OptionPage/>} />
-                    <Route path={TIER_SUB_ROUTE} element={<TierPage/>} />
-                    <Route path={VOTE_SUB_ROUTE} element={<VotePage/>} />
-                    <Route path={ASSIGNMENT_SUB_ROUTE} element={<AssignmentPage/>} />
+                    <Route index element={<RanksPage/>}/>
+                    <Route path={USER_SUB_ROUTE} element={<UserPage/>}/>
+                    <Route path={RANKS_SUB_ROUTE} element={<RanksPage/>}/>
+                    <Route path={RANK_SUB_ROUTE} element={<RankPage/>}/>
+                    <Route path={RANK_VOTE_SUB_ROUTE} element={<VottingPage/>}/>
+                    <Route path={OPTION_SUB_ROUTE} element={<OptionPage/>}/>
+                    <Route path={TIER_SUB_ROUTE} element={<TierPage/>}/>
+                    <Route path={VOTE_SUB_ROUTE} element={<VotePage/>}/>
+                    <Route path={ASSIGNMENT_SUB_ROUTE} element={<AssignmentPage/>}/>
                 </Route>
             </Routes>
         </div>

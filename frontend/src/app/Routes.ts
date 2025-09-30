@@ -2,6 +2,8 @@ export const ROOT_ROUTE = "/"
 
 export const APP_ROUTE = "/app"
 
+export const LOGIN_ROUTE = "/login"
+
 export const USER_ID_PLACEHOLDER = ":userId"
 export const RANK_ID_PLACEHOLDER = ":rankId"
 export const TIER_ID_PLACEHOLDER = ":tierId"
