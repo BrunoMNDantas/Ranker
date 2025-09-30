@@ -22,6 +22,7 @@ Ranker is a web application that allows users to **create rankings** and **vote 
   - [Version 0.0.8 — AI Assistance](#-version-008--ai-assistance)
 - [⚙️ Technical Documentation](#-technical-documentation)
   - [📌 Domain Model](#-domain-model)
+    - [User](#user)
     - [Rank](#rank)
     - [Tier](#tier)
     - [Option](#option)
@@ -153,6 +154,31 @@ High‑level relations: **Rank** has many **Tiers**, **Options**, and **Votes**.
 
 ---
 
+### User
+
+Represents a user.
+
+**Attributes**
+
+- `id: string`
+- `creationDate: Date`
+- `lastUpdateDate: Date`
+- `username: string`
+- `imageUrl: string`
+- `color: string`
+
+**Relationships**
+
+- **has many** `Rank`
+- **has many** `Tier`
+- **has many** `Option`
+- **has many** `Vote`
+- **has many** `Assignment`
+
+**Example**: User = "Paul"
+
+---
+
 ### Rank
 
 Represents a ranking definition.
@@ -160,7 +186,9 @@ Represents a ranking definition.
 **Attributes**
 
 - `id: string`
+- `ownerId: string` (FK → User)
 - `creationDate: Date`
+- `lastUpdateDate: Date`
 - `title: string`
 - `description: string`
 - `imageUrl: string`
@@ -168,6 +196,7 @@ Represents a ranking definition.
 
 **Relationships**
 
+- **belongs to** `User`
 - **has many** `Tier`
 - **has many** `Option`
 - **has many** `Vote`
@@ -184,7 +213,9 @@ Defines a level/category inside a Rank.
 
 - `id: string`
 - `rankId: string` (FK → Rank)
+- `ownerId: string` (FK → User)
 - `creationDate: Date`
+- `lastUpdateDate: Date`
 - `order: number`
 - `title: string`
 - `description: string`
@@ -193,6 +224,7 @@ Defines a level/category inside a Rank.
 
 **Relationships**
 
+- **belongs to** `User`
 - **belongs to** `Rank`
 - **used by** `Assignment` to map `Option → Tier` within a `Vote`
 
@@ -208,7 +240,9 @@ An item that can be classified into a Tier.
 
 - `id: string`
 - `rankId: string` (FK → Rank)
+- `ownerId: string` (FK → User)
 - `creationDate: Date`
+- `lastUpdateDate: Date`
 - `order: number`
 - `title: string`
 - `description: string`
@@ -217,6 +251,7 @@ An item that can be classified into a Tier.
 
 **Relationships**
 
+- **belongs to** `User`
 - **belongs to** `Rank`
 - **used by** `Assignment` to map `Option → Tier` within a `Vote`
 
@@ -232,10 +267,13 @@ A user's submission for a Rank (one completed arrangement of Options into Tiers)
 
 - `id: string`
 - `rankId: string` (FK → Rank)
+- `ownerId: string` (FK → User)
 - `creationDate: Date`
+- `lastUpdateDate: Date`
 
 **Relationships**
 
+- **belongs to** `User`
 - **belongs to** `Rank`
 - **includes many** `Assignment`
 
@@ -254,10 +292,12 @@ Links an `Option` to a `Tier` **within a particular **``.
 - `tierId: string` (FK → Tier)
 - `optionId: string` (FK → Option)
 - `creationDate: Date`
+- `lastUpdateDate: Date`
 - `order: number`
 
 **Relationships**
 
+- **belongs to** `User`
 - **belongs to** `Vote`
 - **belongs to** `Tier`
 - **belongs to** `Option`
