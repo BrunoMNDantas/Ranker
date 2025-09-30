@@ -6,25 +6,84 @@ import type { Assignment } from "../features/assignment/model/Assignment.types";
 import { User } from "../features/user/model/User.types";
 
 export const createUser = (partial: Partial<User>): User => {
-    return { id: "", creationDate: new Date(), lastUpdateDate: new Date(), username: "", imageUrl: null, color: null, ...partial }
+    return {
+        id: "",
+        creationDate: new Date(),
+        lastUpdateDate: new Date(),
+        username: "",
+        imageUrl: null,
+        color: null,
+        ...partial
+    }
 }
 
 export const createRank = (partial: Partial<Rank>): Rank => {
-    return { id: "", creationDate: new Date(), lastUpdateDate: new Date(), title: "", description: null, imageUrl: null, color: null, ...partial }
+    return {
+        id: "",
+        creationDate: new Date(),
+        lastUpdateDate: new Date(),
+        ownerId: "",
+        title: "",
+        description: null,
+        imageUrl: null,
+        color: null,
+        ...partial
+    }
 }
 
 export const createTier = (partial: Partial<Tier>): Tier => {
-    return { id: "", creationDate: new Date(), lastUpdateDate: new Date(), rankId: "", order: 0, title: "", description: null, imageUrl: null, color: null, ...partial }
+    return {
+        id: "",
+        creationDate: new Date(),
+        lastUpdateDate: new Date(),
+        ownerId: "",
+        rankId: "",
+        order: 0,
+        title: "",
+        description: null,
+        imageUrl: null,
+        color: null,
+        ...partial
+    }
 }
 
 export const createOption = (partial: Partial<Option>): Option => {
-    return { id: "", creationDate: new Date(), lastUpdateDate: new Date(), rankId: "", order: 0, title: "", description: null, imageUrl: null, color: null, ...partial }
+    return {
+        id: "",
+        creationDate: new Date(),
+        lastUpdateDate: new Date(),
+        ownerId: "",
+        rankId: "",
+        order: 0,
+        title: "",
+        description: null,
+        imageUrl: null,
+        color: null,
+        ...partial
+    }
 }
 
 export const createVote = (partial: Partial<Vote>): Vote => {
-    return { id: "", creationDate: new Date(), lastUpdateDate: new Date(), rankId: "", ...partial }
+    return {
+        id: "",
+        creationDate: new Date(),
+        lastUpdateDate: new Date(),
+        ownerId: "",
+        rankId: "",
+        ...partial
+    }
 }
 
 export const createAssignment = (partial: Partial<Assignment>): Assignment => {
-    return { id: "", creationDate: new Date(), lastUpdateDate: new Date(), voteId: "", order: 0, optionId: "", tierId: "", ...partial}
+    return {
+        id: "",
+        creationDate: new Date(),
+        lastUpdateDate: new Date(),
+        ownerId: "",
+        voteId: "",
+        order: 0,
+        optionId: "",
+        tierId: "",
+        ...partial
+    }
 }
