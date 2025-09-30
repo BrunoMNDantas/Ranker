@@ -30,6 +30,7 @@ export const RankTiersTabView = ({ tiers, onTiersChange, editMode, onDeleteTier 
 
     return (
          <EntitySortableList
+            disabled={!editMode}
             entities={sortedTiers}
             onEntitiesChange={handleTiersChange}
             entityRenderer={tier => (

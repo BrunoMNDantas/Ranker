@@ -6,23 +6,24 @@ import {
 } from '@dnd-kit/core';
 import { sortableKeyboardCoordinates, useSortable } from '@dnd-kit/sortable';
 import { Entity } from '../../services/store/Store';
-import EntityList, { EntityListItemProps } from '../entityList/EntityList';
+import EntityList from '../entityList/EntityList';
 import { CSSProperties } from '@mui/material';
 import { CSS } from '@dnd-kit/utilities';
 
-export interface EntityListIemProps<T extends Entity> extends HTMLAttributes<HTMLDivElement> {
+export interface EntityListItemProps<T extends Entity> extends HTMLAttributes<HTMLDivElement> {
     entity: T
     entityRenderer: (entity: T) => ReactNode
+    disabled: boolean
 }
 
-const EntityListItem = <T extends Entity,>({ entity, entityRenderer, ...props }: EntityListItemProps<T>) => {
+const EntityListItem = <T extends Entity,>({ entity, entityRenderer, disabled, ...props }: EntityListItemProps<T>) => {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({id: entity.id})
 
     const style: CSSProperties = {
         transform: CSS.Transform.toString(transform),
         transition,
-        cursor: 'grab',
-        visibility: isDragging ? 'hidden' : 'visible'
+        cursor: !disabled ? 'grab' : 'default',
+        visibility: isDragging && !disabled ? 'hidden' : 'visible'
     }
 
     return (
@@ -36,9 +37,10 @@ export interface EntitySortableListProps<T extends Entity> extends HTMLAttribute
     entities: T[]
     onEntitiesChange:(entities: T[]) => void
     entityRenderer: (entity: T) => ReactNode
+    disabled: boolean
 }
 
-const EntitySortableList = <T extends Entity, >({ entities, onEntitiesChange, entityRenderer, ...props }: EntitySortableListProps<T>) => {
+const EntitySortableList = <T extends Entity, >({ entities, onEntitiesChange, entityRenderer, disabled, ...props }: EntitySortableListProps<T>) => {
     const [activeId, setActiveId] = useState<string | null>(null)
 
     const sensors = useSensors(
@@ -53,13 +55,15 @@ const EntitySortableList = <T extends Entity, >({ entities, onEntitiesChange, en
     );
 
     const handleDragStart = ({ active }: DragStartEvent) => {
-        setActiveId(active.id as string)
+        if(!disabled) {
+            setActiveId(active.id as string)
+        }
     }
 
     const handleDragEnd = ({active, over}: DragEndEvent) => {
         setActiveId(null)
 
-        if(!over) {
+        if(disabled || !over) {
             return
         }
 
@@ -82,13 +86,13 @@ const EntitySortableList = <T extends Entity, >({ entities, onEntitiesChange, en
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
             <EntityList
                 entities={entities}
-                entityRenderer={entity => <EntityListItem entity={entity} entityRenderer={entityRenderer}/>}
+                entityRenderer={entity => <EntityListItem entity={entity} entityRenderer={entityRenderer} disabled={disabled}/>}
                 {...props}/>
             <DragOverlay dropAnimation={null} style={{transformOrigin: '0 0'}}>
                 {
                     activeId ?
                         <div className={classes.dragOverlay}>
-                            <EntityListItem entity={entities.find(entity => entity.id === activeId)!} entityRenderer={entityRenderer}/>
+                            <EntityListItem entity={entities.find(entity => entity.id === activeId)!} entityRenderer={entityRenderer} disabled={disabled}/>
                         </div> :
                         null
                 }

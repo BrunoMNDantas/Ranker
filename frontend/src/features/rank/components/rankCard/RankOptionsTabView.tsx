@@ -30,6 +30,7 @@ export const RankOptionsTabView = ({ options, onOptionsChange, editMode, onDelet
 
     return (
         <EntitySortableList
+            disabled={!editMode}
             entities={sortedOptions}
             onEntitiesChange={handleOptionsChange}
             entityRenderer={option => (
