@@ -112,13 +112,13 @@ npm test
 - Refactor data flow to support queries and mutations.
 - Implement **validation logic** at the services layer.
 
-### 🚧 Version 0.0.4 — Users
+### ✅ Version 0.0.4 — Users
 - Add a **login screen**.
 - Associate **Ranks and Votes with users**.
 - Restrict editing so only the owner can modify their entities.
 - Clean UI separation between **Edit** and **View** modes.
 
-### 🔮 Version 0.0.5 — App Flow & User Experience
+### 🚧 Version 0.0.5 — App Flow & User Experience
 - Improve **VoteCard** and **AssignmentCard**. (Place text on the card with the name of the entity?)
 - Handle missing images more clearly (better option/tier representation).
 - Add a more engaging **vote button**.
