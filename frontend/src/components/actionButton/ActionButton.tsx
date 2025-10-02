@@ -1,20 +1,12 @@
 import React, { useState } from "react"
-import { CircularProgress, CircularProgressProps, IconButton, IconButtonProps } from "@mui/material"
-
-export const SPINNER_SIZE_MAP: Record<NonNullable<IconButtonProps["size"]>, number> = {
-    small: 16,
-    medium: 20,
-    large: 24,
-};
+import { IconButton, IconButtonProps } from "@mui/material"
 
 export interface ActionButtonProps extends IconButtonProps {
     buttonAction: (event: React.MouseEvent) => Promise<void>
-    circularProgressProps?: CircularProgressProps
 }
 
-const ActionButton = ({ buttonAction, circularProgressProps, children, ...props } : ActionButtonProps) => {
+const ActionButton = ({ buttonAction, children, ...props } : ActionButtonProps) => {
     const [executing, setExecuting] = useState(false)
-    const spinnerSize = SPINNER_SIZE_MAP[props.size || "medium"] + "px"
 
     const handleClick = async (e: React.MouseEvent) => {
         setExecuting(true)
@@ -27,8 +19,8 @@ const ActionButton = ({ buttonAction, circularProgressProps, children, ...props 
     }
 
     return (
-        <IconButton onClick={handleClick} {...props}>
-            { executing ? <CircularProgress size={spinnerSize} {...circularProgressProps}/> : children }
+        <IconButton onClick={handleClick} loading={executing} {...props}>
+            { children }
         </IconButton>
     )
 }
