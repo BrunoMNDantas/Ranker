@@ -1,6 +1,7 @@
 import { createSlice, createEntityAdapter, PayloadAction } from '@reduxjs/toolkit';
 import { User } from '../model/User.types';
 import { RootState } from '../../../app/store';
+import { fetchAllUsers, fetchUserById, createUserThunk, updateUserThunk, deleteUserThunk } from './User.thunks';
 
 const userAdapter = createEntityAdapter<User>();
 
@@ -31,6 +32,76 @@ const userSlice = createSlice({
         setError: (state, action: PayloadAction<string | null>) => {
             state.error = action.payload;
         },
+    },
+    extraReducers: (builder) => {
+        builder
+            // Fetch all users
+            .addCase(fetchAllUsers.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchAllUsers.fulfilled, (state, action) => {
+                userAdapter.setAll(state, action.payload);
+                state.loading = false;
+            })
+            .addCase(fetchAllUsers.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || 'Failed to fetch users';
+            })
+            // Fetch user by id
+            .addCase(fetchUserById.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchUserById.fulfilled, (state, action) => {
+                if (action.payload) {
+                    userAdapter.upsertOne(state, action.payload);
+                }
+                state.loading = false;
+            })
+            .addCase(fetchUserById.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || 'Failed to fetch user';
+            })
+            // Create user
+            .addCase(createUserThunk.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(createUserThunk.fulfilled, (state, action) => {
+                userAdapter.addOne(state, action.payload);
+                state.loading = false;
+            })
+            .addCase(createUserThunk.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || 'Failed to create user';
+            })
+            // Update user
+            .addCase(updateUserThunk.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(updateUserThunk.fulfilled, (state, action) => {
+                userAdapter.upsertOne(state, action.payload);
+                state.loading = false;
+            })
+            .addCase(updateUserThunk.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || 'Failed to update user';
+            })
+            // Delete user
+            .addCase(deleteUserThunk.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(deleteUserThunk.fulfilled, (state, action) => {
+                userAdapter.removeOne(state, action.payload);
+                state.loading = false;
+            })
+            .addCase(deleteUserThunk.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || 'Failed to delete user';
+            });
     },
 });
 
