@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Tier } from '../model/Tier.types';
-import { getAllTiers, getTier, getTiersOfRank, getTiersOfUser, createTier, updateTier, deleteTier } from '../api/Tier.api';
+import { getAllTiers, getTier, getTiersByIds, getTiersOfRank, getTiersOfUser, createTier, updateTier, deleteTier } from '../api/Tier.api';
 
 export const fetchAllTiers = createAsyncThunk(
     'tier/fetchAll',
@@ -13,6 +13,13 @@ export const fetchTierById = createAsyncThunk(
     'tier/fetchById',
     async (id: string) => {
         return await getTier(id);
+    }
+);
+
+export const fetchTiersByIds = createAsyncThunk(
+    'tier/fetchByIds',
+    async (ids: string[]) => {
+        return await getTiersByIds(ids);
     }
 );
 

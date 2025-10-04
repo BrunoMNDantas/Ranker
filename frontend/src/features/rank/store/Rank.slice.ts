@@ -1,7 +1,7 @@
 import { createSlice, createEntityAdapter, PayloadAction } from '@reduxjs/toolkit';
 import { Rank } from '../model/Rank.types';
 import { RootState } from '../../../app/store';
-import { fetchAllRanks, fetchRankById, fetchRanksOfUser, createRankThunk, updateRankThunk, deleteRankThunk } from './Rank.thunks';
+import { fetchAllRanks, fetchRankById, fetchRanksByIds, fetchRanksOfUser, createRankThunk, updateRankThunk, deleteRankThunk } from './Rank.thunks';
 
 const rankAdapter = createEntityAdapter<Rank>();
 
@@ -62,6 +62,19 @@ const rankSlice = createSlice({
             .addCase(fetchRankById.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message || 'Failed to fetch rank';
+            })
+            // Fetch ranks by ids
+            .addCase(fetchRanksByIds.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchRanksByIds.fulfilled, (state, action) => {
+                rankAdapter.upsertMany(state, action.payload);
+                state.loading = false;
+            })
+            .addCase(fetchRanksByIds.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || 'Failed to fetch ranks';
             })
             // Fetch ranks of user
             .addCase(fetchRanksOfUser.pending, (state) => {

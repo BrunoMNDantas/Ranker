@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Option } from '../model/Option.types';
-import { getAllOptions, getOption, getOptionsOfRank, getOptionsOfUser, createOption, updateOption, deleteOption } from '../api/Option.api';
+import { getAllOptions, getOption, getOptionsByIds, getOptionsOfRank, getOptionsOfUser, createOption, updateOption, deleteOption } from '../api/Option.api';
 
 export const fetchAllOptions = createAsyncThunk(
     'option/fetchAll',
@@ -13,6 +13,13 @@ export const fetchOptionById = createAsyncThunk(
     'option/fetchById',
     async (id: string) => {
         return await getOption(id);
+    }
+);
+
+export const fetchOptionsByIds = createAsyncThunk(
+    'option/fetchByIds',
+    async (ids: string[]) => {
+        return await getOptionsByIds(ids);
     }
 );
 

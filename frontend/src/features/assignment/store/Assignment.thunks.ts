@@ -3,6 +3,7 @@ import { Assignment } from '../model/Assignment.types';
 import {
     getAllAssignments,
     getAssignment,
+    getAssignmentsByIds,
     getAssignmentsOfVote,
     getAssignmentsOfTier,
     getAssignmentsOfOption,
@@ -23,6 +24,13 @@ export const fetchAssignmentById = createAsyncThunk(
     'assignment/fetchById',
     async (id: string) => {
         return await getAssignment(id);
+    }
+);
+
+export const fetchAssignmentsByIds = createAsyncThunk(
+    'assignment/fetchByIds',
+    async (ids: string[]) => {
+        return await getAssignmentsByIds(ids);
     }
 );
 

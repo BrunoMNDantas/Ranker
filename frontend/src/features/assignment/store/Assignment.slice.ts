@@ -4,6 +4,7 @@ import { RootState } from '../../../app/store';
 import {
     fetchAllAssignments,
     fetchAssignmentById,
+    fetchAssignmentsByIds,
     fetchAssignmentsOfVote,
     fetchAssignmentsOfTier,
     fetchAssignmentsOfOption,
@@ -72,6 +73,19 @@ const assignmentSlice = createSlice({
             .addCase(fetchAssignmentById.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message || 'Failed to fetch assignment';
+            })
+            // Fetch assignments by ids
+            .addCase(fetchAssignmentsByIds.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchAssignmentsByIds.fulfilled, (state, action) => {
+                assignmentAdapter.upsertMany(state, action.payload);
+                state.loading = false;
+            })
+            .addCase(fetchAssignmentsByIds.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || 'Failed to fetch assignments';
             })
             // Fetch assignments of vote
             .addCase(fetchAssignmentsOfVote.pending, (state) => {

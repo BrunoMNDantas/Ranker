@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Vote } from '../model/Vote.types';
-import { getAllVotes, getVote, getVotesOfRank, getVotesOfUser, createVote, updateVote, deleteVote } from '../api/Vote.api';
+import { getAllVotes, getVote, getVotesByIds, getVotesOfRank, getVotesOfUser, createVote, updateVote, deleteVote } from '../api/Vote.api';
 
 export const fetchAllVotes = createAsyncThunk(
     'vote/fetchAll',
@@ -13,6 +13,13 @@ export const fetchVoteById = createAsyncThunk(
     'vote/fetchById',
     async (id: string) => {
         return await getVote(id);
+    }
+);
+
+export const fetchVotesByIds = createAsyncThunk(
+    'vote/fetchByIds',
+    async (ids: string[]) => {
+        return await getVotesByIds(ids);
     }
 );
 

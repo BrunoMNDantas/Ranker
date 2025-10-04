@@ -1,7 +1,7 @@
 import { createSlice, createEntityAdapter, PayloadAction } from '@reduxjs/toolkit';
 import { Option } from '../model/Option.types';
 import { RootState } from '../../../app/store';
-import { fetchAllOptions, fetchOptionById, fetchOptionsOfRank, fetchOptionsOfUser, createOptionThunk, updateOptionThunk, deleteOptionThunk } from './Option.thunks';
+import { fetchAllOptions, fetchOptionById, fetchOptionsByIds, fetchOptionsOfRank, fetchOptionsOfUser, createOptionThunk, updateOptionThunk, deleteOptionThunk } from './Option.thunks';
 
 const optionAdapter = createEntityAdapter<Option>();
 
@@ -62,6 +62,19 @@ const optionSlice = createSlice({
             .addCase(fetchOptionById.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message || 'Failed to fetch option';
+            })
+            // Fetch options by ids
+            .addCase(fetchOptionsByIds.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchOptionsByIds.fulfilled, (state, action) => {
+                optionAdapter.upsertMany(state, action.payload);
+                state.loading = false;
+            })
+            .addCase(fetchOptionsByIds.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || 'Failed to fetch options';
             })
             // Fetch options of rank
             .addCase(fetchOptionsOfRank.pending, (state) => {

@@ -1,7 +1,7 @@
 import { createSlice, createEntityAdapter, PayloadAction } from '@reduxjs/toolkit';
 import { Vote } from '../model/Vote.types';
 import { RootState } from '../../../app/store';
-import { fetchAllVotes, fetchVoteById, fetchVotesOfRank, fetchVotesOfUser, createVoteThunk, updateVoteThunk, deleteVoteThunk } from './Vote.thunks';
+import { fetchAllVotes, fetchVoteById, fetchVotesByIds, fetchVotesOfRank, fetchVotesOfUser, createVoteThunk, updateVoteThunk, deleteVoteThunk } from './Vote.thunks';
 
 const voteAdapter = createEntityAdapter<Vote>();
 
@@ -62,6 +62,19 @@ const voteSlice = createSlice({
             .addCase(fetchVoteById.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message || 'Failed to fetch vote';
+            })
+            // Fetch votes by ids
+            .addCase(fetchVotesByIds.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchVotesByIds.fulfilled, (state, action) => {
+                voteAdapter.upsertMany(state, action.payload);
+                state.loading = false;
+            })
+            .addCase(fetchVotesByIds.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || 'Failed to fetch votes';
             })
             // Fetch votes of rank
             .addCase(fetchVotesOfRank.pending, (state) => {

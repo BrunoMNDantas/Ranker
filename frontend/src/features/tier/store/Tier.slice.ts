@@ -1,7 +1,7 @@
 import { createSlice, createEntityAdapter, PayloadAction } from '@reduxjs/toolkit';
 import { Tier } from '../model/Tier.types';
 import { RootState } from '../../../app/store';
-import { fetchAllTiers, fetchTierById, fetchTiersOfRank, fetchTiersOfUser, createTierThunk, updateTierThunk, deleteTierThunk } from './Tier.thunks';
+import { fetchAllTiers, fetchTierById, fetchTiersByIds, fetchTiersOfRank, fetchTiersOfUser, createTierThunk, updateTierThunk, deleteTierThunk } from './Tier.thunks';
 
 const tierAdapter = createEntityAdapter<Tier>();
 
@@ -62,6 +62,19 @@ const tierSlice = createSlice({
             .addCase(fetchTierById.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message || 'Failed to fetch tier';
+            })
+            // Fetch tiers by ids
+            .addCase(fetchTiersByIds.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchTiersByIds.fulfilled, (state, action) => {
+                tierAdapter.upsertMany(state, action.payload);
+                state.loading = false;
+            })
+            .addCase(fetchTiersByIds.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || 'Failed to fetch tiers';
             })
             // Fetch tiers of rank
             .addCase(fetchTiersOfRank.pending, (state) => {

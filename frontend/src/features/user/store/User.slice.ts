@@ -1,7 +1,7 @@
 import { createSlice, createEntityAdapter, PayloadAction } from '@reduxjs/toolkit';
 import { User } from '../model/User.types';
 import { RootState } from '../../../app/store';
-import { fetchAllUsers, fetchUserById, createUserThunk, updateUserThunk, deleteUserThunk } from './User.thunks';
+import { fetchAllUsers, fetchUserById, fetchUsersByIds, createUserThunk, updateUserThunk, deleteUserThunk } from './User.thunks';
 
 const userAdapter = createEntityAdapter<User>();
 
@@ -62,6 +62,19 @@ const userSlice = createSlice({
             .addCase(fetchUserById.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message || 'Failed to fetch user';
+            })
+            // Fetch users by ids
+            .addCase(fetchUsersByIds.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchUsersByIds.fulfilled, (state, action) => {
+                userAdapter.upsertMany(state, action.payload);
+                state.loading = false;
+            })
+            .addCase(fetchUsersByIds.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || 'Failed to fetch users';
             })
             // Create user
             .addCase(createUserThunk.pending, (state) => {

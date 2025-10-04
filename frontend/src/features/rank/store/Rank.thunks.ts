@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Rank } from '../model/Rank.types';
-import { getAllRanks, getRank, getRanksOfUser, createRank, updateRank, deleteRank } from '../api/Rank.api';
+import { getAllRanks, getRank, getRanksByIds, getRanksOfUser, createRank, updateRank, deleteRank } from '../api/Rank.api';
 
 export const fetchAllRanks = createAsyncThunk(
     'rank/fetchAll',
@@ -13,6 +13,13 @@ export const fetchRankById = createAsyncThunk(
     'rank/fetchById',
     async (id: string) => {
         return await getRank(id);
+    }
+);
+
+export const fetchRanksByIds = createAsyncThunk(
+    'rank/fetchByIds',
+    async (ids: string[]) => {
+        return await getRanksByIds(ids);
     }
 );
 
