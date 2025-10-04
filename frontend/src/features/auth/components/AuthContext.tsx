@@ -1,6 +1,8 @@
 import { onAuthStateChanged, User } from "firebase/auth";
 import { createContext, useContext, ReactNode, useState, useEffect } from "react";
 import { AUTH } from "../../../services/store/Firestore.store";
+import { useAppDispatch } from "../../../app/hooks";
+import { fetchUserById } from "../../user/store/User.thunks";
 
 type AuthContextType = {
     loading: boolean
@@ -12,8 +14,16 @@ const AuthContext = createContext<AuthContextType>({ isAuthenticated: false, use
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null | undefined>(undefined)
+    const dispatch = useAppDispatch()
 
-    useEffect(() => onAuthStateChanged(AUTH, u => setUser(u)), [])
+    useEffect(() => {
+        return onAuthStateChanged(AUTH, (u) => {
+            setUser(u)
+            if (u) {
+                dispatch(fetchUserById(u.uid))
+            }
+        })
+    }, [dispatch])
 
     const value: AuthContextType = {
         loading: user === undefined,

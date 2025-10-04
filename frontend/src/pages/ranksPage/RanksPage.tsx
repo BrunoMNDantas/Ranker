@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classes from './RanksPage.module.css';
 import { appRankRoute } from '../../app/Routes';
-import { useRanks } from '../../features/rank/hooks/UseRanks.hook';
+import { useRanksPageData } from '../../features/rank/hooks/UseRanksPage.hook';
 import RanksFilteredList from '../../features/rank/components/ranksFilteredList/RanksFilteredList';
 import LoadElement from '../../components/loadElement/LoadElement';
 import ActionButton from '../../components/actionButton/ActionButton';
@@ -14,7 +14,7 @@ import RankFormModal from '../../features/rank/components/rankFormModal/RankForm
 
 const RanksPage = () => {
 	const navigate = useNavigate()
-	const {ranks, error, fetching,} = useRanks()
+	const { ranks, error, fetching } = useRanksPageData()
 	const [showRankModal, setShowRankModal] = useState(false)
 
 	const handleCreateRankClick = () => {

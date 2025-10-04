@@ -7,23 +7,21 @@ import { APP_TIERS_ROUTE } from '../../app/Routes';
 import LoadElement from '../../components/loadElement/LoadElement';
 import TierCard from '../../features/tier/components/tierCard/TierCard';
 import { Mode } from '../../components/entityCard/EntityCard';
-import { useTier } from '../../features/tier/hooks/UseTier.hook';
-import { useAssignmentsOfTier } from '../../features/assignment/hooks/UseAssignmentsOfTier.hook';
+import { useTierPageData } from '../../features/tier/hooks/UseTierPage.hook';
 import { deleteAssignment } from '../../features/assignment/api/Assignment.api';
 import { Assignment } from '../../features/assignment/model/Assignment.types';
 import { useAuth } from '../../features/auth/components/AuthContext';
+import { fetchAssignmentsOfTier } from '../../features/assignment/store/Assignment.thunks';
+import { useAppDispatch } from '../../app/hooks';
 
 const TierPage = () => {
 	const navigate = useNavigate()
 	const auth = useAuth()
+	const dispatch = useAppDispatch()
 	const { tierId } = useParams<{ tierId: string }>()
 	const [editedTier, setEditedTier] = useState<Tier | null>(null)
 
-	const { tier, fetching: fetchingTier, error: tierError } = useTier(tierId || "")
-	const { assignments, fetching: fetchingAssignments, error: assignmentsError, fetch: fetchAssignments } = useAssignmentsOfTier(tierId || "")
-
-	const fetching = fetchingTier || fetchingAssignments
-	const error = tierError || assignmentsError
+	const { tier, assignments, fetching, error } = useTierPageData(tierId || "")
 
 	useEffect(() => {
 		if(!editedTier) {
@@ -57,7 +55,7 @@ const TierPage = () => {
 
 	const handleDeleteAssignment = async (assignment: Assignment) => {
 		await deleteAssignment(assignment.id)
-		fetchAssignments()
+		dispatch(fetchAssignmentsOfTier(tierId || ""))
 	}
 
 	return (

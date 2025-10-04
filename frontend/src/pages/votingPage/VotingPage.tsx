@@ -2,9 +2,7 @@ import React from 'react';
 import classes from './VotingPage.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import LoadElement from '../../components/loadElement/LoadElement';
-import { useRank } from '../../features/rank/hooks/UseRank.hook';
-import { useOptionsOfRank } from '../../features/option/hooks/UseOptionsOfRank.hook';
-import { useTiersOfRank } from '../../features/tier/hooks/UseTiersOfRank.hook';
+import { useVotingPageData } from '../../features/rank/hooks/UseVotingPage.hook';
 import { Assignment } from '../../features/assignment/model/Assignment.types';
 import { createVote } from '../../services/EntityFactory.service';
 import { createVote as submitVote } from '../../features/vote/api/Vote.api';
@@ -16,12 +14,7 @@ const RankVotePage = () => {
 	const navigate = useNavigate()
 	const { rankId } = useParams<{ rankId: string }>()
 
-	const { rank, fetching: fetchingRank, error: rankError } = useRank(rankId || "")
-	const { options, fetching: fetchingOptions, error: optionsError } = useOptionsOfRank(rankId || "")
-	const { tiers, fetching: fetchingTiers, error: tiersError } = useTiersOfRank(rankId || "")
-
-	const fetching = fetchingRank || fetchingOptions || fetchingTiers
-	const error = rankError || optionsError || tiersError
+	const { rank, options, tiers, fetching, error } = useVotingPageData(rankId || "")
 
 	const handleVote = async (assignments: Assignment[]) => {
 		const vote = createVote({rankId})

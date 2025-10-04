@@ -5,9 +5,10 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Logout from '@mui/icons-material/Logout';
 import UserIcon from '../../../user/components/userIcon/UserIcon';
-import { useUser } from '../../../user/hooks/UseUser.hook';
-import { useAuth } from '../AuthContext';
 import UserAvatar from '../../../user/components/userAvatar/UserAvatar';
+import { useAppSelector } from '../../../../app/hooks';
+import { useAuth } from '../AuthContext';
+import { userSelectors } from '../../../user/store/User.slice';
 
 export interface ProfileButtonProps {
     onProfile: () => void
@@ -18,7 +19,7 @@ const ProfileButton = ({onProfile, onLogout}: ProfileButtonProps) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
     const open = Boolean(anchorEl)
     const auth = useAuth()
-    const { user } = useUser(auth.userId || "")
+    const user = useAppSelector((state) => auth.userId ? userSelectors.selectById(state, auth.userId) : undefined)
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget)

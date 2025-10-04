@@ -7,23 +7,21 @@ import { APP_VOTES_ROUTE } from '../../app/Routes';
 import LoadElement from '../../components/loadElement/LoadElement';
 import VoteCard from '../../features/vote/components/voteCard/VoteCard';
 import { Mode } from '../../components/entityCard/EntityCard';
-import { useVote } from '../../features/vote/hooks/UseVote.hook';
-import { useAssignmentsOfVote } from '../../features/assignment/hooks/UseAssignmentsOfVote.hook';
+import { useVotePageData } from '../../features/vote/hooks/UseVotePage.hook';
 import { deleteAssignment } from '../../features/assignment/api/Assignment.api';
 import { Assignment } from '../../features/assignment/model/Assignment.types';
 import { useAuth } from '../../features/auth/components/AuthContext';
+import { fetchAssignmentsOfVote } from '../../features/assignment/store/Assignment.thunks';
+import { useAppDispatch } from '../../app/hooks';
 
 const VotePage = () => {
 	const navigate = useNavigate()
 	const auth = useAuth()
+	const dispatch = useAppDispatch()
 	const { voteId } = useParams<{ voteId: string }>()
 	const [editedVote, setEditedVote] = useState<Vote | null>(null)
 
-	const { vote, fetching: fetchingVote, error: voteError } = useVote(voteId || "")
-	const { assignments, fetching: fetchingAssignments, error: assignmentsError, fetch: fetchAssignments } = useAssignmentsOfVote(voteId ||"")
-
-	const fetching = fetchingVote || fetchingAssignments
-	const error = voteError || assignmentsError
+	const { vote, assignments, fetching, error } = useVotePageData(voteId || "")
 
 	useEffect(() => {
 		if(!editedVote) {
@@ -56,7 +54,7 @@ const VotePage = () => {
 
 	const handleDeleteAssignment = async (assignment: Assignment) => {
 		await deleteAssignment(assignment.id)
-		fetchAssignments()
+		dispatch(fetchAssignmentsOfVote(voteId || ""))
 	}
 
 	return (

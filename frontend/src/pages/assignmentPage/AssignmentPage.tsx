@@ -7,14 +7,14 @@ import { APP_ASSIGNMENTS_ROUTE } from '../../app/Routes';
 import LoadElement from '../../components/loadElement/LoadElement';
 import AssignmentCard from '../../features/assignment/components/assignmentCard/AssignmentCard';
 import { Mode } from '../../components/entityCard/EntityCard';
-import { useAssignment } from '../../features/assignment/hooks/UseAssignment.hook';
+import { useAssignmentPageData } from '../../features/assignment/hooks/UseAssignmentPage.hook';
 import { useAuth } from '../../features/auth/components/AuthContext';
 
 const AssignmentPage = () => {
 	const navigate = useNavigate()
 	const auth = useAuth()
 	const { assignmentId } = useParams<{ assignmentId: string }>()
-	const { assignment, fetching, error } = useAssignment(assignmentId || "")
+	const { assignment, fetching, error } = useAssignmentPageData(assignmentId || "")
 	const [editedAssignment, setEditedAssignment] = useState<Assignment | null>(null)
 
 	useEffect(() => {

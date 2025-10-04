@@ -4,14 +4,15 @@ import AppTitle from '../../components/appTitle/AppTitle';
 import { Outlet, useNavigate } from 'react-router-dom';
 import ProfileButton from '../../features/auth/components/profileButton/ProfileButton';
 import { useAuth } from '../../features/auth/components/AuthContext';
-import { useUser } from '../../features/user/hooks/UseUser.hook';
 import { appUserRoute } from '../../app/Routes';
 import { logout } from '../../features/auth/api/Auth.api';
+import { useAppSelector } from '../../app/hooks';
+import { userSelectors } from '../../features/user/store/User.slice';
 
 const AppLayout = () => {
 	const navitage = useNavigate()
 	const auth = useAuth()
-	const { user }= useUser(auth.userId || "")
+	const user = useAppSelector((state) => auth.userId ? userSelectors.selectById(state, auth.userId) : undefined)
 
 	const handleProfile = () => user ? navitage(appUserRoute(user.id)) : null
 

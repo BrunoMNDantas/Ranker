@@ -7,10 +7,7 @@ import LoadElement from '../../components/loadElement/LoadElement';
 import RankCard from '../../features/rank/components/rankCard/RankCard';
 import { Mode } from '../../components/entityCard/EntityCard';
 import { APP_RANKS_ROUTE } from '../../app/Routes';
-import { useRank } from '../../features/rank/hooks/UseRank.hook';
-import { useOptionsOfRank } from '../../features/option/hooks/UseOptionsOfRank.hook';
-import { useTiersOfRank } from '../../features/tier/hooks/UseTiersOfRank.hook';
-import { useVotesOfRank } from '../../features/vote/hooks/UseVotesOfRank.hook';
+import { useRankPageData } from '../../features/rank/hooks/UseRankPage.hook';
 import { Tier } from '../../features/tier/model/Tier.types';
 import { deleteTier, updateTier } from '../../features/tier/api/Tier.api';
 import { deleteOption, updateOption } from '../../features/option/api/Option.api';
@@ -23,22 +20,21 @@ import OptionFormModal from '../../features/option/components/optionFormModal/Op
 import { createTier as submitTier } from '../../features/tier/api/Tier.api';
 import { createOption as submitOption } from '../../features/option/api/Option.api'
 import { useAuth } from '../../features/auth/components/AuthContext';
+import { fetchOptionsOfRank } from '../../features/option/store/Option.thunks';
+import { fetchTiersOfRank } from '../../features/tier/store/Tier.thunks';
+import { fetchVotesOfRank } from '../../features/vote/store/Vote.thunks';
+import { useAppDispatch } from '../../app/hooks';
 
 const RankPage = () => {
 	const navigate = useNavigate()
 	const auth = useAuth()
+	const dispatch = useAppDispatch()
 	const { rankId } = useParams<{ rankId: string }>()
 	const [editedRank, setEditedRank] = useState<Rank | null>(null)
 	const [showTierModal, setShowTierModal] = useState(false)
 	const [showOptionModal, setShowOptionModal] = useState(false)
 
-	const { rank, fetching: fetchingRank, error: rankError } = useRank(rankId || "")
-	const { options, fetching: fetchingOptions, error: optionsError, fetch: fetchOptions } = useOptionsOfRank(rankId || "")
-	const { tiers, fetching: fetchingTiers, error: tiersError, fetch: fetchTiers } = useTiersOfRank(rankId || "")
-	const { votes, fetching: fetchingVotes, error: votesError, fetch: fetchVotes } = useVotesOfRank(rankId || "")
-
-	const fetching = fetchingRank || fetchingOptions || fetchingTiers || fetchingVotes
-	const error = rankError || optionsError || tiersError || votesError
+	const { rank, options, tiers, votes, fetching, error } = useRankPageData(rankId || "")
 
 	useEffect(() => {
 		if(!editedRank) {
@@ -64,12 +60,12 @@ const RankPage = () => {
 
 	const handleTierChange = async (tier: Tier) => {
 		await updateTier(tier)
-		fetchTiers()
+		dispatch(fetchTiersOfRank(rankId || ""))
 	}
 
 	const handleOptionChange = async (option: Option) => {
 		await updateOption(option)
-		fetchOptions()
+		dispatch(fetchOptionsOfRank(rankId || ""))
 	}
 
 	const handleDelete = async () => {
@@ -81,17 +77,17 @@ const RankPage = () => {
 
 	const handleDeleteTier = async (tier: Tier) => {
 		await deleteTier(tier.id)
-		fetchTiers()
+		dispatch(fetchTiersOfRank(rankId || ""))
 	}
 
 	const handleDeleteOption = async (option: Option) => {
 		await deleteOption(option.id)
-		fetchOptions()
+		dispatch(fetchOptionsOfRank(rankId || ""))
 	}
 
 	const handleDeleteVote = async (vote: Vote) => {
 		await deleteVote(vote.id)
-		fetchVotes()
+		dispatch(fetchVotesOfRank(rankId || ""))
 	}
 
 	const handleCreateTierClick = () => {
@@ -117,13 +113,13 @@ const RankPage = () => {
 	const handleCreateTier = async (tier: Tier) => {
 		await submitTier(tier)
 		setShowTierModal(false)
-		fetchTiers()
+		dispatch(fetchTiersOfRank(rankId || ""))
 	}
 
 	const handleCreateOption = async (option: Option) => {
 		await submitOption(option)
 		setShowOptionModal(false)
-		fetchOptions()
+		dispatch(fetchOptionsOfRank(rankId || ""))
 	}
 
 	return (

@@ -7,23 +7,21 @@ import { APP_OPTIONS_ROUTE } from '../../app/Routes';
 import LoadElement from '../../components/loadElement/LoadElement';
 import OptionCard from '../../features/option/components/optionCard/OptionCard';
 import { Mode } from '../../components/entityCard/EntityCard';
-import { useOption } from '../../features/option/hooks/UseOption.hook';
-import { useAssignmentsOfOption } from '../../features/assignment/hooks/UseAssignmentsOfOption.hook';
+import { useOptionPageData } from '../../features/option/hooks/UseOptionPage.hook';
 import { Assignment } from '../../features/assignment/model/Assignment.types';
 import { deleteAssignment } from '../../features/assignment/api/Assignment.api';
 import { useAuth } from '../../features/auth/components/AuthContext';
+import { fetchAssignmentsOfOption } from '../../features/assignment/store/Assignment.thunks';
+import { useAppDispatch } from '../../app/hooks';
 
 const OptionPage = () => {
 	const navigate = useNavigate()
 	const auth = useAuth()
+	const dispatch = useAppDispatch()
 	const { optionId } = useParams<{ optionId: string }>()
 	const [editedOption, setEditedOption] = useState<Option | null>(null)
 
-	const { option, fetching: fetchingOption, error: optionError } = useOption(optionId || "")
-	const { assignments, fetching: fetchingAssignments, error: assignmentsError, fetch: fetchAssignments } = useAssignmentsOfOption(optionId || "")
-
-	const fetching = fetchingOption || fetchingAssignments
-	const error = optionError || assignmentsError
+	const { option, assignments, fetching, error } = useOptionPageData(optionId || "")
 
 	useEffect(() => {
 		if(!editedOption) {
@@ -56,7 +54,7 @@ const OptionPage = () => {
 
 	const handleDeleteAssignment = async (assignment: Assignment) => {
 		await deleteAssignment(assignment.id)
-		fetchAssignments()
+		dispatch(fetchAssignmentsOfOption(optionId || ""))
 	}
 
 	return (

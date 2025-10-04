@@ -5,32 +5,29 @@ import { APP_TIERS_ROUTE } from '../../app/Routes';
 import LoadElement from '../../components/loadElement/LoadElement';
 import { Mode } from '../../components/entityCard/EntityCard';
 import { User } from '../../features/user/model/User.types';
-import { useUser } from '../../features/user/hooks/UseUser.hook';
+import { useUserPageData } from '../../features/user/hooks/UseUserPage.hook';
 import { deleteUser, updateUser } from '../../features/user/api/User.api';
 import UserCard from '../../features/user/components/userCard/UserCard';
 import { useAuth } from '../../features/auth/components/AuthContext';
-import { useRanksOfUser } from '../../features/rank/hooks/UseRanksOfUser.hook';
-import { useVotesOfUser } from '../../features/vote/hooks/UseVotesOfUser.hook';
 import RankFormModal from '../../features/rank/components/rankFormModal/RankFormModal';
 import { createRank } from '../../services/EntityFactory.service';
 import { Rank } from '../../features/rank/model/Rank.types';
 import { deleteRank, createRank as submitRank } from '../../features/rank/api/Rank.api';
 import { Vote } from '../../features/vote/model/Vote.types';
 import { deleteVote } from '../../features/vote/api/Vote.api';
+import { fetchRanksOfUser } from '../../features/rank/store/Rank.thunks';
+import { fetchVotesOfUser } from '../../features/vote/store/Vote.thunks';
+import { useAppDispatch } from '../../app/hooks';
 
 const UserPage = () => {
 	const navigate = useNavigate()
 	const auth = useAuth()
+	const dispatch = useAppDispatch()
 	const { userId } = useParams<{ userId: string }>()
 	const [editedUser, setEditedUser] = useState<User | null>(null)
 	const [showRankModal, setShowRankModal] = useState(false)
 
-	const { user, fetching: fetchingUser, error: userError } = useUser(userId || "")
-	const { ranks, fetching: fetchingRanks, error: ranksError, fetch: fetchRanks } = useRanksOfUser(userId || "")
-	const { votes, fetching: fetchingVotes, error: votesError, fetch: fetchVotes } = useVotesOfUser(userId || "")
-
-	const fetching = fetchingUser || fetchingRanks || fetchingVotes
-	const error = userError || ranksError || votesError
+	const { user, ranks, votes, fetching, error } = useUserPageData(userId || "")
 
 	useEffect(() => {
 		if(!editedUser) {
@@ -62,7 +59,7 @@ const UserPage = () => {
 	const handleCreateRank = async (rank: Rank) => {
 		await submitRank(rank)
 		setShowRankModal(false)
-		fetchRanks()
+		dispatch(fetchRanksOfUser(userId || ""))
 	}
 
 	const handleCreateRankCancel = () => {
@@ -72,12 +69,13 @@ const UserPage = () => {
 
 	const handleDeleteRank = async (rank: Rank) => {
 		await deleteRank(rank.id)
-		fetchVotes()
+		dispatch(fetchRanksOfUser(userId || ""))
+		dispatch(fetchVotesOfUser(userId || ""))
 	}
 
 	const handleDeleteVote = async (vote: Vote) => {
 		await deleteVote(vote.id)
-		fetchVotes()
+		dispatch(fetchVotesOfUser(userId || ""))
 	}
 
 	const handleDelete = async () => {
