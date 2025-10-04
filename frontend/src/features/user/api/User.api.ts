@@ -20,6 +20,8 @@ export const getAllUsers = (): Promise<User[]> => USER_STORE.getAll()
 
 export const getUser = (id: string): Promise<User|null> => USER_STORE.get(id)
 
+export const getUsersByIds = (ids: string[]): Promise<User[]> => USER_STORE.getByIds(ids)
+
 export const createUser = (user: User): Promise<string> => USER_STORE.create(user)
 
 export const updateUser = (user: User): Promise<void> => USER_STORE.update(user)

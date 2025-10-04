@@ -22,6 +22,8 @@ export const getAllRanks = (): Promise<Rank[]> => RANK_STORE.getAll()
 
 export const getRank = (id: string): Promise<Rank|null> => RANK_STORE.get(id)
 
+export const getRanksByIds = (ids: string[]): Promise<Rank[]> => RANK_STORE.getByIds(ids)
+
 export const getRanksOfUser = async (ownerId: string): Promise<Rank[]> => {
     const ranks = await RANK_STORE.getAll()
     return ranks.filter(rank => rank.ownerId === ownerId)

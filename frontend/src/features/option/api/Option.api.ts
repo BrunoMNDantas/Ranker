@@ -20,6 +20,8 @@ export const getAllOptions = (): Promise<Option[]> => OPTION_STORE.getAll()
 
 export const getOption = (id: string): Promise<Option|null> => OPTION_STORE.get(id)
 
+export const getOptionsByIds = (ids: string[]): Promise<Option[]> => OPTION_STORE.getByIds(ids)
+
 export const getOptionsOfRank = async (rankId: string): Promise<Option[]> => {
     const options = await OPTION_STORE.getAll()
     return options.filter(option => option.rankId === rankId)

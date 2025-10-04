@@ -20,6 +20,8 @@ export const getAllVotes = (): Promise<Vote[]> => VOTE_STORE.getAll()
 
 export const getVote = (id: string): Promise<Vote|null> => VOTE_STORE.get(id)
 
+export const getVotesByIds = (ids: string[]): Promise<Vote[]> => VOTE_STORE.getByIds(ids)
+
 export const getVotesOfRank = async (rankId: string): Promise<Vote[]> => {
     const votes = await VOTE_STORE.getAll()
     return votes.filter(vote => vote.rankId === rankId)

@@ -19,6 +19,8 @@ export const getAllAssignments = (): Promise<Assignment[]> => ASSIGNMENT_STORE.g
 
 export const getAssignment = (id: string): Promise<Assignment|null> => ASSIGNMENT_STORE.get(id)
 
+export const getAssignmentsByIds = (ids: string[]): Promise<Assignment[]> => ASSIGNMENT_STORE.getByIds(ids)
+
 export const getAssignmentsOfVote = async (voteId: string): Promise<Assignment[]> => {
     const assignments = await ASSIGNMENT_STORE.getAll()
     return assignments.filter(assignment => assignment.voteId === voteId)

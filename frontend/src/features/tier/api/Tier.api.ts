@@ -20,6 +20,8 @@ export const getAllTiers = (): Promise<Tier[]> => TIER_STORE.getAll()
 
 export const getTier = (id: string): Promise<Tier|null> => TIER_STORE.get(id)
 
+export const getTiersByIds = (ids: string[]): Promise<Tier[]> => TIER_STORE.getByIds(ids)
+
 export const getTiersOfRank = async (rankId: string): Promise<Tier[]> => {
     const tiers = await TIER_STORE.getAll()
     return tiers.filter(tier => tier.rankId === rankId)
