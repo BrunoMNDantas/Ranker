@@ -27,6 +27,10 @@ export default class EntityStore<T extends Entity> implements Store<T> {
         return this.sourceStore.get(id)
     }
 
+    getByIds(ids: string[]): Promise<T[]> {
+        return this.sourceStore.getByIds(ids)
+    }
+
     create(entity: T): Promise<string> {
         entity.id = this.idGenerator(entity)
         entity.creationDate = new Date()

@@ -24,6 +24,10 @@ export default class AuthStore<T extends Entity> implements Store<T> {
         return this.sourceStore.get(id)
     }
 
+    getByIds(ids: string[]): Promise<T[]> {
+        return this.sourceStore.getByIds(ids)
+    }
+
     create(entity: T): Promise<string> {
         entity.ownerId = this.ownerIdGetter(entity)
         return this.sourceStore.create(entity)

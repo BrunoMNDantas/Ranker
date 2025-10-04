@@ -30,6 +30,10 @@ export default class DelayedStore<T extends Entity> implements Store<T> {
         return this.execute(() => this.sourceStore.get(id))
     }
 
+    getByIds(ids: string[]): Promise<T[]> {
+        return this.execute(() => this.sourceStore.getByIds(ids))
+    }
+
     create(entity: T): Promise<string> {
         return this.execute(() => this.sourceStore.create(entity))
     }

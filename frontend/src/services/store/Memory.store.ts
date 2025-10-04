@@ -20,6 +20,12 @@ export default class MemoryStore<T extends Entity> implements Store<T> {
         return Promise.resolve(structuredClone(entity) || null)
     }
 
+    async getByIds(ids: string[]): Promise<T[]> {
+        const promises = ids.map(id => this.get(id))
+        const results = await Promise.all(promises)
+        return results.filter(entity => entity !== null) as T[]
+    }
+
     create(entity: T): Promise<string> {
         this.entities.push(structuredClone(entity))
         return Promise.resolve(entity.id)

@@ -74,6 +74,12 @@ export default class FirestoreStore<T extends Entity> implements Store<T> {
         return snap.exists() ? convertDatesFromFirestore(snap.data()) as T : null
     }
 
+    async getByIds(ids: string[]): Promise<T[]> {
+        const promises = ids.map(id => this.get(id))
+        const results = await Promise.all(promises)
+        return results.filter(entity => entity !== null) as T[]
+    }
+
     async create(entity: T): Promise<string> {
         convertDatesToFirestore(entity)
 

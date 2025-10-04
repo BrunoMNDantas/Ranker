@@ -7,6 +7,8 @@ export default interface Store<T extends Entity> {
 
     get(id: string): Promise<T|null>
 
+    getByIds(ids: string[]): Promise<T[]>
+
     create(entity: T): Promise<string>
 
     update(entity: T): Promise<void>
