@@ -9,11 +9,13 @@ import RankCreateIcon from '../../features/rank/components/rankCreateIcon/RankCr
 import { Rank } from '../../features/rank/model/Rank.types';
 import { useNavigate } from 'react-router-dom';
 import { createRank } from '../../services/EntityFactory.service';
-import { createRank as submitRank } from '../../features/rank/api/Rank.api';
+import { createRankThunk } from '../../features/rank/store/Rank.thunks';
 import RankFormModal from '../../features/rank/components/rankFormModal/RankFormModal';
+import { useAppDispatch } from '../../app/hooks';
 
 const RanksPage = () => {
 	const navigate = useNavigate()
+	const dispatch = useAppDispatch()
 	const { ranks, error, fetching } = useRanksPageData()
 	const [showRankModal, setShowRankModal] = useState(false)
 
@@ -28,9 +30,9 @@ const RanksPage = () => {
 	}
 
 	const handleCreateRank = async (rank: Rank) => {
-		const rankId = await submitRank(rank)
+		const result = await dispatch(createRankThunk(rank)).unwrap()
 		setShowRankModal(false)
-		navigate(appRankRoute(rankId))
+		navigate(appRankRoute(result.id))
 	}
 
 	return (

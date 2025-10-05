@@ -6,17 +6,15 @@ import LoadElement from '../../components/loadElement/LoadElement';
 import { Mode } from '../../components/entityCard/EntityCard';
 import { User } from '../../features/user/model/User.types';
 import { useUserPageData } from '../../features/user/hooks/UseUserPage.hook';
-import { deleteUser, updateUser } from '../../features/user/api/User.api';
 import UserCard from '../../features/user/components/userCard/UserCard';
 import { useAuth } from '../../features/auth/components/AuthContext';
 import RankFormModal from '../../features/rank/components/rankFormModal/RankFormModal';
 import { createRank } from '../../services/EntityFactory.service';
 import { Rank } from '../../features/rank/model/Rank.types';
-import { deleteRank, createRank as submitRank } from '../../features/rank/api/Rank.api';
 import { Vote } from '../../features/vote/model/Vote.types';
-import { deleteVote } from '../../features/vote/api/Vote.api';
-import { fetchRanksOfUser } from '../../features/rank/store/Rank.thunks';
-import { fetchVotesOfUser } from '../../features/vote/store/Vote.thunks';
+import { createRankThunk, deleteRankThunk } from '../../features/rank/store/Rank.thunks';
+import { deleteVoteThunk } from '../../features/vote/store/Vote.thunks';
+import { updateUserThunk, deleteUserThunk } from '../../features/user/store/User.thunks';
 import { useAppDispatch } from '../../app/hooks';
 
 const UserPage = () => {
@@ -44,11 +42,10 @@ const UserPage = () => {
 		return Promise.resolve()
 	}
 
-	const handleSave = () => {
+	const handleSave = async () => {
 		if (editedUser) {
-			return updateUser(editedUser)
+			await dispatch(updateUserThunk(editedUser)).unwrap()
 		}
-		return Promise.resolve()
 	}
 
 	const handleCreateRankClick = () => {
@@ -57,9 +54,8 @@ const UserPage = () => {
 	}
 
 	const handleCreateRank = async (rank: Rank) => {
-		await submitRank(rank)
+		await dispatch(createRankThunk(rank)).unwrap()
 		setShowRankModal(false)
-		dispatch(fetchRanksOfUser(userId || ""))
 	}
 
 	const handleCreateRankCancel = () => {
@@ -68,19 +64,16 @@ const UserPage = () => {
 	}
 
 	const handleDeleteRank = async (rank: Rank) => {
-		await deleteRank(rank.id)
-		dispatch(fetchRanksOfUser(userId || ""))
-		dispatch(fetchVotesOfUser(userId || ""))
+		await dispatch(deleteRankThunk(rank.id)).unwrap()
 	}
 
 	const handleDeleteVote = async (vote: Vote) => {
-		await deleteVote(vote.id)
-		dispatch(fetchVotesOfUser(userId || ""))
+		await dispatch(deleteVoteThunk(vote.id)).unwrap()
 	}
 
 	const handleDelete = async () => {
-		if (user?.id) {
-			await deleteUser(user.id)
+		if (user) {
+			await dispatch(deleteUserThunk(user.id)).unwrap()
 			navigate(APP_TIERS_ROUTE)
 		}
 	}

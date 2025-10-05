@@ -2,16 +2,15 @@ import React, { useEffect, useState } from 'react';
 import classes from './OptionPage.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Option } from '../../features/option/model/Option.types';
-import { deleteOption, updateOption } from '../../features/option/api/Option.api';
 import { APP_OPTIONS_ROUTE } from '../../app/Routes';
 import LoadElement from '../../components/loadElement/LoadElement';
 import OptionCard from '../../features/option/components/optionCard/OptionCard';
 import { Mode } from '../../components/entityCard/EntityCard';
 import { useOptionPageData } from '../../features/option/hooks/UseOptionPage.hook';
 import { Assignment } from '../../features/assignment/model/Assignment.types';
-import { deleteAssignment } from '../../features/assignment/api/Assignment.api';
 import { useAuth } from '../../features/auth/components/AuthContext';
-import { fetchAssignmentsOfOption } from '../../features/assignment/store/Assignment.thunks';
+import { deleteAssignmentThunk } from '../../features/assignment/store/Assignment.thunks';
+import { updateOptionThunk, deleteOptionThunk } from '../../features/option/store/Option.thunks';
 import { useAppDispatch } from '../../app/hooks';
 
 const OptionPage = () => {
@@ -38,23 +37,21 @@ const OptionPage = () => {
 		return Promise.resolve()
 	}
 
-	const handleSave = () => {
+	const handleSave = async () => {
 		if (editedOption) {
-			return updateOption(editedOption)
+			await dispatch(updateOptionThunk(editedOption)).unwrap()
 		}
-		return Promise.resolve()
 	}
 
 	const handleDelete = async () => {
-		if (option?.id) {
-			await deleteOption(option.id)
+		if (option) {
+			await dispatch(deleteOptionThunk(option.id)).unwrap()
 			navigate(APP_OPTIONS_ROUTE)
 		}
 	}
 
 	const handleDeleteAssignment = async (assignment: Assignment) => {
-		await deleteAssignment(assignment.id)
-		dispatch(fetchAssignmentsOfOption(optionId || ""))
+		await dispatch(deleteAssignmentThunk(assignment.id)).unwrap()
 	}
 
 	return (

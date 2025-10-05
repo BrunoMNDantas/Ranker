@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import classes from './VotePage.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
-import { deleteVote, updateVote } from '../../features/vote/api/Vote.api';
 import { Vote } from '../../features/vote/model/Vote.types';
 import { APP_VOTES_ROUTE } from '../../app/Routes';
 import LoadElement from '../../components/loadElement/LoadElement';
 import VoteCard from '../../features/vote/components/voteCard/VoteCard';
 import { Mode } from '../../components/entityCard/EntityCard';
 import { useVotePageData } from '../../features/vote/hooks/UseVotePage.hook';
-import { deleteAssignment } from '../../features/assignment/api/Assignment.api';
 import { Assignment } from '../../features/assignment/model/Assignment.types';
 import { useAuth } from '../../features/auth/components/AuthContext';
-import { fetchAssignmentsOfVote } from '../../features/assignment/store/Assignment.thunks';
+import { deleteAssignmentThunk } from '../../features/assignment/store/Assignment.thunks';
+import { updateVoteThunk, deleteVoteThunk } from '../../features/vote/store/Vote.thunks';
 import { useAppDispatch } from '../../app/hooks';
 
 const VotePage = () => {
@@ -38,23 +37,21 @@ const VotePage = () => {
 		return Promise.resolve()
 	}
 
-	const handleSave = () => {
+	const handleSave = async () => {
 		if (editedVote) {
-			return updateVote(editedVote)
+			await dispatch(updateVoteThunk(editedVote)).unwrap()
 		}
-		return Promise.resolve()
 	}
 
 	const handleDelete = async () => {
-		if (vote?.id) {
-			await deleteVote(vote.id)
+		if (vote) {
+			await dispatch(deleteVoteThunk(vote.id)).unwrap()
 			navigate(APP_VOTES_ROUTE)
 		}
 	}
 
 	const handleDeleteAssignment = async (assignment: Assignment) => {
-		await deleteAssignment(assignment.id)
-		dispatch(fetchAssignmentsOfVote(voteId || ""))
+		await dispatch(deleteAssignmentThunk(assignment.id)).unwrap()
 	}
 
 	return (

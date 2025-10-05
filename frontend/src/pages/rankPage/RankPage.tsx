@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import classes from './RankPage.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
-import { deleteRank, updateRank } from '../../features/rank/api/Rank.api';
 import { Rank } from '../../features/rank/model/Rank.types';
 import LoadElement from '../../components/loadElement/LoadElement';
 import RankCard from '../../features/rank/components/rankCard/RankCard';
@@ -9,20 +8,16 @@ import { Mode } from '../../components/entityCard/EntityCard';
 import { APP_RANKS_ROUTE } from '../../app/Routes';
 import { useRankPageData } from '../../features/rank/hooks/UseRankPage.hook';
 import { Tier } from '../../features/tier/model/Tier.types';
-import { deleteTier, updateTier } from '../../features/tier/api/Tier.api';
-import { deleteOption, updateOption } from '../../features/option/api/Option.api';
 import { Option } from '../../features/option/model/Option.types';
-import { deleteVote } from '../../features/vote/api/Vote.api';
 import { Vote } from '../../features/vote/model/Vote.types';
 import { createOption, createTier } from '../../services/EntityFactory.service';
 import TierFormModal from '../../features/tier/components/tierFormModal/TierFormModal';
 import OptionFormModal from '../../features/option/components/optionFormModal/OptionFormModal';
-import { createTier as submitTier } from '../../features/tier/api/Tier.api';
-import { createOption as submitOption } from '../../features/option/api/Option.api'
 import { useAuth } from '../../features/auth/components/AuthContext';
-import { fetchOptionsOfRank } from '../../features/option/store/Option.thunks';
-import { fetchTiersOfRank } from '../../features/tier/store/Tier.thunks';
-import { fetchVotesOfRank } from '../../features/vote/store/Vote.thunks';
+import { createOptionThunk, updateOptionThunk, deleteOptionThunk } from '../../features/option/store/Option.thunks';
+import { createTierThunk, updateTierThunk, deleteTierThunk } from '../../features/tier/store/Tier.thunks';
+import { deleteVoteThunk } from '../../features/vote/store/Vote.thunks';
+import { updateRankThunk, deleteRankThunk } from '../../features/rank/store/Rank.thunks';
 import { useAppDispatch } from '../../app/hooks';
 
 const RankPage = () => {
@@ -51,43 +46,37 @@ const RankPage = () => {
 		return Promise.resolve()
 	}
 
-	const handleSave = () => {
+	const handleSave = async () => {
 		if (editedRank) {
-			return updateRank(editedRank)
+			await dispatch(updateRankThunk(editedRank)).unwrap()
 		}
-		return Promise.resolve()
 	}
 
 	const handleTierChange = async (tier: Tier) => {
-		await updateTier(tier)
-		dispatch(fetchTiersOfRank(rankId || ""))
+		await dispatch(updateTierThunk(tier)).unwrap()
 	}
 
 	const handleOptionChange = async (option: Option) => {
-		await updateOption(option)
-		dispatch(fetchOptionsOfRank(rankId || ""))
+		await dispatch(updateOptionThunk(option)).unwrap()
 	}
 
 	const handleDelete = async () => {
-		if (rank?.id) {
-			await deleteRank(rank.id)
+		if (rank) {
+			await dispatch(deleteRankThunk(rank.id)).unwrap()
 			navigate(APP_RANKS_ROUTE)
 		}
 	}
 
 	const handleDeleteTier = async (tier: Tier) => {
-		await deleteTier(tier.id)
-		dispatch(fetchTiersOfRank(rankId || ""))
+		await dispatch(deleteTierThunk(tier.id)).unwrap()
 	}
 
 	const handleDeleteOption = async (option: Option) => {
-		await deleteOption(option.id)
-		dispatch(fetchOptionsOfRank(rankId || ""))
+		await dispatch(deleteOptionThunk(option.id)).unwrap()
 	}
 
 	const handleDeleteVote = async (vote: Vote) => {
-		await deleteVote(vote.id)
-		dispatch(fetchVotesOfRank(rankId || ""))
+		await dispatch(deleteVoteThunk(vote.id)).unwrap()
 	}
 
 	const handleCreateTierClick = () => {
@@ -111,15 +100,13 @@ const RankPage = () => {
 	}
 
 	const handleCreateTier = async (tier: Tier) => {
-		await submitTier(tier)
+		await dispatch(createTierThunk(tier)).unwrap()
 		setShowTierModal(false)
-		dispatch(fetchTiersOfRank(rankId || ""))
 	}
 
 	const handleCreateOption = async (option: Option) => {
-		await submitOption(option)
+		await dispatch(createOptionThunk(option)).unwrap()
 		setShowOptionModal(false)
-		dispatch(fetchOptionsOfRank(rankId || ""))
 	}
 
 	return (
