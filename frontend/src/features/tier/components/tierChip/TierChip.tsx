@@ -13,7 +13,7 @@ const TierChip = ({ tier, children, ...props }: TierChipProps) => {
         <EntityChip
             name={name}
             description={tier.description}
-            avatar={<TierAvatar tier={tier}/>}
+            avatar={<TierAvatar tierId={tier.id}/>}
             {...props}>
             {children}
         </EntityChip>

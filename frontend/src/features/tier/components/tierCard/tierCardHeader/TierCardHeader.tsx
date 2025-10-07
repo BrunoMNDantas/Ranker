@@ -20,7 +20,7 @@ const TierCardHeader = ({ tier, showBreadcrumbs=true, showCreationDate=true, sho
     const description = tier.description
 
     return (
-        <EntityCardHeader avatar={<TierAvatar tier={tier}/>} {...props}>
+        <EntityCardHeader avatar={<TierAvatar tierId={tier.id}/>} {...props}>
             { showBreadcrumbs ? <TierBreadcrumbs tier={tier}/> : null }
             <div className={classes.title}>
                 <EntityProperty value={order} variant='h6'/>

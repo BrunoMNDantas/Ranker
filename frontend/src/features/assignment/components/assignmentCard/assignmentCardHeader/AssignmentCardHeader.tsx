@@ -16,7 +16,7 @@ const AssignmentCardHeader = ({ assignment, showBreadcrumbs=true, showCreationDa
     const date = new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(assignment.creationDate)
 
     return (
-        <EntityCardHeader avatar={<AssignmentAvatar assignment={assignment}/>} {...props}>
+        <EntityCardHeader avatar={<AssignmentAvatar assignmentId={assignment.id}/>} {...props}>
             { showBreadcrumbs ? <AssignmentBreadcrumbs assignment={assignment}/> : null }
             <EntityProperty value={order} variant='h6'/>
             { showCreationDate ? <EntityProperty value={date} variant='caption'/> : null }

@@ -22,7 +22,7 @@ const OptionArea = ({ option, ...props }: OptionAreaProps) => {
 
     return (
         <div ref={setNodeRef} className={classes.root} style={style} {...listeners} {...attributes} {...props}>
-            <OptionAvatar option={option}/>
+            <OptionAvatar optionId={option.id}/>
         </div>
     )
 }

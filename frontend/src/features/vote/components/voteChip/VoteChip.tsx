@@ -15,7 +15,7 @@ const VoteChip = ({ vote, children, ...props }: VoteChipProps) => {
         <EntityChip
             name={name}
             description={description}
-            avatar={<VoteAvatar vote={vote}/>}
+            avatar={<VoteAvatar voteId={vote.id}/>}
             {...props}>
             {children}
         </EntityChip>

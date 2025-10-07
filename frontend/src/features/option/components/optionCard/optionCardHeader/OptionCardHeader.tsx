@@ -20,7 +20,7 @@ const OptionCardHeader = ({ option, showBreadcrumbs=true, showCreationDate=true,
     const description = option.description
 
     return (
-        <EntityCardHeader avatar={<OptionAvatar option={option}/>} {...props}>
+        <EntityCardHeader avatar={<OptionAvatar optionId={option.id}/>} {...props}>
             { showBreadcrumbs ? <OptionBreadcrumbs option={option}/> : null }
             <div className={classes.title}>
                 <EntityProperty value={order} variant='h6'/>

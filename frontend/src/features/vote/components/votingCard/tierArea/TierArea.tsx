@@ -19,7 +19,7 @@ export const TierArea = ({ tier, options, ...props } : TierAreaProps) => {
 
     return (
         <div ref={setNodeRef} className={classes.root} {...props}>
-            <TierAvatar tier={tier}/>
+            <TierAvatar tierId={tier.id}/>
             <Divider orientation='vertical'/>
             <div className={classes.tierOptions}>
                 <SortableContext items={optionsIds} strategy={horizontalListSortingStrategy}>

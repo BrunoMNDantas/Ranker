@@ -1,13 +1,20 @@
 import React, { HTMLAttributes } from 'react';
-import { Option } from '../../model/Option.types';
 import EntityAvatar from '../../../../components/entityAvatar/EntityAvatar';
 import OptionIcon from '../optionIcon/OptionIcon';
+import { useAppSelector } from '../../../../app/hooks';
+import { selectOptionById } from '../../store/Option.selectors';
 
 export interface OptionAvatarProps extends HTMLAttributes<HTMLDivElement> {
-    option: Option
+    optionId: string
 }
 
-const OptionAvatar = ({ option, ...props }: OptionAvatarProps) => {
+const OptionAvatar = ({ optionId, ...props }: OptionAvatarProps) => {
+    const option = useAppSelector(state => selectOptionById(state, optionId))
+
+    if(!option) {
+        return null
+    }
+
     return (
         <EntityAvatar
             imageUrl={option.imageUrl}

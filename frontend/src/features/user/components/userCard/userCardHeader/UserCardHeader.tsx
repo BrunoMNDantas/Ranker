@@ -14,7 +14,7 @@ const UserCardHeader = ({ user, showCreationDate=true, ...props }: UserCardHeade
     const creationDate = new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(user.creationDate)
 
     return (
-        <EntityCardHeader avatar={<UserAvatar user={user}/>} {...props}>
+        <EntityCardHeader avatar={<UserAvatar userId={user.id}/>} {...props}>
             <EntityProperty value={username} variant='h6'/>
             { showCreationDate ? <EntityProperty value={creationDate} variant='caption'/> : null }
         </EntityCardHeader>

@@ -13,7 +13,7 @@ const OptionChip = ({ option, children, ...props }: OptionChipProps) => {
         <EntityChip
             name={name}
             description={option.description}
-            avatar={<OptionAvatar option={option}/>}
+            avatar={<OptionAvatar optionId={option.id}/>}
             {...props}>
             {children}
         </EntityChip>

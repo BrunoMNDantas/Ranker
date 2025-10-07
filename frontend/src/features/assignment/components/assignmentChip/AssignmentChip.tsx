@@ -15,7 +15,7 @@ const AssignmentChip = ({ assignment, children, ...props }: AssignmentChipProps)
         <EntityChip
             name={name}
             description={description}
-            avatar={<AssignmentAvatar assignment={assignment}/>}
+            avatar={<AssignmentAvatar assignmentId={assignment.id}/>}
             {...props}>
             {children}
         </EntityChip>

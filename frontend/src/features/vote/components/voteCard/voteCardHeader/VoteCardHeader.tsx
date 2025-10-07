@@ -16,7 +16,7 @@ const VoteCardHeader = ({ vote, showBreadcrumbs=true, showCreationDate=true, ...
     const date = new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(vote.creationDate)
 
     return (
-        <EntityCardHeader avatar={<VoteAvatar vote={vote}/>} {...props}>
+        <EntityCardHeader avatar={<VoteAvatar voteId={vote.id}/>} {...props}>
             { showBreadcrumbs ? <VoteBreadcrumbs vote={vote}/> : null }
             <EntityProperty value={id} variant='h6'/>
             { showCreationDate ? <EntityProperty value={date} variant='caption'/> : null }

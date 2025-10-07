@@ -1,13 +1,20 @@
 import React, { HTMLAttributes } from 'react';
-import { Assignment } from '../../model/Assignment.types';
 import EntityAvatar from '../../../../components/entityAvatar/EntityAvatar';
 import AssignmentIcon from '../assignmentIcon/AssignmentIcon';
+import { useAppSelector } from '../../../../app/hooks';
+import { selectAssignmentById } from '../../store/Assignment.selectors';
 
 export interface AssignmentAvatarProps extends HTMLAttributes<HTMLDivElement> {
-    assignment: Assignment
+    assignmentId: string
 }
 
-const AssignmentAvatar = ({ assignment, ...props }: AssignmentAvatarProps) => {
+const AssignmentAvatar = ({ assignmentId, ...props }: AssignmentAvatarProps) => {
+    const assignment = useAppSelector(state => selectAssignmentById(state, assignmentId))
+
+    if(!assignment) {
+        return null
+    }
+
     return <EntityAvatar Icon={AssignmentIcon} {...props}/>
 }
 

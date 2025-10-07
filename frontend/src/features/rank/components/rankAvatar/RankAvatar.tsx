@@ -1,13 +1,20 @@
 import React, { HTMLAttributes } from 'react';
-import { Rank } from '../../model/Rank.types';
 import EntityAvatar from '../../../../components/entityAvatar/EntityAvatar';
 import RankIcon from '../rankIcon/RankIcon';
+import { useAppSelector } from '../../../../app/hooks';
+import { selectRankById } from '../../store/Rank.selectors';
 
 export interface RankAvatarProps extends HTMLAttributes<HTMLDivElement> {
-    rank: Rank
+    rankId: string
 }
 
-const RankAvatar = ({ rank, ...props }: RankAvatarProps) => {
+const RankAvatar = ({ rankId, ...props }: RankAvatarProps) => {
+    const rank = useAppSelector(state => selectRankById(state, rankId))
+
+    if(!rank) {
+        return null
+    }
+
     return (
         <EntityAvatar
             imageUrl={rank.imageUrl}

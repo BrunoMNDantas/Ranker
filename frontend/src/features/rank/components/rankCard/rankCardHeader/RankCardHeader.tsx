@@ -18,7 +18,7 @@ const RankCardHeader = ({ rank, showBreadcrumbs=true, showCreationDate=true, sho
     const description = rank.description
 
     return (
-        <EntityCardHeader avatar={<RankAvatar rank={rank}/>} {...props}>
+        <EntityCardHeader avatar={<RankAvatar rankId={rank.id}/>} {...props}>
             { showBreadcrumbs ? <RankBreadcrumbs rank={rank}/> : null }
             <EntityProperty value={title} variant='h6'/>
             { showCreationDate ? <EntityProperty value={date} variant='caption'/> : null }

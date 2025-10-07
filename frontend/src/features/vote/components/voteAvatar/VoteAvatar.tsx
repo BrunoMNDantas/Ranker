@@ -1,13 +1,20 @@
 import React, { HTMLAttributes } from 'react';
-import { Vote } from '../../model/Vote.types';
 import EntityAvatar from '../../../../components/entityAvatar/EntityAvatar';
 import VoteIcon from '../voteIcon/VoteIcon';
+import { useAppSelector } from '../../../../app/hooks';
+import { selectVoteById } from '../../store/Vote.selectors';
 
 export interface VoteAvatarProps extends HTMLAttributes<HTMLDivElement> {
-    vote: Vote
+    voteId: string
 }
 
-const VoteAvatar = ({ vote, ...props }: VoteAvatarProps) => {
+const VoteAvatar = ({ voteId, ...props }: VoteAvatarProps) => {
+    const vote = useAppSelector(state => selectVoteById(state, voteId))
+
+    if(!vote) {
+        return null
+    }
+
     return <EntityAvatar Icon={VoteIcon} {...props}/>
 }
 

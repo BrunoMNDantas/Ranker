@@ -13,7 +13,7 @@ const RankChip = ({ rank, children, ...props }: RankChipProps) => {
         <EntityChip
             name={name}
             description={rank.description}
-            avatar={<RankAvatar rank={rank}/>}
+            avatar={<RankAvatar rankId={rank.id}/>}
             {...props}>
             {children}
         </EntityChip>

@@ -150,7 +150,7 @@ const VotingBoard = ({ tiers, options, assignments, onAssignmentsChange, ...prop
                 {
                     activeId ?
                         <div className={classes.dragOverlay}>
-                            <OptionAvatar option={options.find(option => option.id === activeId)!}/>
+                            <OptionAvatar optionId={activeId}/>
                         </div> :
                         null
                 }

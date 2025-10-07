@@ -15,7 +15,7 @@ const UserChip = ({ user, children, ...props }: UserChipProps) => {
         <EntityChip
             name={name}
             description={description}
-            avatar={<UserAvatar user={user}/>}
+            avatar={<UserAvatar userId={user.id}/>}
             {...props}>
             {children}
         </EntityChip>
