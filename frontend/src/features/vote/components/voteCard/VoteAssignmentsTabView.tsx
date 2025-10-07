@@ -31,7 +31,7 @@ export const VoteAssignmentsTabView = ({ assignments, editMode, onDeleteAssignme
         ]
     }
 
-    return <AssignmentsList assignments={sortedAssignments} chipActions={getChipActions}/>
+    return <AssignmentsList assignmentIds={sortedAssignments.map(a => a.id)} chipActions={getChipActions}/>
 }
 
 export default VoteAssignmentsTabView;

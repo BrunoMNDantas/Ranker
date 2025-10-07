@@ -29,7 +29,7 @@ export const UserRanksTabView = ({ ranks, editMode, onDeleteRank }: UserRanksTab
         ]
     }
 
-    return <RanksList ranks={ranks} chipActions={getChipActions}/>
+    return <RanksList rankIds={ranks.map(r => r.id)} chipActions={getChipActions}/>
 }
 
 export default UserRanksTabView;

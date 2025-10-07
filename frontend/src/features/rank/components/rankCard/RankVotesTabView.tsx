@@ -29,7 +29,7 @@ export const RankVotesTabView = ({ votes, editMode, onDeleteVote }: RankVotesTab
         ]
     }
 
-    return <VotesList votes={votes} chipActions={getChipActions}/>
+    return <VotesList voteIds={votes.map(v => v.id)} chipActions={getChipActions}/>
 }
 
 export default RankVotesTabView;

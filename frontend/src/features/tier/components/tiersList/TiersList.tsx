@@ -2,15 +2,19 @@ import React, { HTMLAttributes, ReactNode } from 'react';
 import { Tier } from '../../model/Tier.types';
 import TierChip from '../tierChip/TierChip';
 import EntityList from '../../../../components/entityList/EntityList';
+import { useAppSelector } from '../../../../app/hooks';
+import { selectTierById } from '../../store/Tier.selectors';
 
 export interface TiersListProps extends HTMLAttributes<HTMLDivElement> {
-    tiers: Tier[]
+    tierIds: string[]
     tierUrl?: (tier: Tier) => string
     onTierClick?: (tier: Tier) => void
     chipActions?: (tier: Tier) => ReactNode[]
 }
 
-const TiersList = ({ tiers, tierUrl, onTierClick, chipActions=()=>[], ...props }: TiersListProps) => {
+const TiersList = ({ tierIds, tierUrl, onTierClick, chipActions=()=>[], ...props }: TiersListProps) => {
+    const tiers = useAppSelector(state => tierIds.map(id => selectTierById(state, id)))
+
     return (
         <EntityList
             entities={tiers}

@@ -38,7 +38,7 @@ const RanksPage = () => {
 	return (
 		<div className={classes.root}>
 			<LoadElement loading={fetching}>
-				<RanksFilteredList ranks={ranks} rankUrl={rank => appRankRoute(rank.id)}/>
+				<RanksFilteredList rankIds={ranks.map(r => r.id)} rankUrl={rank => appRankRoute(rank.id)}/>
 				{error ? error.toString() : null}
 			</LoadElement>
 			<ActionButton color="info" buttonAction={handleCreateRankClick}>

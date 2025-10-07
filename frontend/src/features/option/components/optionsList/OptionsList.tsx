@@ -2,15 +2,19 @@ import React, { HTMLAttributes, ReactNode } from 'react';
 import { Option } from '../../model/Option.types';
 import OptionChip from '../optionChip/OptionChip';
 import EntityList from '../../../../components/entityList/EntityList';
+import { useAppSelector } from '../../../../app/hooks';
+import { selectOptionById } from '../../store/Option.selectors';
 
 export interface OptionsListProps extends HTMLAttributes<HTMLDivElement> {
-    options: Option[]
+    optionIds: string[]
     optionUrl?: (option: Option) => string
     onOptionClick?: (option: Option) => void
     chipActions?: (option: Option) => ReactNode[]
 }
 
-const OptionsList = ({ options, optionUrl, onOptionClick, chipActions=()=>[], ...props }: OptionsListProps) => {
+const OptionsList = ({ optionIds, optionUrl, onOptionClick, chipActions=()=>[], ...props }: OptionsListProps) => {
+    const options = useAppSelector(state => optionIds.map(id => selectOptionById(state, id)))
+
     return (
         <EntityList
             entities={options}

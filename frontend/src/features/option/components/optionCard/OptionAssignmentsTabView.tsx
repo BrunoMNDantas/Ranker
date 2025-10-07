@@ -31,7 +31,7 @@ export const OptionAssignmentsTabView = ({ assignments, editMode, onDeleteAssign
         ]
     }
 
-    return <AssignmentsList assignments={sortedAssignments} chipActions={getChipActions}/>
+    return <AssignmentsList assignmentIds={sortedAssignments.map(a => a.id)} chipActions={getChipActions}/>
 }
 
 export default OptionAssignmentsTabView;

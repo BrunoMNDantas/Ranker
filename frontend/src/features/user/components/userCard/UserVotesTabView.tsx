@@ -29,7 +29,7 @@ export const UserVotesTabView = ({ votes, editMode, onDeleteVote }: UserVotesTab
         ]
     }
 
-    return <VotesList votes={votes} chipActions={getChipActions}/>
+    return <VotesList voteIds={votes.map(v => v.id)} chipActions={getChipActions}/>
 }
 
 export default UserVotesTabView;

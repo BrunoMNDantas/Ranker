@@ -1,8 +1,12 @@
 import React from 'react';
 import TiersList, { TiersListProps } from '../tiersList/TiersList';
 import EntityFilteredList from '../../../../components/entityFilteredList/EntityFilteredList';
+import { useAppSelector } from '../../../../app/hooks';
+import { selectTierById } from '../../store/Tier.selectors';
 
-const TiersFilteredList = ({ tiers, ...props }: TiersListProps) => {
+const TiersFilteredList = ({ tierIds, ...props }: TiersListProps) => {
+    const tiers = useAppSelector(state => tierIds.map(id => selectTierById(state, id)))
+
     const handleFilter = (text: string) => {
         const lowerCaseText = text.toLowerCase()
         return tiers.filter(tier => tier.title?.toLowerCase().includes(lowerCaseText))
@@ -10,7 +14,7 @@ const TiersFilteredList = ({ tiers, ...props }: TiersListProps) => {
 
     return (
         <EntityFilteredList onFilter={handleFilter}>
-            <TiersList tiers={tiers} {...props}/>
+            <TiersList tierIds={tiers.map(t => t.id)} {...props}/>
         </EntityFilteredList>
     )
 }

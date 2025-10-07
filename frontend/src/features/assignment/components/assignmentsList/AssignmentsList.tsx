@@ -2,15 +2,19 @@ import React, { HTMLAttributes, ReactNode } from 'react';
 import { Assignment } from '../../model/Assignment.types';
 import AssignmentChip from '../assignmentChip/AssignmentChip';
 import EntityList from '../../../../components/entityList/EntityList';
+import { useAppSelector } from '../../../../app/hooks';
+import { selectAssignmentById } from '../../store/Assignment.selectors';
 
 export interface AssignmentsListProps extends HTMLAttributes<HTMLDivElement> {
-    assignments: Assignment[]
+    assignmentIds: string[]
     assignmentUrl?: (assignment: Assignment) => string
     onAssignmentClick?: (assignment: Assignment) => void
     chipActions?: (assignment: Assignment) => ReactNode[]
 }
 
-const AssignmentsList = ({ assignments, assignmentUrl, onAssignmentClick, chipActions=()=>[], ...props }: AssignmentsListProps) => {
+const AssignmentsList = ({ assignmentIds, assignmentUrl, onAssignmentClick, chipActions=()=>[], ...props }: AssignmentsListProps) => {
+    const assignments = useAppSelector(state => assignmentIds.map(id => selectAssignmentById(state, id)))
+
     return (
         <EntityList
             entities={assignments}

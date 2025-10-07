@@ -2,15 +2,19 @@ import React, { HTMLAttributes, ReactNode } from 'react';
 import { Rank } from '../../model/Rank.types';
 import RankChip from '../rankChip/RankChip';
 import EntityList from '../../../../components/entityList/EntityList';
+import { useAppSelector } from '../../../../app/hooks';
+import { selectRankById } from '../../store/Rank.selectors';
 
 export interface RanksListProps extends HTMLAttributes<HTMLDivElement> {
-    ranks: Rank[]
+    rankIds: string[]
     rankUrl?: (rank: Rank) => string
     onRankClick?: (rank: Rank) => void
     chipActions?: (rank: Rank) => ReactNode[]
 }
 
-const RanksList = ({ ranks, rankUrl, onRankClick, chipActions=()=>[], ...props }: RanksListProps) => {
+const RanksList = ({ rankIds, rankUrl, onRankClick, chipActions=()=>[], ...props }: RanksListProps) => {
+    const ranks = useAppSelector(state => rankIds.map(id => selectRankById(state, id)))
+
     return (
         <EntityList
             entities={ranks}
