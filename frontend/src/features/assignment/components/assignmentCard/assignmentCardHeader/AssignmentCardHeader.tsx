@@ -17,7 +17,7 @@ const AssignmentCardHeader = ({ assignment, showBreadcrumbs=true, showCreationDa
 
     return (
         <EntityCardHeader avatar={<AssignmentAvatar assignmentId={assignment.id}/>} {...props}>
-            { showBreadcrumbs ? <AssignmentBreadcrumbs assignment={assignment}/> : null }
+            { showBreadcrumbs ? <AssignmentBreadcrumbs assignmentId={assignment.id}/> : null }
             <EntityProperty value={order} variant='h6'/>
             { showCreationDate ? <EntityProperty value={date} variant='caption'/> : null }
         </EntityCardHeader>

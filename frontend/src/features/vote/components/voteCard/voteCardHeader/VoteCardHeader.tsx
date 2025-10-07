@@ -17,7 +17,7 @@ const VoteCardHeader = ({ vote, showBreadcrumbs=true, showCreationDate=true, ...
 
     return (
         <EntityCardHeader avatar={<VoteAvatar voteId={vote.id}/>} {...props}>
-            { showBreadcrumbs ? <VoteBreadcrumbs vote={vote}/> : null }
+            { showBreadcrumbs ? <VoteBreadcrumbs voteId={vote.id}/> : null }
             <EntityProperty value={id} variant='h6'/>
             { showCreationDate ? <EntityProperty value={date} variant='caption'/> : null }
         </EntityCardHeader>
