@@ -34,7 +34,7 @@ export const RankOptionsTabView = ({ options, onOptionsChange, editMode, onDelet
             entities={sortedOptions}
             onEntitiesChange={handleOptionsChange}
             entityRenderer={option => (
-                <OptionChip option={option}>
+                <OptionChip optionId={option.id}>
                     <IconButton href={appOptionRoute(option.id)} color='info' size='small'>
                         <VisibilityIcon fontSize='small' />
                     </IconButton>

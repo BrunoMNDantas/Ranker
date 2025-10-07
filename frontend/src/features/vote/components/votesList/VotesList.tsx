@@ -14,7 +14,7 @@ const VotesList = ({ votes, voteUrl, onVoteClick, chipActions=()=>[], ...props }
     return (
         <EntityList
             entities={votes}
-            entityRenderer={vote => <VoteChip vote={vote}>{chipActions(vote)}</VoteChip>}
+            entityRenderer={vote => <VoteChip voteId={vote.id}>{chipActions(vote)}</VoteChip>}
             entityUrl={voteUrl}
             onEntityClick={onVoteClick}
             {...props}/>

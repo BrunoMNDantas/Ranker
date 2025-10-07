@@ -1,13 +1,20 @@
 import React, { HTMLAttributes } from 'react';
-import { Rank } from '../../model/Rank.types';
 import EntityChip from '../../../../components/entityChip/EntityChip';
 import RankAvatar from '../rankAvatar/RankAvatar';
+import { useAppSelector } from '../../../../app/hooks';
+import { selectRankById } from '../../store/Rank.selectors';
 
 export interface RankChipProps extends HTMLAttributes<HTMLDivElement> {
-    rank: Rank
+    rankId: string
 }
 
-const RankChip = ({ rank, children, ...props }: RankChipProps) => {
+const RankChip = ({ rankId, children, ...props }: RankChipProps) => {
+    const rank = useAppSelector(state => selectRankById(state, rankId))
+
+    if(!rank) {
+        return null
+    }
+
     const name = rank.title? rank.title : "-"
     return (
         <EntityChip

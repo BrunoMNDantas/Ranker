@@ -1,13 +1,20 @@
 import React, { HTMLAttributes } from 'react';
-import { Assignment } from '../../model/Assignment.types';
 import EntityChip from '../../../../components/entityChip/EntityChip';
 import AssignmentAvatar from '../assignmentAvatar/AssignmentAvatar';
+import { useAppSelector } from '../../../../app/hooks';
+import { selectAssignmentById } from '../../store/Assignment.selectors';
 
 export interface AssignmentChipProps extends HTMLAttributes<HTMLDivElement> {
-    assignment: Assignment
+    assignmentId: string
 }
 
-const AssignmentChip = ({ assignment, children, ...props }: AssignmentChipProps) => {
+const AssignmentChip = ({ assignmentId, children, ...props }: AssignmentChipProps) => {
+    const assignment = useAppSelector(state => selectAssignmentById(state, assignmentId))
+
+    if(!assignment) {
+        return null
+    }
+
     const name = "#" + assignment.order
     const description = new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(assignment.creationDate)
 

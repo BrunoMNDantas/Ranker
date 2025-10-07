@@ -1,13 +1,20 @@
 import React, { HTMLAttributes } from 'react';
-import { Option } from '../../model/Option.types';
 import EntityChip from '../../../../components/entityChip/EntityChip';
 import OptionAvatar from '../optionAvatar/OptionAvatar';
+import { useAppSelector } from '../../../../app/hooks';
+import { selectOptionById } from '../../store/Option.selectors';
 
 export interface OptionChipProps extends HTMLAttributes<HTMLDivElement> {
-    option: Option
+    optionId: string
 }
 
-const OptionChip = ({ option, children, ...props }: OptionChipProps) => {
+const OptionChip = ({ optionId, children, ...props }: OptionChipProps) => {
+    const option = useAppSelector(state => selectOptionById(state, optionId))
+
+    if(!option) {
+        return null
+    }
+
     const name = option.title? option.title : "-"
     return (
         <EntityChip

@@ -14,7 +14,7 @@ const RanksList = ({ ranks, rankUrl, onRankClick, chipActions=()=>[], ...props }
     return (
         <EntityList
             entities={ranks}
-            entityRenderer={rank => <RankChip rank={rank}>{chipActions(rank)}</RankChip>}
+            entityRenderer={rank => <RankChip rankId={rank.id}>{chipActions(rank)}</RankChip>}
             entityUrl={rankUrl}
             onEntityClick={onRankClick}
             {...props}/>

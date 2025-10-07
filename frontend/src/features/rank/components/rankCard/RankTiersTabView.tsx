@@ -34,7 +34,7 @@ export const RankTiersTabView = ({ tiers, onTiersChange, editMode, onDeleteTier 
             entities={sortedTiers}
             onEntitiesChange={handleTiersChange}
             entityRenderer={tier => (
-                <TierChip tier={tier}>
+                <TierChip tierId={tier.id}>
                     <IconButton href={appTierRoute(tier.id)} color='info' size='small'>
                         <VisibilityIcon fontSize='small' />
                     </IconButton>

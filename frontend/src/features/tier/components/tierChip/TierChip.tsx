@@ -1,13 +1,20 @@
 import React, { HTMLAttributes } from 'react';
-import { Tier } from '../../model/Tier.types';
 import EntityChip from '../../../../components/entityChip/EntityChip';
 import TierAvatar from '../tierAvatar/TierAvatar';
+import { useAppSelector } from '../../../../app/hooks';
+import { selectTierById } from '../../store/Tier.selectors';
 
 export interface TierChipProps extends HTMLAttributes<HTMLDivElement> {
-    tier: Tier
+    tierId: string
 }
 
-const TierChip = ({ tier, children, ...props }: TierChipProps) => {
+const TierChip = ({ tierId, children, ...props }: TierChipProps) => {
+    const tier = useAppSelector(state => selectTierById(state, tierId))
+
+    if(!tier) {
+        return null
+    }
+
     const name = tier.title? tier.title : "-"
     return (
         <EntityChip
