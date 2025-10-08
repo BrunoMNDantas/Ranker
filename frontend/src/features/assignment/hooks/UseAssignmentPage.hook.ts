@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { fetchAssignmentById } from '../store/Assignment.thunks';
-import { assignmentSelectors } from '../store/Assignment.slice';
+import { selectAssignmentById, selectAssignmentsLoading, selectAssignmentsError } from '../store/Assignment.selectors';
 
 export const useAssignmentPageData = (assignmentId: string) => {
     const dispatch = useAppDispatch();
@@ -12,9 +12,9 @@ export const useAssignmentPageData = (assignmentId: string) => {
         }
     }, [dispatch, assignmentId]);
 
-    const assignment = useAppSelector((state) => assignmentSelectors.selectById(state, assignmentId));
-    const loading = useAppSelector((state) => state.assignment.loading);
-    const error = useAppSelector((state) => state.assignment.error);
+    const assignment = useAppSelector((state) => selectAssignmentById(state, assignmentId));
+    const loading = useAppSelector((state) => selectAssignmentsLoading(state));
+    const error = useAppSelector((state) => selectAssignmentsError(state));
 
     return {
         assignment,

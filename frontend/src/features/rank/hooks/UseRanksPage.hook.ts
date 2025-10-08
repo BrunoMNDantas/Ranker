@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { fetchAllRanks } from '../store/Rank.thunks';
 import { fetchUserById } from '../../user/store/User.thunks';
-import { rankSelectors } from '../store/Rank.slice';
-import { userSelectors } from '../../user/store/User.slice';
+import { selectAllRanks, selectRanksLoading, selectRanksError } from '../store/Rank.selectors';
+import { selectAllUsers, selectUsersLoading, selectUsersError } from '../../user/store/User.selectors';
 
 export const useRanksPageData = () => {
     const dispatch = useAppDispatch();
@@ -12,7 +12,7 @@ export const useRanksPageData = () => {
         dispatch(fetchAllRanks());
     }, [dispatch]);
 
-    const ranks = useAppSelector((state) => rankSelectors.selectAll(state));
+    const ranks = useAppSelector((state) => selectAllRanks(state));
 
     useEffect(() => {
         ranks.forEach((rank) => {
@@ -20,9 +20,9 @@ export const useRanksPageData = () => {
         });
     }, [dispatch, ranks]);
 
-    const users = useAppSelector((state) => userSelectors.selectAll(state));
-    const loading = useAppSelector((state) => state.rank.loading || state.user.loading);
-    const error = useAppSelector((state) => state.rank.error || state.user.error);
+    const users = useAppSelector((state) => selectAllUsers(state));
+    const loading = useAppSelector((state) => selectRanksLoading(state) || selectUsersLoading(state));
+    const error = useAppSelector((state) => selectRanksError(state) || selectUsersError(state));
 
     return {
         ranks,

@@ -4,10 +4,10 @@ import { fetchTierById } from '../store/Tier.thunks';
 import { fetchAssignmentsOfTier } from '../../assignment/store/Assignment.thunks';
 import { fetchRankById } from '../../rank/store/Rank.thunks';
 import { fetchUserById } from '../../user/store/User.thunks';
-import { tierSelectors } from '../store/Tier.slice';
-import { assignmentSelectors } from '../../assignment/store/Assignment.slice';
-import { rankSelectors } from '../../rank/store/Rank.slice';
-import { userSelectors } from '../../user/store/User.slice';
+import { selectTierById, selectTiersLoading, selectTiersError } from '../store/Tier.selectors';
+import { selectAllAssignments, selectAssignmentsLoading, selectAssignmentsError } from '../../assignment/store/Assignment.selectors';
+import { selectRankById, selectRanksLoading, selectRanksError } from '../../rank/store/Rank.selectors';
+import { selectUserById, selectUsersLoading, selectUsersError } from '../../user/store/User.selectors';
 
 export const useTierPageData = (tierId: string) => {
     const dispatch = useAppDispatch();
@@ -19,8 +19,8 @@ export const useTierPageData = (tierId: string) => {
         }
     }, [dispatch, tierId]);
 
-    const tier = useAppSelector((state) => tierSelectors.selectById(state, tierId));
-    const assignments = useAppSelector((state) => assignmentSelectors.selectAll(state));
+    const tier = useAppSelector((state) => selectTierById(state, tierId));
+    const assignments = useAppSelector((state) => selectAllAssignments(state));
 
     useEffect(() => {
         if (tier) {
@@ -29,7 +29,7 @@ export const useTierPageData = (tierId: string) => {
     }, [dispatch, tier]);
 
     const rank = useAppSelector((state) =>
-        tier ? rankSelectors.selectById(state, tier.rankId) : null
+        tier ? selectRankById(state, tier.rankId) : null
     );
 
     useEffect(() => {
@@ -39,21 +39,21 @@ export const useTierPageData = (tierId: string) => {
     }, [dispatch, tier]);
 
     const user = useAppSelector((state) =>
-        tier ? userSelectors.selectById(state, tier.ownerId) : null
+        tier ? selectUserById(state, tier.ownerId) : null
     );
 
     const loading = useAppSelector((state) =>
-        state.tier.loading ||
-        state.assignment.loading ||
-        state.rank.loading ||
-        state.user.loading
+        selectTiersLoading(state) ||
+        selectAssignmentsLoading(state) ||
+        selectRanksLoading(state) ||
+        selectUsersLoading(state)
     );
 
     const error = useAppSelector((state) =>
-        state.tier.error ||
-        state.assignment.error ||
-        state.rank.error ||
-        state.user.error
+        selectTiersError(state) ||
+        selectAssignmentsError(state) ||
+        selectRanksError(state) ||
+        selectUsersError(state)
     );
 
     return {

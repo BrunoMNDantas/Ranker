@@ -5,11 +5,11 @@ import { fetchOptionsOfRank } from '../../option/store/Option.thunks';
 import { fetchTiersOfRank } from '../../tier/store/Tier.thunks';
 import { fetchVotesOfRank } from '../../vote/store/Vote.thunks';
 import { fetchUserById } from '../../user/store/User.thunks';
-import { rankSelectors } from '../store/Rank.slice';
-import { optionSelectors } from '../../option/store/Option.slice';
-import { tierSelectors } from '../../tier/store/Tier.slice';
-import { voteSelectors } from '../../vote/store/Vote.slice';
-import { userSelectors } from '../../user/store/User.slice';
+import { selectRankById, selectRanksLoading, selectRanksError } from '../store/Rank.selectors';
+import { selectAllOptions, selectOptionsLoading, selectOptionsError } from '../../option/store/Option.selectors';
+import { selectAllTiers, selectTiersLoading, selectTiersError } from '../../tier/store/Tier.selectors';
+import { selectAllVotes, selectVotesLoading, selectVotesError } from '../../vote/store/Vote.selectors';
+import { selectUserById, selectUsersLoading, selectUsersError } from '../../user/store/User.selectors';
 
 export const useRankPageData = (rankId: string) => {
     const dispatch = useAppDispatch();
@@ -23,10 +23,10 @@ export const useRankPageData = (rankId: string) => {
         }
     }, [dispatch, rankId]);
 
-    const rank = useAppSelector((state) => rankSelectors.selectById(state, rankId));
-    const options = useAppSelector((state) => optionSelectors.selectAll(state));
-    const tiers = useAppSelector((state) => tierSelectors.selectAll(state));
-    const votes = useAppSelector((state) => voteSelectors.selectAll(state));
+    const rank = useAppSelector((state) => selectRankById(state, rankId));
+    const options = useAppSelector((state) => selectAllOptions(state));
+    const tiers = useAppSelector((state) => selectAllTiers(state));
+    const votes = useAppSelector((state) => selectAllVotes(state));
 
     useEffect(() => {
         if (rank) {
@@ -35,23 +35,23 @@ export const useRankPageData = (rankId: string) => {
     }, [dispatch, rank]);
 
     const user = useAppSelector((state) =>
-        rank ? userSelectors.selectById(state, rank.ownerId) : null
+        rank ? selectUserById(state, rank.ownerId) : null
     );
 
     const loading = useAppSelector((state) =>
-        state.rank.loading ||
-        state.option.loading ||
-        state.tier.loading ||
-        state.vote.loading ||
-        state.user.loading
+        selectRanksLoading(state) ||
+        selectOptionsLoading(state) ||
+        selectTiersLoading(state) ||
+        selectVotesLoading(state) ||
+        selectUsersLoading(state)
     );
 
     const error = useAppSelector((state) =>
-        state.rank.error ||
-        state.option.error ||
-        state.tier.error ||
-        state.vote.error ||
-        state.user.error
+        selectRanksError(state) ||
+        selectOptionsError(state) ||
+        selectTiersError(state) ||
+        selectVotesError(state) ||
+        selectUsersError(state)
     );
 
     return {

@@ -4,10 +4,10 @@ import { fetchVoteById } from '../store/Vote.thunks';
 import { fetchAssignmentsOfVote } from '../../assignment/store/Assignment.thunks';
 import { fetchRankById } from '../../rank/store/Rank.thunks';
 import { fetchUserById } from '../../user/store/User.thunks';
-import { voteSelectors } from '../store/Vote.slice';
-import { assignmentSelectors } from '../../assignment/store/Assignment.slice';
-import { rankSelectors } from '../../rank/store/Rank.slice';
-import { userSelectors } from '../../user/store/User.slice';
+import { selectVoteById, selectVotesLoading, selectVotesError } from '../store/Vote.selectors';
+import { selectAllAssignments, selectAssignmentsLoading, selectAssignmentsError } from '../../assignment/store/Assignment.selectors';
+import { selectRankById, selectRanksLoading, selectRanksError } from '../../rank/store/Rank.selectors';
+import { selectUserById, selectUsersLoading, selectUsersError } from '../../user/store/User.selectors';
 
 export const useVotePageData = (voteId: string) => {
     const dispatch = useAppDispatch();
@@ -19,8 +19,8 @@ export const useVotePageData = (voteId: string) => {
         }
     }, [dispatch, voteId]);
 
-    const vote = useAppSelector((state) => voteSelectors.selectById(state, voteId));
-    const assignments = useAppSelector((state) => assignmentSelectors.selectAll(state));
+    const vote = useAppSelector((state) => selectVoteById(state, voteId));
+    const assignments = useAppSelector((state) => selectAllAssignments(state));
 
     useEffect(() => {
         if (vote) {
@@ -29,7 +29,7 @@ export const useVotePageData = (voteId: string) => {
     }, [dispatch, vote]);
 
     const rank = useAppSelector((state) =>
-        vote ? rankSelectors.selectById(state, vote.rankId) : null
+        vote ? selectRankById(state, vote.rankId) : null
     );
 
     useEffect(() => {
@@ -39,21 +39,21 @@ export const useVotePageData = (voteId: string) => {
     }, [dispatch, vote]);
 
     const user = useAppSelector((state) =>
-        vote ? userSelectors.selectById(state, vote.ownerId) : null
+        vote ? selectUserById(state, vote.ownerId) : null
     );
 
     const loading = useAppSelector((state) =>
-        state.vote.loading ||
-        state.assignment.loading ||
-        state.rank.loading ||
-        state.user.loading
+        selectVotesLoading(state) ||
+        selectAssignmentsLoading(state) ||
+        selectRanksLoading(state) ||
+        selectUsersLoading(state)
     );
 
     const error = useAppSelector((state) =>
-        state.vote.error ||
-        state.assignment.error ||
-        state.rank.error ||
-        state.user.error
+        selectVotesError(state) ||
+        selectAssignmentsError(state) ||
+        selectRanksError(state) ||
+        selectUsersError(state)
     );
 
     return {

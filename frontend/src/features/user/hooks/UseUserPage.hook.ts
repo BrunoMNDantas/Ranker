@@ -3,9 +3,9 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { fetchUserById } from '../store/User.thunks';
 import { fetchRanksOfUser } from '../../rank/store/Rank.thunks';
 import { fetchVotesOfUser } from '../../vote/store/Vote.thunks';
-import { userSelectors } from '../store/User.slice';
-import { rankSelectors } from '../../rank/store/Rank.slice';
-import { voteSelectors } from '../../vote/store/Vote.slice';
+import { selectUserById, selectUsersLoading, selectUsersError } from '../store/User.selectors';
+import { selectAllRanks, selectRanksLoading, selectRanksError } from '../../rank/store/Rank.selectors';
+import { selectAllVotes, selectVotesLoading, selectVotesError } from '../../vote/store/Vote.selectors';
 
 export const useUserPageData = (userId: string) => {
     const dispatch = useAppDispatch();
@@ -18,20 +18,20 @@ export const useUserPageData = (userId: string) => {
         }
     }, [dispatch, userId]);
 
-    const user = useAppSelector((state) => userSelectors.selectById(state, userId));
-    const ranks = useAppSelector((state) => rankSelectors.selectAll(state));
-    const votes = useAppSelector((state) => voteSelectors.selectAll(state));
+    const user = useAppSelector((state) => selectUserById(state, userId));
+    const ranks = useAppSelector((state) => selectAllRanks(state));
+    const votes = useAppSelector((state) => selectAllVotes(state));
 
     const loading = useAppSelector((state) =>
-        state.user.loading ||
-        state.rank.loading ||
-        state.vote.loading
+        selectUsersLoading(state) ||
+        selectRanksLoading(state) ||
+        selectVotesLoading(state)
     );
 
     const error = useAppSelector((state) =>
-        state.user.error ||
-        state.rank.error ||
-        state.vote.error
+        selectUsersError(state) ||
+        selectRanksError(state) ||
+        selectVotesError(state)
     );
 
     return {

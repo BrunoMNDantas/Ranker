@@ -4,10 +4,10 @@ import { fetchOptionById } from '../store/Option.thunks';
 import { fetchAssignmentsOfOption } from '../../assignment/store/Assignment.thunks';
 import { fetchRankById } from '../../rank/store/Rank.thunks';
 import { fetchUserById } from '../../user/store/User.thunks';
-import { optionSelectors } from '../store/Option.slice';
-import { assignmentSelectors } from '../../assignment/store/Assignment.slice';
-import { rankSelectors } from '../../rank/store/Rank.slice';
-import { userSelectors } from '../../user/store/User.slice';
+import { selectOptionById, selectOptionsLoading, selectOptionsError } from '../store/Option.selectors';
+import { selectAllAssignments, selectAssignmentsLoading, selectAssignmentsError } from '../../assignment/store/Assignment.selectors';
+import { selectRankById, selectRanksLoading, selectRanksError } from '../../rank/store/Rank.selectors';
+import { selectUserById, selectUsersLoading, selectUsersError } from '../../user/store/User.selectors';
 
 export const useOptionPageData = (optionId: string) => {
     const dispatch = useAppDispatch();
@@ -19,8 +19,8 @@ export const useOptionPageData = (optionId: string) => {
         }
     }, [dispatch, optionId]);
 
-    const option = useAppSelector((state) => optionSelectors.selectById(state, optionId));
-    const assignments = useAppSelector((state) => assignmentSelectors.selectAll(state));
+    const option = useAppSelector((state) => selectOptionById(state, optionId));
+    const assignments = useAppSelector((state) => selectAllAssignments(state));
 
     useEffect(() => {
         if (option) {
@@ -29,7 +29,7 @@ export const useOptionPageData = (optionId: string) => {
     }, [dispatch, option]);
 
     const rank = useAppSelector((state) =>
-        option ? rankSelectors.selectById(state, option.rankId) : null
+        option ? selectRankById(state, option.rankId) : null
     );
 
     useEffect(() => {
@@ -39,21 +39,21 @@ export const useOptionPageData = (optionId: string) => {
     }, [dispatch, option]);
 
     const user = useAppSelector((state) =>
-        option ? userSelectors.selectById(state, option.ownerId) : null
+        option ? selectUserById(state, option.ownerId) : null
     );
 
     const loading = useAppSelector((state) =>
-        state.option.loading ||
-        state.assignment.loading ||
-        state.rank.loading ||
-        state.user.loading
+        selectOptionsLoading(state) ||
+        selectAssignmentsLoading(state) ||
+        selectRanksLoading(state) ||
+        selectUsersLoading(state)
     );
 
     const error = useAppSelector((state) =>
-        state.option.error ||
-        state.assignment.error ||
-        state.rank.error ||
-        state.user.error
+        selectOptionsError(state) ||
+        selectAssignmentsError(state) ||
+        selectRanksError(state) ||
+        selectUsersError(state)
     );
 
     return {
