@@ -14,32 +14,32 @@ export interface RankCardFormProps extends HTMLAttributes<HTMLDivElement> {
 const RankCardForm = ({ rank, onRankChange, mode, ...props }: RankCardFormProps) => {
     const editable = mode === Mode.EDIT
 
-    const properties = [
-        <TextField
-            label="Title"
-            type="text"
-            value={rank.title}
-            onChange={e => editable ? onRankChange({...rank, title: e.target.value}) : null}/>,
-        <TextField
-            label="Description"
-            type="text"
-            multiline
-            rows={3}
-            value={rank.description || ""}
-            onChange={e => editable ? onRankChange({...rank, description: e.target.value}) : null}/>,
-        <TextField
-            label="Image URL"
-            type="url"
-            value={rank.imageUrl || ""}
-            onChange={e => editable ? onRankChange({...rank, imageUrl: e.target.value}) : null}/>,
-        <ColorField
-            disabled={!editable}
-            label="Color"
-            value={rank.color}
-            onChange={(color) => editable ? onRankChange({...rank, color}) : null}/>
-    ]
-
-    return <EntityCardForm properties={properties} {...props}/>
+    return (
+        <EntityCardForm {...props}>
+            <TextField
+                label="Title"
+                type="text"
+                value={rank.title}
+                onChange={e => editable ? onRankChange({...rank, title: e.target.value}) : null}/>
+            <TextField
+                label="Description"
+                type="text"
+                multiline
+                rows={3}
+                value={rank.description || ""}
+                onChange={e => editable ? onRankChange({...rank, description: e.target.value}) : null}/>
+            <TextField
+                label="Image URL"
+                type="url"
+                value={rank.imageUrl || ""}
+                onChange={e => editable ? onRankChange({...rank, imageUrl: e.target.value}) : null}/>
+            <ColorField
+                disabled={!editable}
+                label="Color"
+                value={rank.color}
+                onChange={(color) => editable ? onRankChange({...rank, color}) : null}/>
+        </EntityCardForm>
+    )
 }
 
 export default RankCardForm;

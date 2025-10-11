@@ -10,7 +10,7 @@ export interface VoteCardFormProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const VoteCardForm = ({ vote, onVoteChange, mode, ...props }: VoteCardFormProps) => {
-    return <EntityCardForm properties={[]} {...props}/>
+    return <EntityCardForm {...props}></EntityCardForm>
 }
 
 export default VoteCardForm;

@@ -13,20 +13,20 @@ export interface AssignmentCardFormProps extends HTMLAttributes<HTMLDivElement> 
 const AssignmentCardForm = ({ assignment, onAssignmentChange, mode, ...props }: AssignmentCardFormProps) => {
     const editable = mode === Mode.EDIT
 
-    const properties = [
-        <TextField
-            label="Option ID"
-            type="text"
-            value={assignment.optionId}
-            onChange={e => editable ? onAssignmentChange({...assignment, optionId: e.target.value}) : null}/>,
-        <TextField
-            label="Tier ID"
-            type="text"
-            value={assignment.tierId}
-            onChange={e => editable ? onAssignmentChange({...assignment, tierId: e.target.value}) : null}/>
-    ]
-
-    return <EntityCardForm properties={properties} {...props}/>
+    return (
+        <EntityCardForm {...props}>
+            <TextField
+                label="Option ID"
+                type="text"
+                value={assignment.optionId}
+                onChange={e => editable ? onAssignmentChange({...assignment, optionId: e.target.value}) : null}/>
+            <TextField
+                label="Tier ID"
+                type="text"
+                value={assignment.tierId}
+                onChange={e => editable ? onAssignmentChange({...assignment, tierId: e.target.value}) : null}/>
+        </EntityCardForm>
+    )
 }
 
 export default AssignmentCardForm;

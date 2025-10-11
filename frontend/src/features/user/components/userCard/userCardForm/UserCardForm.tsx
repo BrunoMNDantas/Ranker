@@ -14,25 +14,25 @@ export interface UserCardFormProps extends HTMLAttributes<HTMLDivElement> {
 const UserCardForm = ({ user, onUserChange, mode, ...props }: UserCardFormProps) => {
     const editable = mode === Mode.EDIT
 
-    const properties = [
-        <TextField
-            label="Username"
-            type="text"
-            value={user.username}
-            onChange={e => editable ? onUserChange({...user, username: e.target.value}) : null}/>,
-        <TextField
-            label="Image URL"
-            type="url"
-            value={user.imageUrl || ""}
-            onChange={e => editable ? onUserChange({...user, imageUrl: e.target.value}) : null}/>,
-        <ColorField
-            disabled={!editable}
-            label="Color"
-            value={user.color}
-            onChange={color => editable ? onUserChange({...user, color}) : null}/>
-    ]
-
-    return <EntityCardForm properties={properties} {...props}/>
+    return (
+        <EntityCardForm {...props}>
+            <TextField
+                label="Username"
+                type="text"
+                value={user.username}
+                onChange={e => editable ? onUserChange({...user, username: e.target.value}) : null}/>
+            <TextField
+                label="Image URL"
+                type="url"
+                value={user.imageUrl || ""}
+                onChange={e => editable ? onUserChange({...user, imageUrl: e.target.value}) : null}/>
+            <ColorField
+                disabled={!editable}
+                label="Color"
+                value={user.color}
+                onChange={color => editable ? onUserChange({...user, color}) : null}/>
+        </EntityCardForm>
+    )
 }
 
 export default UserCardForm;

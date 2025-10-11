@@ -3,14 +3,14 @@ import classes from './EntityCardForm.module.css';
 import { CardContent, CardContentProps } from '@mui/material';
 
 export interface EntityCardFormProps extends CardContentProps {
-    properties: ReactNode[]
+    children?: ReactNode
 }
 
-const EntityCardForm = ({ properties, ...props }: EntityCardFormProps) => {
+const EntityCardForm = ({ children, ...props }: EntityCardFormProps) => {
     const className = props.className || classes.root
     return (
         <CardContent className={className} {...props}>
-            {properties}
+            {children}
         </CardContent>
     );
 }

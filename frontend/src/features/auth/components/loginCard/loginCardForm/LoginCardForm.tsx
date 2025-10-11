@@ -10,20 +10,20 @@ export interface LoginCardFormProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const LoginCardForm = ({ email, password, onEmailChange, onPasswordChange, ...props }: LoginCardFormProps) => {
-    const properties = [
-        <TextField
-            label="Email"
-            type="text"
-            value={email}
-            onChange={e => onEmailChange(e.target.value)}/>,
-        <TextField
-            label="Password"
-            type="password"
-            value={password}
-            onChange={e => onPasswordChange(e.target.value)}/>,
-    ]
-
-    return <EntityCardForm properties={properties} {...props}/>
+    return (
+        <EntityCardForm {...props}>
+            <TextField
+                label="Email"
+                type="text"
+                value={email}
+                onChange={e => onEmailChange(e.target.value)}/>
+            <TextField
+                label="Password"
+                type="password"
+                value={password}
+                onChange={e => onPasswordChange(e.target.value)}/>
+        </EntityCardForm>
+    )
 }
 
 export default LoginCardForm;

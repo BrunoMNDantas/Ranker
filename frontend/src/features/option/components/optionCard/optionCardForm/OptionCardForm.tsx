@@ -14,32 +14,32 @@ export interface OptionCardFormProps extends HTMLAttributes<HTMLDivElement> {
 const OptionCardForm = ({ option, onOptionChange, mode, ...props }: OptionCardFormProps) => {
     const editable = mode === Mode.EDIT
 
-    const properties = [
-        <TextField
-            label="Title"
-            type="text"
-            value={option.title}
-            onChange={e => editable ? onOptionChange({...option, title: e.target.value}) : null}/>,
-        <TextField
-            label="Description"
-            type="text"
-            multiline
-            rows={3}
-            value={option.description || ""}
-            onChange={e => editable ? onOptionChange({...option, description: e.target.value}) : null}/>,
-        <TextField
-            label="Image URL"
-            type="url"
-            value={option.imageUrl || ""}
-            onChange={e => editable ? onOptionChange({...option, imageUrl: e.target.value}) : null}/>,
-        <ColorField
-            disabled={!editable}
-            label="Color"
-            value={option.color}
-            onChange={(color) => editable ? onOptionChange({...option, color}) : null}/>
-    ]
-
-    return <EntityCardForm properties={properties} {...props}/>
+    return (
+        <EntityCardForm {...props}>
+            <TextField
+                label="Title"
+                type="text"
+                value={option.title}
+                onChange={e => editable ? onOptionChange({...option, title: e.target.value}) : null}/>
+            <TextField
+                label="Description"
+                type="text"
+                multiline
+                rows={3}
+                value={option.description || ""}
+                onChange={e => editable ? onOptionChange({...option, description: e.target.value}) : null}/>
+            <TextField
+                label="Image URL"
+                type="url"
+                value={option.imageUrl || ""}
+                onChange={e => editable ? onOptionChange({...option, imageUrl: e.target.value}) : null}/>
+            <ColorField
+                disabled={!editable}
+                label="Color"
+                value={option.color}
+                onChange={(color) => editable ? onOptionChange({...option, color}) : null}/>
+        </EntityCardForm>
+    )
 }
 
 export default OptionCardForm;
