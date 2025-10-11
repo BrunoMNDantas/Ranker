@@ -41,7 +41,7 @@ const VotingCard = ({ rank, tiers, options, onVote, ...props }: VotingCardProps)
     const cardContent = <VotingBoard tiers={tiers} options={options} assignments={assignments} onAssignmentsChange={setAssignments}/>
     const cardActions = <EntityCardActions actions={[voteAction]} {...props}/>
 
-    return <EntityCard cardHeader={cardHeader} cardContent={cardContent} cardActions={cardActions} {...props}/>
+    return <EntityCard {...props}>{[cardHeader, cardContent, cardActions]}</EntityCard>
 }
 
 export default VotingCard;

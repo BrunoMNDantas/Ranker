@@ -83,7 +83,7 @@ const VoteCard = ({ vote, assignments, mode, onVoteChange, onClear, onSave, onDe
     const cardContent = <EntityCardContent activeTabIndex={activeTabIndex} activeTabIndexChanged={setActiveTabIndex} tabs={tabs} {...props}/>
     const cardActions = <EntityCardActions actions={tabs[activeTabIndex].actions} {...props}/>
 
-    return <EntityCard cardHeader={cardHeader} cardContent={cardContent} cardActions={cardActions} {...props}/>
+    return <EntityCard {...props}>{[cardHeader, cardContent, cardActions]}</EntityCard>
 }
 
 export default VoteCard;

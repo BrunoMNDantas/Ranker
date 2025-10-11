@@ -35,7 +35,7 @@ const EntityFormModal = ({ modalHeader, modalForm, entityCreateIcon, onCreate, o
 
     return (
         <Modal className={className} {...props}>
-            <EntityCard cardHeader={modalHeader} cardContent={modalForm} cardActions={cardActions}/>
+            <EntityCard>{[modalHeader, modalForm, cardActions]}</EntityCard>
         </Modal>
     );
 }

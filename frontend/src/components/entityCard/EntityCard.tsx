@@ -8,20 +8,17 @@ export enum Mode {
 }
 
 export interface EntityCardProps extends CardProps {
-    cardHeader: ReactNode
-    cardContent: ReactNode
-    cardActions: ReactNode
+    children: ReactNode[]
 }
 
-const EntityCard = ({ cardHeader, cardContent, cardActions, ...props }: EntityCardProps) => {
+const EntityCard = ({ children, ...props }: EntityCardProps) => {
     const className = props.className || classes.root
     return (
         <Card className={className} {...props}>
-            { cardHeader }
-            <Divider/>
-            { cardContent }
-            <Divider/>
-            { cardActions }
+            {children.flatMap((child, index) => [
+                child,
+                index < children.length - 1 ? <Divider key={`divider-${index}`} /> : null
+            ])}
         </Card>
     );
 }
