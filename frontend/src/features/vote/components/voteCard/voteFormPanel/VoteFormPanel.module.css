@@ -1,0 +1,12 @@
+.root {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    height: 100%;
+}
+
+.root > *:nth-child(1) {
+    flex-grow: 1;
+    margin: 15px;
+}

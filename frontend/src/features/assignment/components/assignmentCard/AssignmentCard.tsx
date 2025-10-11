@@ -2,14 +2,10 @@ import React, { HTMLAttributes, useState } from 'react';
 import { Assignment } from '../../model/Assignment.types';
 import EntityCard from '../../../../components/entityCard/EntityCard';
 import AssignmentCardHeader from './assignmentCardHeader/AssignmentCardHeader';
-import SaveIcon from '@mui/icons-material/Save';
-import DeleteIcon from '@mui/icons-material/Delete';
-import RestoreIcon from '@mui/icons-material/Restore';
 import { Mode } from '../../../../components/entityCard/EntityCard';
 import EntityCardContent from '../../../../components/entityCard/entityCardContent/EntityCardContent';
 import AssignmentIcon from '../assignmentIcon/AssignmentIcon';
-import AssignmentCardForm from './assignmentCardForm/AssignmentCardForm';
-import EntityCardActions, { Action } from '../../../../components/entityCard/entityCardActions/EntityCardActions';
+import AssignmentFormPanel from './assignmentFormPanel/AssignmentFormPanel';
 
 export interface AssignmentCardProps extends HTMLAttributes<HTMLDivElement> {
     assignment: Assignment
@@ -22,49 +18,12 @@ export interface AssignmentCardProps extends HTMLAttributes<HTMLDivElement> {
 
 const AssignmentCard = ({ assignment, mode, onAssignmentChange, onClear, onSave, onDelete, ...props }: AssignmentCardProps) => {
     const [activeTabIndex, setActiveTabIndex] = useState(0)
-    const [executing, setExecuting] = useState(false)
-    const editMode = mode === Mode.EDIT
-
-    const execute = async (action: ()=>Promise<void>) => {
-        setExecuting(true)
-        try {
-            return await action()
-        } finally {
-            return setExecuting(false)
-        }
-    }
-
-    const handleClear = () => execute(onClear)
-    const handleSave = () => execute(onSave)
-    const handleDelete = () => execute(onDelete)
-
-    const clearAction: Action = {
-        iconProps: { color: "info" },
-        icon: <RestoreIcon/>,
-        onClick: handleClear,
-        disabled: executing || !editMode
-    }
-
-    const saveAction: Action = {
-        iconProps: { color: "info" },
-        icon: <SaveIcon/>,
-        onClick: handleSave,
-        disabled: executing || !editMode
-    }
-
-    const deleteAction: Action = {
-        iconProps: { color: "error" },
-        icon: <DeleteIcon/>,
-        onClick: handleDelete,
-        disabled: executing || !editMode
-    }
 
     const tabs = [
         {
             icon: <AssignmentIcon/>,
             label: "Assignment",
-            view: <AssignmentCardForm assignment={assignment} onAssignmentChange={onAssignmentChange} mode={mode}/>,
-            actions: [clearAction, saveAction, deleteAction]
+            view: <AssignmentFormPanel assignment={assignment} onAssignmentChange={onAssignmentChange} mode={mode} onClear={onClear} onSave={onSave} onDelete={onDelete}/>
         }
     ]
 
@@ -72,7 +31,6 @@ const AssignmentCard = ({ assignment, mode, onAssignmentChange, onClear, onSave,
         <EntityCard {...props}>
             <AssignmentCardHeader assignment={assignment}/>
             <EntityCardContent activeTabIndex={activeTabIndex} activeTabIndexChanged={setActiveTabIndex} tabs={tabs}/>
-            <EntityCardActions actions={tabs[activeTabIndex].actions}/>
         </EntityCard>
     )
 }

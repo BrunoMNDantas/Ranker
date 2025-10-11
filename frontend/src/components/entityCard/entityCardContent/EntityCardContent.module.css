@@ -17,7 +17,7 @@
 .view {
     flex: 1 1 auto;
     overflow: auto;
-    width: 90%;
+    width: 100%;
 }
 
 .view > * {

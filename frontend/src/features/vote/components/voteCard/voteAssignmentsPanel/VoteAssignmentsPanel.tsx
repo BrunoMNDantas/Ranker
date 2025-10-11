@@ -1,19 +1,20 @@
 import React from 'react';
-import { Assignment } from '../../../assignment/model/Assignment.types';
-import AssignmentsList from '../../../assignment/components/assignmentsList/AssignmentsList';
+import { Assignment } from '../../../../assignment/model/Assignment.types';
+import AssignmentsList from '../../../../assignment/components/assignmentsList/AssignmentsList';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ClearIcon from '@mui/icons-material/Clear';
-import { appAssignmentRoute } from '../../../../app/Routes';
-import ActionButton from '../../../../components/actionButton/ActionButton';
+import { appAssignmentRoute } from '../../../../../app/Routes';
+import ActionButton from '../../../../../components/actionButton/ActionButton';
+import { Mode } from '../../../../../components/entityCard/EntityCard';
 import { IconButton } from '@mui/material';
 
-export interface VoteAssignmentsTabViewProps {
+export interface VoteAssignmentsPanelProps {
     assignments: Assignment[]
-    editMode: boolean
+    mode: Mode
     onDeleteAssignment: (assignment: Assignment) => Promise<void>
 }
 
-export const VoteAssignmentsTabView = ({ assignments, editMode, onDeleteAssignment }: VoteAssignmentsTabViewProps) => {
+export const VoteAssignmentsPanel = ({ assignments, mode, onDeleteAssignment }: VoteAssignmentsPanelProps) => {
     const sortedAssignments = assignments.sort((a, b) => a.order - b.order)
 
     const handleDelete = async (assignment: Assignment) => {
@@ -34,4 +35,4 @@ export const VoteAssignmentsTabView = ({ assignments, editMode, onDeleteAssignme
     return <AssignmentsList assignmentIds={sortedAssignments.map(a => a.id)} chipActions={getChipActions}/>
 }
 
-export default VoteAssignmentsTabView;
+export default VoteAssignmentsPanel;

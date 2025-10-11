@@ -1,19 +1,23 @@
 import React from 'react';
-import { Vote } from '../../../vote/model/Vote.types';
-import VotesList from '../../../vote/components/votesList/VotesList';
+import classes from './UserVotesPanel.module.css'
+import { Vote } from '../../../../vote/model/Vote.types';
+import VotesList from '../../../../vote/components/votesList/VotesList';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ClearIcon from '@mui/icons-material/Clear';
-import { appVoteRoute } from '../../../../app/Routes';
-import ActionButton from '../../../../components/actionButton/ActionButton';
+import { appVoteRoute } from '../../../../../app/Routes';
+import ActionButton from '../../../../../components/actionButton/ActionButton';
 import { IconButton } from '@mui/material';
+import { Mode } from '../../../../../components/entityCard/EntityCard';
 
-export interface RankVotesTabViewProps {
+export interface UserVotesPanelProps {
     votes: Vote[]
-    editMode: boolean
+    mode: Mode
     onDeleteVote: (vote: Vote) => Promise<void>
 }
 
-export const RankVotesTabView = ({ votes, editMode, onDeleteVote }: RankVotesTabViewProps) => {
+export const UserVotesPanel = ({ votes, mode, onDeleteVote }: UserVotesPanelProps) => {
+    const editMode = mode === Mode.EDIT
+
     const handleDelete = async (vote: Vote) => {
         await onDeleteVote(vote)
     }
@@ -29,7 +33,11 @@ export const RankVotesTabView = ({ votes, editMode, onDeleteVote }: RankVotesTab
         ]
     }
 
-    return <VotesList voteIds={votes.map(v => v.id)} chipActions={getChipActions}/>
+    return (
+        <div className={classes.root}>
+            <VotesList voteIds={votes.map(v => v.id)} chipActions={getChipActions}/>
+        </div>
+    )
 }
 
-export default RankVotesTabView;
+export default UserVotesPanel;

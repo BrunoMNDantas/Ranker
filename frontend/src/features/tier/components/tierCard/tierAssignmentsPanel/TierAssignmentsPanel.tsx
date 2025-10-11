@@ -1,19 +1,20 @@
 import React from 'react';
-import { Assignment } from '../../../assignment/model/Assignment.types';
-import AssignmentsList from '../../../assignment/components/assignmentsList/AssignmentsList';
+import { Assignment } from '../../../../assignment/model/Assignment.types';
+import AssignmentsList from '../../../../assignment/components/assignmentsList/AssignmentsList';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ClearIcon from '@mui/icons-material/Clear';
-import { appAssignmentRoute } from '../../../../app/Routes';
-import ActionButton from '../../../../components/actionButton/ActionButton';
+import { appAssignmentRoute } from '../../../../../app/Routes';
+import ActionButton from '../../../../../components/actionButton/ActionButton';
+import { Mode } from '../../../../../components/entityCard/EntityCard';
 import { IconButton } from '@mui/material';
 
-export interface TierAssignmentsTabViewProps {
+export interface TierAssignmentsPanelProps {
     assignments: Assignment[]
-    editMode: boolean
+    mode: Mode
     onDeleteAssignment: (assignment: Assignment) => Promise<void>
 }
 
-export const TierAssignmentsTabView = ({ assignments, editMode, onDeleteAssignment }: TierAssignmentsTabViewProps) => {
+export const TierAssignmentsPanel = ({ assignments, mode, onDeleteAssignment }: TierAssignmentsPanelProps) => {
     const sortedAssignments = assignments.sort((a, b) => a.order - b.order)
 
     const handleDelete = async (assignment: Assignment) => {
@@ -34,4 +35,4 @@ export const TierAssignmentsTabView = ({ assignments, editMode, onDeleteAssignme
     return <AssignmentsList assignmentIds={sortedAssignments.map(a => a.id)} chipActions={getChipActions}/>
 }
 
-export default TierAssignmentsTabView;
+export default TierAssignmentsPanel;

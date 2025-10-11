@@ -2,9 +2,6 @@ import React, { HTMLAttributes, useState } from 'react';
 import { Rank } from '../../model/Rank.types';
 import EntityCard from '../../../../components/entityCard/EntityCard';
 import RankCardHeader from './rankCardHeader/RankCardHeader';
-import SaveIcon from '@mui/icons-material/Save';
-import DeleteIcon from '@mui/icons-material/Delete';
-import RestoreIcon from '@mui/icons-material/Restore';
 import { Mode } from '../../../../components/entityCard/EntityCard';
 import { Tier } from '../../../tier/model/Tier.types';
 import { Option } from '../../../option/model/Option.types';
@@ -13,15 +10,11 @@ import EntityCardContent from '../../../../components/entityCard/entityCardConte
 import VoteIcon from '../../../vote/components/voteIcon/VoteIcon';
 import OptionIcon from '../../../option/components/optionIcon/OptionIcon';
 import TierIcon from '../../../tier/components/tierIcon/TierIcon';
-import RankCardForm from './rankCardForm/RankCardForm';
 import RankIcon from '../rankIcon/RankIcon';
-import EntityCardActions, { Action } from '../../../../components/entityCard/entityCardActions/EntityCardActions';
-import TierCreateIcon from '../../../tier/components/tierCreateIcon/TierCreateIcon';
-import OptionCreateIcon from '../../../option/components/optionCreateIcon/OptionCreateIcon';
-import RankTiersTabView from './RankTiersTabView';
-import RankOptionsTabView from './RankOptionsTabView';
-import RankVotesTabView from './RankVotesTabView';
-import VoteCreateIcon from '../../../vote/components/voteCreateIcon/VoteCreateIcon';
+import RankTiersPanel from './rankTiersPanel/RankTiersPanel';
+import RankOptionsPanel from './rankOptionsPanel/RankOptionsPanel';
+import RankVotesPanel from './rankVotesPanel/RankVotesPanel';
+import RankFormPanel from './rankFormPanel/RankFormPanel';
 import { useNavigate } from 'react-router-dom';
 import { appRankVoteRoute } from '../../../../app/Routes';
 
@@ -54,29 +47,8 @@ const RankCard = ({
 }: RankCardProps) => {
     const navigate = useNavigate()
     const [activeTabIndex, setActiveTabIndex] = useState(0)
-    const [executing, setExecuting] = useState(false)
-    const editMode = mode === Mode.EDIT
-
-    const execute = async (action: ()=>Promise<void>) => {
-        setExecuting(true)
-        try {
-            return await action()
-        } finally {
-            return setExecuting(false)
-        }
-    }
-
-    const handleClear = () => execute(onClear)
-
-    const handleSave = () => execute(onSave)
-
-    const handleDelete = () => execute(onDelete)
-
-    const handleCreateTier = () => execute(onCreateTier)
 
     const handleTiersChange = async (tiers: Tier[]) => Promise.all(tiers.map(onTierChange))
-
-    const handleCreateOption = () => execute(onCreateOption)
 
     const handleOptionsChange = (options: Option[]) => Promise.all(options.map(onOptionChange))
 
@@ -85,72 +57,26 @@ const RankCard = ({
         return Promise.resolve()
     }
 
-    const clearAction: Action = {
-        iconProps: { color: "info" },
-        icon: <RestoreIcon/>,
-        onClick: handleClear,
-        disabled: executing || !editMode
-    }
-
-    const saveAction: Action = {
-        iconProps: { color: "info" },
-        icon: <SaveIcon/>,
-        onClick: handleSave,
-        disabled: executing || !editMode
-    }
-
-    const deleteAction: Action = {
-        iconProps: { color: "error" },
-        icon: <DeleteIcon/>,
-        onClick: handleDelete,
-        disabled: executing || !editMode
-    }
-
-    const createTierAction: Action = {
-        iconProps: { color: "info" },
-        icon: <TierCreateIcon/>,
-        onClick: handleCreateTier,
-        disabled: executing || !editMode
-    }
-
-    const createOptionAction: Action = {
-        iconProps: { color: "info" },
-        icon: <OptionCreateIcon/>,
-        onClick: handleCreateOption,
-        disabled: executing || !editMode
-    }
-
-    const createVoteAction: Action = {
-        iconProps: { color: "info" },
-        icon: <VoteCreateIcon/>,
-        onClick: handleCreateVote,
-        disabled: executing || !editMode
-    }
-
     const tabs = [
         {
             label: "Rank",
             icon: <RankIcon/>,
-            view: <RankCardForm rank={rank} onRankChange={onRankChange} mode={mode}/>,
-            actions: [clearAction, saveAction, deleteAction]
+            view: <RankFormPanel rank={rank} onRankChange={onRankChange} mode={mode} onClear={onClear} onSave={onSave} onDelete={onDelete}/>
         },
         {
             label: "Tiers",
             icon: <TierIcon/>,
-            view: <RankTiersTabView tiers={tiers} editMode={editMode} onTiersChange={handleTiersChange} onDeleteTier={onDeleteTier}/>,
-            actions: [createTierAction]
+            view: <RankTiersPanel tiers={tiers} mode={mode} onTiersChange={handleTiersChange} onDeleteTier={onDeleteTier} onCreateTier={onCreateTier}/>
         },
         {
             label: "Options",
             icon: <OptionIcon/>,
-            view: <RankOptionsTabView options={options} editMode={editMode} onOptionsChange={handleOptionsChange} onDeleteOption={onDeleteOption}/>,
-            actions: [createOptionAction]
+            view: <RankOptionsPanel options={options} mode={mode} onOptionsChange={handleOptionsChange} onDeleteOption={onDeleteOption} onCreateOption={onCreateOption}/>
         },
         {
             label: "Votes",
             icon: <VoteIcon/>,
-            view: <RankVotesTabView votes={votes} editMode={editMode} onDeleteVote={onDeleteVote}/>,
-            actions: [createVoteAction]
+            view: <RankVotesPanel votes={votes} mode={mode} onDeleteVote={onDeleteVote} onCreateVote={handleCreateVote}/>
         }
     ]
 
@@ -158,7 +84,6 @@ const RankCard = ({
         <EntityCard {...props}>
             <RankCardHeader rank={rank}/>
             <EntityCardContent activeTabIndex={activeTabIndex} activeTabIndexChanged={setActiveTabIndex} tabs={tabs}/>
-            <EntityCardActions actions={tabs[activeTabIndex].actions}/>
         </EntityCard>
     )
 }
