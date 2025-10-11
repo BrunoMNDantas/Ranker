@@ -68,11 +68,13 @@ const AssignmentCard = ({ assignment, mode, onAssignmentChange, onClear, onSave,
         }
     ]
 
-    const cardHeader = <AssignmentCardHeader assignment={assignment}/>
-    const cardContent = <EntityCardContent activeTabIndex={activeTabIndex} activeTabIndexChanged={setActiveTabIndex} tabs={tabs} {...props}/>
-    const cardActions = <EntityCardActions actions={tabs[activeTabIndex].actions} {...props}/>
-
-    return <EntityCard {...props}>{[cardHeader, cardContent, cardActions]}</EntityCard>
+    return (
+        <EntityCard {...props}>
+            <AssignmentCardHeader assignment={assignment}/>
+            <EntityCardContent activeTabIndex={activeTabIndex} activeTabIndexChanged={setActiveTabIndex} tabs={tabs}/>
+            <EntityCardActions actions={tabs[activeTabIndex].actions}/>
+        </EntityCard>
+    )
 }
 
 export default AssignmentCard;

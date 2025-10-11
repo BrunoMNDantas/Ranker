@@ -16,26 +16,26 @@ export interface EntityFormModalProps extends Omit<ModalProps, 'children'> {
 const EntityFormModal = ({ modalHeader, modalForm, entityCreateIcon, onCreate, onCancel, ...props }: EntityFormModalProps) => {
     const className = props.className || classes.root
 
-    const cardActions = (
-        <EntityCardActions actions={[
-            {
-                iconProps: { color: "error" },
-                icon: <CloseIcon/>,
-                onClick: onCancel,
-                disabled: false
-            },
-            {
-                iconProps: { color: "info" },
-                icon: entityCreateIcon,
-                onClick: onCreate,
-                disabled: false
-            }
-        ]}/>
-    )
-
     return (
         <Modal className={className} {...props}>
-            <EntityCard>{[modalHeader, modalForm, cardActions]}</EntityCard>
+            <EntityCard>
+                {modalHeader}
+                {modalForm}
+                <EntityCardActions actions={[
+                    {
+                        iconProps: { color: "error" },
+                        icon: <CloseIcon/>,
+                        onClick: onCancel,
+                        disabled: false
+                    },
+                    {
+                        iconProps: { color: "info" },
+                        icon: entityCreateIcon,
+                        onClick: onCreate,
+                        disabled: false
+                    }
+                ]}/>
+            </EntityCard>
         </Modal>
     );
 }

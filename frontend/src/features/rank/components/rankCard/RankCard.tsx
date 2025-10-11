@@ -154,11 +154,13 @@ const RankCard = ({
         }
     ]
 
-    const cardHeader = <RankCardHeader rank={rank}/>
-    const cardContent = <EntityCardContent activeTabIndex={activeTabIndex} activeTabIndexChanged={setActiveTabIndex} tabs={tabs} {...props}/>
-    const cardActions = <EntityCardActions actions={tabs[activeTabIndex].actions} {...props}/>
-
-    return <EntityCard {...props}>{[cardHeader, cardContent, cardActions]}</EntityCard>
+    return (
+        <EntityCard {...props}>
+            <RankCardHeader rank={rank}/>
+            <EntityCardContent activeTabIndex={activeTabIndex} activeTabIndexChanged={setActiveTabIndex} tabs={tabs}/>
+            <EntityCardActions actions={tabs[activeTabIndex].actions}/>
+        </EntityCard>
+    )
 }
 
 export default RankCard;

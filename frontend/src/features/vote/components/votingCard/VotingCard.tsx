@@ -37,11 +37,13 @@ const VotingCard = ({ rank, tiers, options, onVote, ...props }: VotingCardProps)
         disabled: executing
     }
 
-    const cardHeader = <RankCardHeader rank={rank}/>
-    const cardContent = <VotingBoard tiers={tiers} options={options} assignments={assignments} onAssignmentsChange={setAssignments}/>
-    const cardActions = <EntityCardActions actions={[voteAction]} {...props}/>
-
-    return <EntityCard {...props}>{[cardHeader, cardContent, cardActions]}</EntityCard>
+    return (
+        <EntityCard {...props}>
+            <RankCardHeader rank={rank}/>
+            <VotingBoard tiers={tiers} options={options} assignments={assignments} onAssignmentsChange={setAssignments}/>
+            <EntityCardActions actions={[voteAction]}/>
+        </EntityCard>
+    )
 }
 
 export default VotingCard;

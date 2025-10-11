@@ -51,11 +51,13 @@ const LoginCard = ({ onRegisterUser, onLoginWithEmail, onLoginWithGoogle, ...pro
 
     const actions = [registerAction, loginAction, googleAction]
 
-    const cardHeader = <Typography variant='h3'>Login</Typography>
-    const cardContent = <LoginCardForm email={email} password={password} onEmailChange={setEmail} onPasswordChange={setPassword}/>
-    const cardActions = <EntityCardActions actions={actions} {...props}/>
-
-    return <EntityCard {...props}>{[cardHeader, cardContent, cardActions]}</EntityCard>
+    return (
+        <EntityCard {...props}>
+            <Typography variant='h3'>Login</Typography>
+            <LoginCardForm email={email} password={password} onEmailChange={setEmail} onPasswordChange={setPassword}/>
+            <EntityCardActions actions={actions}/>
+        </EntityCard>
+    )
 }
 
 export default LoginCard;

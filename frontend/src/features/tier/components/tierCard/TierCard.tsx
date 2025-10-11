@@ -79,11 +79,13 @@ const TierCard = ({ tier, assignments, mode, onTierChange, onClear, onSave, onDe
         }
     ]
 
-    const cardHeader = <TierCardHeader tier={tier}/>
-    const cardContent = <EntityCardContent activeTabIndex={activeTabIndex} activeTabIndexChanged={setActiveTabIndex} tabs={tabs} {...props}/>
-    const cardActions = <EntityCardActions actions={tabs[activeTabIndex].actions} {...props}/>
-
-    return <EntityCard {...props}>{[cardHeader, cardContent, cardActions]}</EntityCard>
+    return (
+        <EntityCard {...props}>
+            <TierCardHeader tier={tier}/>
+            <EntityCardContent activeTabIndex={activeTabIndex} activeTabIndexChanged={setActiveTabIndex} tabs={tabs}/>
+            <EntityCardActions actions={tabs[activeTabIndex].actions}/>
+        </EntityCard>
+    )
 }
 
 export default TierCard;

@@ -79,11 +79,13 @@ const OptionCard = ({ option, assignments, mode, onOptionChange, onClear, onSave
         }
     ]
 
-    const cardHeader = <OptionCardHeader option={option}/>
-    const cardContent = <EntityCardContent activeTabIndex={activeTabIndex} activeTabIndexChanged={setActiveTabIndex} tabs={tabs} {...props}/>
-    const cardActions = <EntityCardActions actions={tabs[activeTabIndex].actions} {...props}/>
-
-    return <EntityCard {...props}>{[cardHeader, cardContent, cardActions]}</EntityCard>
+    return (
+        <EntityCard {...props}>
+            <OptionCardHeader option={option}/>
+            <EntityCardContent activeTabIndex={activeTabIndex} activeTabIndexChanged={setActiveTabIndex} tabs={tabs}/>
+            <EntityCardActions actions={tabs[activeTabIndex].actions}/>
+        </EntityCard>
+    )
 }
 
 export default OptionCard;
