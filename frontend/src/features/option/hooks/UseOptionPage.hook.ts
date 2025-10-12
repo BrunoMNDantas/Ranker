@@ -5,7 +5,7 @@ import { fetchAssignmentsOfOption } from '../../assignment/store/Assignment.thun
 import { fetchRankById } from '../../rank/store/Rank.thunks';
 import { fetchUserById } from '../../user/store/User.thunks';
 import { selectOptionById, selectOptionsLoading, selectOptionsError } from '../store/Option.selectors';
-import { selectAllAssignments, selectAssignmentsLoading, selectAssignmentsError } from '../../assignment/store/Assignment.selectors';
+import { selectAssignmentsOfOption, selectAssignmentsLoading, selectAssignmentsError } from '../../assignment/store/Assignment.selectors';
 import { selectRankById, selectRanksLoading, selectRanksError } from '../../rank/store/Rank.selectors';
 import { selectUserById, selectUsersLoading, selectUsersError } from '../../user/store/User.selectors';
 
@@ -20,7 +20,7 @@ export const useOptionPageData = (optionId: string) => {
     }, [dispatch, optionId]);
 
     const option = useAppSelector((state) => selectOptionById(state, optionId));
-    const assignments = useAppSelector((state) => selectAllAssignments(state));
+    const assignments = useAppSelector((state) => selectAssignmentsOfOption(state, optionId));
 
     useEffect(() => {
         if (option) {

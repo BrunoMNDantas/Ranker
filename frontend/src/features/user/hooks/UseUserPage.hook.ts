@@ -4,8 +4,8 @@ import { fetchUserById } from '../store/User.thunks';
 import { fetchRanksOfUser } from '../../rank/store/Rank.thunks';
 import { fetchVotesOfUser } from '../../vote/store/Vote.thunks';
 import { selectUserById, selectUsersLoading, selectUsersError } from '../store/User.selectors';
-import { selectAllRanks, selectRanksLoading, selectRanksError } from '../../rank/store/Rank.selectors';
-import { selectAllVotes, selectVotesLoading, selectVotesError } from '../../vote/store/Vote.selectors';
+import { selectRanksOfUser, selectRanksLoading, selectRanksError } from '../../rank/store/Rank.selectors';
+import { selectVotesOfUser, selectVotesLoading, selectVotesError } from '../../vote/store/Vote.selectors';
 
 export const useUserPageData = (userId: string) => {
     const dispatch = useAppDispatch();
@@ -19,8 +19,8 @@ export const useUserPageData = (userId: string) => {
     }, [dispatch, userId]);
 
     const user = useAppSelector((state) => selectUserById(state, userId));
-    const ranks = useAppSelector((state) => selectAllRanks(state));
-    const votes = useAppSelector((state) => selectAllVotes(state));
+    const ranks = useAppSelector((state) => selectRanksOfUser(state, userId));
+    const votes = useAppSelector((state) => selectVotesOfUser(state, userId));
 
     const loading = useAppSelector((state) =>
         selectUsersLoading(state) ||

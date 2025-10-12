@@ -5,7 +5,7 @@ import { fetchAssignmentsOfVote } from '../../assignment/store/Assignment.thunks
 import { fetchRankById } from '../../rank/store/Rank.thunks';
 import { fetchUserById } from '../../user/store/User.thunks';
 import { selectVoteById, selectVotesLoading, selectVotesError } from '../store/Vote.selectors';
-import { selectAllAssignments, selectAssignmentsLoading, selectAssignmentsError } from '../../assignment/store/Assignment.selectors';
+import { selectAssignmentsOfVote, selectAssignmentsLoading, selectAssignmentsError } from '../../assignment/store/Assignment.selectors';
 import { selectRankById, selectRanksLoading, selectRanksError } from '../../rank/store/Rank.selectors';
 import { selectUserById, selectUsersLoading, selectUsersError } from '../../user/store/User.selectors';
 
@@ -20,7 +20,7 @@ export const useVotePageData = (voteId: string) => {
     }, [dispatch, voteId]);
 
     const vote = useAppSelector((state) => selectVoteById(state, voteId));
-    const assignments = useAppSelector((state) => selectAllAssignments(state));
+    const assignments = useAppSelector((state) => selectAssignmentsOfVote(state, voteId));
 
     useEffect(() => {
         if (vote) {

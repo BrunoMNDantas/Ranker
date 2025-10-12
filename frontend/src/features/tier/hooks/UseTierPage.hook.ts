@@ -5,7 +5,7 @@ import { fetchAssignmentsOfTier } from '../../assignment/store/Assignment.thunks
 import { fetchRankById } from '../../rank/store/Rank.thunks';
 import { fetchUserById } from '../../user/store/User.thunks';
 import { selectTierById, selectTiersLoading, selectTiersError } from '../store/Tier.selectors';
-import { selectAllAssignments, selectAssignmentsLoading, selectAssignmentsError } from '../../assignment/store/Assignment.selectors';
+import { selectAssignmentsOfTier, selectAssignmentsLoading, selectAssignmentsError } from '../../assignment/store/Assignment.selectors';
 import { selectRankById, selectRanksLoading, selectRanksError } from '../../rank/store/Rank.selectors';
 import { selectUserById, selectUsersLoading, selectUsersError } from '../../user/store/User.selectors';
 
@@ -20,7 +20,7 @@ export const useTierPageData = (tierId: string) => {
     }, [dispatch, tierId]);
 
     const tier = useAppSelector((state) => selectTierById(state, tierId));
-    const assignments = useAppSelector((state) => selectAllAssignments(state));
+    const assignments = useAppSelector((state) => selectAssignmentsOfTier(state, tierId));
 
     useEffect(() => {
         if (tier) {

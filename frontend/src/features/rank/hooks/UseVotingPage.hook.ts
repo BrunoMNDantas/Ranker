@@ -5,8 +5,8 @@ import { fetchOptionsOfRank } from '../../option/store/Option.thunks';
 import { fetchTiersOfRank } from '../../tier/store/Tier.thunks';
 import { fetchUserById } from '../../user/store/User.thunks';
 import { selectRankById, selectRanksLoading, selectRanksError } from '../store/Rank.selectors';
-import { selectAllOptions, selectOptionsLoading, selectOptionsError } from '../../option/store/Option.selectors';
-import { selectAllTiers, selectTiersLoading, selectTiersError } from '../../tier/store/Tier.selectors';
+import { selectOptionsOfRank, selectOptionsLoading, selectOptionsError } from '../../option/store/Option.selectors';
+import { selectTiersOfRank, selectTiersLoading, selectTiersError } from '../../tier/store/Tier.selectors';
 import { selectUserById, selectUsersLoading, selectUsersError } from '../../user/store/User.selectors';
 
 export const useVotingPageData = (rankId: string) => {
@@ -21,8 +21,8 @@ export const useVotingPageData = (rankId: string) => {
     }, [dispatch, rankId]);
 
     const rank = useAppSelector((state) => selectRankById(state, rankId));
-    const options = useAppSelector((state) => selectAllOptions(state));
-    const tiers = useAppSelector((state) => selectAllTiers(state));
+    const options = useAppSelector((state) => selectOptionsOfRank(state, rankId));
+    const tiers = useAppSelector((state) => selectTiersOfRank(state, rankId));
 
     useEffect(() => {
         if (rank) {
