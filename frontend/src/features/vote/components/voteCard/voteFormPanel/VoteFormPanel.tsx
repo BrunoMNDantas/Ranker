@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classes from './VoteFormPanel.module.css'
 import { Mode } from '../../../../../components/entityCard/EntityCard';
 import { Vote } from '../../../model/Vote.types';
@@ -8,19 +8,36 @@ import RestoreIcon from '@mui/icons-material/Restore';
 import EntityCardActions, { Action } from '../../../../../components/entityCard/entityCardActions/EntityCardActions';
 import VoteCardForm from '../voteCardForm/VoteCardForm';
 import { Divider } from '@mui/material';
+import { useAppSelector, useAppDispatch } from '../../../../../app/hooks';
+import { selectVoteById } from '../../../store/Vote.selectors';
+import { updateVote } from '../../../store/Vote.slice';
+import { updateVoteThunk, deleteVoteThunk } from '../../../store/Vote.thunks';
+import { useNavigate } from 'react-router-dom';
+import { APP_VOTES_ROUTE } from '../../../../../app/Routes';
 
 export interface VoteFormPanelProps {
-    vote: Vote
+    voteId: string
     mode: Mode
-    onVoteChange: (changedVote: Vote) => void
-    onClear: () => Promise<void>
-    onSave: () => Promise<void>
-    onDelete: () => Promise<void>
 }
 
-export const VoteFormPanel = ({ vote, mode, onVoteChange, onClear, onSave, onDelete }: VoteFormPanelProps) => {
+export const VoteFormPanel = ({ voteId, mode }: VoteFormPanelProps) => {
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
+
+    const vote = useAppSelector((state) => selectVoteById(state, voteId))
+    const [originalVote, setOriginalVote] = useState<Vote | null>(null)
     const [executing, setExecuting] = useState(false)
     const editMode = mode === Mode.EDIT
+
+    useEffect(() => {
+        if (vote && !originalVote) {
+            setOriginalVote(structuredClone(vote))
+        }
+    }, [vote, originalVote])
+
+    if (!vote) {
+        return null
+    }
 
     const execute = async (action: ()=>Promise<void>) => {
         setExecuting(true)
@@ -31,9 +48,30 @@ export const VoteFormPanel = ({ vote, mode, onVoteChange, onClear, onSave, onDel
         }
     }
 
-    const handleClear = () => execute(onClear)
-    const handleSave = () => execute(onSave)
-    const handleDelete = () => execute(onDelete)
+    const handleVoteChange = (changedVote: Vote) => {
+        dispatch(updateVote({ id: changedVote.id, changes: changedVote }))
+    }
+
+    const handleClear = () => {
+        return execute(async () => {
+            if (originalVote) {
+                dispatch(updateVote({ id: originalVote.id, changes: originalVote }))
+            }
+        })
+    }
+
+    const handleSave = () => {
+        return execute(async () => {
+            await dispatch(updateVoteThunk(vote)).unwrap()
+        })
+    }
+
+    const handleDelete = () => {
+        return execute(async () => {
+            await dispatch(deleteVoteThunk(voteId)).unwrap()
+            navigate(APP_VOTES_ROUTE)
+        })
+    }
 
     const clearAction: Action = {
         iconProps: { color: "info" },
@@ -58,7 +96,7 @@ export const VoteFormPanel = ({ vote, mode, onVoteChange, onClear, onSave, onDel
 
     return (
         <div className={classes.root}>
-            <VoteCardForm vote={vote} onVoteChange={onVoteChange} mode={mode}/>
+            <VoteCardForm vote={vote} onVoteChange={handleVoteChange} mode={mode}/>
             <Divider/>
             <EntityCardActions actions={[clearAction, saveAction, deleteAction]}/>
         </div>
