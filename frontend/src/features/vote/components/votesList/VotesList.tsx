@@ -3,7 +3,7 @@ import { Vote } from '../../model/Vote.types';
 import VoteChip from '../voteChip/VoteChip';
 import EntityList from '../../../../components/entityList/EntityList';
 import { useAppSelector } from '../../../../app/hooks';
-import { selectVoteById } from '../../store/Vote.selectors';
+import { selectVotesByIds } from '../../store/Vote.selectors';
 
 export interface VotesListProps extends HTMLAttributes<HTMLDivElement> {
     voteIds: string[]
@@ -13,7 +13,7 @@ export interface VotesListProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const VotesList = ({ voteIds, voteUrl, onVoteClick, chipActions=()=>[], ...props }: VotesListProps) => {
-    const votes = useAppSelector(state => voteIds.map(id => selectVoteById(state, id)))
+    const votes = useAppSelector(state => selectVotesByIds(state, voteIds))
 
     return (
         <EntityList

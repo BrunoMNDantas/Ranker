@@ -3,7 +3,7 @@ import { Rank } from '../../model/Rank.types';
 import RankChip from '../rankChip/RankChip';
 import EntityList from '../../../../components/entityList/EntityList';
 import { useAppSelector } from '../../../../app/hooks';
-import { selectRankById } from '../../store/Rank.selectors';
+import { selectRanksByIds } from '../../store/Rank.selectors';
 
 export interface RanksListProps extends HTMLAttributes<HTMLDivElement> {
     rankIds: string[]
@@ -13,7 +13,7 @@ export interface RanksListProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const RanksList = ({ rankIds, rankUrl, onRankClick, chipActions=()=>[], ...props }: RanksListProps) => {
-    const ranks = useAppSelector(state => rankIds.map(id => selectRankById(state, id)))
+    const ranks = useAppSelector(state => selectRanksByIds(state, rankIds))
 
     return (
         <EntityList

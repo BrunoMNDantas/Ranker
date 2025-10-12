@@ -3,7 +3,7 @@ import { Tier } from '../../model/Tier.types';
 import TierChip from '../tierChip/TierChip';
 import EntityList from '../../../../components/entityList/EntityList';
 import { useAppSelector } from '../../../../app/hooks';
-import { selectTierById } from '../../store/Tier.selectors';
+import { selectTiersByIds } from '../../store/Tier.selectors';
 
 export interface TiersListProps extends HTMLAttributes<HTMLDivElement> {
     tierIds: string[]
@@ -13,7 +13,7 @@ export interface TiersListProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const TiersList = ({ tierIds, tierUrl, onTierClick, chipActions=()=>[], ...props }: TiersListProps) => {
-    const tiers = useAppSelector(state => tierIds.map(id => selectTierById(state, id)))
+    const tiers = useAppSelector(state => selectTiersByIds(state, tierIds))
 
     return (
         <EntityList

@@ -3,7 +3,7 @@ import { Option } from '../../model/Option.types';
 import OptionChip from '../optionChip/OptionChip';
 import EntityList from '../../../../components/entityList/EntityList';
 import { useAppSelector } from '../../../../app/hooks';
-import { selectOptionById } from '../../store/Option.selectors';
+import { selectOptionsByIds } from '../../store/Option.selectors';
 
 export interface OptionsListProps extends HTMLAttributes<HTMLDivElement> {
     optionIds: string[]
@@ -13,7 +13,7 @@ export interface OptionsListProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const OptionsList = ({ optionIds, optionUrl, onOptionClick, chipActions=()=>[], ...props }: OptionsListProps) => {
-    const options = useAppSelector(state => optionIds.map(id => selectOptionById(state, id)))
+    const options = useAppSelector(state => selectOptionsByIds(state, optionIds))
 
     return (
         <EntityList

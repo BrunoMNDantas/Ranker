@@ -2,10 +2,10 @@ import React from 'react';
 import RanksList, { RanksListProps } from '../ranksList/RanksList';
 import EntityFilteredList from '../../../../components/entityFilteredList/EntityFilteredList';
 import { useAppSelector } from '../../../../app/hooks';
-import { selectRankById } from '../../store/Rank.selectors';
+import { selectRanksByIds } from '../../store/Rank.selectors';
 
 const RanksFilteredList = ({ rankIds, ...props }: RanksListProps) => {
-    const ranks = useAppSelector(state => rankIds.map(id => selectRankById(state, id)))
+    const ranks = useAppSelector(state => selectRanksByIds(state, rankIds))
 
     const handleFilter = (text: string) => {
         const lowerCaseText = text.toLowerCase()

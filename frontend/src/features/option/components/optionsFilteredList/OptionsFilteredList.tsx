@@ -2,10 +2,10 @@ import React from 'react';
 import OptionsList, { OptionsListProps } from '../optionsList/OptionsList';
 import EntityFilteredList from '../../../../components/entityFilteredList/EntityFilteredList';
 import { useAppSelector } from '../../../../app/hooks';
-import { selectOptionById } from '../../store/Option.selectors';
+import { selectOptionsByIds } from '../../store/Option.selectors';
 
 const OptionsFilteredList = ({ optionIds, ...props }: OptionsListProps) => {
-    const options = useAppSelector(state => optionIds.map(id => selectOptionById(state, id)))
+    const options = useAppSelector(state => selectOptionsByIds(state, optionIds))
 
     const handleFilter = (text: string) => {
         const lowerCaseText = text.toLowerCase()

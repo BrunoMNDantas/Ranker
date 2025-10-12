@@ -3,7 +3,7 @@ import { Assignment } from '../../model/Assignment.types';
 import AssignmentChip from '../assignmentChip/AssignmentChip';
 import EntityList from '../../../../components/entityList/EntityList';
 import { useAppSelector } from '../../../../app/hooks';
-import { selectAssignmentById } from '../../store/Assignment.selectors';
+import { selectAssignmentsByIds } from '../../store/Assignment.selectors';
 
 export interface AssignmentsListProps extends HTMLAttributes<HTMLDivElement> {
     assignmentIds: string[]
@@ -13,7 +13,7 @@ export interface AssignmentsListProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const AssignmentsList = ({ assignmentIds, assignmentUrl, onAssignmentClick, chipActions=()=>[], ...props }: AssignmentsListProps) => {
-    const assignments = useAppSelector(state => assignmentIds.map(id => selectAssignmentById(state, id)))
+    const assignments = useAppSelector(state => selectAssignmentsByIds(state, assignmentIds))
 
     return (
         <EntityList
