@@ -4,7 +4,7 @@ import{ Mode } from '../../../../components/entityCard/EntityCard'
 import EntityFormModal from '../../../../components/entityFormModal/EntityFormModal';
 import { Rank } from '../../model/Rank.types';
 import RankCardHeader from '../rankCard/rankCardHeader/RankCardHeader';
-import RankCardForm from '../rankCard/rankCardForm/RankCardForm';
+import RankForm from '../rankForm/RankForm';
 import RankCreateIcon from '../rankCreateIcon/RankCreateIcon';
 
 export interface RankFormModalProps extends HTMLAttributes<HTMLDivElement> {
@@ -18,7 +18,7 @@ const RankFormModal = ({ open, defaultRank, onCreate, onCancel, ...props }: Rank
     const [rank, setRank] = useState(createRank(defaultRank))
 
     const modalHeader = <RankCardHeader rank={rank} showBreadcrumbs={false}/>
-    const modalForm = <RankCardForm rank={rank} onRankChange={setRank} mode={Mode.EDIT}/>
+    const modalForm = <RankForm rank={rank} onRankChange={setRank} mode={Mode.EDIT}/>
 
     const handleCancel = async () => {
         await onCancel()

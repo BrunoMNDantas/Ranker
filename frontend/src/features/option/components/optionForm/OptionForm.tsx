@@ -1,17 +1,17 @@
 import React, { HTMLAttributes } from 'react';
-import { Option } from '../../../model/Option.types';
+import { Option } from '../../model/Option.types';
 import { TextField } from '@mui/material';
-import { Mode } from '../../../../../components/entityCard/EntityCard';
-import ColorField from '../../../../../components/colorField/ColorField';
-import EntityCardForm from '../../../../../components/entityCard/entityCardForm/EntityCardForm';
+import { Mode } from '../../../../components/entityCard/EntityCard';
+import ColorField from '../../../../components/colorField/ColorField';
+import EntityCardForm from '../../../../components/entityCard/entityCardForm/EntityCardForm';
 
-export interface OptionCardFormProps extends HTMLAttributes<HTMLDivElement> {
+export interface OptionFormProps extends HTMLAttributes<HTMLDivElement> {
     option: Option
     onOptionChange: (option: Option) => void
     mode: Mode
 }
 
-const OptionCardForm = ({ option, onOptionChange, mode, ...props }: OptionCardFormProps) => {
+const OptionForm = ({ option, onOptionChange, mode, ...props }: OptionFormProps) => {
     const editable = mode === Mode.EDIT
 
     return (
@@ -42,4 +42,4 @@ const OptionCardForm = ({ option, onOptionChange, mode, ...props }: OptionCardFo
     )
 }
 
-export default OptionCardForm;
+export default OptionForm;

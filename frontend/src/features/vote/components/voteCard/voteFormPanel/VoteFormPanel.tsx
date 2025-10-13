@@ -6,7 +6,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RestoreIcon from '@mui/icons-material/Restore';
 import EntityCardActions, { Action } from '../../../../../components/entityCard/entityCardActions/EntityCardActions';
-import VoteCardForm from '../voteCardForm/VoteCardForm';
+import VoteForm from '../../voteForm/VoteForm';
 import { Divider } from '@mui/material';
 import { useAppSelector, useAppDispatch } from '../../../../../app/hooks';
 import { selectVoteById } from '../../../store/Vote.selectors';
@@ -96,7 +96,7 @@ export const VoteFormPanel = ({ voteId, mode }: VoteFormPanelProps) => {
 
     return (
         <div className={classes.root}>
-            <VoteCardForm vote={vote} onVoteChange={handleVoteChange} mode={mode}/>
+            <VoteForm vote={vote} onVoteChange={handleVoteChange} mode={mode}/>
             <Divider/>
             <EntityCardActions actions={[clearAction, saveAction, deleteAction]}/>
         </div>

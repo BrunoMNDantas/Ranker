@@ -6,7 +6,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RestoreIcon from '@mui/icons-material/Restore';
 import EntityCardActions, { Action } from '../../../../../components/entityCard/entityCardActions/EntityCardActions';
-import UserCardForm from '../userCardForm/UserCardForm';
+import UserForm from '../../userForm/UserForm';
 import { Divider } from '@mui/material';
 
 export interface UserFormPanelProps {
@@ -58,7 +58,7 @@ export const UserFormPanel = ({ user, mode, onUserChange, onClear, onSave, onDel
 
     return (
         <div className={classes.root}>
-            <UserCardForm user={user} onUserChange={onUserChange} mode={mode}/>
+            <UserForm user={user} onUserChange={onUserChange} mode={mode}/>
             <Divider/>
             <EntityCardActions actions={[clearAction, saveAction, deleteAction]}/>
         </div>

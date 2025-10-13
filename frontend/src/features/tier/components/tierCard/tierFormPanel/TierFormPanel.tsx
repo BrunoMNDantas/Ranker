@@ -6,7 +6,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RestoreIcon from '@mui/icons-material/Restore';
 import EntityCardActions, { Action } from '../../../../../components/entityCard/entityCardActions/EntityCardActions';
-import TierCardForm from '../tierCardForm/TierCardForm';
+import TierForm from '../../tierForm/TierForm';
 import { Divider } from '@mui/material';
 
 export interface TierFormPanelProps {
@@ -58,7 +58,7 @@ export const TierFormPanel = ({ tier, mode, onTierChange, onClear, onSave, onDel
 
     return (
         <div className={classes.root}>
-            <TierCardForm tier={tier} onTierChange={onTierChange} mode={mode}/>
+            <TierForm tier={tier} onTierChange={onTierChange} mode={mode}/>
             <Divider/>
             <EntityCardActions actions={[clearAction, saveAction, deleteAction]}/>
         </div>

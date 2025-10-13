@@ -1,17 +1,17 @@
 import React, { HTMLAttributes } from 'react';
 import { TextField } from '@mui/material';
-import { Mode } from '../../../../../components/entityCard/EntityCard';
-import EntityCardForm from '../../../../../components/entityCard/entityCardForm/EntityCardForm';
-import { useAppSelector, useAppDispatch } from '../../../../../app/hooks';
-import { selectAssignmentById } from '../../../store/Assignment.selectors';
-import { updateAssignment } from '../../../store/Assignment.slice';
+import { Mode } from '../../../../components/entityCard/EntityCard';
+import EntityCardForm from '../../../../components/entityCard/entityCardForm/EntityCardForm';
+import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
+import { selectAssignmentById } from '../../store/Assignment.selectors';
+import { updateAssignment } from '../../store/Assignment.slice';
 
-export interface AssignmentCardFormProps extends HTMLAttributes<HTMLDivElement> {
+export interface AssignmentFormProps extends HTMLAttributes<HTMLDivElement> {
     assignmentId: string
     mode: Mode
 }
 
-const AssignmentCardForm = ({ assignmentId, mode, ...props }: AssignmentCardFormProps) => {
+const AssignmentForm = ({ assignmentId, mode, ...props }: AssignmentFormProps) => {
     const dispatch = useAppDispatch()
     const assignment = useAppSelector((state) => selectAssignmentById(state, assignmentId))
     const editable = mode === Mode.EDIT
@@ -42,4 +42,4 @@ const AssignmentCardForm = ({ assignmentId, mode, ...props }: AssignmentCardForm
     )
 }
 
-export default AssignmentCardForm;
+export default AssignmentForm;

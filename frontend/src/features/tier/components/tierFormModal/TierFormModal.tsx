@@ -2,7 +2,7 @@ import React, { HTMLAttributes, useState } from 'react';
 import { Tier } from '../../model/Tier.types';
 import TierCardHeader from '../tierCard/tierCardHeader/TierCardHeader';
 import { createTier } from '../../../../services/EntityFactory.service';
-import TierCardForm from '../tierCard/tierCardForm/TierCardForm';
+import TierForm from '../tierForm/TierForm';
 import{ Mode } from '../../../../components/entityCard/EntityCard'
 import EntityFormModal from '../../../../components/entityFormModal/EntityFormModal';
 import TierCreateIcon from '../tierCreateIcon/TierCreateIcon';
@@ -18,7 +18,7 @@ const TierFormModal = ({ open, defaultTier, onCreate, onCancel, ...props }: Tier
     const [tier, setTier] = useState(createTier(defaultTier))
 
     const modalHeader = <TierCardHeader tier={tier} showBreadcrumbs={false}/>
-    const modalForm = <TierCardForm tier={tier} onTierChange={setTier} mode={Mode.EDIT}/>
+    const modalForm = <TierForm tier={tier} onTierChange={setTier} mode={Mode.EDIT}/>
 
     const handleCancel = async () => {
         await onCancel()

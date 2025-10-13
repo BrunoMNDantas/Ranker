@@ -1,17 +1,17 @@
 import React, { HTMLAttributes } from 'react';
-import { Tier } from '../../../model/Tier.types';
+import { Tier } from '../../model/Tier.types';
 import { TextField } from '@mui/material';
-import { Mode } from '../../../../../components/entityCard/EntityCard';
-import ColorField from '../../../../../components/colorField/ColorField';
-import EntityCardForm from '../../../../../components/entityCard/entityCardForm/EntityCardForm';
+import { Mode } from '../../../../components/entityCard/EntityCard';
+import ColorField from '../../../../components/colorField/ColorField';
+import EntityCardForm from '../../../../components/entityCard/entityCardForm/EntityCardForm';
 
-export interface TierCardFormProps extends HTMLAttributes<HTMLDivElement> {
+export interface TierFormProps extends HTMLAttributes<HTMLDivElement> {
     tier: Tier
     onTierChange: (tier: Tier) => void
     mode: Mode
 }
 
-const TierCardForm = ({ tier, onTierChange, mode, ...props }: TierCardFormProps) => {
+const TierForm = ({ tier, onTierChange, mode, ...props }: TierFormProps) => {
     const editable = mode === Mode.EDIT
 
     return (
@@ -42,4 +42,4 @@ const TierCardForm = ({ tier, onTierChange, mode, ...props }: TierCardFormProps)
     )
 }
 
-export default TierCardForm;
+export default TierForm;

@@ -6,7 +6,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RestoreIcon from '@mui/icons-material/Restore';
 import EntityCardActions, { Action } from '../../../../../components/entityCard/entityCardActions/EntityCardActions';
-import AssignmentCardForm from '../assignmentCardForm/AssignmentCardForm';
+import AssignmentForm from '../../assignmentForm/AssignmentForm';
 import { Divider } from '@mui/material';
 import { useAppSelector, useAppDispatch } from '../../../../../app/hooks';
 import { selectAssignmentById } from '../../../store/Assignment.selectors';
@@ -92,7 +92,7 @@ export const AssignmentFormPanel = ({ assignmentId, mode }: AssignmentFormPanelP
 
     return (
         <div className={classes.root}>
-            <AssignmentCardForm assignmentId={assignmentId} mode={mode}/>
+            <AssignmentForm assignmentId={assignmentId} mode={mode}/>
             <Divider/>
             <EntityCardActions actions={[clearAction, saveAction, deleteAction]}/>
         </div>

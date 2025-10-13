@@ -2,7 +2,7 @@ import React, { HTMLAttributes, useState } from 'react';
 import { Option } from '../../model/Option.types';
 import OptionCardHeader from '../optionCard/optionCardHeader/OptionCardHeader';
 import { createOption } from '../../../../services/EntityFactory.service';
-import OptionCardForm from '../optionCard/optionCardForm/OptionCardForm';
+import OptionForm from '../optionForm/OptionForm';
 import{ Mode } from '../../../../components/entityCard/EntityCard'
 import EntityFormModal from '../../../../components/entityFormModal/EntityFormModal';
 import OptionCreateIcon from '../optionCreateIcon/OptionCreateIcon';
@@ -18,7 +18,7 @@ const OptionFormModal = ({ open, defaultOption, onCreate, onCancel, ...props }: 
     const [option, setOption] = useState(createOption(defaultOption))
 
     const modalHeader = <OptionCardHeader option={option} showBreadcrumbs={false}/>
-    const modalForm = <OptionCardForm option={option} onOptionChange={setOption} mode={Mode.EDIT}/>
+    const modalForm = <OptionForm option={option} onOptionChange={setOption} mode={Mode.EDIT}/>
 
     const handleCancel = async () => {
         await onCancel()

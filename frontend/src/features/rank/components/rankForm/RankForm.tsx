@@ -1,17 +1,17 @@
 import React, { HTMLAttributes } from 'react';
-import { Rank } from '../../../model/Rank.types';
+import { Rank } from '../../model/Rank.types';
 import { TextField } from '@mui/material';
-import { Mode } from '../../../../../components/entityCard/EntityCard';
-import ColorField from '../../../../../components/colorField/ColorField';
-import EntityCardForm from '../../../../../components/entityCard/entityCardForm/EntityCardForm';
+import { Mode } from '../../../../components/entityCard/EntityCard';
+import ColorField from '../../../../components/colorField/ColorField';
+import EntityCardForm from '../../../../components/entityCard/entityCardForm/EntityCardForm';
 
-export interface RankCardFormProps extends HTMLAttributes<HTMLDivElement> {
+export interface RankFormProps extends HTMLAttributes<HTMLDivElement> {
     rank: Rank
     onRankChange: (rank: Rank) => void
     mode: Mode
 }
 
-const RankCardForm = ({ rank, onRankChange, mode, ...props }: RankCardFormProps) => {
+const RankForm = ({ rank, onRankChange, mode, ...props }: RankFormProps) => {
     const editable = mode === Mode.EDIT
 
     return (
@@ -42,4 +42,4 @@ const RankCardForm = ({ rank, onRankChange, mode, ...props }: RankCardFormProps)
     )
 }
 
-export default RankCardForm;
+export default RankForm;

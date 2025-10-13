@@ -1,17 +1,17 @@
 import React, { HTMLAttributes } from 'react';
 import { TextField } from '@mui/material';
-import { Mode } from '../../../../../components/entityCard/EntityCard';
-import ColorField from '../../../../../components/colorField/ColorField';
-import EntityCardForm from '../../../../../components/entityCard/entityCardForm/EntityCardForm';
-import { User } from '../../../model/User.types';
+import { Mode } from '../../../../components/entityCard/EntityCard';
+import ColorField from '../../../../components/colorField/ColorField';
+import EntityCardForm from '../../../../components/entityCard/entityCardForm/EntityCardForm';
+import { User } from '../../model/User.types';
 
-export interface UserCardFormProps extends HTMLAttributes<HTMLDivElement> {
+export interface UserFormProps extends HTMLAttributes<HTMLDivElement> {
     user: User
     onUserChange: (user: User) => void
     mode: Mode
 }
 
-const UserCardForm = ({ user, onUserChange, mode, ...props }: UserCardFormProps) => {
+const UserForm = ({ user, onUserChange, mode, ...props }: UserFormProps) => {
     const editable = mode === Mode.EDIT
 
     return (
@@ -35,4 +35,4 @@ const UserCardForm = ({ user, onUserChange, mode, ...props }: UserCardFormProps)
     )
 }
 
-export default UserCardForm;
+export default UserForm;

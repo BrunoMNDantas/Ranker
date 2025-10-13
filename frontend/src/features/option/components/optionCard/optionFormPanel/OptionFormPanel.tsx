@@ -6,7 +6,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RestoreIcon from '@mui/icons-material/Restore';
 import EntityCardActions, { Action } from '../../../../../components/entityCard/entityCardActions/EntityCardActions';
-import OptionCardForm from '../optionCardForm/OptionCardForm';
+import OptionForm from '../../optionForm/OptionForm';
 import { Divider } from '@mui/material';
 
 export interface OptionFormPanelProps {
@@ -58,7 +58,7 @@ export const OptionFormPanel = ({ option, mode, onOptionChange, onClear, onSave,
 
     return (
         <div className={classes.root}>
-            <OptionCardForm option={option} onOptionChange={onOptionChange} mode={mode}/>
+            <OptionForm option={option} onOptionChange={onOptionChange} mode={mode}/>
             <Divider/>
             <EntityCardActions actions={[clearAction, saveAction, deleteAction]}/>
         </div>

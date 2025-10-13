@@ -6,7 +6,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RestoreIcon from '@mui/icons-material/Restore';
 import EntityCardActions, { Action } from '../../../../../components/entityCard/entityCardActions/EntityCardActions';
-import RankCardForm from '../rankCardForm/RankCardForm';
+import RankForm from '../../rankForm/RankForm';
 import { Divider } from '@mui/material';
 
 export interface RankFormPanelProps {
@@ -58,7 +58,7 @@ export const RankFormPanel = ({ rank, mode, onRankChange, onClear, onSave, onDel
 
     return (
         <div className={classes.root}>
-            <RankCardForm rank={rank} onRankChange={onRankChange} mode={mode}/>
+            <RankForm rank={rank} onRankChange={onRankChange} mode={mode}/>
             <Divider/>
             <EntityCardActions actions={[clearAction, saveAction, deleteAction]}/>
         </div>
