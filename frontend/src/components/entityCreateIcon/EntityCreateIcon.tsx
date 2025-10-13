@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { Badge, BadgeProps } from '@mui/material';
 
 export interface EntityCreateIconProps {

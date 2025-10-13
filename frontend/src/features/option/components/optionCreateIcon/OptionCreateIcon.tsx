@@ -1,4 +1,3 @@
-import React from 'react';
 import { BadgeProps } from '@mui/material';
 import EntityCreateIcon from '../../../../components/entityCreateIcon/EntityCreateIcon';
 import OptionIcon from '../optionIcon/OptionIcon';

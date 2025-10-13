@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, useState } from 'react';
+import { HTMLAttributes, useState } from 'react';
 import EntityCard from '../../../../components/entityCard/EntityCard';
 import VoteCardHeader from './voteCardHeader/VoteCardHeader';
 import { Mode } from '../../../../components/entityCard/EntityCard';

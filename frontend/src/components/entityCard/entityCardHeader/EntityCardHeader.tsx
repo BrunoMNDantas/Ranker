@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, ReactNode } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 import classes from './EntityCardHeader.module.css'
 
 export interface EntityCardHeaderProps extends HTMLAttributes<HTMLDivElement> {

@@ -1,4 +1,3 @@
-import React from 'react';
 import RanksList, { RanksListProps } from '../ranksList/RanksList';
 import EntityFilteredList from '../../../../components/entityFilteredList/EntityFilteredList';
 import { useAppSelector } from '../../../../app/hooks';

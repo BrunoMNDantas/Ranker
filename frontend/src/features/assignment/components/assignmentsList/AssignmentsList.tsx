@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, ReactNode } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 import { Assignment } from '../../model/Assignment.types';
 import AssignmentChip from '../assignmentChip/AssignmentChip';
 import EntityList from '../../../../components/entityList/EntityList';

@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import { HTMLAttributes } from 'react';
 import classes from './TierArea.module.css'
 import { Tier } from '../../../../tier/model/Tier.types';
 import { Option } from '../../../../option/model/Option.types';

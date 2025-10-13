@@ -1,4 +1,3 @@
-import React from 'react';
 import { appOptionRoute, appRankRoute, appUserRoute } from '../../../../app/Routes';
 import RankIcon from '../../../rank/components/rankIcon/RankIcon';
 import EntityBreadcrumbs from '../../../../components/entityBreadcrumbs/EntityBreadcrumbs';

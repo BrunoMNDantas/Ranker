@@ -1,4 +1,3 @@
-import React from 'react';
 import classes from './EntityProperty.module.css';
 import { Tooltip, Typography, TypographyProps } from '@mui/material';
 

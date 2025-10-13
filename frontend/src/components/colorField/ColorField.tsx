@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { TextField, Popover, InputAdornment, IconButton } from '@mui/material';
 import { Palette } from '@mui/icons-material';
 import { RgbaColorPicker } from 'react-colorful';

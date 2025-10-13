@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import { HTMLAttributes } from 'react';
 import classes from './OptionArea.module.css'
 import { Option } from '../../../../option/model/Option.types';
 import OptionAvatar from '../../../../option/components/optionAvatar/OptionAvatar';

@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, ReactNode } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 import classes from './EntityChip.module.css';
 import EntityProperty from '../entityProperty/EntityProperty';
 

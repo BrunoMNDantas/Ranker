@@ -1,4 +1,4 @@
-import React from 'react';
+import { ComponentType } from 'react';
 import classes from './EntityBreadcrumbs.module.css';
 import { Breadcrumbs, BreadcrumbsProps, Link, SvgIconProps } from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
@@ -6,7 +6,7 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 export interface Part {
     name: string
     href: string
-    Icon: React.ComponentType<SvgIconProps>
+    Icon: ComponentType<SvgIconProps>
 }
 
 export interface EntityBreadcrumbsProps extends BreadcrumbsProps {

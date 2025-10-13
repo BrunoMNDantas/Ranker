@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, ReactNode } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 import { Tier } from '../../model/Tier.types';
 import TierChip from '../tierChip/TierChip';
 import EntityList from '../../../../components/entityList/EntityList';

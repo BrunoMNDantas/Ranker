@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import { HTMLAttributes } from 'react';
 import EntityChip from '../../../../components/entityChip/EntityChip';
 import TierAvatar from '../tierAvatar/TierAvatar';
 import { useAppSelector } from '../../../../app/hooks';

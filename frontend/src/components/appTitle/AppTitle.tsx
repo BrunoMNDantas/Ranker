@@ -1,4 +1,3 @@
-import React from 'react';
 import { Typography, TypographyProps } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { ROOT_ROUTE } from '../../app/Routes';

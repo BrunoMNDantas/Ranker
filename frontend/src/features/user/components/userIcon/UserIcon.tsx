@@ -1,4 +1,3 @@
-import React from 'react';
 import { SvgIconProps } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 

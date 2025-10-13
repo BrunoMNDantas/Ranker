@@ -1,4 +1,3 @@
-import React from 'react';
 import classes from './AppLayout.module.css';
 import AppTitle from '../../components/appTitle/AppTitle';
 import { Outlet, useNavigate } from 'react-router-dom';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { appUserRoute, appVoteRoute } from '../../../../app/Routes';
 import EntityBreadcrumbs from '../../../../components/entityBreadcrumbs/EntityBreadcrumbs';
 import { BreadcrumbsProps } from '@mui/material';

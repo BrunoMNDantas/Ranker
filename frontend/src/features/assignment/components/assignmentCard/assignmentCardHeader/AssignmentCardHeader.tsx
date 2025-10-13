@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import { HTMLAttributes } from 'react';
 import EntityCardHeader from '../../../../../components/entityCard/entityCardHeader/EntityCardHeader';
 import AssignmentAvatar from '../../assignmentAvatar/AssignmentAvatar';
 import EntityProperty from '../../../../../components/entityProperty/EntityProperty';

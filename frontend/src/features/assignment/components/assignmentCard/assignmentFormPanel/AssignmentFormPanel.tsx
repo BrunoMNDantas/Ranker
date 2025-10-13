@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import classes from './AssignmentFormPanel.module.css'
 import { Mode } from '../../../../../components/entityCard/EntityCard';
 import { Assignment } from '../../../model/Assignment.types';

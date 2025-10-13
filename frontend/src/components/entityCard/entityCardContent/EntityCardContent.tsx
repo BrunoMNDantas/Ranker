@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import classes from './EntityCardContent.module.css';
 import { CardContent, CardContentProps, Tab, Tabs } from '@mui/material';
 

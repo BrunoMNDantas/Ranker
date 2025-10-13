@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import { HTMLAttributes } from 'react';
 import EntityCardHeader from '../../../../../components/entityCard/entityCardHeader/EntityCardHeader';
 import VoteAvatar from '../../voteAvatar/VoteAvatar';
 import EntityProperty from '../../../../../components/entityProperty/EntityProperty';

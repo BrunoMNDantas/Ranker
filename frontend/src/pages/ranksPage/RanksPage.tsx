@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import classes from './RanksPage.module.css';
 import { appRankRoute } from '../../app/Routes';
 import { useRanksPageData } from '../../features/rank/hooks/UseRanksPage.hook';

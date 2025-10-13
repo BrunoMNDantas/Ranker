@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, useEffect, useState } from 'react';
+import { HTMLAttributes, useEffect, useState } from 'react';
 import classes from './EntityFilteredList.module.css';
 import { TextField } from '@mui/material';
 

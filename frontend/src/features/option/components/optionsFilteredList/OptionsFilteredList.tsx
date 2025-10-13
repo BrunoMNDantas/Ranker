@@ -1,4 +1,3 @@
-import React from 'react';
 import OptionsList, { OptionsListProps } from '../optionsList/OptionsList';
 import EntityFilteredList from '../../../../components/entityFilteredList/EntityFilteredList';
 import { useAppSelector } from '../../../../app/hooks';

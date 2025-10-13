@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, ReactNode } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 import { Option } from '../../model/Option.types';
 import OptionChip from '../optionChip/OptionChip';
 import EntityList from '../../../../components/entityList/EntityList';

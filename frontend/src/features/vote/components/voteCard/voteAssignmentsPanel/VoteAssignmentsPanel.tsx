@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { Assignment } from '../../../../assignment/model/Assignment.types';
 import AssignmentsList from '../../../../assignment/components/assignmentsList/AssignmentsList';
 import VisibilityIcon from '@mui/icons-material/Visibility';

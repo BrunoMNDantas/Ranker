@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import classes from './EntityFormModal.module.css';
 import { Modal, ModalProps } from '@mui/material';
 import EntityCardActions from '../entityCard/entityCardActions/EntityCardActions';

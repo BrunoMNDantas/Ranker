@@ -1,4 +1,3 @@
-import React from 'react';
 import TiersList, { TiersListProps } from '../tiersList/TiersList';
 import EntityFilteredList from '../../../../components/entityFilteredList/EntityFilteredList';
 import { useAppSelector } from '../../../../app/hooks';

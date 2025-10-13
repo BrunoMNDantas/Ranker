@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, ReactNode } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 import { Rank } from '../../model/Rank.types';
 import RankChip from '../rankChip/RankChip';
 import EntityList from '../../../../components/entityList/EntityList';

@@ -1,4 +1,3 @@
-import React from 'react';
 import classes from './LoginPage.module.css';
 import { login, register, loginWithGoogle } from '../../features/auth/api/Auth.api';
 import { useNavigate } from 'react-router-dom';

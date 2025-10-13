@@ -1,4 +1,3 @@
-import React from 'react';
 import classes from './VotingPage.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import LoadElement from '../../components/loadElement/LoadElement';

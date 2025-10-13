@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import { HTMLAttributes } from 'react';
 import classes from './UnassignedArea.module.css'
 import { Option } from '../../../../option/model/Option.types';
 import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable';

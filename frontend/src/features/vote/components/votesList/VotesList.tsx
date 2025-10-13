@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, ReactNode } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 import { Vote } from '../../model/Vote.types';
 import VoteChip from '../voteChip/VoteChip';
 import EntityList from '../../../../components/entityList/EntityList';

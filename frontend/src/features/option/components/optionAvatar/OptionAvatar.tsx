@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import { HTMLAttributes } from 'react';
 import EntityAvatar from '../../../../components/entityAvatar/EntityAvatar';
 import OptionIcon from '../optionIcon/OptionIcon';
 import { useAppSelector } from '../../../../app/hooks';

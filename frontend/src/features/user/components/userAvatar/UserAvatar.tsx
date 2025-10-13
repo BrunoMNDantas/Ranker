@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import { HTMLAttributes } from 'react';
 import EntityAvatar from '../../../../components/entityAvatar/EntityAvatar';
 import UserIcon from '../userIcon/UserIcon';
 import { useAppSelector } from '../../../../app/hooks';

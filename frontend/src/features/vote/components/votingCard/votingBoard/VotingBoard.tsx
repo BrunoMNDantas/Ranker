@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, useState } from 'react';
+import { HTMLAttributes, useState } from 'react';
 import classes from './VotingBoard.module.css'
 import { Tier } from '../../../../tier/model/Tier.types';
 import { Option } from '../../../../option/model/Option.types';

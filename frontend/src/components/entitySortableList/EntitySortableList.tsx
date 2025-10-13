@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, useState, ReactNode } from 'react';
+import { HTMLAttributes, useState, ReactNode } from 'react';
 import classes from './EntitySortableList.module.css';
 import {
     DndContext, DragEndEvent, DragStartEvent, DragOverlay,

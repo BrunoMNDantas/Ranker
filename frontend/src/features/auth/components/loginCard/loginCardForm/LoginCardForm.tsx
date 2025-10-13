@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import { HTMLAttributes } from 'react';
 import { TextField } from '@mui/material';
 import EntityCardForm from '../../../../../components/entityCard/entityCardForm/EntityCardForm';
 
