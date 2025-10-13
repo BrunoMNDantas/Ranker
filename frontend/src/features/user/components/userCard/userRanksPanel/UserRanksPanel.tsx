@@ -13,6 +13,7 @@ import RankCreateIcon from '../../../../rank/components/rankCreateIcon/RankCreat
 import { useAppDispatch, useAppSelector } from '../../../../../app/hooks';
 import { selectRanksOfUser } from '../../../../rank/store/Rank.selectors';
 import { createRankThunk, deleteRankThunk } from '../../../../rank/store/Rank.thunks';
+import { addRank, deleteRank } from '../../../../rank/store/Rank.slice';
 import RankFormModal from '../../../../rank/components/rankFormModal/RankFormModal';
 import { createRank } from '../../../../../services/EntityFactory.service';
 
@@ -25,7 +26,7 @@ export const UserRanksPanel = ({ userId, mode }: UserRanksPanelProps) => {
     const dispatch = useAppDispatch()
     const ranks = useAppSelector((state) => selectRanksOfUser(state, userId))
     const [executing, setExecuting] = useState(false)
-    const [showRankModal, setShowRankModal] = useState(false)
+    const [tempRankId, setTempRankId] = useState<string | null>(null)
     const editMode = mode === Mode.EDIT
 
     const execute = async (action: ()=>Promise<void>) => {
@@ -44,19 +45,30 @@ export const UserRanksPanel = ({ userId, mode }: UserRanksPanelProps) => {
     }
 
     const handleCreateRankClick = async () => {
-        setShowRankModal(true)
-    }
-
-    const handleCreateRank = async (rank: Rank) => {
         await execute(async () => {
-            await dispatch(createRankThunk(rank)).unwrap()
-            setShowRankModal(false)
+            const newRank = createRank({ id: crypto.randomUUID(), ownerId: userId })
+            setTempRankId(newRank.id)
+            dispatch(addRank(newRank))
         })
     }
 
-    const handleCreateRankCancel = () => {
-        setShowRankModal(false)
-        return Promise.resolve()
+    const handleModalCreate = async () => {
+        if (tempRankId) {
+            const rank = ranks.find(r => r.id === tempRankId)
+            if (rank) {
+                await execute(async () => {
+                    await dispatch(createRankThunk(rank)).unwrap()
+                    setTempRankId(null)
+                })
+            }
+        }
+    }
+
+    const handleModalCancel = async () => {
+        if (tempRankId) {
+            dispatch(deleteRank(tempRankId))
+            setTempRankId(null)
+        }
     }
 
     const createRankAction: Action = {
@@ -84,11 +96,7 @@ export const UserRanksPanel = ({ userId, mode }: UserRanksPanelProps) => {
                 <Divider/>
                 <EntityCardActions actions={[createRankAction]}/>
             </div>
-            <RankFormModal
-                open={showRankModal}
-                defaultRank={createRank({ ownerId: userId })}
-                onCancel={handleCreateRankCancel}
-                onCreate={handleCreateRank}/>
+            { tempRankId ? <RankFormModal rankId={tempRankId} onCancel={handleModalCancel} onCreate={handleModalCreate}/> : null }
         </>
     )
 }

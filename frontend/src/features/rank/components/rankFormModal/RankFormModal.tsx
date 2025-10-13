@@ -1,43 +1,32 @@
-import React, { HTMLAttributes, useState } from 'react';
-import { createRank } from '../../../../services/EntityFactory.service';
+import { HTMLAttributes } from 'react';
 import{ Mode } from '../../../../components/entityCard/EntityCard'
 import EntityFormModal from '../../../../components/entityFormModal/EntityFormModal';
-import { Rank } from '../../model/Rank.types';
 import RankCardHeader from '../rankCard/rankCardHeader/RankCardHeader';
 import RankForm from '../rankForm/RankForm';
 import RankCreateIcon from '../rankCreateIcon/RankCreateIcon';
+import { useAppSelector } from '../../../../app/hooks';
+import { selectRankById } from '../../store/Rank.selectors';
 
 export interface RankFormModalProps extends HTMLAttributes<HTMLDivElement> {
-    open: boolean
-    defaultRank: Rank
-    onCreate: (rank: Rank) => Promise<void>
+    rankId: string
+    onCreate: () => Promise<void>
     onCancel: () => Promise<void>
 }
 
-const RankFormModal = ({ open, defaultRank, onCreate, onCancel, ...props }: RankFormModalProps) => {
-    const [rank, setRank] = useState(createRank(defaultRank))
+const RankFormModal = ({ rankId, onCreate, onCancel, ...props }: RankFormModalProps) => {
+    const rank = useAppSelector((state) => rankId ? selectRankById(state, rankId) : null)
 
-    const modalHeader = <RankCardHeader rank={rank} showBreadcrumbs={false}/>
-    const modalForm = <RankForm rank={rank} onRankChange={setRank} mode={Mode.EDIT}/>
-
-    const handleCancel = async () => {
-        await onCancel()
-        setRank(defaultRank)
-    }
-
-    const handleCreate = async () => {
-        await onCreate(rank)
-        setRank(defaultRank)
-    }
+    const modalHeader = rank ? <RankCardHeader rankId={rank.id} showBreadcrumbs={false}/> : null
+    const modalForm = rankId ? <RankForm rankId={rankId} mode={Mode.EDIT}/> : null
 
     return (
         <EntityFormModal
-            open={open}
+            open
             modalHeader={modalHeader}
             modalForm={modalForm}
             entityCreateIcon={<RankCreateIcon/>}
-            onCancel={handleCancel}
-            onCreate={handleCreate}
+            onCancel={onCancel}
+            onCreate={onCreate}
             {...props}/>
     );
 }

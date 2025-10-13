@@ -1,43 +1,32 @@
-import React, { HTMLAttributes, useState } from 'react';
-import { Option } from '../../model/Option.types';
+import { HTMLAttributes } from 'react';
 import OptionCardHeader from '../optionCard/optionCardHeader/OptionCardHeader';
-import { createOption } from '../../../../services/EntityFactory.service';
 import OptionForm from '../optionForm/OptionForm';
 import{ Mode } from '../../../../components/entityCard/EntityCard'
 import EntityFormModal from '../../../../components/entityFormModal/EntityFormModal';
 import OptionCreateIcon from '../optionCreateIcon/OptionCreateIcon';
+import { useAppSelector } from '../../../../app/hooks';
+import { selectOptionById } from '../../store/Option.selectors';
 
 export interface OptionFormModalProps extends HTMLAttributes<HTMLDivElement> {
-    open: boolean
-    defaultOption: Option
-    onCreate: (option: Option) => Promise<void>
+    optionId: string
+    onCreate: () => Promise<void>
     onCancel: () => Promise<void>
 }
 
-const OptionFormModal = ({ open, defaultOption, onCreate, onCancel, ...props }: OptionFormModalProps) => {
-    const [option, setOption] = useState(createOption(defaultOption))
+const OptionFormModal = ({ optionId, onCreate, onCancel, ...props }: OptionFormModalProps) => {
+    const option = useAppSelector((state) => optionId ? selectOptionById(state, optionId) : null)
 
-    const modalHeader = <OptionCardHeader option={option} showBreadcrumbs={false}/>
-    const modalForm = <OptionForm option={option} onOptionChange={setOption} mode={Mode.EDIT}/>
-
-    const handleCancel = async () => {
-        await onCancel()
-        setOption(defaultOption)
-    }
-
-    const handleCreate = async () => {
-        await onCreate(option)
-        setOption(defaultOption)
-    }
+    const modalHeader = option ? <OptionCardHeader optionId={option.id} showBreadcrumbs={false}/> : null
+    const modalForm = optionId ? <OptionForm optionId={optionId} mode={Mode.EDIT}/> : null
 
     return (
         <EntityFormModal
-            open={open}
+            open
             modalHeader={modalHeader}
             modalForm={modalForm}
             entityCreateIcon={<OptionCreateIcon/>}
-            onCancel={handleCancel}
-            onCreate={handleCreate}
+            onCancel={onCancel}
+            onCreate={onCreate}
             {...props}/>
     );
 }

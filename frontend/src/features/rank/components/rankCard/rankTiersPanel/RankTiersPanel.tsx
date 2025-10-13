@@ -14,6 +14,7 @@ import TierCreateIcon from '../../../../tier/components/tierCreateIcon/TierCreat
 import { useAppDispatch, useAppSelector } from '../../../../../app/hooks';
 import { selectTiersOfRank } from '../../../../tier/store/Tier.selectors';
 import { createTierThunk, updateTierThunk, deleteTierThunk } from '../../../../tier/store/Tier.thunks';
+import { addTier, deleteTier } from '../../../../tier/store/Tier.slice';
 import TierFormModal from '../../../../tier/components/tierFormModal/TierFormModal';
 import { createTier } from '../../../../../services/EntityFactory.service';
 
@@ -26,7 +27,7 @@ export const RankTiersPanel = ({ rankId, mode }: RankTiersPanelProps) => {
     const dispatch = useAppDispatch()
     const tiers = useAppSelector((state) => selectTiersOfRank(state, rankId))
     const [executing, setExecuting] = useState(false)
-    const [showTierModal, setShowTierModal] = useState(false)
+    const [tempTierId, setTempTierId] = useState<string | null>(null)
     const editMode = mode === Mode.EDIT
 
     const sortedTiers = useMemo(() =>
@@ -57,19 +58,30 @@ export const RankTiersPanel = ({ rankId, mode }: RankTiersPanelProps) => {
     }
 
     const handleCreateTierClick = async () => {
-        setShowTierModal(true)
-    }
-
-    const handleCreateTier = async (tier: Tier) => {
         await execute(async () => {
-            await dispatch(createTierThunk(tier)).unwrap()
-            setShowTierModal(false)
+            const newTier = createTier({ id: crypto.randomUUID(), rankId, order: tiers.length })
+            setTempTierId(newTier.id)
+            dispatch(addTier(newTier))
         })
     }
 
-    const handleCreateTierCancel = () => {
-        setShowTierModal(false)
-        return Promise.resolve()
+    const handleModalCreate = async () => {
+        if (tempTierId) {
+            const tier = tiers.find(t => t.id === tempTierId)
+            if (tier) {
+                await execute(async () => {
+                    await dispatch(createTierThunk(tier)).unwrap()
+                    setTempTierId(null)
+                })
+            }
+        }
+    }
+
+    const handleModalCancel = async () => {
+        if (tempTierId) {
+            dispatch(deleteTier(tempTierId))
+            setTempTierId(null)
+        }
     }
 
     const createTierAction: Action = {
@@ -80,31 +92,25 @@ export const RankTiersPanel = ({ rankId, mode }: RankTiersPanelProps) => {
     }
 
     return (
-        <>
-            <div className={classes.root}>
-                <EntitySortableList
-                    disabled={!editMode}
-                    entities={sortedTiers}
-                    onEntitiesChange={handleTiersChange}
-                    entityRenderer={tier => (
-                        <TierChip tierId={tier.id}>
-                            <IconButton href={appTierRoute(tier.id)} color='info' size='small'>
-                                <VisibilityIcon fontSize='small' />
-                            </IconButton>
-                            <ActionButton buttonAction={() => handleDelete(tier)} color='error' size='small' disabled={!editMode || executing}>
-                                <ClearIcon fontSize='small' />
-                            </ActionButton>
-                        </TierChip>
-                    )}/>
-                <Divider/>
-                <EntityCardActions actions={[createTierAction]}/>
-            </div>
-            <TierFormModal
-                open={showTierModal}
-                defaultTier={createTier({ rankId, order: tiers.length })}
-                onCancel={handleCreateTierCancel}
-                onCreate={handleCreateTier}/>
-        </>
+        <div className={classes.root}>
+            <EntitySortableList
+                disabled={!editMode}
+                entities={sortedTiers}
+                onEntitiesChange={handleTiersChange}
+                entityRenderer={tier => (
+                    <TierChip tierId={tier.id}>
+                        <IconButton href={appTierRoute(tier.id)} color='info' size='small'>
+                            <VisibilityIcon fontSize='small' />
+                        </IconButton>
+                        <ActionButton buttonAction={() => handleDelete(tier)} color='error' size='small' disabled={!editMode || executing}>
+                            <ClearIcon fontSize='small' />
+                        </ActionButton>
+                    </TierChip>
+                )}/>
+            <Divider/>
+            <EntityCardActions actions={[createTierAction]}/>
+            { tempTierId ? <TierFormModal tierId={tempTierId} onCancel={handleModalCancel} onCreate={handleModalCreate}/> : null }
+        </div>
     )
 }
 

@@ -14,6 +14,7 @@ import OptionCreateIcon from '../../../../option/components/optionCreateIcon/Opt
 import { useAppDispatch, useAppSelector } from '../../../../../app/hooks';
 import { selectOptionsOfRank } from '../../../../option/store/Option.selectors';
 import { createOptionThunk, updateOptionThunk, deleteOptionThunk } from '../../../../option/store/Option.thunks';
+import { addOption, deleteOption } from '../../../../option/store/Option.slice';
 import OptionFormModal from '../../../../option/components/optionFormModal/OptionFormModal';
 import { createOption } from '../../../../../services/EntityFactory.service';
 
@@ -26,7 +27,7 @@ export const RankOptionsPanel = ({ rankId, mode }: RankOptionsPanelProps) => {
     const dispatch = useAppDispatch()
     const options = useAppSelector((state) => selectOptionsOfRank(state, rankId))
     const [executing, setExecuting] = useState(false)
-    const [showOptionModal, setShowOptionModal] = useState(false)
+    const [tempOptionId, setTempOptionId] = useState<string | null>(null)
     const editMode = mode === Mode.EDIT
 
     const sortedOptions = useMemo(() =>
@@ -57,19 +58,30 @@ export const RankOptionsPanel = ({ rankId, mode }: RankOptionsPanelProps) => {
     }
 
     const handleCreateOptionClick = async () => {
-        setShowOptionModal(true)
-    }
-
-    const handleCreateOption = async (option: Option) => {
         await execute(async () => {
-            await dispatch(createOptionThunk(option)).unwrap()
-            setShowOptionModal(false)
+            const newOption = createOption({ id: crypto.randomUUID(), rankId, order: options.length })
+            setTempOptionId(newOption.id)
+            dispatch(addOption(newOption))
         })
     }
 
-    const handleCreateOptionCancel = () => {
-        setShowOptionModal(false)
-        return Promise.resolve()
+    const handleModalCreate = async () => {
+        if (tempOptionId) {
+            const option = options.find(o => o.id === tempOptionId)
+            if (option) {
+                await execute(async () => {
+                    await dispatch(createOptionThunk(option)).unwrap()
+                    setTempOptionId(null)
+                })
+            }
+        }
+    }
+
+    const handleModalCancel = async () => {
+        if (tempOptionId) {
+            dispatch(deleteOption(tempOptionId))
+            setTempOptionId(null)
+        }
     }
 
     const createOptionAction: Action = {
@@ -99,11 +111,7 @@ export const RankOptionsPanel = ({ rankId, mode }: RankOptionsPanelProps) => {
                 <Divider/>
                 <EntityCardActions actions={[createOptionAction]}/>
             </div>
-            <OptionFormModal
-                open={showOptionModal}
-                defaultOption={createOption({ rankId, order: options.length })}
-                onCancel={handleCreateOptionCancel}
-                onCreate={handleCreateOption}/>
+            { tempOptionId ? <OptionFormModal optionId={tempOptionId} onCancel={handleModalCancel} onCreate={handleModalCreate}/> : null }
         </>
     )
 }

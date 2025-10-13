@@ -1,62 +1,32 @@
-import { HTMLAttributes, useState, useEffect } from 'react';
-import { Tier } from '../../model/Tier.types';
+import { HTMLAttributes } from 'react';
 import TierCardHeader from '../tierCard/tierCardHeader/TierCardHeader';
-import { createTier } from '../../../../services/EntityFactory.service';
 import TierForm from '../tierForm/TierForm';
 import{ Mode } from '../../../../components/entityCard/EntityCard'
 import EntityFormModal from '../../../../components/entityFormModal/EntityFormModal';
 import TierCreateIcon from '../tierCreateIcon/TierCreateIcon';
-import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
-import { addTier, deleteTier } from '../../store/Tier.slice';
+import { useAppSelector } from '../../../../app/hooks';
 import { selectTierById } from '../../store/Tier.selectors';
 
 export interface TierFormModalProps extends HTMLAttributes<HTMLDivElement> {
-    open: boolean
-    defaultTier: Tier
-    onCreate: (tier: Tier) => Promise<void>
+    tierId: string
+    onCreate: () => Promise<void>
     onCancel: () => Promise<void>
 }
 
-const TierFormModal = ({ open, defaultTier, onCreate, onCancel, ...props }: TierFormModalProps) => {
-    const dispatch = useAppDispatch()
-    const [tempTierId, setTempTierId] = useState<string>('')
-    const tier = useAppSelector((state) => selectTierById(state, tempTierId))
+const TierFormModal = ({ tierId, onCreate, onCancel, ...props }: TierFormModalProps) => {
+    const tier = useAppSelector((state) => tierId ? selectTierById(state, tierId) : null)
 
-    useEffect(() => {
-        if (open) {
-            const newTier = createTier(defaultTier)
-            setTempTierId(newTier.id)
-            dispatch(addTier(newTier))
-        }
-    }, [open, defaultTier, dispatch])
-
-    const modalHeader = tier ? <TierCardHeader tier={tier} showBreadcrumbs={false}/> : null
-    const modalForm = tempTierId ? <TierForm tierId={tempTierId} mode={Mode.EDIT}/> : null
-
-    const handleCancel = async () => {
-        if (tempTierId) {
-            dispatch(deleteTier(tempTierId))
-        }
-        await onCancel()
-        setTempTierId('')
-    }
-
-    const handleCreate = async () => {
-        if (tier) {
-            await onCreate(tier)
-            dispatch(deleteTier(tier.id))
-            setTempTierId('')
-        }
-    }
+    const modalHeader = tier ? <TierCardHeader tierId={tier.id} showBreadcrumbs={false}/> : null
+    const modalForm = tierId ? <TierForm tierId={tierId} mode={Mode.EDIT}/> : null
 
     return (
         <EntityFormModal
-            open={open}
+            open
             modalHeader={modalHeader}
             modalForm={modalForm}
             entityCreateIcon={<TierCreateIcon/>}
-            onCancel={handleCancel}
-            onCreate={handleCreate}
+            onCancel={onCancel}
+            onCreate={onCreate}
             {...props}/>
     );
 }

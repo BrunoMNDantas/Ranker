@@ -6,33 +6,43 @@ import RanksFilteredList from '../../features/rank/components/ranksFilteredList/
 import LoadElement from '../../components/loadElement/LoadElement';
 import ActionButton from '../../components/actionButton/ActionButton';
 import RankCreateIcon from '../../features/rank/components/rankCreateIcon/RankCreateIcon';
-import { Rank } from '../../features/rank/model/Rank.types';
 import { useNavigate } from 'react-router-dom';
 import { createRank } from '../../services/EntityFactory.service';
 import { createRankThunk } from '../../features/rank/store/Rank.thunks';
+import { addRank, deleteRank } from '../../features/rank/store/Rank.slice';
 import RankFormModal from '../../features/rank/components/rankFormModal/RankFormModal';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { selectAllRanks } from '../../features/rank/store/Rank.selectors';
 
 const RanksPage = () => {
 	const navigate = useNavigate()
 	const dispatch = useAppDispatch()
-	const { ranks, error, fetching } = useRanksPageData()
-	const [showRankModal, setShowRankModal] = useState(false)
+	const { error, fetching } = useRanksPageData()
+	const ranks = useAppSelector(selectAllRanks)
+	const [tempRankId, setTempRankId] = useState<string | null>(null)
 
-	const handleCreateRankClick = () => {
-		setShowRankModal(true)
-		return Promise.resolve()
+	const handleCreateRankClick = async () => {
+		const newRank = createRank({ id: crypto.randomUUID() })
+		setTempRankId(newRank.id)
+		dispatch(addRank(newRank))
 	}
 
-	const handleCreateRankCancel = () => {
-		setShowRankModal(false)
-		return Promise.resolve()
+	const handleModalCancel = async () => {
+		if (tempRankId) {
+			dispatch(deleteRank(tempRankId))
+			setTempRankId(null)
+		}
 	}
 
-	const handleCreateRank = async (rank: Rank) => {
-		const result = await dispatch(createRankThunk(rank)).unwrap()
-		setShowRankModal(false)
-		navigate(appRankRoute(result.id))
+	const handleModalCreate = async () => {
+		if (tempRankId) {
+			const rank = ranks.find(r => r.id === tempRankId)
+			if (rank) {
+				const result = await dispatch(createRankThunk(rank)).unwrap()
+				setTempRankId(null)
+				navigate(appRankRoute(result.id))
+			}
+		}
 	}
 
 	return (
@@ -44,7 +54,7 @@ const RanksPage = () => {
 			<ActionButton color="info" buttonAction={handleCreateRankClick}>
 				<RankCreateIcon/>
 			</ActionButton>
-			<RankFormModal open={showRankModal} defaultRank={createRank({})} onCancel={handleCreateRankCancel} onCreate={handleCreateRank}/>
+			{ tempRankId ? <RankFormModal rankId={tempRankId} onCancel={handleModalCancel} onCreate={handleModalCreate}/> : null }
 		</div>
 	)
 }
