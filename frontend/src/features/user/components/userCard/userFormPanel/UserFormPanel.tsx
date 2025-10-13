@@ -13,7 +13,7 @@ import { selectUserById } from '../../../store/User.selectors';
 import { updateUser } from '../../../store/User.slice';
 import { updateUserThunk, deleteUserThunk } from '../../../store/User.thunks';
 import { useNavigate } from 'react-router-dom';
-import { APP_USERS_ROUTE } from '../../../../../app/Routes';
+import { APP_RANKS_ROUTE } from '../../../../../app/Routes';
 
 export interface UserFormPanelProps {
     userId: string
@@ -65,7 +65,7 @@ export const UserFormPanel = ({ userId, mode }: UserFormPanelProps) => {
     const handleDelete = async () => {
         await execute(async () => {
             await dispatch(deleteUserThunk(userId)).unwrap()
-            navigate(APP_USERS_ROUTE)
+            navigate(APP_RANKS_ROUTE)
         })
     }
 

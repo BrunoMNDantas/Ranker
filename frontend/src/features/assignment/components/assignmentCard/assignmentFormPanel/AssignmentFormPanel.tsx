@@ -13,7 +13,7 @@ import { selectAssignmentById } from '../../../store/Assignment.selectors';
 import { updateAssignment } from '../../../store/Assignment.slice';
 import { updateAssignmentThunk, deleteAssignmentThunk } from '../../../store/Assignment.thunks';
 import { useNavigate } from 'react-router-dom';
-import { APP_ASSIGNMENTS_ROUTE } from '../../../../../app/Routes';
+import { APP_RANKS_ROUTE } from '../../../../../app/Routes';
 
 export interface AssignmentFormPanelProps {
     assignmentId: string
@@ -65,7 +65,7 @@ export const AssignmentFormPanel = ({ assignmentId, mode }: AssignmentFormPanelP
     const handleDelete = async () => {
         await execute(async () => {
             await dispatch(deleteAssignmentThunk(assignmentId)).unwrap()
-            navigate(APP_ASSIGNMENTS_ROUTE)
+            navigate(APP_RANKS_ROUTE)
         })
     }
 

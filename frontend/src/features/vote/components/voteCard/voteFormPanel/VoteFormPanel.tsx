@@ -13,7 +13,7 @@ import { selectVoteById } from '../../../store/Vote.selectors';
 import { updateVote } from '../../../store/Vote.slice';
 import { updateVoteThunk, deleteVoteThunk } from '../../../store/Vote.thunks';
 import { useNavigate } from 'react-router-dom';
-import { APP_VOTES_ROUTE } from '../../../../../app/Routes';
+import { APP_RANKS_ROUTE } from '../../../../../app/Routes';
 
 export interface VoteFormPanelProps {
     voteId: string
@@ -65,7 +65,7 @@ export const VoteFormPanel = ({ voteId, mode }: VoteFormPanelProps) => {
     const handleDelete = async () => {
         await execute(async () => {
             await dispatch(deleteVoteThunk(voteId)).unwrap()
-            navigate(APP_VOTES_ROUTE)
+            navigate(APP_RANKS_ROUTE)
         })
     }
 

@@ -13,7 +13,7 @@ import { selectOptionById } from '../../../store/Option.selectors';
 import { updateOption } from '../../../store/Option.slice';
 import { updateOptionThunk, deleteOptionThunk } from '../../../store/Option.thunks';
 import { useNavigate } from 'react-router-dom';
-import { APP_OPTIONS_ROUTE } from '../../../../../app/Routes';
+import { APP_RANKS_ROUTE } from '../../../../../app/Routes';
 
 export interface OptionFormPanelProps {
     optionId: string
@@ -65,7 +65,7 @@ export const OptionFormPanel = ({ optionId, mode }: OptionFormPanelProps) => {
     const handleDelete = async () => {
         await execute(async () => {
             await dispatch(deleteOptionThunk(optionId)).unwrap()
-            navigate(APP_OPTIONS_ROUTE)
+            navigate(APP_RANKS_ROUTE)
         })
     }
 

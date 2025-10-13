@@ -13,7 +13,7 @@ import { selectTierById } from '../../../store/Tier.selectors';
 import { updateTier } from '../../../store/Tier.slice';
 import { updateTierThunk, deleteTierThunk } from '../../../store/Tier.thunks';
 import { useNavigate } from 'react-router-dom';
-import { APP_TIERS_ROUTE } from '../../../../../app/Routes';
+import { APP_RANKS_ROUTE } from '../../../../../app/Routes';
 
 export interface TierFormPanelProps {
     tierId: string
@@ -65,7 +65,7 @@ export const TierFormPanel = ({ tierId, mode }: TierFormPanelProps) => {
     const handleDelete = async () => {
         await execute(async () => {
             await dispatch(deleteTierThunk(tierId)).unwrap()
-            navigate(APP_TIERS_ROUTE)
+            navigate(APP_RANKS_ROUTE)
         })
     }
 

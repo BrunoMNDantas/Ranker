@@ -9,11 +9,11 @@ import { useAppSelector } from '../../app/hooks';
 import { selectUserById } from '../../features/user/store/User.selectors';
 
 const AppLayout = () => {
-	const navitage = useNavigate()
+	const navigate = useNavigate()
 	const auth = useAuth()
 	const user = useAppSelector((state) => auth.userId ? selectUserById(state, auth.userId) : undefined)
 
-	const handleProfile = () => user ? navitage(appUserRoute(user.id)) : null
+	const handleProfile = () => user ? navigate(appUserRoute(user.id)) : null
 
 	const handleLogout = () => logout()
 
