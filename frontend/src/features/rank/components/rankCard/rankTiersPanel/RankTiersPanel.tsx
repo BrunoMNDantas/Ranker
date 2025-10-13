@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useMemo, useState } from 'react';
 import classes from './RankTiersPanel.module.css'
 import { Tier } from '../../../../tier/model/Tier.types';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -11,19 +11,28 @@ import TierChip from '../../../../tier/components/tierChip/TierChip';
 import { Mode } from '../../../../../components/entityCard/EntityCard';
 import EntityCardActions, { Action } from '../../../../../components/entityCard/entityCardActions/EntityCardActions';
 import TierCreateIcon from '../../../../tier/components/tierCreateIcon/TierCreateIcon';
+import { useAppDispatch, useAppSelector } from '../../../../../app/hooks';
+import { selectTiersOfRank } from '../../../../tier/store/Tier.selectors';
+import { createTierThunk, updateTierThunk, deleteTierThunk } from '../../../../tier/store/Tier.thunks';
+import TierFormModal from '../../../../tier/components/tierFormModal/TierFormModal';
+import { createTier } from '../../../../../services/EntityFactory.service';
 
 export interface RankTiersPanelProps {
-    tiers: Tier[]
+    rankId: string
     mode: Mode
-    onTiersChange: (tiers: Tier[]) => void
-    onDeleteTier: (tier: Tier) => Promise<void>
-    onCreateTier: () => Promise<void>
 }
 
-export const RankTiersPanel = ({ tiers, mode, onTiersChange, onDeleteTier, onCreateTier }: RankTiersPanelProps) => {
-    const [sortedTiers, setSortedTiers] = useState(tiers.sort((a, b) => a.order - b.order))
+export const RankTiersPanel = ({ rankId, mode }: RankTiersPanelProps) => {
+    const dispatch = useAppDispatch()
+    const tiers = useAppSelector((state) => selectTiersOfRank(state, rankId))
     const [executing, setExecuting] = useState(false)
+    const [showTierModal, setShowTierModal] = useState(false)
     const editMode = mode === Mode.EDIT
+
+    const sortedTiers = useMemo(() =>
+        [...tiers].sort((a, b) => a.order - b.order),
+        [tiers]
+    )
 
     const execute = async (action: ()=>Promise<void>) => {
         setExecuting(true)
@@ -35,43 +44,67 @@ export const RankTiersPanel = ({ tiers, mode, onTiersChange, onDeleteTier, onCre
     }
 
     const handleDelete = async (tier: Tier) => {
-        await onDeleteTier(tier)
+        await execute(async () => {
+            await dispatch(deleteTierThunk(tier.id)).unwrap()
+        })
     }
 
-    const handleTiersChange = (tiers: Tier[]) => {
-        tiers.forEach((tier, index) => tier.order = index)
-        setSortedTiers(tiers)
-        onTiersChange(tiers)
+    const handleTiersChange = async (updatedTiers: Tier[]) => {
+        await execute(async () => {
+            const tiersWithNewOrder = updatedTiers.map((tier, index) => ({ ...tier, order: index }))
+            await Promise.all(tiersWithNewOrder.map(tier => dispatch(updateTierThunk(tier)).unwrap()))
+        })
     }
 
-    const handleCreateTier = () => execute(onCreateTier)
+    const handleCreateTierClick = async () => {
+        setShowTierModal(true)
+    }
+
+    const handleCreateTier = async (tier: Tier) => {
+        await execute(async () => {
+            await dispatch(createTierThunk(tier)).unwrap()
+            setShowTierModal(false)
+        })
+    }
+
+    const handleCreateTierCancel = () => {
+        setShowTierModal(false)
+        return Promise.resolve()
+    }
 
     const createTierAction: Action = {
         iconProps: { color: "info" },
         icon: <TierCreateIcon/>,
-        onClick: handleCreateTier,
+        onClick: handleCreateTierClick,
         disabled: executing || !editMode
     }
 
     return (
-        <div className={classes.root}>
-            <EntitySortableList
-                disabled={!editMode}
-                entities={sortedTiers}
-                onEntitiesChange={handleTiersChange}
-                entityRenderer={tier => (
-                    <TierChip tierId={tier.id}>
-                        <IconButton href={appTierRoute(tier.id)} color='info' size='small'>
-                            <VisibilityIcon fontSize='small' />
-                        </IconButton>
-                        <ActionButton buttonAction={e => handleDelete(tier)} color='error' size='small' disabled={!editMode}>
-                            <ClearIcon fontSize='small' />
-                        </ActionButton>
-                    </TierChip>
-                )}/>
-            <Divider/>
-            <EntityCardActions actions={[createTierAction]}/>
-        </div>
+        <>
+            <div className={classes.root}>
+                <EntitySortableList
+                    disabled={!editMode}
+                    entities={sortedTiers}
+                    onEntitiesChange={handleTiersChange}
+                    entityRenderer={tier => (
+                        <TierChip tierId={tier.id}>
+                            <IconButton href={appTierRoute(tier.id)} color='info' size='small'>
+                                <VisibilityIcon fontSize='small' />
+                            </IconButton>
+                            <ActionButton buttonAction={() => handleDelete(tier)} color='error' size='small' disabled={!editMode || executing}>
+                                <ClearIcon fontSize='small' />
+                            </ActionButton>
+                        </TierChip>
+                    )}/>
+                <Divider/>
+                <EntityCardActions actions={[createTierAction]}/>
+            </div>
+            <TierFormModal
+                open={showTierModal}
+                defaultTier={createTier({ rankId, order: tiers.length })}
+                onCancel={handleCreateTierCancel}
+                onCreate={handleCreateTier}/>
+        </>
     )
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useMemo, useState } from 'react';
 import classes from './RankOptionsPanel.module.css'
 import { Option } from '../../../../option/model/Option.types';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -11,19 +11,28 @@ import OptionChip from '../../../../option/components/optionChip/OptionChip';
 import { Mode } from '../../../../../components/entityCard/EntityCard';
 import EntityCardActions, { Action } from '../../../../../components/entityCard/entityCardActions/EntityCardActions';
 import OptionCreateIcon from '../../../../option/components/optionCreateIcon/OptionCreateIcon';
+import { useAppDispatch, useAppSelector } from '../../../../../app/hooks';
+import { selectOptionsOfRank } from '../../../../option/store/Option.selectors';
+import { createOptionThunk, updateOptionThunk, deleteOptionThunk } from '../../../../option/store/Option.thunks';
+import OptionFormModal from '../../../../option/components/optionFormModal/OptionFormModal';
+import { createOption } from '../../../../../services/EntityFactory.service';
 
 export interface RankOptionsPanelProps {
-    options: Option[]
+    rankId: string
     mode: Mode
-    onOptionsChange: (options: Option[]) => void
-    onDeleteOption: (option: Option) => Promise<void>
-    onCreateOption: () => Promise<void>
 }
 
-export const RankOptionsPanel = ({ options, mode, onOptionsChange, onDeleteOption, onCreateOption }: RankOptionsPanelProps) => {
-    const [sortedOptions, setSortedOptions] = useState(options.sort((a, b) => a.order - b.order))
+export const RankOptionsPanel = ({ rankId, mode }: RankOptionsPanelProps) => {
+    const dispatch = useAppDispatch()
+    const options = useAppSelector((state) => selectOptionsOfRank(state, rankId))
     const [executing, setExecuting] = useState(false)
+    const [showOptionModal, setShowOptionModal] = useState(false)
     const editMode = mode === Mode.EDIT
+
+    const sortedOptions = useMemo(() =>
+        [...options].sort((a, b) => a.order - b.order),
+        [options]
+    )
 
     const execute = async (action: ()=>Promise<void>) => {
         setExecuting(true)
@@ -35,43 +44,67 @@ export const RankOptionsPanel = ({ options, mode, onOptionsChange, onDeleteOptio
     }
 
     const handleDelete = async (option: Option) => {
-        await onDeleteOption(option)
+        await execute(async () => {
+            await dispatch(deleteOptionThunk(option.id)).unwrap()
+        })
     }
 
-    const handleOptionsChange = (options: Option[]) => {
-        options.forEach((option, index) => option.order = index)
-        setSortedOptions(options)
-        onOptionsChange(options)
+    const handleOptionsChange = async (updatedOptions: Option[]) => {
+        await execute(async () => {
+            const optionsWithNewOrder = updatedOptions.map((option, index) => ({ ...option, order: index }))
+            await Promise.all(optionsWithNewOrder.map(option => dispatch(updateOptionThunk(option)).unwrap()))
+        })
     }
 
-    const handleCreateOption = () => execute(onCreateOption)
+    const handleCreateOptionClick = async () => {
+        setShowOptionModal(true)
+    }
+
+    const handleCreateOption = async (option: Option) => {
+        await execute(async () => {
+            await dispatch(createOptionThunk(option)).unwrap()
+            setShowOptionModal(false)
+        })
+    }
+
+    const handleCreateOptionCancel = () => {
+        setShowOptionModal(false)
+        return Promise.resolve()
+    }
 
     const createOptionAction: Action = {
         iconProps: { color: "info" },
         icon: <OptionCreateIcon/>,
-        onClick: handleCreateOption,
+        onClick: handleCreateOptionClick,
         disabled: executing || !editMode
     }
 
     return (
-        <div className={classes.root}>
-            <EntitySortableList
-                disabled={!editMode}
-                entities={sortedOptions}
-                onEntitiesChange={handleOptionsChange}
-                entityRenderer={option => (
-                    <OptionChip optionId={option.id}>
-                        <IconButton href={appOptionRoute(option.id)} color='info' size='small'>
-                            <VisibilityIcon fontSize='small' />
-                        </IconButton>
-                        <ActionButton buttonAction={e => handleDelete(option)} color='error' size='small' disabled={!editMode}>
-                            <ClearIcon fontSize='small' />
-                        </ActionButton>
-                    </OptionChip>
-                )}/>
-            <Divider/>
-            <EntityCardActions actions={[createOptionAction]}/>
-        </div>
+        <>
+            <div className={classes.root}>
+                <EntitySortableList
+                    disabled={!editMode}
+                    entities={sortedOptions}
+                    onEntitiesChange={handleOptionsChange}
+                    entityRenderer={option => (
+                        <OptionChip optionId={option.id}>
+                            <IconButton href={appOptionRoute(option.id)} color='info' size='small'>
+                                <VisibilityIcon fontSize='small' />
+                            </IconButton>
+                            <ActionButton buttonAction={() => handleDelete(option)} color='error' size='small' disabled={!editMode || executing}>
+                                <ClearIcon fontSize='small' />
+                            </ActionButton>
+                        </OptionChip>
+                    )}/>
+                <Divider/>
+                <EntityCardActions actions={[createOptionAction]}/>
+            </div>
+            <OptionFormModal
+                open={showOptionModal}
+                defaultOption={createOption({ rankId, order: options.length })}
+                onCancel={handleCreateOptionCancel}
+                onCreate={handleCreateOption}/>
+        </>
     )
 }
 
