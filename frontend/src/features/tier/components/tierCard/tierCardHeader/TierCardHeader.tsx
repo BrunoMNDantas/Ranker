@@ -1,19 +1,26 @@
-import React, { HTMLAttributes } from 'react';
+import { HTMLAttributes } from 'react';
 import classes from './TierCardHeader.module.css';
-import { Tier } from '../../../model/Tier.types';
 import EntityCardHeader from '../../../../../components/entityCard/entityCardHeader/EntityCardHeader';
 import TierAvatar from '../../tierAvatar/TierAvatar';
 import EntityProperty from '../../../../../components/entityProperty/EntityProperty';
 import TierBreadcrumbs from '../../tierBreadcrumbs/TierBreadcrumbs';
+import { useAppSelector } from '../../../../../app/hooks';
+import { selectTierById } from '../../../store/Tier.selectors';
 
 export interface TierCardHeaderProps extends HTMLAttributes<HTMLDivElement> {
-    tier: Tier
+    tierId: string
     showBreadcrumbs?: boolean
     showCreationDate?: boolean
     showDescription?: boolean
 }
 
-const TierCardHeader = ({ tier, showBreadcrumbs=true, showCreationDate=true, showDescription=true, ...props }: TierCardHeaderProps) => {
+const TierCardHeader = ({ tierId, showBreadcrumbs=true, showCreationDate=true, showDescription=true, ...props }: TierCardHeaderProps) => {
+    const tier = useAppSelector((state) => selectTierById(state, tierId))
+
+    if (!tier) {
+        return null
+    }
+
     const order = tier.order + "º"
     const title = tier.title
     const date = new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(tier.creationDate)

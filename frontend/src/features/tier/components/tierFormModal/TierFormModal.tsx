@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, useState } from 'react';
+import { HTMLAttributes, useState, useEffect } from 'react';
 import { Tier } from '../../model/Tier.types';
 import TierCardHeader from '../tierCard/tierCardHeader/TierCardHeader';
 import { createTier } from '../../../../services/EntityFactory.service';
@@ -6,6 +6,9 @@ import TierForm from '../tierForm/TierForm';
 import{ Mode } from '../../../../components/entityCard/EntityCard'
 import EntityFormModal from '../../../../components/entityFormModal/EntityFormModal';
 import TierCreateIcon from '../tierCreateIcon/TierCreateIcon';
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
+import { addTier, deleteTier } from '../../store/Tier.slice';
+import { selectTierById } from '../../store/Tier.selectors';
 
 export interface TierFormModalProps extends HTMLAttributes<HTMLDivElement> {
     open: boolean
@@ -15,19 +18,35 @@ export interface TierFormModalProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const TierFormModal = ({ open, defaultTier, onCreate, onCancel, ...props }: TierFormModalProps) => {
-    const [tier, setTier] = useState(createTier(defaultTier))
+    const dispatch = useAppDispatch()
+    const [tempTierId, setTempTierId] = useState<string>('')
+    const tier = useAppSelector((state) => selectTierById(state, tempTierId))
 
-    const modalHeader = <TierCardHeader tier={tier} showBreadcrumbs={false}/>
-    const modalForm = <TierForm tier={tier} onTierChange={setTier} mode={Mode.EDIT}/>
+    useEffect(() => {
+        if (open) {
+            const newTier = createTier(defaultTier)
+            setTempTierId(newTier.id)
+            dispatch(addTier(newTier))
+        }
+    }, [open, defaultTier, dispatch])
+
+    const modalHeader = tier ? <TierCardHeader tier={tier} showBreadcrumbs={false}/> : null
+    const modalForm = tempTierId ? <TierForm tierId={tempTierId} mode={Mode.EDIT}/> : null
 
     const handleCancel = async () => {
+        if (tempTierId) {
+            dispatch(deleteTier(tempTierId))
+        }
         await onCancel()
-        setTier(defaultTier)
+        setTempTierId('')
     }
 
     const handleCreate = async () => {
-        await onCreate(tier)
-        setTier(defaultTier)
+        if (tier) {
+            await onCreate(tier)
+            dispatch(deleteTier(tier.id))
+            setTempTierId('')
+        }
     }
 
     return (

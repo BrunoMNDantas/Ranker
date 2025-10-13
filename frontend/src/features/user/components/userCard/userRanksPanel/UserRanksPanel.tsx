@@ -71,7 +71,7 @@ export const UserRanksPanel = ({ userId, mode }: UserRanksPanelProps) => {
             <IconButton href={appRankRoute(rank.id)} color='info' size='small'>
                 <VisibilityIcon fontSize='small' />
             </IconButton>,
-            <ActionButton buttonAction={() => handleDelete(rank)} color='error' size='small' disabled={!editMode}>
+            <ActionButton buttonAction={() => handleDelete(rank)} color='error' size='small' disabled={!editMode || executing}>
                 <ClearIcon fontSize='small' />
             </ActionButton>
         ]
