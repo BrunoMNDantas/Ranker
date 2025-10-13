@@ -10,7 +10,6 @@ import { useAuth } from '../../features/auth/components/AuthContext';
 const VotePage = () => {
 	const auth = useAuth()
 	const { voteId } = useParams<{ voteId: string }>()
-
 	const { vote, fetching, error } = useVotePageData(voteId || "")
 
 	return (

@@ -1,17 +1,30 @@
 import React, { HTMLAttributes } from 'react';
-import { Assignment } from '../../../model/Assignment.types';
 import { TextField } from '@mui/material';
 import { Mode } from '../../../../../components/entityCard/EntityCard';
 import EntityCardForm from '../../../../../components/entityCard/entityCardForm/EntityCardForm';
+import { useAppSelector, useAppDispatch } from '../../../../../app/hooks';
+import { selectAssignmentById } from '../../../store/Assignment.selectors';
+import { updateAssignment } from '../../../store/Assignment.slice';
 
 export interface AssignmentCardFormProps extends HTMLAttributes<HTMLDivElement> {
-    assignment: Assignment
-    onAssignmentChange: (assignment: Assignment) => void
+    assignmentId: string
     mode: Mode
 }
 
-const AssignmentCardForm = ({ assignment, onAssignmentChange, mode, ...props }: AssignmentCardFormProps) => {
+const AssignmentCardForm = ({ assignmentId, mode, ...props }: AssignmentCardFormProps) => {
+    const dispatch = useAppDispatch()
+    const assignment = useAppSelector((state) => selectAssignmentById(state, assignmentId))
     const editable = mode === Mode.EDIT
+
+    if (!assignment) {
+        return null
+    }
+
+    const handleFieldChange = (changes: Partial<typeof assignment>) => {
+        if (editable) {
+            dispatch(updateAssignment({ id: assignmentId, changes }))
+        }
+    }
 
     return (
         <EntityCardForm {...props}>
@@ -19,12 +32,12 @@ const AssignmentCardForm = ({ assignment, onAssignmentChange, mode, ...props }: 
                 label="Option ID"
                 type="text"
                 value={assignment.optionId}
-                onChange={e => editable ? onAssignmentChange({...assignment, optionId: e.target.value}) : null}/>
+                onChange={e => handleFieldChange({ optionId: e.target.value })}/>
             <TextField
                 label="Tier ID"
                 type="text"
                 value={assignment.tierId}
-                onChange={e => editable ? onAssignmentChange({...assignment, tierId: e.target.value}) : null}/>
+                onChange={e => handleFieldChange({ tierId: e.target.value })}/>
         </EntityCardForm>
     )
 }

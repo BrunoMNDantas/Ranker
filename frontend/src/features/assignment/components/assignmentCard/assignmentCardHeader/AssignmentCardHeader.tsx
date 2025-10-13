@@ -1,17 +1,24 @@
 import React, { HTMLAttributes } from 'react';
-import { Assignment } from '../../../model/Assignment.types';
 import EntityCardHeader from '../../../../../components/entityCard/entityCardHeader/EntityCardHeader';
 import AssignmentAvatar from '../../assignmentAvatar/AssignmentAvatar';
 import EntityProperty from '../../../../../components/entityProperty/EntityProperty';
 import AssignmentBreadcrumbs from '../../assignmentBreadcrumbs/AssignmentBreadcrumbs';
+import { useAppSelector } from '../../../../../app/hooks';
+import { selectAssignmentById } from '../../../store/Assignment.selectors';
 
 export interface AssignmentCardHeaderProps extends HTMLAttributes<HTMLDivElement> {
-    assignment: Assignment
+    assignmentId: string
     showBreadcrumbs?: boolean
     showCreationDate?: boolean
 }
 
-const AssignmentCardHeader = ({ assignment, showBreadcrumbs=true, showCreationDate=true, ...props }: AssignmentCardHeaderProps) => {
+const AssignmentCardHeader = ({ assignmentId, showBreadcrumbs=true, showCreationDate=true, ...props }: AssignmentCardHeaderProps) => {
+    const assignment = useAppSelector((state) => selectAssignmentById(state, assignmentId))
+
+    if (!assignment) {
+        return null
+    }
+
     const order = assignment.order + "º"
     const date = new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(assignment.creationDate)
 

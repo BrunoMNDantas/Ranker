@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classes from './AssignmentFormPanel.module.css'
 import { Mode } from '../../../../../components/entityCard/EntityCard';
 import { Assignment } from '../../../model/Assignment.types';
@@ -8,19 +8,36 @@ import RestoreIcon from '@mui/icons-material/Restore';
 import EntityCardActions, { Action } from '../../../../../components/entityCard/entityCardActions/EntityCardActions';
 import AssignmentCardForm from '../assignmentCardForm/AssignmentCardForm';
 import { Divider } from '@mui/material';
+import { useAppSelector, useAppDispatch } from '../../../../../app/hooks';
+import { selectAssignmentById } from '../../../store/Assignment.selectors';
+import { updateAssignment } from '../../../store/Assignment.slice';
+import { updateAssignmentThunk, deleteAssignmentThunk } from '../../../store/Assignment.thunks';
+import { useNavigate } from 'react-router-dom';
+import { APP_ASSIGNMENTS_ROUTE } from '../../../../../app/Routes';
 
 export interface AssignmentFormPanelProps {
-    assignment: Assignment
+    assignmentId: string
     mode: Mode
-    onAssignmentChange: (changedAssignment: Assignment) => void
-    onClear: () => Promise<void>
-    onSave: () => Promise<void>
-    onDelete: () => Promise<void>
 }
 
-export const AssignmentFormPanel = ({ assignment, mode, onAssignmentChange, onClear, onSave, onDelete }: AssignmentFormPanelProps) => {
+export const AssignmentFormPanel = ({ assignmentId, mode }: AssignmentFormPanelProps) => {
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
+
+    const assignment = useAppSelector((state) => selectAssignmentById(state, assignmentId))
+    const [originalAssignment, setOriginalAssignment] = useState<Assignment | null>(null)
     const [executing, setExecuting] = useState(false)
     const editMode = mode === Mode.EDIT
+
+    useEffect(() => {
+        if (assignment && !originalAssignment) {
+            setOriginalAssignment(structuredClone(assignment))
+        }
+    }, [assignment, originalAssignment])
+
+    if (!assignment) {
+        return null
+    }
 
     const execute = async (action: ()=>Promise<void>) => {
         setExecuting(true)
@@ -31,9 +48,26 @@ export const AssignmentFormPanel = ({ assignment, mode, onAssignmentChange, onCl
         }
     }
 
-    const handleClear = () => execute(onClear)
-    const handleSave = () => execute(onSave)
-    const handleDelete = () => execute(onDelete)
+    const handleClear = async () => {
+        await execute(async () => {
+            if (originalAssignment) {
+                dispatch(updateAssignment({ id: originalAssignment.id, changes: originalAssignment }))
+            }
+        })
+    }
+
+    const handleSave = async () => {
+        await execute(async () => {
+            await dispatch(updateAssignmentThunk(assignment)).unwrap()
+        })
+    }
+
+    const handleDelete = async () => {
+        await execute(async () => {
+            await dispatch(deleteAssignmentThunk(assignmentId)).unwrap()
+            navigate(APP_ASSIGNMENTS_ROUTE)
+        })
+    }
 
     const clearAction: Action = {
         iconProps: { color: "info" },
@@ -58,7 +92,7 @@ export const AssignmentFormPanel = ({ assignment, mode, onAssignmentChange, onCl
 
     return (
         <div className={classes.root}>
-            <AssignmentCardForm assignment={assignment} onAssignmentChange={onAssignmentChange} mode={mode}/>
+            <AssignmentCardForm assignmentId={assignmentId} mode={mode}/>
             <Divider/>
             <EntityCardActions actions={[clearAction, saveAction, deleteAction]}/>
         </div>
