@@ -32,7 +32,7 @@ export const useRankPageData = (rankId: string) => {
         if (rank) {
             dispatch(fetchUserById(rank.ownerId));
         }
-    }, [dispatch, rank]);
+    }, [dispatch, rank?.ownerId]);
 
     const user = useAppSelector((state) =>
         rank ? selectUserById(state, rank.ownerId) : null

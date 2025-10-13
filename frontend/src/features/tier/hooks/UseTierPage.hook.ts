@@ -26,7 +26,7 @@ export const useTierPageData = (tierId: string) => {
         if (tier) {
             dispatch(fetchRankById(tier.rankId));
         }
-    }, [dispatch, tier]);
+    }, [dispatch, tier?.rankId]);
 
     const rank = useAppSelector((state) =>
         tier ? selectRankById(state, tier.rankId) : null
@@ -36,7 +36,7 @@ export const useTierPageData = (tierId: string) => {
         if (tier) {
             dispatch(fetchUserById(tier.ownerId));
         }
-    }, [dispatch, tier]);
+    }, [dispatch, tier?.ownerId]);
 
     const user = useAppSelector((state) =>
         tier ? selectUserById(state, tier.ownerId) : null

@@ -26,7 +26,7 @@ export const useOptionPageData = (optionId: string) => {
         if (option) {
             dispatch(fetchRankById(option.rankId));
         }
-    }, [dispatch, option]);
+    }, [dispatch, option?.rankId]);
 
     const rank = useAppSelector((state) =>
         option ? selectRankById(state, option.rankId) : null
@@ -36,7 +36,7 @@ export const useOptionPageData = (optionId: string) => {
         if (option) {
             dispatch(fetchUserById(option.ownerId));
         }
-    }, [dispatch, option]);
+    }, [dispatch, option?.ownerId]);
 
     const user = useAppSelector((state) =>
         option ? selectUserById(state, option.ownerId) : null

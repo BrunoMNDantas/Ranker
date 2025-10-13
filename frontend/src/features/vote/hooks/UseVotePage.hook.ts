@@ -26,7 +26,7 @@ export const useVotePageData = (voteId: string) => {
         if (vote) {
             dispatch(fetchRankById(vote.rankId));
         }
-    }, [dispatch, vote]);
+    }, [dispatch, vote?.rankId]);
 
     const rank = useAppSelector((state) =>
         vote ? selectRankById(state, vote.rankId) : null
@@ -36,7 +36,7 @@ export const useVotePageData = (voteId: string) => {
         if (vote) {
             dispatch(fetchUserById(vote.ownerId));
         }
-    }, [dispatch, vote]);
+    }, [dispatch, vote?.ownerId]);
 
     const user = useAppSelector((state) =>
         vote ? selectUserById(state, vote.ownerId) : null
