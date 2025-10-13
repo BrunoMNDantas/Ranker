@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import classes from './OptionFormPanel.module.css'
 import { Mode } from '../../../../../components/entityCard/EntityCard';
 import { Option } from '../../../model/Option.types';
@@ -8,19 +8,36 @@ import RestoreIcon from '@mui/icons-material/Restore';
 import EntityCardActions, { Action } from '../../../../../components/entityCard/entityCardActions/EntityCardActions';
 import OptionForm from '../../optionForm/OptionForm';
 import { Divider } from '@mui/material';
+import { useAppSelector, useAppDispatch } from '../../../../../app/hooks';
+import { selectOptionById } from '../../../store/Option.selectors';
+import { updateOption } from '../../../store/Option.slice';
+import { updateOptionThunk, deleteOptionThunk } from '../../../store/Option.thunks';
+import { useNavigate } from 'react-router-dom';
+import { APP_OPTIONS_ROUTE } from '../../../../../app/Routes';
 
 export interface OptionFormPanelProps {
-    option: Option
+    optionId: string
     mode: Mode
-    onOptionChange: (changedOption: Option) => void
-    onClear: () => Promise<void>
-    onSave: () => Promise<void>
-    onDelete: () => Promise<void>
 }
 
-export const OptionFormPanel = ({ option, mode, onOptionChange, onClear, onSave, onDelete }: OptionFormPanelProps) => {
+export const OptionFormPanel = ({ optionId, mode }: OptionFormPanelProps) => {
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
+
+    const option = useAppSelector((state) => selectOptionById(state, optionId))
+    const [originalOption, setOriginalOption] = useState<Option | null>(null)
     const [executing, setExecuting] = useState(false)
     const editMode = mode === Mode.EDIT
+
+    useEffect(() => {
+        if (option && !originalOption) {
+            setOriginalOption(structuredClone(option))
+        }
+    }, [option, originalOption])
+
+    if (!option) {
+        return null
+    }
 
     const execute = async (action: ()=>Promise<void>) => {
         setExecuting(true)
@@ -31,9 +48,26 @@ export const OptionFormPanel = ({ option, mode, onOptionChange, onClear, onSave,
         }
     }
 
-    const handleClear = () => execute(onClear)
-    const handleSave = () => execute(onSave)
-    const handleDelete = () => execute(onDelete)
+    const handleClear = async () => {
+        await execute(async () => {
+            if (originalOption) {
+                dispatch(updateOption({ id: originalOption.id, changes: originalOption }))
+            }
+        })
+    }
+
+    const handleSave = async () => {
+        await execute(async () => {
+            await dispatch(updateOptionThunk(option)).unwrap()
+        })
+    }
+
+    const handleDelete = async () => {
+        await execute(async () => {
+            await dispatch(deleteOptionThunk(optionId)).unwrap()
+            navigate(APP_OPTIONS_ROUTE)
+        })
+    }
 
     const clearAction: Action = {
         iconProps: { color: "info" },
@@ -58,7 +92,7 @@ export const OptionFormPanel = ({ option, mode, onOptionChange, onClear, onSave,
 
     return (
         <div className={classes.root}>
-            <OptionForm option={option} onOptionChange={onOptionChange} mode={mode}/>
+            <OptionForm optionId={optionId} mode={mode}/>
             <Divider/>
             <EntityCardActions actions={[clearAction, saveAction, deleteAction]}/>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import classes from './TierFormPanel.module.css'
 import { Mode } from '../../../../../components/entityCard/EntityCard';
 import { Tier } from '../../../model/Tier.types';
@@ -8,19 +8,36 @@ import RestoreIcon from '@mui/icons-material/Restore';
 import EntityCardActions, { Action } from '../../../../../components/entityCard/entityCardActions/EntityCardActions';
 import TierForm from '../../tierForm/TierForm';
 import { Divider } from '@mui/material';
+import { useAppSelector, useAppDispatch } from '../../../../../app/hooks';
+import { selectTierById } from '../../../store/Tier.selectors';
+import { updateTier } from '../../../store/Tier.slice';
+import { updateTierThunk, deleteTierThunk } from '../../../store/Tier.thunks';
+import { useNavigate } from 'react-router-dom';
+import { APP_TIERS_ROUTE } from '../../../../../app/Routes';
 
 export interface TierFormPanelProps {
-    tier: Tier
+    tierId: string
     mode: Mode
-    onTierChange: (changedTier: Tier) => void
-    onClear: () => Promise<void>
-    onSave: () => Promise<void>
-    onDelete: () => Promise<void>
 }
 
-export const TierFormPanel = ({ tier, mode, onTierChange, onClear, onSave, onDelete }: TierFormPanelProps) => {
+export const TierFormPanel = ({ tierId, mode }: TierFormPanelProps) => {
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
+
+    const tier = useAppSelector((state) => selectTierById(state, tierId))
+    const [originalTier, setOriginalTier] = useState<Tier | null>(null)
     const [executing, setExecuting] = useState(false)
     const editMode = mode === Mode.EDIT
+
+    useEffect(() => {
+        if (tier && !originalTier) {
+            setOriginalTier(structuredClone(tier))
+        }
+    }, [tier, originalTier])
+
+    if (!tier) {
+        return null
+    }
 
     const execute = async (action: ()=>Promise<void>) => {
         setExecuting(true)
@@ -31,9 +48,26 @@ export const TierFormPanel = ({ tier, mode, onTierChange, onClear, onSave, onDel
         }
     }
 
-    const handleClear = () => execute(onClear)
-    const handleSave = () => execute(onSave)
-    const handleDelete = () => execute(onDelete)
+    const handleClear = async () => {
+        await execute(async () => {
+            if (originalTier) {
+                dispatch(updateTier({ id: originalTier.id, changes: originalTier }))
+            }
+        })
+    }
+
+    const handleSave = async () => {
+        await execute(async () => {
+            await dispatch(updateTierThunk(tier)).unwrap()
+        })
+    }
+
+    const handleDelete = async () => {
+        await execute(async () => {
+            await dispatch(deleteTierThunk(tierId)).unwrap()
+            navigate(APP_TIERS_ROUTE)
+        })
+    }
 
     const clearAction: Action = {
         iconProps: { color: "info" },
@@ -58,7 +92,7 @@ export const TierFormPanel = ({ tier, mode, onTierChange, onClear, onSave, onDel
 
     return (
         <div className={classes.root}>
-            <TierForm tier={tier} onTierChange={onTierChange} mode={mode}/>
+            <TierForm tierId={tierId} mode={mode}/>
             <Divider/>
             <EntityCardActions actions={[clearAction, saveAction, deleteAction]}/>
         </div>

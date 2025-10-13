@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import classes from './UserFormPanel.module.css'
 import { Mode } from '../../../../../components/entityCard/EntityCard';
 import { User } from '../../../model/User.types';
@@ -8,19 +8,36 @@ import RestoreIcon from '@mui/icons-material/Restore';
 import EntityCardActions, { Action } from '../../../../../components/entityCard/entityCardActions/EntityCardActions';
 import UserForm from '../../userForm/UserForm';
 import { Divider } from '@mui/material';
+import { useAppSelector, useAppDispatch } from '../../../../../app/hooks';
+import { selectUserById } from '../../../store/User.selectors';
+import { updateUser } from '../../../store/User.slice';
+import { updateUserThunk, deleteUserThunk } from '../../../store/User.thunks';
+import { useNavigate } from 'react-router-dom';
+import { APP_USERS_ROUTE } from '../../../../../app/Routes';
 
 export interface UserFormPanelProps {
-    user: User
+    userId: string
     mode: Mode
-    onUserChange: (changedUser: User) => void
-    onClear: () => Promise<void>
-    onSave: () => Promise<void>
-    onDelete: () => Promise<void>
 }
 
-export const UserFormPanel = ({ user, mode, onUserChange, onClear, onSave, onDelete }: UserFormPanelProps) => {
+export const UserFormPanel = ({ userId, mode }: UserFormPanelProps) => {
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
+
+    const user = useAppSelector((state) => selectUserById(state, userId))
+    const [originalUser, setOriginalUser] = useState<User | null>(null)
     const [executing, setExecuting] = useState(false)
     const editMode = mode === Mode.EDIT
+
+    useEffect(() => {
+        if (user && !originalUser) {
+            setOriginalUser(structuredClone(user))
+        }
+    }, [user, originalUser])
+
+    if (!user) {
+        return null
+    }
 
     const execute = async (action: ()=>Promise<void>) => {
         setExecuting(true)
@@ -31,9 +48,26 @@ export const UserFormPanel = ({ user, mode, onUserChange, onClear, onSave, onDel
         }
     }
 
-    const handleClear = () => execute(onClear)
-    const handleSave = () => execute(onSave)
-    const handleDelete = () => execute(onDelete)
+    const handleClear = async () => {
+        await execute(async () => {
+            if (originalUser) {
+                dispatch(updateUser({ id: originalUser.id, changes: originalUser }))
+            }
+        })
+    }
+
+    const handleSave = async () => {
+        await execute(async () => {
+            await dispatch(updateUserThunk(user)).unwrap()
+        })
+    }
+
+    const handleDelete = async () => {
+        await execute(async () => {
+            await dispatch(deleteUserThunk(userId)).unwrap()
+            navigate(APP_USERS_ROUTE)
+        })
+    }
 
     const clearAction: Action = {
         iconProps: { color: "info" },
@@ -58,7 +92,7 @@ export const UserFormPanel = ({ user, mode, onUserChange, onClear, onSave, onDel
 
     return (
         <div className={classes.root}>
-            <UserForm user={user} onUserChange={onUserChange} mode={mode}/>
+            <UserForm userId={userId} mode={mode}/>
             <Divider/>
             <EntityCardActions actions={[clearAction, saveAction, deleteAction]}/>
         </div>

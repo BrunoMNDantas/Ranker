@@ -48,26 +48,22 @@ export const VoteFormPanel = ({ voteId, mode }: VoteFormPanelProps) => {
         }
     }
 
-    const handleVoteChange = (changedVote: Vote) => {
-        dispatch(updateVote({ id: changedVote.id, changes: changedVote }))
-    }
-
-    const handleClear = () => {
-        return execute(async () => {
+    const handleClear = async () => {
+        await execute(async () => {
             if (originalVote) {
                 dispatch(updateVote({ id: originalVote.id, changes: originalVote }))
             }
         })
     }
 
-    const handleSave = () => {
-        return execute(async () => {
+    const handleSave = async () => {
+        await execute(async () => {
             await dispatch(updateVoteThunk(vote)).unwrap()
         })
     }
 
-    const handleDelete = () => {
-        return execute(async () => {
+    const handleDelete = async () => {
+        await execute(async () => {
             await dispatch(deleteVoteThunk(voteId)).unwrap()
             navigate(APP_VOTES_ROUTE)
         })
@@ -96,7 +92,7 @@ export const VoteFormPanel = ({ voteId, mode }: VoteFormPanelProps) => {
 
     return (
         <div className={classes.root}>
-            <VoteForm vote={vote} onVoteChange={handleVoteChange} mode={mode}/>
+            <VoteForm voteId={voteId} mode={mode}/>
             <Divider/>
             <EntityCardActions actions={[clearAction, saveAction, deleteAction]}/>
         </div>
