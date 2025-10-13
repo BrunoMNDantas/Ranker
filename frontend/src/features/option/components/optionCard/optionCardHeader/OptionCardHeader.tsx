@@ -1,19 +1,26 @@
-import React, { HTMLAttributes } from 'react';
+import { HTMLAttributes } from 'react';
 import classes from './OptionCardHeader.module.css';
-import { Option } from '../../../model/Option.types';
 import EntityCardHeader from '../../../../../components/entityCard/entityCardHeader/EntityCardHeader';
 import OptionAvatar from '../../optionAvatar/OptionAvatar';
 import EntityProperty from '../../../../../components/entityProperty/EntityProperty';
 import OptionBreadcrumbs from '../../optionBreadcrumbs/OptionBreadcrumbs';
+import { useAppSelector } from '../../../../../app/hooks';
+import { selectOptionById } from '../../../store/Option.selectors';
 
 export interface OptionCardHeaderProps extends HTMLAttributes<HTMLDivElement> {
-    option: Option
+    optionId: string
     showBreadcrumbs?: boolean
     showCreationDate?: boolean
     showDescription?: boolean
 }
 
-const OptionCardHeader = ({ option, showBreadcrumbs=true, showCreationDate=true, showDescription=true, ...props }: OptionCardHeaderProps) => {
+const OptionCardHeader = ({ optionId, showBreadcrumbs=true, showCreationDate=true, showDescription=true, ...props }: OptionCardHeaderProps) => {
+    const option = useAppSelector((state) => selectOptionById(state, optionId))
+
+    if (!option) {
+        return null
+    }
+
     const order = option.order + "º"
     const title = option.title
     const date = new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(option.creationDate)

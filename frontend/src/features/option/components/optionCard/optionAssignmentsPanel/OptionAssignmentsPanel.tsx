@@ -1,4 +1,4 @@
-import React from 'react';
+import { useMemo, useState } from 'react';
 import { Assignment } from '../../../../assignment/model/Assignment.types';
 import AssignmentsList from '../../../../assignment/components/assignmentsList/AssignmentsList';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -7,18 +7,39 @@ import { appAssignmentRoute } from '../../../../../app/Routes';
 import ActionButton from '../../../../../components/actionButton/ActionButton';
 import { Mode } from '../../../../../components/entityCard/EntityCard';
 import { IconButton } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '../../../../../app/hooks';
+import { selectAssignmentsOfOption } from '../../../../assignment/store/Assignment.selectors';
+import { deleteAssignmentThunk } from '../../../../assignment/store/Assignment.thunks';
 
 export interface OptionAssignmentsPanelProps {
-    assignments: Assignment[]
+    optionId: string
     mode: Mode
-    onDeleteAssignment: (assignment: Assignment) => Promise<void>
 }
 
-export const OptionAssignmentsPanel = ({ assignments, mode, onDeleteAssignment }: OptionAssignmentsPanelProps) => {
-    const sortedAssignments = assignments.sort((a, b) => a.order - b.order)
+export const OptionAssignmentsPanel = ({ optionId, mode }: OptionAssignmentsPanelProps) => {
+    const dispatch = useAppDispatch()
+    const assignments = useAppSelector((state) => selectAssignmentsOfOption(state, optionId))
+    const [executing, setExecuting] = useState(false)
+    const editMode = mode === Mode.EDIT
+
+    const sortedAssignments = useMemo(() =>
+        [...assignments].sort((a, b) => a.order - b.order),
+        [assignments]
+    )
+
+    const execute = async (action: ()=>Promise<void>) => {
+        setExecuting(true)
+        try {
+            return await action()
+        } finally {
+            return setExecuting(false)
+        }
+    }
 
     const handleDelete = async (assignment: Assignment) => {
-        await onDeleteAssignment(assignment)
+        await execute(async () => {
+            await dispatch(deleteAssignmentThunk(assignment.id)).unwrap()
+        })
     }
 
     const getChipActions = (assignment: Assignment) => {
@@ -26,7 +47,7 @@ export const OptionAssignmentsPanel = ({ assignments, mode, onDeleteAssignment }
             <IconButton href={appAssignmentRoute(assignment.id)} color='info' size='small'>
                 <VisibilityIcon fontSize='small' />
             </IconButton>,
-            <ActionButton buttonAction={e => handleDelete(assignment)} color='error' size='small'>
+            <ActionButton buttonAction={() => handleDelete(assignment)} color='error' size='small' disabled={!editMode || executing}>
                 <ClearIcon fontSize='small'/>
             </ActionButton>
         ]
