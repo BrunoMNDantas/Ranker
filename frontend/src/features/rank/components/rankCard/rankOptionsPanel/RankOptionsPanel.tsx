@@ -92,27 +92,25 @@ export const RankOptionsPanel = ({ rankId, mode }: RankOptionsPanelProps) => {
     }
 
     return (
-        <>
-            <div className={classes.root}>
-                <EntitySortableList
-                    disabled={!editMode}
-                    entities={sortedOptions}
-                    onEntitiesChange={handleOptionsChange}
-                    entityRenderer={option => (
-                        <OptionChip optionId={option.id}>
-                            <IconButton href={appOptionRoute(option.id)} color='info' size='small'>
-                                <VisibilityIcon fontSize='small' />
-                            </IconButton>
-                            <ActionButton buttonAction={() => handleDelete(option)} color='error' size='small' disabled={!editMode || executing}>
-                                <ClearIcon fontSize='small' />
-                            </ActionButton>
-                        </OptionChip>
-                    )}/>
-                <Divider/>
-                <EntityCardActions actions={[createOptionAction]}/>
-            </div>
+        <div className={classes.root}>
+            <EntitySortableList
+                disabled={!editMode}
+                entities={sortedOptions}
+                onEntitiesChange={handleOptionsChange}
+                entityRenderer={option => (
+                    <OptionChip optionId={option.id}>
+                        <IconButton href={appOptionRoute(option.id)} color='info' size='small'>
+                            <VisibilityIcon fontSize='small' />
+                        </IconButton>
+                        <ActionButton buttonAction={() => handleDelete(option)} color='error' size='small' disabled={!editMode || executing}>
+                            <ClearIcon fontSize='small' />
+                        </ActionButton>
+                    </OptionChip>
+                )}/>
+            <Divider/>
+            <EntityCardActions actions={[createOptionAction]}/>
             { tempOptionId ? <OptionFormModal optionId={tempOptionId} onCancel={handleModalCancel} onCreate={handleModalCreate}/> : null }
-        </>
+        </div>
     )
 }
 

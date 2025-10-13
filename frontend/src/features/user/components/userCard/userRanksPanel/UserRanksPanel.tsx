@@ -90,14 +90,12 @@ export const UserRanksPanel = ({ userId, mode }: UserRanksPanelProps) => {
     }
 
     return (
-        <>
-            <div className={classes.root}>
-                <RanksList rankIds={ranks.map(r => r.id)} chipActions={getChipActions}/>
-                <Divider/>
-                <EntityCardActions actions={[createRankAction]}/>
-            </div>
+        <div className={classes.root}>
+            <RanksList rankIds={ranks.map(r => r.id)} chipActions={getChipActions}/>
+            <Divider/>
+            <EntityCardActions actions={[createRankAction]}/>
             { tempRankId ? <RankFormModal rankId={tempRankId} onCancel={handleModalCancel} onCreate={handleModalCreate}/> : null }
-        </>
+        </div>
     )
 }
 
