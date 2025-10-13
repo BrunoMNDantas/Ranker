@@ -1,18 +1,31 @@
-import React, { HTMLAttributes } from 'react';
+import { HTMLAttributes } from 'react';
 import { TextField } from '@mui/material';
 import { Mode } from '../../../../components/entityCard/EntityCard';
 import ColorField from '../../../../components/colorField/ColorField';
 import EntityCardForm from '../../../../components/entityCard/entityCardForm/EntityCardForm';
-import { User } from '../../model/User.types';
+import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
+import { selectUserById } from '../../store/User.selectors';
+import { updateUser } from '../../store/User.slice';
 
 export interface UserFormProps extends HTMLAttributes<HTMLDivElement> {
-    user: User
-    onUserChange: (user: User) => void
+    userId: string
     mode: Mode
 }
 
-const UserForm = ({ user, onUserChange, mode, ...props }: UserFormProps) => {
+const UserForm = ({ userId, mode, ...props }: UserFormProps) => {
+    const dispatch = useAppDispatch()
+    const user = useAppSelector((state) => selectUserById(state, userId))
     const editable = mode === Mode.EDIT
+
+    if (!user) {
+        return null
+    }
+
+    const handleFieldChange = (changes: Partial<typeof user>) => {
+        if (editable) {
+            dispatch(updateUser({ id: userId, changes }))
+        }
+    }
 
     return (
         <EntityCardForm {...props}>
@@ -20,17 +33,17 @@ const UserForm = ({ user, onUserChange, mode, ...props }: UserFormProps) => {
                 label="Username"
                 type="text"
                 value={user.username}
-                onChange={e => editable ? onUserChange({...user, username: e.target.value}) : null}/>
+                onChange={e => handleFieldChange({ username: e.target.value })}/>
             <TextField
                 label="Image URL"
                 type="url"
                 value={user.imageUrl || ""}
-                onChange={e => editable ? onUserChange({...user, imageUrl: e.target.value}) : null}/>
+                onChange={e => handleFieldChange({ imageUrl: e.target.value })}/>
             <ColorField
                 disabled={!editable}
                 label="Color"
                 value={user.color}
-                onChange={color => editable ? onUserChange({...user, color}) : null}/>
+                onChange={color => handleFieldChange({ color })}/>
         </EntityCardForm>
     )
 }
