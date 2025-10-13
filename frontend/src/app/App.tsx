@@ -1,4 +1,3 @@
-import React from 'react';
 import classes from './App.module.css';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import AppLayout from '../layouts/appLayout/AppLayout';
