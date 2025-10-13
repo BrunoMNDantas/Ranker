@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import classes from './UserVotesPanel.module.css'
 import { Vote } from '../../../../vote/model/Vote.types';
 import VotesList from '../../../../vote/components/votesList/VotesList';
@@ -8,18 +8,34 @@ import { appVoteRoute } from '../../../../../app/Routes';
 import ActionButton from '../../../../../components/actionButton/ActionButton';
 import { IconButton } from '@mui/material';
 import { Mode } from '../../../../../components/entityCard/EntityCard';
+import { useAppDispatch, useAppSelector } from '../../../../../app/hooks';
+import { selectVotesOfUser } from '../../../../vote/store/Vote.selectors';
+import { deleteVoteThunk } from '../../../../vote/store/Vote.thunks';
 
 export interface UserVotesPanelProps {
-    votes: Vote[]
+    userId: string
     mode: Mode
-    onDeleteVote: (vote: Vote) => Promise<void>
 }
 
-export const UserVotesPanel = ({ votes, mode, onDeleteVote }: UserVotesPanelProps) => {
+export const UserVotesPanel = ({ userId, mode }: UserVotesPanelProps) => {
+    const dispatch = useAppDispatch()
+    const votes = useAppSelector((state) => selectVotesOfUser(state, userId))
+    const [executing, setExecuting] = useState(false)
     const editMode = mode === Mode.EDIT
 
+    const execute = async (action: ()=>Promise<void>) => {
+        setExecuting(true)
+        try {
+            return await action()
+        } finally {
+            return setExecuting(false)
+        }
+    }
+
     const handleDelete = async (vote: Vote) => {
-        await onDeleteVote(vote)
+        await execute(async () => {
+            await dispatch(deleteVoteThunk(vote.id)).unwrap()
+        })
     }
 
     const getChipActions = (vote: Vote) => {
@@ -27,7 +43,7 @@ export const UserVotesPanel = ({ votes, mode, onDeleteVote }: UserVotesPanelProp
             <IconButton href={appVoteRoute(vote.id)} color='info' size='small'>
                 <VisibilityIcon fontSize='small' />
             </IconButton>,
-            <ActionButton buttonAction={e => handleDelete(vote)} color='error' size='small' disabled={!editMode}>
+            <ActionButton buttonAction={() => handleDelete(vote)} color='error' size='small' disabled={!editMode || executing}>
                 <ClearIcon fontSize='small' />
             </ActionButton>
         ]
