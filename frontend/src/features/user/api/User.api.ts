@@ -1,19 +1,10 @@
-import DelayedStore from "../../../services/store/delayed/Delayed.store"
-import Store from "../../../services/store/Store"
-import FirestoreStore from "../../../services/store/firebase/Firestore.store"
-import { API_RESPONSE_TIME } from "../../../app/Constants"
 import { User } from "../model/User.types"
-import EntityStore from "../../../services/store/entity/Entity.store"
+import { USER_STORE } from "../../../services/store/Stores"
 import { deleteRanksOfUser } from "../../rank/api/Rank.api"
 import { deleteTiersOfUser } from "../../tier/api/Tier.api"
 import { deleteOptionsOfUser } from "../../option/api/Option.api"
 import { deleteVotesOfUser } from "../../vote/api/Vote.api"
 import { deleteAssignmentsOfUser } from "../../assignment/api/Assignment.api"
-
-export const USER_STORE: Store<User> = new DelayedStore(
-    new EntityStore(new FirestoreStore("users"), user => user.id),
-    API_RESPONSE_TIME
-)
 
 
 export const getAllUsers = (): Promise<User[]> => USER_STORE.getAll()

@@ -1,19 +1,6 @@
 import { Option } from "../model/Option.types"
 import { deleteAssignmentsOfOption } from "../../assignment/api/Assignment.api"
-import DelayedStore from "../../../services/store/delayed/Delayed.store"
-import Store from "../../../services/store/Store"
-import FirestoreStore, { AUTH } from "../../../services/store/firebase/Firestore.store"
-import { API_RESPONSE_TIME } from "../../../app/Constants"
-import EntityStore from "../../../services/store/entity/Entity.store"
-import AuthStore from "../../../services/store/auth/Auth.store"
-
-export const OPTION_STORE: Store<Option> = new DelayedStore(
-    new AuthStore(
-        new EntityStore(new FirestoreStore("options")),
-        () => AUTH.currentUser?.uid || ""
-    ),
-    API_RESPONSE_TIME
-)
+import { OPTION_STORE } from "../../../services/store/Stores"
 
 
 export const getAllOptions = (): Promise<Option[]> => OPTION_STORE.getAll()

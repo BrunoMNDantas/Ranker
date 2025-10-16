@@ -1,19 +1,5 @@
 import { Assignment } from "../model/Assignment.types"
-import DelayedStore from "../../../services/store/delayed/Delayed.store"
-import Store from "../../../services/store/Store"
-import FirestoreStore, { AUTH } from "../../../services/store/firebase/Firestore.store"
-import { API_RESPONSE_TIME } from "../../../app/Constants"
-import EntityStore from "../../../services/store/entity/Entity.store"
-import AuthStore from "../../../services/store/auth/Auth.store"
-
-export const ASSIGNMENT_STORE: Store<Assignment> = new DelayedStore(
-    new AuthStore(
-        new EntityStore(new FirestoreStore("assignments")),
-        () => AUTH.currentUser?.uid || ""
-    ),
-    API_RESPONSE_TIME
-)
-
+import { ASSIGNMENT_STORE } from "../../../services/store/Stores"
 
 export const getAllAssignments = (): Promise<Assignment[]> => ASSIGNMENT_STORE.getAll()
 
