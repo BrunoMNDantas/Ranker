@@ -1,4 +1,4 @@
-import Store, { Entity } from "./Store";
+import Store, { Entity } from "../Store";
 
 export default class DelayedStore<T extends Entity> implements Store<T> {
 

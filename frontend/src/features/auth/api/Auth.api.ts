@@ -3,7 +3,7 @@ import {
     sendPasswordResetEmail, signOut, signInWithPopup,
     GoogleAuthProvider, getAdditionalUserInfo, UserCredential
 } from "firebase/auth";
-import { AUTH } from '../../../services/store/Firestore.store'
+import { AUTH } from '../../../services/store/firebase/Firestore.store'
 import { createUser } from "../../../services/EntityFactory.service";
 import { createUser as submitUser } from "../../user/api/User.api";
 

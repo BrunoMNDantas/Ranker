@@ -1,4 +1,4 @@
-import Store, { Entity as StoreEntity } from "./Store";
+import Store, { Entity as StoreEntity } from "../Store";
 
 export interface Entity extends StoreEntity {
     ownerId: string

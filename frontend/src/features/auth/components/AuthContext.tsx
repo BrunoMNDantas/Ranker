@@ -1,6 +1,6 @@
 import { onAuthStateChanged, User } from "firebase/auth";
 import { createContext, useContext, ReactNode, useState, useEffect } from "react";
-import { AUTH } from "../../../services/store/Firestore.store";
+import { AUTH } from "../../../services/store/firebase/Firestore.store";
 import { useAppDispatch } from "../../../app/hooks";
 import { fetchUserById } from "../../user/store/User.thunks";
 

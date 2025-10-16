@@ -1,4 +1,4 @@
-import Store, { Entity as StoreEntity } from "./Store";
+import Store, { Entity as StoreEntity } from "../Store";
 
 export interface Entity extends StoreEntity {
     creationDate: Date
@@ -13,7 +13,7 @@ export default class EntityStore<T extends Entity> implements Store<T> {
     idGenerator: (entity: T) => string
 
 
-    constructor(sourceStore: Store<T>, idGenerator=DEFAULT_ID_GENERATOR) {
+    constructor(sourceStore: Store<T>, idGenerator: (entity: T)=>string = DEFAULT_ID_GENERATOR) {
         this.sourceStore = sourceStore
         this.idGenerator = idGenerator
     }

@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { CollectionReference, DocumentData, getFirestore } from 'firebase/firestore';
 import { collection, doc, getDoc, getDocs, query, setDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { getAuth, browserLocalPersistence, setPersistence } from "firebase/auth";
-import Store, { Entity } from './Store';
+import Store, { Entity } from '../Store';
 import { Timestamp } from "firebase/firestore";
 
 const FIREBASE_CONFIG = {
@@ -81,20 +81,20 @@ export default class FirestoreStore<T extends Entity> implements Store<T> {
     }
 
     async create(entity: T): Promise<string> {
-        convertDatesToFirestore(entity)
+        const convertedEntity = convertDatesToFirestore(entity as Record<string, any>)
 
         const ref = doc(this.entities, entity.id)
 
-        await setDoc(ref, {...entity})
+        await setDoc(ref, convertedEntity)
 
         return entity.id
     }
 
     async update(entity: T): Promise<void> {
-        convertDatesToFirestore(entity)
+        const convertedEntity = convertDatesToFirestore(entity as Record<string, any>)
 
         const ref = doc(this.entities, entity.id)
-        const { id, ...updateData } = entity
+        const { id, ...updateData } = convertedEntity
         await updateDoc(ref, updateData)
     }
 

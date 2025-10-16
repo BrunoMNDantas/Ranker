@@ -1,11 +1,11 @@
 import { Vote } from "../model/Vote.types"
 import { deleteAssignmentsOfVote } from "../../assignment/api/Assignment.api"
-import DelayedStore from "../../../services/store/Delayed.store"
+import DelayedStore from "../../../services/store/delayed/Delayed.store"
 import Store from "../../../services/store/Store"
-import FirestoreStore, { AUTH } from "../../../services/store/Firestore.store"
+import FirestoreStore, { AUTH } from "../../../services/store/firebase/Firestore.store"
 import { API_RESPONSE_TIME } from "../../../app/Constants"
-import EntityStore from "../../../services/store/Entity.store"
-import AuthStore from "../../../services/store/Auth.store"
+import EntityStore from "../../../services/store/entity/Entity.store"
+import AuthStore from "../../../services/store/auth/Auth.store"
 
 export const VOTE_STORE: Store<Vote> = new DelayedStore(
     new AuthStore(

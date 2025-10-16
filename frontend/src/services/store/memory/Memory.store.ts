@@ -1,4 +1,4 @@
-import Store, { Entity } from "./Store";
+import Store, { Entity } from "../Store";
 
 export default class MemoryStore<T extends Entity> implements Store<T> {
 
@@ -27,6 +27,10 @@ export default class MemoryStore<T extends Entity> implements Store<T> {
     }
 
     create(entity: T): Promise<string> {
+        const exists = this.entities.some(e => e.id === entity.id)
+        if(exists) {
+            throw new Error("DUPLICATE_ENTITY")
+        }
         this.entities.push(structuredClone(entity))
         return Promise.resolve(entity.id)
     }
