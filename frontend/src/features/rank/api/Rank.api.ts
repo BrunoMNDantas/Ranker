@@ -1,34 +1,59 @@
 import { Rank } from "../model/Rank.types"
+import Store from "../../../services/store/Store"
 import { RANK_STORE } from "../../../services/store/Stores"
 import { deleteOptionsOfRank } from "../../option/api/Option.api"
 import { deleteTiersOfRank } from "../../tier/api/Tier.api"
 import { deleteVotesOfRank } from "../../vote/api/Vote.api"
 
+export class RankApi {
+    constructor(private store: Store<Rank>) {}
 
-export const getAllRanks = (): Promise<Rank[]> => RANK_STORE.getAll()
+    getAllRanks(): Promise<Rank[]> {
+        return this.store.getAll()
+    }
 
-export const getRank = (id: string): Promise<Rank|null> => RANK_STORE.get(id)
+    getRank(id: string): Promise<Rank|null> {
+        return this.store.get(id)
+    }
 
-export const getRanksByIds = (ids: string[]): Promise<Rank[]> => RANK_STORE.getByIds(ids)
+    getRanksByIds(ids: string[]): Promise<Rank[]> {
+        return this.store.getByIds(ids)
+    }
 
-export const getRanksOfUser = async (ownerId: string): Promise<Rank[]> => {
-    const ranks = await RANK_STORE.getAll()
-    return ranks.filter(rank => rank.ownerId === ownerId)
+    async getRanksOfUser(ownerId: string): Promise<Rank[]> {
+        const ranks = await this.store.getAll()
+        return ranks.filter(rank => rank.ownerId === ownerId)
+    }
+
+    createRank(rank: Rank): Promise<string> {
+        return this.store.create(rank)
+    }
+
+    updateRank(rank: Rank): Promise<void> {
+        return this.store.update(rank)
+    }
+
+    async deleteRank(id: string): Promise<void> {
+        await deleteTiersOfRank(id)
+        await deleteOptionsOfRank(id)
+        await deleteVotesOfRank(id)
+
+        await this.store.delete(id)
+    }
+
+    async deleteRanksOfUser(ownerId: string): Promise<void> {
+        const ranks = await this.getRanksOfUser(ownerId)
+        await Promise.all(ranks.map(rank => rank.id).map(this.deleteRank.bind(this)))
+    }
 }
 
-export const createRank = (rank: Rank): Promise<string> => RANK_STORE.create(rank)
+export const rankApi = new RankApi(RANK_STORE)
 
-export const updateRank = (rank: Rank): Promise<void> => RANK_STORE.update(rank)
-
-export const deleteRank = async (id: string): Promise<void> => {
-    await deleteTiersOfRank(id)
-    await deleteOptionsOfRank(id)
-    await deleteVotesOfRank(id)
-
-    await RANK_STORE.delete(id)
-}
-
-export const deleteRanksOfUser = async (ownerId: string): Promise<void> => {
-    const ranks = await getRanksOfUser(ownerId)
-    await Promise.all(ranks.map(rank => rank.id).map(deleteRank))
-}
+export const getAllRanks = rankApi.getAllRanks.bind(rankApi)
+export const getRank = rankApi.getRank.bind(rankApi)
+export const getRanksByIds = rankApi.getRanksByIds.bind(rankApi)
+export const getRanksOfUser = rankApi.getRanksOfUser.bind(rankApi)
+export const createRank = rankApi.createRank.bind(rankApi)
+export const updateRank = rankApi.updateRank.bind(rankApi)
+export const deleteRank = rankApi.deleteRank.bind(rankApi)
+export const deleteRanksOfUser = rankApi.deleteRanksOfUser.bind(rankApi)

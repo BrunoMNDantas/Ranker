@@ -1,65 +1,97 @@
 import { Assignment } from "../model/Assignment.types"
+import Store from "../../../services/store/Store"
 import { ASSIGNMENT_STORE } from "../../../services/store/Stores"
 
-export const getAllAssignments = (): Promise<Assignment[]> => ASSIGNMENT_STORE.getAll()
+export class AssignmentApi {
+    constructor(private store: Store<Assignment>) {}
 
-export const getAssignment = (id: string): Promise<Assignment|null> => ASSIGNMENT_STORE.get(id)
+    getAllAssignments(): Promise<Assignment[]> {
+        return this.store.getAll()
+    }
 
-export const getAssignmentsByIds = (ids: string[]): Promise<Assignment[]> => ASSIGNMENT_STORE.getByIds(ids)
+    getAssignment(id: string): Promise<Assignment|null> {
+        return this.store.get(id)
+    }
 
-export const getAssignmentsOfVote = async (voteId: string): Promise<Assignment[]> => {
-    const assignments = await ASSIGNMENT_STORE.getAll()
-    return assignments.filter(assignment => assignment.voteId === voteId)
+    getAssignmentsByIds(ids: string[]): Promise<Assignment[]> {
+        return this.store.getByIds(ids)
+    }
+
+    async getAssignmentsOfVote(voteId: string): Promise<Assignment[]> {
+        const assignments = await this.store.getAll()
+        return assignments.filter(assignment => assignment.voteId === voteId)
+    }
+
+    async getAssignmentsOfTier(tierId: string): Promise<Assignment[]> {
+        const assignments = await this.store.getAll()
+        return assignments.filter(assignment => assignment.tierId === tierId)
+    }
+
+    async getAssignmentsOfOption(optionId: string): Promise<Assignment[]> {
+        const assignments = await this.store.getAll()
+        return assignments.filter(assignment => assignment.optionId === optionId)
+    }
+
+    async getAssignmentsOfUser(ownerId: string): Promise<Assignment[]> {
+        const assignments = await this.store.getAll()
+        return assignments.filter(assignment => assignment.ownerId === ownerId)
+    }
+
+    createAssignment(assignment: Assignment): Promise<string> {
+        return this.store.create(assignment)
+    }
+
+    updateAssignment(assignment: Assignment): Promise<void> {
+        return this.store.update(assignment)
+    }
+
+    async deleteAssignment(id: string): Promise<void> {
+        const assignment = await this.store.get(id)
+        const assignmentsOfVote = await this.getAssignmentsOfVote(assignment?.voteId || "")
+        const updateOrderPromises = assignmentsOfVote
+            .filter(assignment => assignment.id !== id)
+            .sort((assignmentA, assignmentB) => assignmentA.order - assignmentB.order)
+            .map((assignment, index) => { return { ...assignment, order: index + 1 } })
+            .map(this.updateAssignment.bind(this))
+        await Promise.all(updateOrderPromises)
+
+        await this.store.delete(id)
+    }
+
+    async deleteAssignmentsOfVote(voteId: string): Promise<void> {
+        const assignments = await this.getAssignmentsOfVote(voteId)
+        await Promise.all(assignments.map(assignment => assignment.id).map(this.deleteAssignment.bind(this)))
+    }
+
+    async deleteAssignmentsOfTier(tierId: string): Promise<void> {
+        const assignments = await this.getAssignmentsOfTier(tierId)
+        await Promise.all(assignments.map(assignment => assignment.id).map(this.deleteAssignment.bind(this)))
+    }
+
+    async deleteAssignmentsOfOption(optionId: string): Promise<void> {
+        const assignments = await this.getAssignmentsOfOption(optionId)
+        await Promise.all(assignments.map(assignment => assignment.id).map(this.deleteAssignment.bind(this)))
+    }
+
+    async deleteAssignmentsOfUser(ownerId: string): Promise<void> {
+        const assignments = await this.getAssignmentsOfUser(ownerId)
+        await Promise.all(assignments.map(assignment => assignment.id).map(this.deleteAssignment.bind(this)))
+    }
 }
 
-export const getAssignmentsOfTier = async (tierId: string): Promise<Assignment[]> => {
-    const assignments = await ASSIGNMENT_STORE.getAll()
-    return assignments.filter(assignment => assignment.tierId === tierId)
-}
+export const assignmentApi = new AssignmentApi(ASSIGNMENT_STORE)
 
-export const getAssignmentsOfOption = async (optionId: string): Promise<Assignment[]> => {
-    const assignments = await ASSIGNMENT_STORE.getAll()
-    return assignments.filter(assignment => assignment.optionId === optionId)
-}
-
-export const getAssignmentsOfUser = async (ownerId: string): Promise<Assignment[]> => {
-    const assignments = await ASSIGNMENT_STORE.getAll()
-    return assignments.filter(assignment => assignment.ownerId === ownerId)
-}
-
-export const createAssignment = (assignment: Assignment): Promise<string> => ASSIGNMENT_STORE.create(assignment)
-
-export const updateAssignment = (assignment: Assignment): Promise<void> => ASSIGNMENT_STORE.update(assignment)
-
-export const deleteAssignment = async (id: string): Promise<void> => {
-    const assignment = await ASSIGNMENT_STORE.get(id)
-    const assignmentsOfVote = await getAssignmentsOfVote(assignment?.voteId || "")
-    const updateOrderPromises = assignmentsOfVote
-        .filter(assignment => assignment.id !== id)
-        .sort((assignmentA, assignmentB) => assignmentA.order - assignmentB.order)
-        .map((assignment, index) => { return { ...assignment, order: index + 1 } })
-        .map(updateAssignment)
-    await Promise.all(updateOrderPromises)
-
-    await ASSIGNMENT_STORE.delete(id)
-}
-
-export const deleteAssignmentsOfVote = async (voteId: string): Promise<void> => {
-    const assignments = await getAssignmentsOfVote(voteId)
-    await Promise.all(assignments.map(assignment => assignment.id).map(deleteAssignment))
-}
-
-export const deleteAssignmentsOfTier = async (tierId: string): Promise<void> => {
-    const assignments = await getAssignmentsOfTier(tierId)
-    await Promise.all(assignments.map(assignment => assignment.id).map(deleteAssignment))
-}
-
-export const deleteAssignmentsOfOption = async (optionId: string): Promise<void> => {
-    const assignments = await getAssignmentsOfOption(optionId)
-    await Promise.all(assignments.map(assignment => assignment.id).map(deleteAssignment))
-}
-
-export const deleteAssignmentsOfUser = async (ownerId: string): Promise<void> => {
-    const assignments = await getAssignmentsOfUser(ownerId)
-    await Promise.all(assignments.map(assignment => assignment.id).map(deleteAssignment))
-}
+export const getAllAssignments = assignmentApi.getAllAssignments.bind(assignmentApi)
+export const getAssignment = assignmentApi.getAssignment.bind(assignmentApi)
+export const getAssignmentsByIds = assignmentApi.getAssignmentsByIds.bind(assignmentApi)
+export const getAssignmentsOfVote = assignmentApi.getAssignmentsOfVote.bind(assignmentApi)
+export const getAssignmentsOfTier = assignmentApi.getAssignmentsOfTier.bind(assignmentApi)
+export const getAssignmentsOfOption = assignmentApi.getAssignmentsOfOption.bind(assignmentApi)
+export const getAssignmentsOfUser = assignmentApi.getAssignmentsOfUser.bind(assignmentApi)
+export const createAssignment = assignmentApi.createAssignment.bind(assignmentApi)
+export const updateAssignment = assignmentApi.updateAssignment.bind(assignmentApi)
+export const deleteAssignment = assignmentApi.deleteAssignment.bind(assignmentApi)
+export const deleteAssignmentsOfVote = assignmentApi.deleteAssignmentsOfVote.bind(assignmentApi)
+export const deleteAssignmentsOfTier = assignmentApi.deleteAssignmentsOfTier.bind(assignmentApi)
+export const deleteAssignmentsOfOption = assignmentApi.deleteAssignmentsOfOption.bind(assignmentApi)
+export const deleteAssignmentsOfUser = assignmentApi.deleteAssignmentsOfUser.bind(assignmentApi)
