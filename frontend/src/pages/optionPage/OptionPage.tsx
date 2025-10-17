@@ -5,11 +5,14 @@ import OptionCard from '../../features/option/components/optionCard/OptionCard';
 import { Mode } from '../../components/entityCard/EntityCard';
 import { useOptionPageData } from '../../features/option/hooks/UseOptionPage.hook';
 import { useAuth } from '../../features/auth/components/AuthContext';
+import { useAppSelector } from '../../app/hooks';
+import { selectOptionById } from '../../features/option/store/Option.selectors';
 
 const OptionPage = () => {
 	const auth = useAuth()
 	const { optionId } = useParams<{ optionId: string }>()
-	const { option, fetching, error } = useOptionPageData(optionId || "")
+	const { fetching, error } = useOptionPageData(optionId || "")
+	const option = useAppSelector(state => selectOptionById(state, optionId || ""))
 
 	return (
 		<div className={classes.root}>

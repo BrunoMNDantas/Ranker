@@ -5,9 +5,29 @@ import { fetchAssignmentsOfTier } from '../../assignment/store/Assignment.thunks
 import { fetchRankById } from '../../rank/store/Rank.thunks';
 import { fetchUserById } from '../../user/store/User.thunks';
 import { selectTierById, selectTiersLoading, selectTiersError } from '../store/Tier.selectors';
-import { selectAssignmentsOfTier, selectAssignmentsLoading, selectAssignmentsError } from '../../assignment/store/Assignment.selectors';
-import { selectRankById, selectRanksLoading, selectRanksError } from '../../rank/store/Rank.selectors';
-import { selectUserById, selectUsersLoading, selectUsersError } from '../../user/store/User.selectors';
+import { selectAssignmentsLoading, selectAssignmentsError } from '../../assignment/store/Assignment.selectors';
+import { selectRanksLoading, selectRanksError } from '../../rank/store/Rank.selectors';
+import { selectUsersLoading, selectUsersError } from '../../user/store/User.selectors';
+import { RootState } from '../../../app/store';
+
+export const getTierPageData = (state: RootState) => {
+    const loading =
+        selectTiersLoading(state) ||
+        selectAssignmentsLoading(state) ||
+        selectRanksLoading(state) ||
+        selectUsersLoading(state);
+
+    const error =
+        selectTiersError(state) ||
+        selectAssignmentsError(state) ||
+        selectRanksError(state) ||
+        selectUsersError(state);
+
+    return {
+        fetching: loading,
+        error,
+    };
+};
 
 export const useTierPageData = (tierId: string) => {
     const dispatch = useAppDispatch();
@@ -20,7 +40,6 @@ export const useTierPageData = (tierId: string) => {
     }, [dispatch, tierId]);
 
     const tier = useAppSelector((state) => selectTierById(state, tierId));
-    const assignments = useAppSelector((state) => selectAssignmentsOfTier(state, tierId));
 
     useEffect(() => {
         if (tier) {
@@ -28,40 +47,11 @@ export const useTierPageData = (tierId: string) => {
         }
     }, [dispatch, tier?.rankId]);
 
-    const rank = useAppSelector((state) =>
-        tier ? selectRankById(state, tier.rankId) : null
-    );
-
     useEffect(() => {
         if (tier) {
             dispatch(fetchUserById(tier.ownerId));
         }
     }, [dispatch, tier?.ownerId]);
 
-    const user = useAppSelector((state) =>
-        tier ? selectUserById(state, tier.ownerId) : null
-    );
-
-    const loading = useAppSelector((state) =>
-        selectTiersLoading(state) ||
-        selectAssignmentsLoading(state) ||
-        selectRanksLoading(state) ||
-        selectUsersLoading(state)
-    );
-
-    const error = useAppSelector((state) =>
-        selectTiersError(state) ||
-        selectAssignmentsError(state) ||
-        selectRanksError(state) ||
-        selectUsersError(state)
-    );
-
-    return {
-        tier,
-        assignments,
-        rank,
-        user,
-        fetching: loading,
-        error,
-    };
+    return useAppSelector(getTierPageData);
 };

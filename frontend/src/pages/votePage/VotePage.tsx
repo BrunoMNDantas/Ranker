@@ -5,11 +5,14 @@ import VoteCard from '../../features/vote/components/voteCard/VoteCard';
 import { Mode } from '../../components/entityCard/EntityCard';
 import { useVotePageData } from '../../features/vote/hooks/UseVotePage.hook';
 import { useAuth } from '../../features/auth/components/AuthContext';
+import { useAppSelector } from '../../app/hooks';
+import { selectVoteById } from '../../features/vote/store/Vote.selectors';
 
 const VotePage = () => {
 	const auth = useAuth()
 	const { voteId } = useParams<{ voteId: string }>()
-	const { vote, fetching, error } = useVotePageData(voteId || "")
+	const { fetching, error } = useVotePageData(voteId || "")
+	const vote = useAppSelector(state => selectVoteById(state, voteId || ""))
 
 	return (
 		<div className={classes.root}>

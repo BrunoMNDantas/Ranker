@@ -3,7 +3,18 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { fetchAllRanks } from '../store/Rank.thunks';
 import { fetchUserById } from '../../user/store/User.thunks';
 import { selectAllRanks, selectRanksLoading, selectRanksError } from '../store/Rank.selectors';
-import { selectAllUsers, selectUsersLoading, selectUsersError } from '../../user/store/User.selectors';
+import { selectUsersLoading, selectUsersError } from '../../user/store/User.selectors';
+import { RootState } from '../../../app/store';
+
+export const getRanksPageData = (state: RootState) => {
+    const loading = selectRanksLoading(state) || selectUsersLoading(state);
+    const error = selectRanksError(state) || selectUsersError(state);
+
+    return {
+        fetching: loading,
+        error,
+    };
+};
 
 export const useRanksPageData = () => {
     const dispatch = useAppDispatch();
@@ -20,14 +31,5 @@ export const useRanksPageData = () => {
         });
     }, [dispatch, ranks]);
 
-    const users = useAppSelector((state) => selectAllUsers(state));
-    const loading = useAppSelector((state) => selectRanksLoading(state) || selectUsersLoading(state));
-    const error = useAppSelector((state) => selectRanksError(state) || selectUsersError(state));
-
-    return {
-        ranks,
-        users,
-        fetching: loading,
-        error,
-    };
+    return useAppSelector(getRanksPageData);
 };

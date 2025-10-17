@@ -8,14 +8,20 @@ import VotingCard from '../../features/vote/components/votingCard/VotingCard';
 import { appVoteRoute } from '../../app/Routes';
 import { createVoteThunk } from '../../features/vote/store/Vote.thunks';
 import { createAssignmentThunk } from '../../features/assignment/store/Assignment.thunks';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { selectRankById } from '../../features/rank/store/Rank.selectors';
+import { selectOptionsOfRank } from '../../features/option/store/Option.selectors';
+import { selectTiersOfRank } from '../../features/tier/store/Tier.selectors';
 
 const RankVotePage = () => {
 	const navigate = useNavigate()
 	const dispatch = useAppDispatch()
 	const { rankId } = useParams<{ rankId: string }>()
 
-	const { rank, options, tiers, fetching, error } = useVotingPageData(rankId || "")
+	const { fetching, error } = useVotingPageData(rankId || "")
+	const rank = useAppSelector(state => selectRankById(state, rankId || ""))
+	const options = useAppSelector(state => selectOptionsOfRank(state, rankId || ""))
+	const tiers = useAppSelector(state => selectTiersOfRank(state, rankId || ""))
 
 	const handleVote = async (assignments: Assignment[]) => {
 		const vote = createVote({rankId})

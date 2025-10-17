@@ -5,11 +5,14 @@ import { Mode } from '../../components/entityCard/EntityCard';
 import { useUserPageData } from '../../features/user/hooks/UseUserPage.hook';
 import UserCard from '../../features/user/components/userCard/UserCard';
 import { useAuth } from '../../features/auth/components/AuthContext';
+import { useAppSelector } from '../../app/hooks';
+import { selectUserById } from '../../features/user/store/User.selectors';
 
 const UserPage = () => {
 	const auth = useAuth()
 	const { userId } = useParams<{ userId: string }>()
-	const { user, fetching, error } = useUserPageData(userId || "")
+	const { fetching, error } = useUserPageData(userId || "")
+	const user = useAppSelector(state => selectUserById(state, userId || ""))
 
 	return (
 		<div className={classes.root}>

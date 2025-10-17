@@ -5,11 +5,14 @@ import TierCard from '../../features/tier/components/tierCard/TierCard';
 import { Mode } from '../../components/entityCard/EntityCard';
 import { useTierPageData } from '../../features/tier/hooks/UseTierPage.hook';
 import { useAuth } from '../../features/auth/components/AuthContext';
+import { useAppSelector } from '../../app/hooks';
+import { selectTierById } from '../../features/tier/store/Tier.selectors';
 
 const TierPage = () => {
 	const auth = useAuth()
 	const { tierId } = useParams<{ tierId: string }>()
-	const { tier, fetching, error } = useTierPageData(tierId || "")
+	const { fetching, error } = useTierPageData(tierId || "")
+	const tier = useAppSelector(state => selectTierById(state, tierId || ""))
 
 	return (
 		<div className={classes.root}>

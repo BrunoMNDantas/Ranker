@@ -5,11 +5,14 @@ import AssignmentCard from '../../features/assignment/components/assignmentCard/
 import { Mode } from '../../components/entityCard/EntityCard';
 import { useAssignmentPageData } from '../../features/assignment/hooks/UseAssignmentPage.hook';
 import { useAuth } from '../../features/auth/components/AuthContext';
+import { useAppSelector } from '../../app/hooks';
+import { selectAssignmentById } from '../../features/assignment/store/Assignment.selectors';
 
 const AssignmentPage = () => {
 	const auth = useAuth()
 	const { assignmentId } = useParams<{ assignmentId: string }>()
-	const { assignment, fetching, error } = useAssignmentPageData(assignmentId || "")
+	const { fetching, error } = useAssignmentPageData(assignmentId || "")
+	const assignment = useAppSelector(state => selectAssignmentById(state, assignmentId || ""))
 
 	return (
 		<div className={classes.root}>

@@ -3,9 +3,27 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { fetchUserById } from '../store/User.thunks';
 import { fetchRanksOfUser } from '../../rank/store/Rank.thunks';
 import { fetchVotesOfUser } from '../../vote/store/Vote.thunks';
-import { selectUserById, selectUsersLoading, selectUsersError } from '../store/User.selectors';
-import { selectRanksOfUser, selectRanksLoading, selectRanksError } from '../../rank/store/Rank.selectors';
-import { selectVotesOfUser, selectVotesLoading, selectVotesError } from '../../vote/store/Vote.selectors';
+import { selectUsersLoading, selectUsersError } from '../store/User.selectors';
+import { selectRanksLoading, selectRanksError } from '../../rank/store/Rank.selectors';
+import { selectVotesLoading, selectVotesError } from '../../vote/store/Vote.selectors';
+import { RootState } from '../../../app/store';
+
+export const getUserPageData = (state: RootState) => {
+    const loading =
+        selectUsersLoading(state) ||
+        selectRanksLoading(state) ||
+        selectVotesLoading(state);
+
+    const error =
+        selectUsersError(state) ||
+        selectRanksError(state) ||
+        selectVotesError(state);
+
+    return {
+        fetching: loading,
+        error,
+    };
+};
 
 export const useUserPageData = (userId: string) => {
     const dispatch = useAppDispatch();
@@ -18,27 +36,5 @@ export const useUserPageData = (userId: string) => {
         }
     }, [dispatch, userId]);
 
-    const user = useAppSelector((state) => selectUserById(state, userId));
-    const ranks = useAppSelector((state) => selectRanksOfUser(state, userId));
-    const votes = useAppSelector((state) => selectVotesOfUser(state, userId));
-
-    const loading = useAppSelector((state) =>
-        selectUsersLoading(state) ||
-        selectRanksLoading(state) ||
-        selectVotesLoading(state)
-    );
-
-    const error = useAppSelector((state) =>
-        selectUsersError(state) ||
-        selectRanksError(state) ||
-        selectVotesError(state)
-    );
-
-    return {
-        user,
-        ranks,
-        votes,
-        fetching: loading,
-        error,
-    };
+    return useAppSelector(getUserPageData);
 };
