@@ -16,10 +16,11 @@ Ranker is a web application that allows users to **create rankings** and **vote 
   - [Version 0.0.2 — App with UI](#-version-002--app-with-ui)
   - [Version 0.0.3 — Firestore & Validation](#-version-003--firestore--validation)
   - [Version 0.0.4 — Users](#-version-004--users)
-  - [Version 0.0.5 — App Flow & User Experience](#-version-005--app-flow--user-experience)
-  - [Version 0.0.6 — User Options & Analytics](#-version-006--user-options--analytics)
-  - [Version 0.0.7 — Mobile](#-version-007--mobile)
-  - [Version 0.0.8 — AI Assistance](#-version-008--ai-assistance)
+  - [Version 0.0.5 — Tests & State Management](#-version-005--tests--state--management)
+  - [Version 0.0.6 — User Experience & Error Handling](#-version-006--user--experience--error--handling)
+  - [Version 0.0.7 — User Options & Analytics](#-version-006--user-options--analytics)
+  - [Version 0.0.8 — Mobile](#-version-007--mobile)
+  - [Version 0.0.9 — AI Assistance](#-version-008--ai-assistance)
 - [⚙️ Technical Documentation](#-technical-documentation)
   - [📌 Domain Model](#-domain-model)
     - [User](#user)
@@ -118,26 +119,35 @@ npm test
 - Restrict editing so only the owner can modify their entities.
 - Clean UI separation between **Edit** and **View** modes.
 
-### 🚧 Version 0.0.5 — App Flow & User Experience
-- Improve **VoteCard** and **AssignmentCard**. (Place text on the card with the name of the entity?)
-- Handle missing images more clearly (better option/tier representation).
-- Add a more engaging **vote button**.
-- On the voting page (Assignments tab), show the **voting board**.
-- Introduce **Redux** for state management.
-- Improve the error handling
+### 🚧 Version 0.0.5 — Tests & State Management
+- Introduce **Redux Toolkit** for centralized state management.
+- Normalize entities with **createEntityAdapter** (ranks, tiers, options, votes, assignments).
+- Implement **async thunks** for API calls (`fetchRank`, `fetchAssignments`, `submitVote`).
+- Add **unit and component tests** for reducers, selectors, and key UI components.
+- Basic error handling with slice-level status (`loading`, `error`, `success`).
 
-### 🔮 Version 0.0.6 — User Options & Analytics
+### 🔮 Version 0.0.6 — User Experience & Error Handling
+- Improve **VoteCard** and **AssignmentCard** visuals (entity name overlay, layout, buttons).
+- Add clear **fallbacks for missing images** (option/tier placeholders).
+- Introduce a more engaging **vote button** with visual feedback.
+- Display the **Voting Board** on the Assignments tab to show voting progress.
+- Create dedicated pages for **Loading**, **Error**, and **Non-existent entities**.
+- Add a global **ErrorBoundary** with user-friendly messages and retry actions.
+- Show **toast notifications** for background errors or network issues.
+- Minor **accessibility** and visual polish improvements across the app.
+
+### 🔮 Version 0.0.7 — User Options & Analytics
 - Implement **user customization choices**:
   - Range of colors to derive colors for all options and tiers.
   - Option to enforce only one tier per rank.
 - Add ability to **compare two votes side by side** for the same rank.
 - Provide **statistics on votes** for each rank.
 
-### 🔮 Version 0.0.7 — Mobile
+### 🔮 Version 0.0.8 — Mobile
 - Build a fully **responsive mobile experience**.
 - Optimize layouts and components for small screens.
 
-### 🔮 Version 0.0.8 — AI Assistance
+### 🔮 Version 0.0.9 — AI Assistance
 - Create a **Rank based on a description**.
 - Automatically generate **tiers** for a Rank based on its description.
 - Automatically generate **options** for a Rank based on its description.
