@@ -44,6 +44,7 @@ class MockStore<T extends Entity> implements Store<T> {
 }
 
 describe("AuthStore", () => {
+
   let mockStore: MockStore<TestEntity>;
   let authStore: AuthStore<TestEntity>;
   const CURRENT_USER_ID = "user-123";
