@@ -16,11 +16,17 @@ Ranker is a web application that allows users to **create rankings** and **vote 
   - [Version 0.2.0 — App with UI](#-version-020--app-with-ui)
   - [Version 0.3.0 — Firestore & Validation](#-version-030--firestore--validation)
   - [Version 0.4.0 — Users](#-version-040--users)
-  - [Version 0.5.0 — Tests & State Management](#-version-050--tests--state-management)
-  - [Version 0.6.0 — User Experience & Error Handling](#-version-060--user-experience--error-handling)
-  - [Version 0.7.0 — User Options & Analytics](#-version-070--user-options--analytics)
-  - [Version 0.8.0 — Mobile](#-version-080--mobile)
-  - [Version 0.9.0 — AI Assistance](#-version-090--ai-assistance)
+  - [Version 0.5.0 — Redux & State Management](#-version-050--redux--state-management)
+  - [Version 0.5.1 — Unit Testing](#-version-051--unit-testing)
+  - [Version 0.5.2 — End-to-End Testing](#-version-052--end-to-end-testing)
+  - [Version 0.6.0 — Core User Experience](#-version-060--core-user-experience)
+  - [Version 0.6.1 — Error Handling & Accessibility](#-version-061--error-handling--accessibility)
+  - [Version 0.7.0 — User Customization](#-version-070--user-customization)
+  - [Version 0.7.1 — Analytics & Comparison](#-version-071--analytics--comparison)
+  - [Version 0.8.0 — Mobile Optimization](#-version-080--mobile-optimization)
+  - [Version 0.8.1 — Mobile Enhancements](#-version-081--mobile-enhancements)
+  - [Version 0.9.0 — AI Rank Creation](#-version-090--ai-rank-creation)
+  - [Version 0.9.1 — AI Enhancements](#-version-091--ai-enhancements)
 - [⚙️ Technical Documentation](#-technical-documentation)
   - [📌 Domain Model](#-domain-model)
     - [User](#user)
@@ -119,38 +125,68 @@ npm test
 - Restrict editing so only the owner can modify their entities.
 - Clean UI separation between **Edit** and **View** modes.
 
-### 🚧 Version 0.5.0 — Tests & State Management
+### ✅ Version 0.5.0 — Redux & State Management
+
 - Introduce **Redux Toolkit** for centralized state management.
 - Normalize entities with **createEntityAdapter** (ranks, tiers, options, votes, assignments).
 - Implement **async thunks** for API calls (`fetchRank`, `fetchAssignments`, `submitVote`).
-- Add **unit and component tests** for reducers, selectors, and key UI components.
-- Basic error handling with slice-level status (`loading`, `error`, `success`).
+- Add slice-level **loading**, **error**, and **success** statuses.
 
-### 🔮 Version 0.6.0 — User Experience & Error Handling
+### ✅ Version 0.5.1 — Unit Testing
+
+- Add **unit tests** for reducers, selectors, and key UI components.
+- Mock Firestore and async thunks to ensure deterministic tests.
+- Validate Redux logic with simulated API data and mock store.
+
+### 🚧 Version 0.5.2 — End-to-End Testing
+
+- Introduce **end-to-end tests** with Cypress or Playwright.
+- Test full user flows (login, creating rank, voting, viewing results).
+
+### 🔮 Version 0.6.0 — Core User Experience
+
 - Improve **VoteCard** and **AssignmentCard** visuals (entity name overlay, layout, buttons).
-- Add clear **fallbacks for missing images** (option/tier placeholders).
 - Introduce a more engaging **vote button** with visual feedback.
 - Display the **Voting Board** on the Assignments tab to show voting progress.
+- Intruduce general visual enhancements
+
+### 🔮 Version 0.6.1 — Error Handling & Accessibility
+
 - Create dedicated pages for **Loading**, **Error**, and **Non-existent entities**.
 - Add a global **ErrorBoundary** with user-friendly messages and retry actions.
 - Show **toast notifications** for background errors or network issues.
-- Minor **accessibility** and visual polish improvements across the app.
+- Apply **accessibility and visual polish improvements** across the app.
 
-### 🔮 Version 0.7.0 — User Options & Analytics
+### 🔮 Version 0.7.0 — User Customization
+
 - Implement **user customization choices**:
   - Range of colors to derive colors for all options and tiers.
   - Option to enforce only one tier per rank.
+
+### 🔮 Version 0.7.1 — Analytics & Comparison
+
 - Add ability to **compare two votes side by side** for the same rank.
 - Provide **statistics on votes** for each rank.
 
-### 🔮 Version 0.8.0 — Mobile
+### 🔮 Version 0.8.0 — Mobile Optimization
+
 - Build a fully **responsive mobile experience**.
 - Optimize layouts and components for small screens.
 
-### 🔮 Version 0.9.0 — AI Assistance
+### 🔮 Version 0.8.1 — Mobile Enhancements
+
+- Refine touch interactions, spacing, and scroll behavior.
+- Improve **performance and caching** for mobile use.
+
+### 🔮 Version 0.9.0 — AI Rank Creation
+
 - Create a **Rank based on a description**.
 - Automatically generate **tiers** for a Rank based on its description.
+
+### 🔮 Version 0.9.1 — AI Enhancements
+
 - Automatically generate **options** for a Rank based on its description.
+- Add **AI-based recommendations** for tier arrangement and ranking balance.
 
 ---
 
