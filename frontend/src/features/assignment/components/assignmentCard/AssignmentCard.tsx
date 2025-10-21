@@ -18,7 +18,8 @@ const AssignmentCard = ({ assignmentId, mode, ...props }: AssignmentCardProps) =
         {
             icon: <AssignmentIcon/>,
             label: "Assignment",
-            view: <AssignmentFormPanel assignmentId={assignmentId} mode={mode}/>
+            view: <AssignmentFormPanel assignmentId={assignmentId} mode={mode}/>,
+            testId: "assignment-tab"
         }
     ]
 

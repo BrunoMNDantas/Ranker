@@ -40,10 +40,10 @@ export const UserVotesPanel = ({ userId, mode }: UserVotesPanelProps) => {
 
     const getChipActions = (vote: Vote) => {
         return [
-            <IconButton href={appVoteRoute(vote.id)} color='info' size='small'>
+            <IconButton key="view" href={appVoteRoute(vote.id)} color='info' size='small' data-testid={`vote-${vote.id}-view-button`}>
                 <VisibilityIcon fontSize='small' />
             </IconButton>,
-            <ActionButton buttonAction={() => handleDelete(vote)} color='error' size='small' disabled={!editMode || executing}>
+            <ActionButton key="delete" buttonAction={() => handleDelete(vote)} color='error' size='small' disabled={!editMode || executing} data-testid={`vote-${vote.id}-delete-button`}>
                 <ClearIcon fontSize='small' />
             </ActionButton>
         ]

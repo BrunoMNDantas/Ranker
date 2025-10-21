@@ -33,19 +33,22 @@ const TierForm = ({ tierId, mode, ...props }: TierFormProps) => {
                 label="Title"
                 type="text"
                 value={tier.title}
-                onChange={e => handleFieldChange({ title: e.target.value })}/>
+                onChange={e => handleFieldChange({ title: e.target.value })}
+                data-testid="tier-title-input"/>
             <TextField
                 label="Description"
                 type="text"
                 multiline
                 rows={3}
                 value={tier.description || ""}
-                onChange={e => handleFieldChange({ description: e.target.value })}/>
+                onChange={e => handleFieldChange({ description: e.target.value })}
+                data-testid="tier-description-input"/>
             <TextField
                 label="Image URL"
                 type="url"
                 value={tier.imageUrl || ""}
-                onChange={e => handleFieldChange({ imageUrl: e.target.value })}/>
+                onChange={e => handleFieldChange({ imageUrl: e.target.value })}
+                data-testid="tier-image-url-input"/>
             <ColorField
                 disabled={!editable}
                 label="Color"

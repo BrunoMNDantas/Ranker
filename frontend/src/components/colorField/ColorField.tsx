@@ -64,6 +64,7 @@ const ColorField = ({ label, value, onChange, disabled = false }: ColorFieldProp
                 type="text"
                 value={value || ''}
                 onChange={e => !disabled ? onChange(e.target.value) : null}
+                data-testid="color-field-input"
                 slotProps={{
                     input: {
                         endAdornment: (
@@ -71,7 +72,8 @@ const ColorField = ({ label, value, onChange, disabled = false }: ColorFieldProp
                                 <IconButton
                                     onClick={e => !disabled ? setColorPickerAnchor(e.currentTarget) : null}
                                     disabled={disabled}
-                                    size="small">
+                                    size="small"
+                                    data-testid="color-picker-button">
                                     <Palette />
                                 </IconButton>
                             </InputAdornment>

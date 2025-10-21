@@ -7,6 +7,7 @@ export interface Action {
     icon: ReactNode
     onClick: () => Promise<void>
     disabled: boolean
+    testId?: string
 }
 
 export interface CardActionProps {
@@ -15,7 +16,7 @@ export interface CardActionProps {
 
 export const EntityCardAction = ({ action }: CardActionProps) => {
     return (
-        <ActionButton buttonAction={action.onClick} disabled={action.disabled} {...action.iconProps}>
+        <ActionButton buttonAction={action.onClick} disabled={action.disabled} data-testid={action.testId} {...action.iconProps}>
             {action.icon}
         </ActionButton>
     )
@@ -28,7 +29,7 @@ export interface EntityCardActionsProps extends CardActionsProps {
 const EntityCardActions = ({ actions, ...props }: EntityCardActionsProps) => {
     return (
         <CardActions  sx={{ justifyContent: "space-evenly"}} {...props}>
-            {actions.map(action => <EntityCardAction action={action}/>)}
+            {actions.map((action, index) => <EntityCardAction key={action.testId || index} action={action}/>)}
         </CardActions>
     );
 }

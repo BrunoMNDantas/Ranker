@@ -80,10 +80,10 @@ export const UserRanksPanel = ({ userId, mode }: UserRanksPanelProps) => {
 
     const getChipActions = (rank: Rank) => {
         return [
-            <IconButton href={appRankRoute(rank.id)} color='info' size='small'>
+            <IconButton key="view" href={appRankRoute(rank.id)} color='info' size='small' data-testid={`rank-${rank.id}-view-button`}>
                 <VisibilityIcon fontSize='small' />
             </IconButton>,
-            <ActionButton buttonAction={() => handleDelete(rank)} color='error' size='small' disabled={!editMode || executing}>
+            <ActionButton key="delete" buttonAction={() => handleDelete(rank)} color='error' size='small' disabled={!editMode || executing} data-testid={`rank-${rank.id}-delete-button`}>
                 <ClearIcon fontSize='small' />
             </ActionButton>
         ]

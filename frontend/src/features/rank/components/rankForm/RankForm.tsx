@@ -33,19 +33,22 @@ const RankForm = ({ rankId, mode, ...props }: RankFormProps) => {
                 label="Title"
                 type="text"
                 value={rank.title}
-                onChange={e => handleFieldChange({ title: e.target.value })}/>
+                onChange={e => handleFieldChange({ title: e.target.value })}
+                data-testid="rank-title-input"/>
             <TextField
                 label="Description"
                 type="text"
                 multiline
                 rows={3}
                 value={rank.description || ""}
-                onChange={e => handleFieldChange({ description: e.target.value })}/>
+                onChange={e => handleFieldChange({ description: e.target.value })}
+                data-testid="rank-description-input"/>
             <TextField
                 label="Image URL"
                 type="url"
                 value={rank.imageUrl || ""}
-                onChange={e => handleFieldChange({ imageUrl: e.target.value })}/>
+                onChange={e => handleFieldChange({ imageUrl: e.target.value })}
+                data-testid="rank-image-url-input"/>
             <ColorField
                 disabled={!editable}
                 label="Color"

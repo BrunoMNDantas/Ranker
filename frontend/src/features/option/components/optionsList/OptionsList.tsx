@@ -21,6 +21,7 @@ const OptionsList = ({ optionIds, optionUrl, onOptionClick, chipActions=()=>[], 
             entityRenderer={option => <OptionChip optionId={option.id}>{chipActions(option)}</OptionChip>}
             entityUrl={optionUrl}
             onEntityClick={onOptionClick}
+            entityType="option"
             {...props}/>
     )
 }

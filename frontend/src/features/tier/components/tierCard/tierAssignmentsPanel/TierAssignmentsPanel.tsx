@@ -44,10 +44,10 @@ export const TierAssignmentsPanel = ({ tierId, mode }: TierAssignmentsPanelProps
 
     const getChipActions = (assignment: Assignment) => {
         return [
-            <IconButton href={appAssignmentRoute(assignment.id)} color='info' size='small'>
+            <IconButton key="view" href={appAssignmentRoute(assignment.id)} color='info' size='small' data-testid={`assignment-${assignment.id}-view-button`}>
                 <VisibilityIcon fontSize='small' />
             </IconButton>,
-            <ActionButton buttonAction={() => handleDelete(assignment)} color='error' size='small' disabled={!editMode || executing}>
+            <ActionButton key="delete" buttonAction={() => handleDelete(assignment)} color='error' size='small' disabled={!editMode || executing} data-testid={`assignment-${assignment.id}-delete-button`}>
                 <ClearIcon fontSize='small'/>
             </ActionButton>
         ]

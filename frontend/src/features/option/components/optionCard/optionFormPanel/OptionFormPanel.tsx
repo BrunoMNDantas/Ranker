@@ -73,21 +73,24 @@ export const OptionFormPanel = ({ optionId, mode }: OptionFormPanelProps) => {
         iconProps: { color: "info" },
         icon: <RestoreIcon/>,
         onClick: handleClear,
-        disabled: executing || !editMode
+        disabled: executing || !editMode,
+        testId: "option-clear-button"
     }
 
     const saveAction: Action = {
         iconProps: { color: "info" },
         icon: <SaveIcon/>,
         onClick: handleSave,
-        disabled: executing || !editMode
+        disabled: executing || !editMode,
+        testId: "option-save-button"
     }
 
     const deleteAction: Action = {
         iconProps: { color: "error" },
         icon: <DeleteIcon/>,
         onClick: handleDelete,
-        disabled: executing || !editMode
+        disabled: executing || !editMode,
+        testId: "option-delete-button"
     }
 
     return (

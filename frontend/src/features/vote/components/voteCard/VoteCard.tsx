@@ -20,12 +20,14 @@ const VoteCard = ({ voteId, mode, ...props }: VoteCardProps) => {
         {
             icon: <VoteIcon/>,
             label: "Vote",
-            view: <VoteFormPanel voteId={voteId} mode={mode}/>
+            view: <VoteFormPanel voteId={voteId} mode={mode}/>,
+            testId: "vote-tab"
         },
         {
             icon: <AssignmentIcon/>,
             label: "Assignments",
-            view: <VoteAssignmentsPanel voteId={voteId} mode={mode}/>
+            view: <VoteAssignmentsPanel voteId={voteId} mode={mode}/>,
+            testId: "vote-assignments-tab"
         }
     ]
 

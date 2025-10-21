@@ -6,6 +6,7 @@ export interface TabProps {
     icon: ReactElement
     label: string
     view: ReactNode
+    testId?: string
 }
 
 export interface EntityCardContentProps extends CardContentProps {
@@ -24,7 +25,7 @@ const EntityCardContent = ({ activeTabIndex, activeTabIndexChanged, tabs, ...pro
     return (
         <CardContent className={className} {...props}>
             <Tabs className={classes.tabs} value={activeTabIndex+1} onChange={handleTabChange}>
-                { tabs.map((tab, index) => <Tab icon={tab.icon} label={tab.label} value={index+1}/>) }
+                { tabs.map((tab, index) => <Tab key={index} icon={tab.icon} label={tab.label} value={index+1} data-testid={tab.testId}/>) }
             </Tabs>
             <div className={classes.view}>
                 { tabs[activeTabIndex].view }

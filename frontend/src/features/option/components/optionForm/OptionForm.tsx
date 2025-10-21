@@ -33,19 +33,22 @@ const OptionForm = ({ optionId, mode, ...props }: OptionFormProps) => {
                 label="Title"
                 type="text"
                 value={option.title}
-                onChange={e => handleFieldChange({ title: e.target.value })}/>
+                onChange={e => handleFieldChange({ title: e.target.value })}
+                data-testid="option-title-input"/>
             <TextField
                 label="Description"
                 type="text"
                 multiline
                 rows={3}
                 value={option.description || ""}
-                onChange={e => handleFieldChange({ description: e.target.value })}/>
+                onChange={e => handleFieldChange({ description: e.target.value })}
+                data-testid="option-description-input"/>
             <TextField
                 label="Image URL"
                 type="url"
                 value={option.imageUrl || ""}
-                onChange={e => handleFieldChange({ imageUrl: e.target.value })}/>
+                onChange={e => handleFieldChange({ imageUrl: e.target.value })}
+                data-testid="option-image-url-input"/>
             <ColorField
                 disabled={!editable}
                 label="Color"

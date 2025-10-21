@@ -21,6 +21,7 @@ const AssignmentsList = ({ assignmentIds, assignmentUrl, onAssignmentClick, chip
             entityRenderer={assignment => <AssignmentChip assignmentId={assignment.id}>{chipActions(assignment)}</AssignmentChip>}
             entityUrl={assignmentUrl}
             onEntityClick={onAssignmentClick}
+            entityType="assignment"
             {...props}/>
     )
 }

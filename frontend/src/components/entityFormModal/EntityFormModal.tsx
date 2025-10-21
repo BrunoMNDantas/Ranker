@@ -17,7 +17,7 @@ const EntityFormModal = ({ modalHeader, modalForm, entityCreateIcon, onCreate, o
     const className = props.className || classes.root
 
     return (
-        <Modal className={className} {...props}>
+        <Modal className={className} data-testid="entity-form-modal" {...props}>
             <EntityCard>
                 {modalHeader}
                 {modalForm}
@@ -26,13 +26,15 @@ const EntityFormModal = ({ modalHeader, modalForm, entityCreateIcon, onCreate, o
                         iconProps: { color: "error" },
                         icon: <CloseIcon/>,
                         onClick: onCancel,
-                        disabled: false
+                        disabled: false,
+                        testId: "modal-cancel-button"
                     },
                     {
                         iconProps: { color: "info" },
                         icon: entityCreateIcon,
                         onClick: onCreate,
-                        disabled: false
+                        disabled: false,
+                        testId: "modal-create-button"
                     }
                 ]}/>
             </EntityCard>

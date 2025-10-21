@@ -31,10 +31,10 @@ export const VoteAssignmentsPanel = ({ voteId, mode }: VoteAssignmentsPanelProps
 
     const getChipActions = (assignment: Assignment) => {
         return [
-            <IconButton href={appAssignmentRoute(assignment.id)} color='info' size='small'>
+            <IconButton key="view" href={appAssignmentRoute(assignment.id)} color='info' size='small' data-testid={`assignment-${assignment.id}-view-button`}>
                 <VisibilityIcon fontSize='small' />
             </IconButton>,
-            <ActionButton buttonAction={e => handleDelete(assignment)} color='error' size='small'>
+            <ActionButton key="delete" buttonAction={e => handleDelete(assignment)} color='error' size='small' data-testid={`assignment-${assignment.id}-delete-button`}>
                 <ClearIcon fontSize='small'/>
             </ActionButton>
         ]

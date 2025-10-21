@@ -20,12 +20,14 @@ const TierCard = ({ tierId, mode, ...props }: TierCardProps) => {
         {
             icon: <TierIcon/>,
             label: "Tier",
-            view: <TierFormPanel tierId={tierId} mode={mode}/>
+            view: <TierFormPanel tierId={tierId} mode={mode}/>,
+            testId: "tier-tab"
         },
         {
             icon: <AssignmentIcon/>,
             label: "Assignments",
-            view: <TierAssignmentsPanel tierId={tierId} mode={mode}/>
+            view: <TierAssignmentsPanel tierId={tierId} mode={mode}/>,
+            testId: "tier-assignments-tab"
         }
     ]
 

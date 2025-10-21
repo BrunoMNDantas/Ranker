@@ -22,17 +22,20 @@ const UserCard = ({ userId, mode, ...props }: UserCardProps) => {
         {
             icon: <UserIcon/>,
             label: "User",
-            view: <UserFormPanel userId={userId} mode={mode}/>
+            view: <UserFormPanel userId={userId} mode={mode}/>,
+            testId: "user-tab"
         },
         {
             label: "Ranks",
             icon: <RankIcon/>,
-            view: <UserRanksPanel userId={userId} mode={mode}/>
+            view: <UserRanksPanel userId={userId} mode={mode}/>,
+            testId: "user-ranks-tab"
         },
         {
             label: "Votes",
             icon: <VoteIcon/>,
-            view: <UserVotesPanel userId={userId} mode={mode}/>
+            view: <UserVotesPanel userId={userId} mode={mode}/>,
+            testId: "user-votes-tab"
         }
     ]
 

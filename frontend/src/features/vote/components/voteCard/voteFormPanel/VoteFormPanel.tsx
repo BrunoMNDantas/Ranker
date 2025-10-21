@@ -73,21 +73,24 @@ export const VoteFormPanel = ({ voteId, mode }: VoteFormPanelProps) => {
         iconProps: { color: "info" },
         icon: <RestoreIcon/>,
         onClick: handleClear,
-        disabled: executing || !editMode
+        disabled: executing || !editMode,
+        testId: "vote-clear-button"
     }
 
     const saveAction: Action = {
         iconProps: { color: "info" },
         icon: <SaveIcon/>,
         onClick: handleSave,
-        disabled: executing || !editMode
+        disabled: executing || !editMode,
+        testId: "vote-save-button"
     }
 
     const deleteAction: Action = {
         iconProps: { color: "error" },
         icon: <DeleteIcon/>,
         onClick: handleDelete,
-        disabled: executing || !editMode
+        disabled: executing || !editMode,
+        testId: "vote-delete-button"
     }
 
     return (

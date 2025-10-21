@@ -16,12 +16,14 @@ const LoginCardForm = ({ email, password, onEmailChange, onPasswordChange, ...pr
                 label="Email"
                 type="text"
                 value={email}
-                onChange={e => onEmailChange(e.target.value)}/>
+                onChange={e => onEmailChange(e.target.value)}
+                data-testid="login-email-input"/>
             <TextField
                 label="Password"
                 type="password"
                 value={password}
-                onChange={e => onPasswordChange(e.target.value)}/>
+                onChange={e => onPasswordChange(e.target.value)}
+                data-testid="login-password-input"/>
         </EntityCardForm>
     )
 }

@@ -32,27 +32,30 @@ const LoginCard = ({ onRegisterUser, onLoginWithEmail, onLoginWithGoogle, ...pro
         iconProps: { color: "info" },
         icon: <PersonAddIcon/>,
         onClick: () => execute(() => onRegisterUser(email, password)),
-        disabled: executing
+        disabled: executing,
+        testId: "login-register-button"
     }
 
     const loginAction: Action = {
         iconProps: { color: "info" },
         icon: <LoginIcon/>,
         onClick: () => execute(() => onLoginWithEmail(email, password)),
-        disabled: executing
+        disabled: executing,
+        testId: "login-submit-button"
     }
 
      const googleAction: Action = {
         iconProps: { color: "info" },
         icon: <GoogleIcon/>,
         onClick: () => execute(() => onLoginWithGoogle()),
-        disabled: executing
+        disabled: executing,
+        testId: "login-google-button"
     }
 
     const actions = [registerAction, loginAction, googleAction]
 
     return (
-        <EntityCard {...props}>
+        <EntityCard data-testid="login-card" {...props}>
             <Typography variant='h3'>Login</Typography>
             <LoginCardForm email={email} password={password} onEmailChange={setEmail} onPasswordChange={setPassword}/>
             <EntityCardActions actions={actions}/>

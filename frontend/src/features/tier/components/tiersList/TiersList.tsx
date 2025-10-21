@@ -21,6 +21,7 @@ const TiersList = ({ tierIds, tierUrl, onTierClick, chipActions=()=>[], ...props
             entityRenderer={tier => <TierChip tierId={tier.id}>{chipActions(tier)}</TierChip>}
             entityUrl={tierUrl}
             onEntityClick={onTierClick}
+            entityType="tier"
             {...props}/>
     )
 }

@@ -73,21 +73,24 @@ export const TierFormPanel = ({ tierId, mode }: TierFormPanelProps) => {
         iconProps: { color: "info" },
         icon: <RestoreIcon/>,
         onClick: handleClear,
-        disabled: executing || !editMode
+        disabled: executing || !editMode,
+        testId: "tier-clear-button"
     }
 
     const saveAction: Action = {
         iconProps: { color: "info" },
         icon: <SaveIcon/>,
         onClick: handleSave,
-        disabled: executing || !editMode
+        disabled: executing || !editMode,
+        testId: "tier-save-button"
     }
 
     const deleteAction: Action = {
         iconProps: { color: "error" },
         icon: <DeleteIcon/>,
         onClick: handleDelete,
-        disabled: executing || !editMode
+        disabled: executing || !editMode,
+        testId: "tier-delete-button"
     }
 
     return (

@@ -21,6 +21,7 @@ const RanksList = ({ rankIds, rankUrl, onRankClick, chipActions=()=>[], ...props
             entityRenderer={rank => <RankChip rankId={rank.id}>{chipActions(rank)}</RankChip>}
             entityUrl={rankUrl}
             onEntityClick={onRankClick}
+            entityType="rank"
             {...props}/>
     )
 }

@@ -9,9 +9,10 @@ export interface EntityListItemProps<T extends Entity> extends HTMLAttributes<HT
     entityRenderer: (entity: T) => ReactNode
     entityUrl?: string
     onEntityClick?: (entity: T )=> void
+    entityType?: string
 }
 
-export const EntityListItem =  <T extends Entity,>({ entity, entityRenderer, entityUrl, onEntityClick, ...props }: EntityListItemProps<T>) => {
+export const EntityListItem =  <T extends Entity,>({ entity, entityRenderer, entityUrl, onEntityClick, entityType, ...props }: EntityListItemProps<T>) => {
     const className = props.className || [classes.item, entityUrl ? classes.itemLink : ""].join(" ")
 
     const handleClick = () => {
@@ -20,8 +21,10 @@ export const EntityListItem =  <T extends Entity,>({ entity, entityRenderer, ent
         }
     }
 
+    const testId = entityType ? `${entityType}-list-item-${entity.id}` : undefined
+
     return (
-        <div className={className} onClick={handleClick} {...props}>
+        <div className={className} onClick={handleClick} data-testid={testId} {...props}>
             {
                 entityUrl ?
                     <Link
@@ -46,9 +49,10 @@ export interface EntityListProps<T extends Entity> extends HTMLAttributes<HTMLDi
     entityRenderer: (entity: T) => ReactNode
     entityUrl?: (entity: T) => string
     onEntityClick?: (entity: T ) => void
+    entityType?: string
 }
 
-const EntityList =  <T extends Entity,>({ entities, entityRenderer, entityUrl, onEntityClick, ...props }: EntityListProps<T>) => {
+const EntityList =  <T extends Entity,>({ entities, entityRenderer, entityUrl, onEntityClick, entityType, ...props }: EntityListProps<T>) => {
     const className = props.className || classes.root
 
     return (
@@ -59,7 +63,8 @@ const EntityList =  <T extends Entity,>({ entities, entityRenderer, entityUrl, o
                     entity={entity}
                     entityRenderer={entityRenderer}
                     entityUrl={entityUrl ? entityUrl(entity) : undefined}
-                    onEntityClick={onEntityClick}/>
+                    onEntityClick={onEntityClick}
+                    entityType={entityType}/>
             ))}
         </div>
     );

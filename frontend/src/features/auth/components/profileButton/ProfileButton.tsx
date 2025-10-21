@@ -28,21 +28,22 @@ const ProfileButton = ({onProfile, onLogout}: ProfileButtonProps) => {
 
     return (
         <div className={classes.root}>
-            { auth.userId ? <UserAvatar userId={auth.userId} onClick={handleClick}/> : null}
+            { auth.userId ? <UserAvatar userId={auth.userId} onClick={handleClick} data-testid="profile-button"/> : null}
             <Menu
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}
                 onClick={handleClose}
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
-                <MenuItem onClick={onProfile}>
+                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                data-testid="profile-menu">
+                <MenuItem onClick={onProfile} data-testid="profile-menu-profile">
                     <ListItemIcon>
                         <UserIcon fontSize="small"/>
                     </ListItemIcon>
                     Profile
                 </MenuItem>
-                <MenuItem onClick={onLogout}>
+                <MenuItem onClick={onLogout} data-testid="profile-menu-logout">
                     <ListItemIcon>
                         <Logout fontSize="small"/>
                     </ListItemIcon>

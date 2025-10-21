@@ -20,12 +20,14 @@ const OptionCard = ({ optionId, mode, ...props }: OptionCardProps) => {
         {
             icon: <OptionIcon/>,
             label: "Option",
-            view: <OptionFormPanel optionId={optionId} mode={mode}/>
+            view: <OptionFormPanel optionId={optionId} mode={mode}/>,
+            testId: "option-tab"
         },
         {
             icon: <AssignmentIcon/>,
             label: "Assignments",
-            view: <OptionAssignmentsPanel optionId={optionId} mode={mode}/>
+            view: <OptionAssignmentsPanel optionId={optionId} mode={mode}/>,
+            testId: "option-assignments-tab"
         }
     ]
 

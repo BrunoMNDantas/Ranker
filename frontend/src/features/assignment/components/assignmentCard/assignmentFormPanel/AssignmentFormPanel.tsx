@@ -73,21 +73,24 @@ export const AssignmentFormPanel = ({ assignmentId, mode }: AssignmentFormPanelP
         iconProps: { color: "info" },
         icon: <RestoreIcon/>,
         onClick: handleClear,
-        disabled: executing || !editMode
+        disabled: executing || !editMode,
+        testId: "assignment-clear-button"
     }
 
     const saveAction: Action = {
         iconProps: { color: "info" },
         icon: <SaveIcon/>,
         onClick: handleSave,
-        disabled: executing || !editMode
+        disabled: executing || !editMode,
+        testId: "assignment-save-button"
     }
 
     const deleteAction: Action = {
         iconProps: { color: "error" },
         icon: <DeleteIcon/>,
         onClick: handleDelete,
-        disabled: executing || !editMode
+        disabled: executing || !editMode,
+        testId: "assignment-delete-button"
     }
 
     return (

@@ -24,22 +24,26 @@ const RankCard = ({ rankId, mode, ...props }: RankCardProps) => {
         {
             label: "Rank",
             icon: <RankIcon/>,
-            view: <RankFormPanel rankId={rankId} mode={mode}/>
+            view: <RankFormPanel rankId={rankId} mode={mode}/>,
+            testId: "rank-tab"
         },
         {
             label: "Tiers",
             icon: <TierIcon/>,
-            view: <RankTiersPanel rankId={rankId} mode={mode}/>
+            view: <RankTiersPanel rankId={rankId} mode={mode}/>,
+            testId: "rank-tiers-tab"
         },
         {
             label: "Options",
             icon: <OptionIcon/>,
-            view: <RankOptionsPanel rankId={rankId} mode={mode}/>
+            view: <RankOptionsPanel rankId={rankId} mode={mode}/>,
+            testId: "rank-options-tab"
         },
         {
             label: "Votes",
             icon: <VoteIcon/>,
-            view: <RankVotesPanel rankId={rankId} mode={mode}/>
+            view: <RankVotesPanel rankId={rankId} mode={mode}/>,
+            testId: "rank-votes-tab"
         }
     ]
 
