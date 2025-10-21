@@ -24,7 +24,6 @@ describe('Vote Selectors', () => {
     lastUpdateDate: new Date('2024-01-02'),
     ownerId: 'user-1',
     rankId: 'rank-1',
-    title: 'Vote One',
   };
 
   const mockVote2: Vote = {
@@ -33,7 +32,6 @@ describe('Vote Selectors', () => {
     lastUpdateDate: new Date('2024-01-04'),
     ownerId: 'user-1',
     rankId: 'rank-1',
-    title: 'Vote Two',
   };
 
   const mockVote3: Vote = {
@@ -42,7 +40,6 @@ describe('Vote Selectors', () => {
     lastUpdateDate: new Date('2024-01-06'),
     ownerId: 'user-2',
     rankId: 'rank-2',
-    title: 'Vote Three',
   };
 
   const createMockState = (overrides?: Partial<RootState['vote']>): RootState => {

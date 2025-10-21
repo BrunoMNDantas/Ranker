@@ -27,14 +27,20 @@ describe('User Thunks', () => {
 
   const mockUser1: User = {
     id: 'user-1',
-    name: 'User One',
-    email: 'user1@example.com',
+    creationDate: new Date('2024-01-01'),
+    lastUpdateDate: new Date('2024-01-02'),
+    username: 'userone',
+    imageUrl: null,
+    color: null,
   };
 
   const mockUser2: User = {
     id: 'user-2',
-    name: 'User Two',
-    email: 'user2@example.com',
+    creationDate: new Date('2024-01-03'),
+    lastUpdateDate: new Date('2024-01-04'),
+    username: 'usertwo',
+    imageUrl: null,
+    color: null,
   };
 
   beforeEach(() => {
@@ -69,7 +75,7 @@ describe('User Thunks', () => {
 
       expect(mockGetAllUsers).toHaveBeenCalledTimes(1);
       expect(result.type).toBe('user/fetchAll/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -103,7 +109,7 @@ describe('User Thunks', () => {
 
       expect(mockGetUser).toHaveBeenCalledWith(userId);
       expect(result.type).toBe('user/fetchById/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -138,7 +144,7 @@ describe('User Thunks', () => {
 
       expect(mockGetUsersByIds).toHaveBeenCalledWith(userIds);
       expect(result.type).toBe('user/fetchByIds/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -147,8 +153,12 @@ describe('User Thunks', () => {
 
     it('should create user successfully', async () => {
       const newUser: User = {
-        name: 'New User',
-        email: 'new@example.com',
+        id: '',
+        creationDate: new Date('2024-01-01'),
+        lastUpdateDate: new Date('2024-01-02'),
+        username: 'newuser',
+        imageUrl: null,
+        color: null,
       };
       const createdId = 'user-123';
       mockCreateUser.mockResolvedValue(createdId);
@@ -165,8 +175,12 @@ describe('User Thunks', () => {
 
     it('should handle errors', async () => {
       const newUser: User = {
-        name: 'New User',
-        email: 'new@example.com',
+        id: '',
+        creationDate: new Date('2024-01-01'),
+        lastUpdateDate: new Date('2024-01-02'),
+        username: 'newuser',
+        imageUrl: null,
+        color: null,
       };
       const errorMessage = 'Failed to create user';
       mockCreateUser.mockRejectedValue(new Error(errorMessage));
@@ -179,7 +193,7 @@ describe('User Thunks', () => {
 
       expect(mockCreateUser).toHaveBeenCalledWith(newUser);
       expect(result.type).toBe('user/create/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -189,8 +203,11 @@ describe('User Thunks', () => {
     it('should update user successfully', async () => {
       const updatedUser: User = {
         id: 'user-1',
-        name: 'Updated Name',
-        email: 'updated@example.com',
+        creationDate: new Date('2024-01-01'),
+        lastUpdateDate: new Date('2024-01-02'),
+        username: 'updateduser',
+        imageUrl: null,
+        color: null,
       };
       mockUpdateUser.mockResolvedValue(undefined);
 
@@ -207,8 +224,11 @@ describe('User Thunks', () => {
     it('should handle errors', async () => {
       const updatedUser: User = {
         id: 'user-1',
-        name: 'Updated Name',
-        email: 'updated@example.com',
+        creationDate: new Date('2024-01-01'),
+        lastUpdateDate: new Date('2024-01-02'),
+        username: 'updateduser',
+        imageUrl: null,
+        color: null,
       };
       const errorMessage = 'Failed to update user';
       mockUpdateUser.mockRejectedValue(new Error(errorMessage));
@@ -221,7 +241,7 @@ describe('User Thunks', () => {
 
       expect(mockUpdateUser).toHaveBeenCalledWith(updatedUser);
       expect(result.type).toBe('user/update/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -255,7 +275,7 @@ describe('User Thunks', () => {
 
       expect(mockDeleteUser).toHaveBeenCalledWith(userId);
       expect(result.type).toBe('user/delete/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });

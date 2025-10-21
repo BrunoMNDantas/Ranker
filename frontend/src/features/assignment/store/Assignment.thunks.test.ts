@@ -85,7 +85,7 @@ describe('Assignment Thunks', () => {
 
       expect(mockGetAllAssignments).toHaveBeenCalledTimes(1);
       expect(result.type).toBe('assignment/fetchAll/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -119,7 +119,7 @@ describe('Assignment Thunks', () => {
 
       expect(mockGetAssignment).toHaveBeenCalledWith(assignmentId);
       expect(result.type).toBe('assignment/fetchById/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -154,7 +154,7 @@ describe('Assignment Thunks', () => {
 
       expect(mockGetAssignmentsByIds).toHaveBeenCalledWith(assignmentIds);
       expect(result.type).toBe('assignment/fetchByIds/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -189,7 +189,7 @@ describe('Assignment Thunks', () => {
 
       expect(mockGetAssignmentsOfUser).toHaveBeenCalledWith(ownerId);
       expect(result.type).toBe('assignment/fetchOfUser/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -242,7 +242,7 @@ describe('Assignment Thunks', () => {
 
       expect(mockCreateAssignment).toHaveBeenCalledWith(newAssignment);
       expect(result.type).toBe('assignment/create/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -294,7 +294,7 @@ describe('Assignment Thunks', () => {
 
       expect(mockUpdateAssignment).toHaveBeenCalledWith(updatedAssignment);
       expect(result.type).toBe('assignment/update/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -328,7 +328,7 @@ describe('Assignment Thunks', () => {
 
       expect(mockDeleteAssignment).toHaveBeenCalledWith(assignmentId);
       expect(result.type).toBe('assignment/delete/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });

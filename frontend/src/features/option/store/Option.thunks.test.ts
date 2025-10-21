@@ -32,6 +32,8 @@ describe('Option Thunks', () => {
     creationDate: new Date('2024-01-01'),
     lastUpdateDate: new Date('2024-01-02'),
     ownerId: 'user-1',
+    rankId: 'rank-1',
+    order: 1,
     title: 'Option One',
     description: 'Description One',
     imageUrl: null,
@@ -43,6 +45,8 @@ describe('Option Thunks', () => {
     creationDate: new Date('2024-01-03'),
     lastUpdateDate: new Date('2024-01-04'),
     ownerId: 'user-1',
+    rankId: 'rank-1',
+    order: 2,
     title: 'Option Two',
     description: null,
     imageUrl: null,
@@ -81,7 +85,7 @@ describe('Option Thunks', () => {
 
       expect(mockGetAllOptions).toHaveBeenCalledTimes(1);
       expect(result.type).toBe('option/fetchAll/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -115,7 +119,7 @@ describe('Option Thunks', () => {
 
       expect(mockGetOption).toHaveBeenCalledWith(optionId);
       expect(result.type).toBe('option/fetchById/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -150,7 +154,7 @@ describe('Option Thunks', () => {
 
       expect(mockGetOptionsByIds).toHaveBeenCalledWith(optionIds);
       expect(result.type).toBe('option/fetchByIds/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -185,7 +189,7 @@ describe('Option Thunks', () => {
 
       expect(mockGetOptionsOfUser).toHaveBeenCalledWith(ownerId);
       expect(result.type).toBe('option/fetchOfUser/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -194,9 +198,12 @@ describe('Option Thunks', () => {
 
     it('should create option successfully', async () => {
       const newOption: Option = {
+        id: '',
         creationDate: new Date('2024-01-01'),
         lastUpdateDate: new Date('2024-01-02'),
         ownerId: 'user-1',
+        rankId: 'rank-1',
+        order: 3,
         title: 'New Option',
         description: 'New Description',
         imageUrl: null,
@@ -217,9 +224,12 @@ describe('Option Thunks', () => {
 
     it('should handle errors', async () => {
       const newOption: Option = {
+        id: '',
         creationDate: new Date('2024-01-01'),
         lastUpdateDate: new Date('2024-01-02'),
         ownerId: 'user-1',
+        rankId: 'rank-1',
+        order: 3,
         title: 'New Option',
         description: 'New Description',
         imageUrl: null,
@@ -236,7 +246,7 @@ describe('Option Thunks', () => {
 
       expect(mockCreateOption).toHaveBeenCalledWith(newOption);
       expect(result.type).toBe('option/create/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -249,6 +259,8 @@ describe('Option Thunks', () => {
         creationDate: new Date('2024-01-01'),
         lastUpdateDate: new Date('2024-01-02'),
         ownerId: 'user-1',
+        rankId: 'rank-1',
+        order: 1,
         title: 'Updated Title',
         description: 'Updated Description',
         imageUrl: null,
@@ -272,6 +284,8 @@ describe('Option Thunks', () => {
         creationDate: new Date('2024-01-01'),
         lastUpdateDate: new Date('2024-01-02'),
         ownerId: 'user-1',
+        rankId: 'rank-1',
+        order: 1,
         title: 'Updated Title',
         description: 'Updated Description',
         imageUrl: null,
@@ -288,7 +302,7 @@ describe('Option Thunks', () => {
 
       expect(mockUpdateOption).toHaveBeenCalledWith(updatedOption);
       expect(result.type).toBe('option/update/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -322,7 +336,7 @@ describe('Option Thunks', () => {
 
       expect(mockDeleteOption).toHaveBeenCalledWith(optionId);
       expect(result.type).toBe('option/delete/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });

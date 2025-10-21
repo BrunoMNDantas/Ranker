@@ -81,7 +81,7 @@ describe('Rank Thunks', () => {
 
       expect(mockGetAllRanks).toHaveBeenCalledTimes(1);
       expect(result.type).toBe('rank/fetchAll/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -115,7 +115,7 @@ describe('Rank Thunks', () => {
 
       expect(mockGetRank).toHaveBeenCalledWith(rankId);
       expect(result.type).toBe('rank/fetchById/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -150,7 +150,7 @@ describe('Rank Thunks', () => {
 
       expect(mockGetRanksByIds).toHaveBeenCalledWith(rankIds);
       expect(result.type).toBe('rank/fetchByIds/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -185,7 +185,7 @@ describe('Rank Thunks', () => {
 
       expect(mockGetRanksOfUser).toHaveBeenCalledWith(ownerId);
       expect(result.type).toBe('rank/fetchOfUser/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -194,6 +194,7 @@ describe('Rank Thunks', () => {
 
     it('should create rank successfully', async () => {
       const newRank: Rank = {
+        id: '',
         creationDate: new Date('2024-01-01'),
         lastUpdateDate: new Date('2024-01-02'),
         ownerId: 'user-1',
@@ -217,6 +218,7 @@ describe('Rank Thunks', () => {
 
     it('should handle errors', async () => {
       const newRank: Rank = {
+        id: '',
         creationDate: new Date('2024-01-01'),
         lastUpdateDate: new Date('2024-01-02'),
         ownerId: 'user-1',
@@ -236,7 +238,7 @@ describe('Rank Thunks', () => {
 
       expect(mockCreateRank).toHaveBeenCalledWith(newRank);
       expect(result.type).toBe('rank/create/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -288,7 +290,7 @@ describe('Rank Thunks', () => {
 
       expect(mockUpdateRank).toHaveBeenCalledWith(updatedRank);
       expect(result.type).toBe('rank/update/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -322,7 +324,7 @@ describe('Rank Thunks', () => {
 
       expect(mockDeleteRank).toHaveBeenCalledWith(rankId);
       expect(result.type).toBe('rank/delete/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });

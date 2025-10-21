@@ -21,20 +21,29 @@ describe('User Slice', () => {
 
   const mockUser1: User = {
     id: 'user-1',
-    name: 'User One',
-    email: 'user1@example.com',
+    creationDate: new Date('2024-01-01'),
+    lastUpdateDate: new Date('2024-01-02'),
+    username: 'userone',
+    imageUrl: null,
+    color: null,
   };
 
   const mockUser2: User = {
     id: 'user-2',
-    name: 'User Two',
-    email: 'user2@example.com',
+    creationDate: new Date('2024-01-03'),
+    lastUpdateDate: new Date('2024-01-04'),
+    username: 'usertwo',
+    imageUrl: null,
+    color: null,
   };
 
   const mockUser3: User = {
     id: 'user-3',
-    name: 'User Three',
-    email: 'user3@example.com',
+    creationDate: new Date('2024-01-05'),
+    lastUpdateDate: new Date('2024-01-06'),
+    username: 'userthree',
+    imageUrl: null,
+    color: null,
   };
 
   const initialState = {
@@ -123,12 +132,12 @@ describe('User Slice', () => {
         error: null,
       };
 
-      const updatedUser = { id: 'user-1', changes: { name: 'Updated Name' } };
+      const updatedUser = { id: 'user-1', changes: { username: 'updatedname' } };
 
       const result = userReducer(state, updateUser(updatedUser));
 
-      expect(result.entities['user-1']?.name).toBe('Updated Name');
-      expect(result.entities['user-1']?.email).toBe(mockUser1.email);
+      expect(result.entities['user-1']?.username).toBe('updatedname');
+      expect(result.entities['user-1']?.imageUrl).toBe(mockUser1.imageUrl);
     });
 
   });
@@ -147,14 +156,14 @@ describe('User Slice', () => {
       };
 
       const updates = [
-        { id: 'user-1', changes: { name: 'Updated One' } },
-        { id: 'user-2', changes: { name: 'Updated Two' } },
+        { id: 'user-1', changes: { username: 'updatedone' } },
+        { id: 'user-2', changes: { username: 'updatedtwo' } },
       ];
 
       const result = userReducer(state, updateUsers(updates));
 
-      expect(result.entities['user-1']?.name).toBe('Updated One');
-      expect(result.entities['user-2']?.name).toBe('Updated Two');
+      expect(result.entities['user-1']?.username).toBe('updatedone');
+      expect(result.entities['user-2']?.username).toBe('updatedtwo');
     });
 
   });
@@ -430,7 +439,7 @@ describe('User Slice', () => {
         error: null,
       };
 
-      const updatedUser = { ...mockUser1, name: 'Updated Name' };
+      const updatedUser = { ...mockUser1, username: 'updatedname' };
       const action = {
         type: updateUserThunk.fulfilled.type,
         payload: updatedUser,
@@ -439,7 +448,7 @@ describe('User Slice', () => {
       const result = userReducer(state, action);
 
       expect(result.loading).toBe(false);
-      expect(result.entities['user-1']?.name).toBe('Updated Name');
+      expect(result.entities['user-1']?.username).toBe('updatedname');
     });
 
     it('should set error on rejected', () => {

@@ -77,7 +77,7 @@ describe('Vote Thunks', () => {
 
       expect(mockGetAllVotes).toHaveBeenCalledTimes(1);
       expect(result.type).toBe('vote/fetchAll/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -111,7 +111,7 @@ describe('Vote Thunks', () => {
 
       expect(mockGetVote).toHaveBeenCalledWith(voteId);
       expect(result.type).toBe('vote/fetchById/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -146,7 +146,7 @@ describe('Vote Thunks', () => {
 
       expect(mockGetVotesByIds).toHaveBeenCalledWith(voteIds);
       expect(result.type).toBe('vote/fetchByIds/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -181,7 +181,7 @@ describe('Vote Thunks', () => {
 
       expect(mockGetVotesOfRank).toHaveBeenCalledWith(rankId);
       expect(result.type).toBe('vote/fetchOfRank/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -216,7 +216,7 @@ describe('Vote Thunks', () => {
 
       expect(mockGetVotesOfUser).toHaveBeenCalledWith(ownerId);
       expect(result.type).toBe('vote/fetchOfUser/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -225,6 +225,7 @@ describe('Vote Thunks', () => {
 
     it('should create vote successfully', async () => {
       const newVote: Vote = {
+        id: '',
         creationDate: new Date('2024-01-01'),
         lastUpdateDate: new Date('2024-01-02'),
         ownerId: 'user-1',
@@ -245,6 +246,7 @@ describe('Vote Thunks', () => {
 
     it('should handle errors', async () => {
       const newVote: Vote = {
+        id: '',
         creationDate: new Date('2024-01-01'),
         lastUpdateDate: new Date('2024-01-02'),
         ownerId: 'user-1',
@@ -261,7 +263,7 @@ describe('Vote Thunks', () => {
 
       expect(mockCreateVote).toHaveBeenCalledWith(newVote);
       expect(result.type).toBe('vote/create/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -307,7 +309,7 @@ describe('Vote Thunks', () => {
 
       expect(mockUpdateVote).toHaveBeenCalledWith(updatedVote);
       expect(result.type).toBe('vote/update/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });
@@ -341,7 +343,7 @@ describe('Vote Thunks', () => {
 
       expect(mockDeleteVote).toHaveBeenCalledWith(voteId);
       expect(result.type).toBe('vote/delete/rejected');
-      expect(result.error.message).toBe(errorMessage);
+      expect('error' in result && result.error.message).toBe(errorMessage);
     });
 
   });

@@ -18,20 +18,29 @@ describe('User Selectors', () => {
 
   const mockUser1: User = {
     id: 'user-1',
-    name: 'User One',
-    email: 'user1@example.com',
+    creationDate: new Date('2024-01-01'),
+    lastUpdateDate: new Date('2024-01-02'),
+    username: 'userone',
+    imageUrl: null,
+    color: null,
   };
 
   const mockUser2: User = {
     id: 'user-2',
-    name: 'User Two',
-    email: 'user2@example.com',
+    creationDate: new Date('2024-01-03'),
+    lastUpdateDate: new Date('2024-01-04'),
+    username: 'usertwo',
+    imageUrl: null,
+    color: null,
   };
 
   const mockUser3: User = {
     id: 'user-3',
-    name: 'User Three',
-    email: 'user3@example.com',
+    creationDate: new Date('2024-01-05'),
+    lastUpdateDate: new Date('2024-01-06'),
+    username: 'userthree',
+    imageUrl: null,
+    color: null,
   };
 
   const createMockState = (overrides?: Partial<RootState['user']>): RootState => {
