@@ -18,7 +18,6 @@ Ranker is a web application that allows users to **create rankings** and **vote 
   - [Version 0.4.0 — Users](#-version-040--users)
   - [Version 0.5.0 — Redux & State Management](#-version-050--redux--state-management)
   - [Version 0.5.1 — Unit Testing](#-version-051--unit-testing)
-  - [Version 0.5.2 — End-to-End Testing](#-version-052--end-to-end-testing)
   - [Version 0.6.0 — Core User Experience](#-version-060--core-user-experience)
   - [Version 0.6.1 — Error Handling & Accessibility](#-version-061--error-handling--accessibility)
   - [Version 0.7.0 — User Customization](#-version-070--user-customization)
@@ -27,6 +26,7 @@ Ranker is a web application that allows users to **create rankings** and **vote 
   - [Version 0.8.1 — Mobile Enhancements](#-version-081--mobile-enhancements)
   - [Version 0.9.0 — AI Rank Creation](#-version-090--ai-rank-creation)
   - [Version 0.9.1 — AI Enhancements](#-version-091--ai-enhancements)
+  - [Version 0.10.0 — End-to-End Testing](#-version-0100--end-to-end-testing)
 - [⚙️ Technical Documentation](#-technical-documentation)
   - [📌 Domain Model](#-domain-model)
     - [User](#user)
@@ -138,12 +138,7 @@ npm test
 - Mock Firestore and async thunks to ensure deterministic tests.
 - Validate Redux logic with simulated API data and mock store.
 
-### 🚧 Version 0.5.2 — End-to-End Testing
-
-- Introduce **end-to-end tests** with Cypress or Playwright.
-- Test full user flows (login, creating rank, voting, viewing results).
-
-### 🔮 Version 0.6.0 — Core User Experience
+### 🚧 Version 0.6.0 — Core User Experience
 
 - Improve **VoteCard** and **AssignmentCard** visuals (entity name overlay, layout, buttons).
 - Introduce a more engaging **vote button** with visual feedback.
@@ -187,6 +182,11 @@ npm test
 
 - Automatically generate **options** for a Rank based on its description.
 - Add **AI-based recommendations** for tier arrangement and ranking balance.
+
+### 🔮 Version 0.10.0 — End-to-End Testing
+
+- Introduce **end-to-end tests** with Cypress or Playwright.
+- Test full user flows (login, creating rank, voting, viewing results).
 
 ---
 
